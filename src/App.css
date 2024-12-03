@@ -1,11 +1,148 @@
-*{
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+.logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 1rem 0 1rem 0;
 }
-.navbar{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.nav-links{
+  background: var(--lowell-red);
+  margin: 0 auto;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0 5% 0 5%;
+  
+}
+.link{
+  color: white;
+  text-decoration: none;
+}
+.drop-down{
+  font-size: 1.5rem;
+}
+.hero-image{
+  height: 400px;
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.banner{
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
+.hero-title{
+  width: 100%;
+  font-size: 2rem;
+}
+.hero-texts{
+  padding: 80px 0 80px 0;
+  margin: 0 auto;
+  letter-spacing: 5x;
+  max-width: 800px;
+}
+.hero-description{
+  margin-top: 40px;
+  font-size: 1.3rem;
+}
+.life-at-lowell-title{
+  width: 100vw;
+  height: 171px;
+  background: var(--lowell-red);
+  color: white;
+  font-size: 1.3rem;
+}
+.preamble{
+  font-size: 1.3rem;
+  margin: 2rem auto 2rem auto;
+  flex-direction: column;
+  padding: 1rem;
+}
+.preamble > p:nth-child(1){
+  border-left: 5px solid gray;
+  padding-left: 1rem;
+}
+.preamble-link-text{
+  margin: 1.5rem 0 1.5rem 0;
+  max-width: 900px;
+}
+
+.absolute-center{
+  position: absolute;
+  color: white !important;
+  width: 100%;
+  text-align: center;
+  bottom: 0px;
+  height: 80%;
+}
+
+.absolute-center > h1{
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.absolute-center > *{
+  height: 20%;
+}
+.absolute-center > a{
+  padding: 1rem;
+  background: var(--lowell-red);
+}
+.class-board-links{
+  background: var(--lowell-red);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 80px 25% 80px 25%;
+  gap: 30px;
+}
+.class-board{
+  width: 284px;
+  height: 284px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  font-size: 2rem;
+  align-items: start;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+.news-corner-container{
+  background-color: var(--lowell-red);
+  height: 500px;
+  flex-direction: column;
+}
+.news-corners{
+  background-color: white;
+  padding: 70px;
+  width: 80%;
+  max-width: 912px;
+  margin: 0 auto;
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 30px;
+  border-radius: 20px;
+}
+.news-corner{
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.instagram-app-link{
+  padding: 1rem;
+  color: white;
+  font-size: 1.3rem;
+}
+.hero-link{
+  width: 284px;
+  height: 369px;
+}
+.hero-links{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  max-width: 960px;
+  margin: 100px auto;
 }

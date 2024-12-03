@@ -1,63 +1,76 @@
+import {Link} from "react-router-dom"
 import Logo from "../assets/LSA-Logo.png"
-import {NavLink, Link} from "react-router-dom"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp} from "@fortawesome/free-solid-svg-icons"
 export default function Navbar(){
     const navLinks = [
         {
             name: "HOME",
+            hasDropdown: false,
+            icon: faHouse,
+            id: 1,
         },
         {
-            name: "ELECTIONS"
+            name: "ELECTIONS",
+            hasDropDown: false,
+            icon: faCheckToSlot,
+            id: 2,
         },
         {
             name: "ABOUT LSA",
-            subLinks: {
-                
-            }
+            hasDropDown: true,
+            icon: faBook,
+            subLinks: {},
+            id: 3,
         },
         {
             name: "ORGANIZATIONS",
-            subLinks: {
-
-            }
+            hasDropDown: true,
+            icon: faUser,
+            subLinks: {},
+            id: 4,
         },
         {
             name: "CLUBS AND SPORTS",
+            hasDropDown: true,
+            icon: faUsers,
             subLinks: {
 
-            }
+            },
+            id: 5,
         },
         {
             name: "RESOURCES",
-            subLinks: {
-
-            }
+            hasDropDown: true,
+            icon: faThumbTack,
+            subLinks: {},
+            id: 6,
         },
         {
-            name: "MORE...",
-            subLinks: {
-
-            }
+            name: "MORE",
+            hasDropDown: true,
+            icon: faThumbsUp,
+            subLinks: {},
+            id: 7,
         }
     ]
     const navBar = navLinks.map(link=>{
-        const {name, subLinks} = link
+        const {name, subLinks, hasDropDown, icon, id} = link
         return(
-            <>
-                <Link>
-                    
+            <div key={id}>
+                <Link className="link" >
+                    {icon && <FontAwesomeIcon icon={icon} className="icon" />} {name} {hasDropDown ? 
+                        <FontAwesomeIcon icon={faCaretDown} className="drop-down"/> : ""}
                 </Link>
-            </>
+            </div>
         )
     })
     return(
         <>
-            <nav className="navbar">
-                <Link><img src={Logo} alt="Lowell Student Association" className="logo"/></Link>
-                <div className="nav-buttons">
-
-                </div>
-            </nav>
-
-        </> 
+            <Link className="logo" to="/"><img src={Logo} alt="Lowell Student Association" /></Link>
+            <div className="nav-links">
+                {navBar}
+            </div>
+        </>
     )
 }
