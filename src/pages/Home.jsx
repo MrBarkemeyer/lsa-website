@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar"
 import HeroImg from "../assets/Hero-img.jpg"
 import StudentBanner from "../assets/student-banner.jpg"
 import VoteBanner from "../assets/Vote-banner.jpg"
@@ -6,6 +5,7 @@ import LinkImage1 from "../assets/Student-Events-Activities.png"
 import LinkImage2 from "../assets/Our-150+-Student-Clubs.png"
 import LinkImage3 from "../assets/Free-Wellness-Resources.png"
 import { Link } from "react-router-dom"
+import HeroVideo from "../assets/Hero-Video.mp4"
 export default function Home(){
     const classBoards = [
         {
@@ -74,7 +74,7 @@ export default function Home(){
     const displayNewsCorner = newsCorner.map(element=>{
         const {name, news, color, id} = element
         return(
-            <div className="news-corner" style={{color: color}}>
+            <div className="news-corner" style={{color: color}} key={id}>
                 {name} {news}
             </div>
         )
@@ -92,10 +92,11 @@ export default function Home(){
     })
     return(
         <>
-            <Navbar />
-            <figure>
+            {/* <figure>
                 <img src={HeroImg} alt="Lowell High School" className="hero-image relative" />
-            </figure>
+                <video control autoplay src={HeroVideo} muted className="hero-video"/>
+            </figure> */}
+            <video autoPlay loop muted controls={false} src={HeroVideo} className="hero-video"></video>
             <div className="hero-texts">
                 <p className="hero-title">Welcome to the <br />
                     <span className="bold">Lowell Student Association!</span></p>

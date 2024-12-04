@@ -1,5 +1,6 @@
 :root{
   --lowell-red: #861212;
+  --secondary-color: #e87b7b ;
   --primary-font: 'Open-sans', sans-serif
 }
 *{
@@ -11,8 +12,14 @@
 a{
   text-decoration: none;
 }
+li{
+  list-style: none;
+}
 .relative{
   position: relative;
+}
+.absolute{
+  position: absolute;
 }
 .bold{
   font-weight: bold;
@@ -27,4 +34,16 @@ a{
 }
 .black{
   color: black;
+}
+.center{
+  text-align: center;
+}
+h1{
+  font-size: 3rem;
+}
+h2{
+  font-size: 2rem;
+}
+h3{
+  font-size: 1.8rem;
 }

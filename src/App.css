@@ -5,6 +5,10 @@
   flex-direction: column;
   margin: 1rem 0 1rem 0;
 }
+/* .navbar{
+  width: 100vw;
+  z-index: 2;
+} */
 .nav-links{
   background: var(--lowell-red);
   margin: 0 auto;
@@ -15,13 +19,59 @@
   padding: 0 5% 0 5%;
   
 }
-.link{
-  color: white;
-  text-decoration: none;
+.hero-video{
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
 }
-.drop-down{
+.link{
+  text-decoration: none;
+  position: relative;
+}
+
+.dropdown-icon{
   font-size: 1.5rem;
 }
+.dropdowns{
+  background: var(--lowell-red);
+  position: absolute;
+  z-index: 1;
+  top: 76px;
+  left: 0px;
+  border: 3px solid var(--lowell-red);
+  width: 200px;
+  display: none;
+}
+.dropdowns:last-child{
+  border-bottom-right-radius: 30px;
+}
+.dropdown:last-child:hover{
+  border-bottom-right-radius: 28px;
+}
+.dropdown > a{
+  color: white;
+}
+.dropdowns li {
+  padding: 10px;
+  cursor: pointer;
+}
+.first-dropdowns{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.first-dropdowns:hover .dropdowns,
+.dropdowns:hover {
+  display: block;
+}
+.dropdown:hover{
+  background: white;
+}
+.dropdown:hover .link{
+  color: black;
+}
+
 .hero-image{
   height: 400px;
   width: 100%;
@@ -48,7 +98,7 @@
   font-size: 1.3rem;
 }
 .life-at-lowell-title{
-  width: 100vw;
+  width: 100%;
   height: 171px;
   background: var(--lowell-red);
   color: white;
@@ -145,4 +195,43 @@
   flex-wrap: wrap;
   max-width: 960px;
   margin: 100px auto;
+}
+.election-title{
+  height: 300px;
+  background: var(--secondary-color);
+}
+.election-title h1{
+  color: white;
+  text-align: center;
+  font-size: 3rem;
+  line-height: 80px;
+}
+.election-results{
+  min-height: 600px;
+}
+.freshmen-election-title{
+  height: 160px;
+}
+.election-outer-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 912px;
+  width: 50%;
+  padding: 30px;
+  background-color: lightgray;
+  margin: 0 auto;
+  border-radius: 1rem;
+}
+.election-inner-container{
+  padding: 0.5rem;
+  background-color: white;
+  width: 95%;
+}
+.election-inner-container > h3{
+  height: 50px;
+}
+.election-inner-container > p{
+  height: 40px;
+  font-size: 1.2rem;
 }
