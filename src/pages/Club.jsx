@@ -21,6 +21,7 @@ export default function Club(props){
         <>
             <div className="club-info">
                 <img src="https://picsum.photos/2000/250" alt="Club Banner" />
+                <h1 className="club-name">{clubName}</h1>
                 <p className="club-description">{clubData.ClubDescription}</p>
                 <p className="meeting-times"><strong>Meetings: </strong>We meet every {clubData.MeetingDays} {clubData.Weekly} at {clubData.MeetingPlaceTime}</p>
             </div>
