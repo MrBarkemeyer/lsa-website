@@ -47,3 +47,8 @@ h2{
 h3{
   font-size: 1.8rem;
 }
+footer{
+  height: 100px;
+  color: white;
+  background: gray;
+}
