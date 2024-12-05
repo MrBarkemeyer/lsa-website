@@ -39,6 +39,23 @@ export default function Navbar(props){
                 {
                     name: "Committees",
                     hasDropDown: true,
+                    subLinks2: [
+                        {
+                            name: "Spirit Committees",
+                        },
+                        {
+                            name: "2024 Senior Prom Committee",
+                        },
+                        {
+                            name: "2025 Junior Prom Committee",
+                        },
+                        {
+                            name: "2024 Senior Boat Committee",
+                        },
+                        {
+                            name: "2025 Junior Escape Committee",
+                        },
+                    ]
                 },
                 {
                     name: "Charter of the LSA"
@@ -251,6 +268,7 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "Archives",
+                    to: "http://www.lowellstudentassociation.org/archives.html"
                 },
                 {
                     name: "Freshmen Corner",
@@ -281,7 +299,7 @@ export default function Navbar(props){
                         {subLinks.map((subLink, index) =>{
                             return(
                                 <li className="dropdown relative" key={index}>
-                                    <Link className="link">{subLink.name} {subLink.hasDropDown ? 
+                                    <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
                                     <FontAwesomeIcon icon={faCaretRight} className="dropdown-icon right-caret" /> : ""}</Link>
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">

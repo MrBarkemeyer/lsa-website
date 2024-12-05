@@ -43,6 +43,7 @@
 }
 .dropdowns:last-child{
   border-bottom-right-radius: 30px;
+  
 }
 .dropdown:last-child:hover{
   border-bottom-right-radius: 28px;
@@ -53,6 +54,7 @@
 .dropdowns li {
   padding: 10px;
   cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 .first-dropdowns{
   height: 100%;
@@ -243,7 +245,7 @@
   left: 100%; 
   width: 200px;
   border: 3px solid var(--lowell-red);
-  border-radius: 0 0 30px 0;
+  border-radius: 0 0 35px 0;
   display: none; 
 }
 
@@ -257,7 +259,7 @@
   display: block;
   padding: 10px 15px; 
   text-decoration: none; 
-  /* transition: background 0.3s ease, color 0.3s ease; */
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 
