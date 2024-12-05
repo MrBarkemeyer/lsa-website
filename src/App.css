@@ -5,10 +5,7 @@
   flex-direction: column;
   margin: 1rem 0 1rem 0;
 }
-/* .navbar{
-  width: 100vw;
-  z-index: 2;
-} */
+
 .nav-links{
   background: var(--lowell-red);
   margin: 0 auto;
@@ -21,8 +18,9 @@
 }
 .hero-video{
   width: 100%;
-  height: 70vh;
+  height: 78vh;
   object-fit: cover;
+  object-position: top;
 }
 .link{
   text-decoration: none;
@@ -32,6 +30,7 @@
 .dropdown-icon{
   font-size: 1.5rem;
 }
+
 .dropdowns{
   background: var(--lowell-red);
   position: absolute;
@@ -48,7 +47,7 @@
 .dropdown:last-child:hover{
   border-bottom-right-radius: 28px;
 }
-.dropdown > a{
+.dropdown > .link{
   color: white;
 }
 .dropdowns li {
@@ -234,4 +233,69 @@
 .election-inner-container > p{
   height: 40px;
   font-size: 1.2rem;
+}
+
+.second-dropdowns {
+  background: var(--lowell-red); 
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 100%; 
+  width: 200px;
+  border: 3px solid var(--lowell-red);
+  border-radius: 0 0 30px 0;
+  display: none; 
+}
+
+.dropdown:hover .second-dropdowns {
+  display: block;
+}
+
+
+.second-dropdowns > a {
+  color: white !important;
+  display: block;
+  padding: 10px 15px; 
+  text-decoration: none; 
+  /* transition: background 0.3s ease, color 0.3s ease; */
+}
+
+
+.second-dropdowns > a:hover {
+  background: white;
+  color: black !important;
+
+}
+
+
+.second-dropdowns a:last-child {
+  border-bottom-right-radius: 30px;
+}
+.club-info{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  gap: 50px;
+}
+.club-description{
+  font-size: 1.5rem;
+  max-width: 800px;
+}
+.meeting-times{
+  font-size: 1.3rem;
+  max-width: 800px;
+  width: 100%;
+}
+.club-officers{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  gap: 20px;
 }

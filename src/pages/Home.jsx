@@ -6,7 +6,10 @@ import LinkImage2 from "../assets/Our-150+-Student-Clubs.png"
 import LinkImage3 from "../assets/Free-Wellness-Resources.png"
 import { Link } from "react-router-dom"
 import HeroVideo from "../assets/Hero-Video.mp4"
+import {useEffect, useState} from "react"
 export default function Home(){
+
+
     const classBoards = [
         {
             year: "2024-2025",
@@ -107,7 +110,7 @@ export default function Home(){
                 <figcaption className="absolute-center">
                     <h1>2024-25 LSA/SBC</h1>
                     <p>Results of the Spring 2024 election is released.</p>
-                    <Link className="white">Check out your officers HERE!</Link>
+                    <Link className="white" to="Elections">Check out your officers HERE!</Link>
                 </figcaption>
             </figure>
             <div className="news-corner-container flex-center">

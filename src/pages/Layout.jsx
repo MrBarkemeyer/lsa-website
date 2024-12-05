@@ -1,12 +1,13 @@
 import {Outlet} from "react-router-dom"
 import Navbar from "../components/Navbar"
-
-export default function Layout(){
+import {useEffect, useState} from "react"
+export default function Layout(props){
+    const clubData = props.clubData;
 
     return(
         <>
-            <Navbar />
-            <Outlet />
+            <Navbar clubData = {clubData}/>
+            <Outlet/>
         </>
     )
 }
