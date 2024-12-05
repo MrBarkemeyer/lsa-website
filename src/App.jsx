@@ -7,14 +7,14 @@ import Navbar from './components/Navbar'
 import Layout from "./pages/Layout"
 import Club from "./pages/Club"
 function App() {
-  const API_KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc"; // Replace with your actual API key
-    const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4"; // Replace with your spreadsheet ID
+  const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
+    const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
      const SHEET_NAME = "Form Responses 1"
 
     const [clubData, setClubData] = useState([]);
     useEffect(()=>{
         async function fetchData(){
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${KEY}`;
             try{
                 const res = await fetch(url);
                 const data = await res.json();
