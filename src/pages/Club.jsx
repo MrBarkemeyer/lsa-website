@@ -1,5 +1,6 @@
-import { useParams } from "react-router-dom";
-import {useState, useEffect} from "react"
+import { useParams, Link } from "react-router-dom";
+import {useState, useEffect} from "react";
+import { GlowCapture, Glow } from "@codaworks/react-glow";
 export default function Club(props){
     const params = useParams().ClubName;
     const [clubName, setClubName] = useState(params);
@@ -9,7 +10,12 @@ export default function Club(props){
         setClubData((props.clubData.filter(club => params === club.Name)[0]));
     }, [params, props.clubData]);
 
-
+    function removeLeadingAt(str) {
+        if (typeof str === 'string') {
+            return str.replace(/^@/, '');
+        }
+        return ''; 
+    }
     
     if (!clubData) {
         // Show loading or fallback if data is not ready or no matching club found
@@ -151,7 +157,7 @@ export default function Club(props){
     return(
         <>
             <div className="club-info">
-                <img src="https://picsum.photos/2000/250" alt="Club Banner" />
+                <img src={clubData.Banner} alt="Club Banner" />
                 <h1 className="club-name">{clubName}</h1>
                 <p className="club-description">{clubData.ClubDescription}</p>
                 <p className="meeting-times"><strong>Meetings: </strong>We meet every {clubData.MeetingDays} {clubData.Weekly} at {clubData.MeetingPlaceTime}</p>
@@ -161,6 +167,7 @@ export default function Club(props){
                 <p><strong>President:</strong> {clubData.President}</p>
                 <p><strong>Vice President:</strong> {clubData.VP}</p>
                 <p><strong>Other Officers:</strong> {clubData.OtherOfficers}</p>
+                <GlowCapture><Glow color="purple"><a href={`https://www.instagram.com/${removeLeadingAt(clubData.Instagram)}`} className="to-instagram-button flex-center" target="_blank">Check out our Instagram</a></Glow></GlowCapture>
             </div>
            
         </>

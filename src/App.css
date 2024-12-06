@@ -404,3 +404,16 @@
     transform: translateX(-350px);
   }
 }
+
+.to-instagram-button{
+  width: 300px;
+  border-radius: 5px;
+  background: var(--lowell-red);
+  height: 50px;
+  color: white;
+}
+.to-instagram-button:active{
+  background: white;
+  color: black;
+  border: 3px solid var(--lowell-red);
+}
