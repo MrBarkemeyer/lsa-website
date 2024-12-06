@@ -9,7 +9,7 @@ export default function Elections(){
             treasurer: "Mauricio",
             publicRelations: "Nhalan Vo",
             historian: "Chelsea Ly"
-        }
+        },
     ];
     const displayElectionResults = electionResults.map(element=>{
         const {board, color, president, vicePresident, secretary, treasurer, publicRelations, historian} = element

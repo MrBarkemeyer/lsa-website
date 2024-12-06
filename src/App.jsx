@@ -3,7 +3,6 @@ import './App.css'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import Home from "./pages/Home"
 import Elections from "./pages/Elections"
-import Navbar from './components/Navbar'
 import Layout from "./pages/Layout"
 import Club from "./pages/Club"
 function App() {

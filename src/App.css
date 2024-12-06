@@ -221,8 +221,9 @@
   width: 50%;
   padding: 30px;
   background-color: lightgray;
-  margin: 0 auto;
+  margin: 50px auto 50px auto;
   border-radius: 1rem;
+  
 }
 .election-inner-container{
   padding: 0.5rem;
@@ -416,4 +417,7 @@
   background: white;
   color: black;
   border: 3px solid var(--lowell-red);
+}
+.to-instagram-button:hover{
+  opacity: 0.5;
 }
