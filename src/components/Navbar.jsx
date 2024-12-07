@@ -1,11 +1,12 @@
 import {Link, useLocation} from "react-router-dom"
 import Logo from "../assets/LSA-Logo.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp, faCaretRight} from "@fortawesome/free-solid-svg-icons"
+import {faPlus, faBars, faXmark, faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp, faCaretRight} from "@fortawesome/free-solid-svg-icons"
 import {useState, useEffect} from "react"
 
 export default function Navbar(props){
     const [hasScrolled, setHasScrolled] = useState(false);
+    const [hamburger, setHamburger] = useState(false);
     const location = useLocation().pathname;
 
     useEffect(() => {
@@ -22,6 +23,10 @@ export default function Navbar(props){
 
     const scrolledStyle = {background: "#861212", color: "white"};
 
+    function toggleHamburger(){
+        setHamburger(prevState=> !prevState);
+        
+    }
     const clubData = props.clubData;
     const navLinks = [
         {
@@ -313,8 +318,9 @@ export default function Navbar(props){
             to: "",
             id: 7,
         }
-    ]
-    const navBar = navLinks.map(link=>{
+    ];
+    
+    const navbar = navLinks.map(link=>{
         const {name, subLinks, hasDropDown, icon, id, to} = link
         return(
             <div className="relative first-dropdowns" key={id}>
@@ -343,15 +349,58 @@ export default function Navbar(props){
                     </ul>}
             </div>
         )
-    })
+    });
+    const hamburgerNav = navLinks.map(link=>{
+        const {name, subLinks, hasDropDown, icon, id, to} = link
+        return(
+            <div className="relative ham-first-dropdowns" key={id}>
+                    <Link to={to} className="link flex-between" >
+                        <div>{icon && <FontAwesomeIcon icon={icon} className="icon" />} {name}</div> {hasDropDown ? 
+                            <FontAwesomeIcon icon={faPlus} className="dropdown-icon"/> : ""}
+                    </Link>
+                {hasDropDown && 
+                    <ul className="ham-dropdowns" key={id + 1}>
+                        {subLinks.map((subLink, index) =>{
+                            return(
+                                <li className="dropdown relative" key={index}>
+                                    <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
+                                    <FontAwesomeIcon icon={faCaretRight} className="dropdown-icon right-caret" /> : ""}</Link>
+                                    {hasDropDown && subLink.subLinks2 && (
+                                        <ul className="second-dropdowns">
+                                            {subLink.subLinks2.map((subLink2, idx) => (
+                                                    <Link to={`/Club/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                                
+                            )
+                        })}
+                    </ul>}
+            </div>
+        )
+    });
     return(
         <>
             <div className={location === "/" ? "" : "off-set"}></div>
             <div className="navbar">
                 <ul className="nav-links" style={hasScrolled ? scrolledStyle : {}}>
                     <Link className="logo" to="/"><img src={Logo} alt="Lowell Student Association" /></Link>
-                    {navBar}
+                    {navbar}
                 </ul>
+            </div>
+            <div className="hamburger-menu">
+                <Link className="logo" to="/"><img src={Logo} alt="Lowell Student Association" /></Link>
+                <FontAwesomeIcon icon={hamburger ? faXmark : faBars} className="hamburger-button"
+                    onClick = {toggleHamburger}
+                    style={{display: hamburger ? "none" : "block"}}
+                />
+            </div>
+            <div className={hamburger ? "hamburger-nav left" : "hamburger-nav right"}>
+                <FontAwesomeIcon icon={hamburger ? faXmark : faBars} className="hamburger-button2"
+                    onClick = {toggleHamburger}
+                />
+                {hamburgerNav}    
             </div>
         </>
     )
