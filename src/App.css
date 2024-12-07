@@ -57,6 +57,7 @@
   gap: 10px;
 }
 .dropdown-icon{
+  color: orange;
   font-size: 1.3rem;
 }
 .dropdowns{
@@ -545,14 +546,15 @@
 .ham-dropdowns{
   position: absolute;
   z-index: 1;
-  top: 76px;
-  left: 0px;
-  border: 3px solid var(--lowell-red);
+  top: 50px;
+  left: 30px;
+  border-left: 3px solid var(--lowell-red);
   width: 100%;
-  display: none;
+  /* display: none; */
 }
 .ham-dropdowns a{
   color: orange !important;
+  font-size: 1.1rem !important;
 }
 
 .hamburger-nav{
@@ -562,18 +564,22 @@
   right: 2%;
   top: 2%;
   background: #ffffff;
-  height: 90%;
+  height: 95%;
   display: flex;
   flex-direction: column;
   align-items: start;
   padding: 20px;
   z-index: 3;
-  padding-bottom: 20%;
+  padding-bottom: 30px;
   border-radius: 10px;
   font-weight: bold;
-  padding-top: 15%;
+  padding-top: 30px;
   display: none;
+  overflow-y: auto;
 }
+
+
+
 .right{
   animation: right 0.3s forwards;
 }

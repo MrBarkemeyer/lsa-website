@@ -1,12 +1,42 @@
 import {Link, useLocation} from "react-router-dom"
 import Logo from "../assets/LSA-Logo.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {faPlus, faBars, faXmark, faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp, faCaretRight} from "@fortawesome/free-solid-svg-icons"
+import {faPlus, faMinus, faBars, faXmark, faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp, faCaretRight} from "@fortawesome/free-solid-svg-icons"
 import {useState, useEffect} from "react"
 
 export default function Navbar(props){
     const [hasScrolled, setHasScrolled] = useState(false);
-    const [hamburger, setHamburger] = useState(false);
+    const [hamburger, setHamburger] = useState(true);
+    const [hasDropped, setHasDropped] = useState([
+        {
+            id: 1,
+            dropped: false,
+        },
+        {
+            id: 2,
+            dropped: false, 
+        },
+        {
+            id: 3,
+            dropped: false,
+        },
+        {
+            id: 4,
+            dropped: false,
+        },
+        {
+            id: 5,
+            dropped: false,
+        },
+        {
+            id: 6,
+            dropped: false,
+        },
+        {
+            id: 7,
+            dropped: false,
+        },
+    ]);
     const location = useLocation().pathname;
 
     useEffect(() => {
@@ -25,8 +55,18 @@ export default function Navbar(props){
 
     function toggleHamburger(){
         setHamburger(prevState=> !prevState);
-        
     }
+    function toggleDropDown(id) {
+        setHasDropped(prevState =>
+            prevState.map(dropdown =>
+                dropdown.id === id 
+                    ? { ...dropdown, dropped: !dropdown.dropped }
+                    : dropdown
+            )
+        );
+    }
+    console.log(hasDropped);
+
     const clubData = props.clubData;
     const navLinks = [
         {
@@ -351,35 +391,50 @@ export default function Navbar(props){
         )
     });
     const hamburgerNav = navLinks.map(link=>{
-        const {name, subLinks, hasDropDown, icon, id, to} = link
+        const {name, subLinks, hasDropDown, icon, id, to} = link;
+        const isDropped = hasDropped.find(drop => drop.id === id)?.dropped;
+
         return(
-            <div className="relative ham-first-dropdowns" key={id}>
+            <div className="relative ham-first-dropdowns" key={id} style={{ marginBottom: isDropped ? `${subLinks.length * 50}px` : "0px" }}>
                     <Link to={to} className="link flex-between" >
-                        <div>{icon && <FontAwesomeIcon icon={icon} className="icon" />} {name}</div> {hasDropDown ? 
-                            <FontAwesomeIcon icon={faPlus} className="dropdown-icon"/> : ""}
+                        <div>{icon && <FontAwesomeIcon icon={icon} className="icon" />} {name}</div>
                     </Link>
-                {hasDropDown && 
-                    <ul className="ham-dropdowns" key={id + 1}>
-                        {subLinks.map((subLink, index) =>{
-                            return(
-                                <li className="dropdown relative" key={index}>
-                                    <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
-                                    <FontAwesomeIcon icon={faCaretRight} className="dropdown-icon right-caret" /> : ""}</Link>
-                                    {hasDropDown && subLink.subLinks2 && (
-                                        <ul className="second-dropdowns">
-                                            {subLink.subLinks2.map((subLink2, idx) => (
-                                                    <Link to={`/Club/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
-                                            ))}
-                                        </ul>
-                                    )}
-                                </li>
-                                
-                            )
-                        })}
-                    </ul>}
-            </div>
-        )
-    });
+                    {hasDropDown ? <FontAwesomeIcon icon={hasDropped[id - 1].dropped ? faMinus : faPlus} className="dropdown-icon" onClick={()=>{toggleDropDown(id)}}/> : ""}
+                
+                {hasDropDown && isDropped && (
+                <ul className="ham-dropdowns">
+                    {subLinks.map((subLink, index) => (
+                        <li className="dropdown relative" key={index}>
+                            <Link className="link" to={subLink.to}>
+                                {subLink.name}
+                                {subLink.hasDropDown && (
+                                    <FontAwesomeIcon 
+                                        icon={faCaretRight} 
+                                        className="dropdown-icon right-caret" 
+                                    />
+                                )}
+                            </Link>
+
+                            {subLink.hasDropDown && subLink.subLinks2 && (
+                                <ul className="second-dropdowns">
+                                    {subLink.subLinks2.map((subLink2, idx) => (
+                                        <Link 
+                                            to={`/Club/${subLink2.name}`} 
+                                            className="link" 
+                                            key={idx}
+                                        >
+                                            {subLink2.name}
+                                        </Link>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+});
     return(
         <>
             <div className={location === "/" ? "" : "off-set"}></div>
