@@ -5,32 +5,53 @@
   flex-direction: column;
   margin: 1rem 0 1rem 0;
 }
-
+.off-set{
+  height: 132px;
+}
+.black-underline{
+  border-bottom: 1px solid black;
+}
+.title{
+  color: white;
+  background: var(--title-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  flex-direction: column;
+  padding: 1.5rem;
+  gap: 30px;
+}
 .nav-links{
-  background: var(--lowell-red);
+  position: fixed;
+  background: transparent;
   margin: 0 auto;
-  height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   padding: 0 5% 0 5%;
-  
+  height: 132px;
+  width: 99vw;
+  font-weight: bold;
+  z-index: 2;
+  top: 0;
+  /* position: relative; */
+
 }
 .hero-video{
   width: 100%;
-  height: 78vh;
+  height: 100vh;
   object-fit: cover;
-  object-position: top;
+  object-position: 50% 50%;
 }
 .link{
+  display: block;
   text-decoration: none;
   position: relative;
 }
-
 .dropdown-icon{
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
-
 .dropdowns{
   background: var(--lowell-red);
   position: absolute;
@@ -50,29 +71,63 @@
 }
 .dropdown > .link{
   color: white;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
 }
 .dropdowns li {
-  padding: 10px;
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
 }
 .first-dropdowns{
-  height: 100%;
+  height: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.first-dropdowns:hover .dropdowns,
-.dropdowns:hover {
-  display: block;
+.first-dropdowns > a {
+  display: block; 
+  color: orange;
+  text-decoration: none;
 }
-.dropdown:hover{
-  background: white;
+.first-dropdowns > a::after{
+  content: '';
+  position: absolute;
+  height: 5px;
+  left: 0;
+  bottom: -15px;
+  width: 0;
+  background: orange;
+  transition: width .2s;
 }
-.dropdown:hover .link{
-  color: black;
+.first-dropdowns a:hover:after{
+  width: 100%;
 }
 
+.dropdowns {
+  background: var(--lowell-red);
+  position: absolute;
+  z-index: 1;
+  top: 100%; /* Position dropdown below the parent */
+  left: 0;
+  border: 3px solid var(--lowell-red);
+  width: 200px;
+  display: none;
+}
+
+.first-dropdowns:hover .dropdowns,
+.dropdowns:hover {
+  display: block; /* Show dropdown on hover */
+}
+
+.dropdown:hover {
+  background: white;
+}
+
+.dropdown:hover .link {
+  color: black;
+}
 .hero-image{
   height: 400px;
   width: 100%;
@@ -162,24 +217,19 @@
 }
 .news-corner-container{
   background-color: var(--lowell-red);
-  height: 500px;
   flex-direction: column;
-}
-.news-corners{
-  background-color: white;
-  padding: 70px;
-  width: 80%;
-  max-width: 912px;
+  padding: 50px;
   margin: 0 auto;
   display: flex;
   align-items: start;
   flex-direction: column;
   gap: 30px;
-  border-radius: 20px;
+  color: white;
 }
-.news-corner{
-  font-weight: bold;
-  font-size: 1.2rem;
+.pdf{
+  margin: 0 auto;
+  height: 800px;
+  aspect-ratio: 4 / 3;
 }
 .instagram-app-link{
   padding: 1rem;
@@ -406,18 +456,37 @@
   }
 }
 
-.to-instagram-button{
+.link-button{
   width: 300px;
   border-radius: 5px;
   background: var(--lowell-red);
   height: 50px;
   color: white;
+  font-size: 1.4rem;
 }
-.to-instagram-button:active{
+.link-button:active{
   background: white;
   color: black;
   border: 3px solid var(--lowell-red);
 }
-.to-instagram-button:hover{
+.link-button:hover{
+  cursor: pointer;
   opacity: 0.5;
+}
+.instagram-icon{
+  padding-left: 5px;
+  font-size: 1.5rem;
+}
+.title-ix{
+  max-width: 912px;
+  margin: 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+}
+.title-ix > p, .title-ix > a{
+  width: 100%;
+  font-size: 1.3rem;
 }

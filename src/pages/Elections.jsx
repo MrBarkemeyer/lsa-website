@@ -6,15 +6,15 @@ export default function Elections(){
             president: "Dylan Mac",
             vicePresident: "Trish Tran",
             secretary: "Isabella Rabe",
-            treasurer: "Mauricio",
+            treasurer: "Mauricio Becerra",
             publicRelations: "Nhalan Vo",
             historian: "Chelsea Ly"
         },
     ];
-    const displayElectionResults = electionResults.map(element=>{
+    const displayElectionResults = electionResults.map((element, index)=>{
         const {board, color, president, vicePresident, secretary, treasurer, publicRelations, historian} = element
         return(
-            <>
+            <div key={index}>
                 <div className="election-outer-container">
                     <div className="election-inner-container">
                         <h3 style={{color: color}}>{board}</h3>
@@ -26,12 +26,12 @@ export default function Elections(){
                         <p><span className="bold">Historian: </span>{historian}</p>
                     </div>
                 </div>
-            </>
+            </div>
         )
     })
     return(
         <>
-            <div className="election-title flex-center">
+            <div className="title">
                 <h1>
                     Fall '24 <br />
                     Lowell Elections

@@ -5,6 +5,9 @@ import Home from "./pages/Home"
 import Elections from "./pages/Elections"
 import Layout from "./pages/Layout"
 import Club from "./pages/Club"
+import TitleIX from './pages/Resources/TitleIX'
+import FreshMenCorner from './pages/More/FreshmenCorner'
+
 function App() {
   const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
     const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
@@ -40,7 +43,6 @@ function App() {
             return obj;
         });
     }
-    console.log(clubData);
   return (
     <>
       <BrowserRouter>
@@ -48,7 +50,11 @@ function App() {
           <Route element={<Layout clubData = {clubData} />}>
             <Route path="/" element={<Home />} />
             <Route path="Elections" element={<Elections />} />
-            <Route path=":ClubName" element={<Club clubData={clubData}/>}/>
+            <Route path="Club" element={<Outlet />}>
+              <Route path=":ClubName" element={<Club clubData={clubData}/>}/>
+            </Route>
+              <Route path="TitleIX" element = {<TitleIX />} />
+              <Route path="FreshmenCorner" element= {<FreshMenCorner />} />
           </Route>
         </Routes>
       </BrowserRouter>

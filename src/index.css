@@ -1,6 +1,7 @@
 :root{
   --lowell-red: #861212;
-  --secondary-color: #e87b7b ;
+  --title-color: #9c1919;
+  --secondary-color: #e87b7b;
   --primary-font: 'Open-sans', sans-serif
 }
 *{
@@ -11,6 +12,10 @@
 }
 a{
   text-decoration: none;
+}
+p{
+  font-family: serif;
+  font-size: 1.35rem;
 }
 li{
   list-style: none;
@@ -51,4 +56,7 @@ footer{
   height: 100px;
   color: white;
   background: gray;
+}
+.ml-16{
+  margin-left: 4rem;
 }

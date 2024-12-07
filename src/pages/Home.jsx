@@ -4,6 +4,7 @@ import VoteBanner from "../assets/Vote-banner.jpg"
 import LinkImage1 from "../assets/Student-Events-Activities.png"
 import LinkImage2 from "../assets/Our-150+-Student-Clubs.png"
 import LinkImage3 from "../assets/Free-Wellness-Resources.png"
+import PrincipalPDF from "../assets/PrincipalPDF.pdf"
 import { Link } from "react-router-dom"
 import HeroVideo from "../assets/Hero-Video.mp4"
 import {useEffect, useState} from "react"
@@ -114,14 +115,12 @@ export default function Home(){
                 </figcaption>
             </figure>
             <div className="news-corner-container flex-center">
-                
-                <div className="news-corners">
-                    <h2>News Corner:</h2>
-                    {displayNewsCorner}
-                </div>
-                {/* <p className="instagram-app-link">
-                    Stay updated with our Instagram feed built into this website! ->
-                </p> */}
+                    <h1>News Corner:</h1>
+                    <object className="pdf" 
+                        data=
+                        {PrincipalPDF}
+                        >
+                    </object>
             </div>
             <div className="hero-links">
                 <Link><img src={LinkImage1} alt="Student Events & Activities" className="hero-link" /></Link>

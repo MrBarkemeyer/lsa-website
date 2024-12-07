@@ -1,6 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import {useState, useEffect} from "react";
 import { GlowCapture, Glow } from "@codaworks/react-glow";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInstagram } from "@fortawesome/free-brands-svg-icons";
+
 export default function Club(props){
     const params = useParams().ClubName;
     const [clubName, setClubName] = useState(params);
@@ -156,6 +159,7 @@ export default function Club(props){
     
     return(
         <>
+
             <div className="club-info">
                 <img src={clubData.Banner} alt="Club Banner" />
                 <h1 className="club-name">{clubName}</h1>
@@ -167,7 +171,11 @@ export default function Club(props){
                 <p><strong>President:</strong> {clubData.President}</p>
                 <p><strong>Vice President:</strong> {clubData.VP}</p>
                 <p><strong>Other Officers:</strong> {clubData.OtherOfficers}</p>
-                <GlowCapture><Glow color="purple"><a href={`https://www.instagram.com/${removeLeadingAt(clubData.Instagram)}`} className="to-instagram-button flex-center" target="_blank">Check out our Instagram</a></Glow></GlowCapture>
+                <GlowCapture>
+                    <Glow color="purple">
+                        {clubData.Instagram && <a href={`https://www.instagram.com/${removeLeadingAt(clubData.Instagram)}`} className="link-button flex-center" target="_blank">Check out our Instagram <FontAwesomeIcon icon={faInstagram} className="instagram-icon" /></a>}
+                    </Glow>
+                </GlowCapture>
             </div>
            
         </>

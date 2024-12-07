@@ -1,8 +1,27 @@
-import {Link} from "react-router-dom"
+import {Link, useLocation} from "react-router-dom"
 import Logo from "../assets/LSA-Logo.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp, faCaretRight} from "@fortawesome/free-solid-svg-icons"
+import {useState, useEffect} from "react"
+
 export default function Navbar(props){
+    const [hasScrolled, setHasScrolled] = useState(false);
+    const location = useLocation().pathname;
+
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 50) {
+            setHasScrolled(true); 
+          } else {
+            setHasScrolled(false); 
+          }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+      }, []);
+
+    const scrolledStyle = {background: "#861212", color: "white"};
+
     const clubData = props.clubData;
     const navLinks = [
         {
@@ -74,33 +93,42 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "The Lowell (Journalism)",
+                    to: "https://thelowell.org/",
                 },
                 {
                     name: "VIDEO LOWELL",
+                    to: "https://www.youtube.com/channel/UCQHQSnxqQIfYs8AjS8FXfvw",
                 },
                 {
                     name: "CSF Tutoring",
+                    to: "https://lowellcsf.weebly.com/",
                 },
                 {
                     name: "JROTC",
+                    to: "https://www.sfbrigade.org/home-of-the-cardinals.html",
                 },
                 {
                     name: "Peer Resources",
+                    to: "https://lhspeermentoring.weebly.com/",
                 },
                 {
                     name: "Mock Trial",
+
                 },
                 {
                     name: "Forensic Society (Speech & Debate)",
                 },
                 {
-                    name: "Science Research Program"
+                    name: "Science Research Program",
+                    to: "https://sites.google.com/view/lowellscienceresearch/home?authuser=0",
                 },
                 {
                     name: "CardinalBotics",
+                    to: "https://www.team4159.org/",
                 },
                 {
                     name: "Shield and Scroll",
+
                 },
                 {
                     name: "Song",
@@ -255,7 +283,8 @@ export default function Navbar(props){
                     name: "Lowell Wellness Center",
                 },
                 {
-                    name: "Title IX Support"
+                    name: "Title IX Support",
+                    to: "/TitleIX"
                 },
             ],
             to: "/Resources",
@@ -272,6 +301,7 @@ export default function Navbar(props){
                 },
                 {
                     name: "Freshmen Corner",
+                    to: "FreshmenCorner",
                 },
                 {
                     name: "@lowellhs Instagram Feed",
@@ -288,12 +318,10 @@ export default function Navbar(props){
         const {name, subLinks, hasDropDown, icon, id, to} = link
         return(
             <div className="relative first-dropdowns" key={id}>
-                <li>
-                    <Link to={to} className="link white" >
+                    <Link to={to} className="link" >
                         {icon && <FontAwesomeIcon icon={icon} className="icon" />} {name} {hasDropDown ? 
                             <FontAwesomeIcon icon={faCaretDown} className="dropdown-icon"/> : ""}
                     </Link>
-                </li>
                 {hasDropDown && 
                     <ul className="dropdowns" key={id + 1}>
                         {subLinks.map((subLink, index) =>{
@@ -304,7 +332,7 @@ export default function Navbar(props){
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
-                                                    <Link to={subLink2.name} className="link" key={idx}>{subLink2.name}</Link>
+                                                    <Link to={`/Club/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
                                             ))}
                                         </ul>
                                     )}
@@ -317,11 +345,14 @@ export default function Navbar(props){
         )
     })
     return(
-        <div className="navbar">
-            <Link className="logo" to="/"><img src={Logo} alt="Lowell Student Association" /></Link>
-            <ul className="nav-links">
-                {navBar}
-            </ul>
-        </div>
+        <>
+            <div className={location === "/" ? "" : "off-set"}></div>
+            <div className="navbar">
+                <ul className="nav-links" style={hasScrolled ? scrolledStyle : {}}>
+                    <Link className="logo" to="/"><img src={Logo} alt="Lowell Student Association" /></Link>
+                    {navBar}
+                </ul>
+            </div>
+        </>
     )
 }
