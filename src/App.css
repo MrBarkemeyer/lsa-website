@@ -31,7 +31,7 @@
   justify-content: space-evenly;
   padding: 0 5% 0 5%;
   height: 132px;
-  width: 99vw;
+  width: 100vw;
   font-weight: bold;
   z-index: 2;
   top: 0;
@@ -57,7 +57,7 @@
   gap: 10px;
 }
 .dropdown-icon{
-  color: orange;
+  color: inherit;
   font-size: 1.3rem;
 }
 .dropdowns{
@@ -152,7 +152,7 @@
   font-size: 2rem;
 }
 .hero-texts{
-  padding: 80px 0 80px 0;
+  padding: 40px;
   margin: 1rem auto;
   letter-spacing: 5x;
   max-width: 800px;
@@ -307,6 +307,7 @@
   width: 200px;
   border: 3px solid var(--lowell-red);
   border-radius: 0 0 35px 0;
+  overflow-y: auto;
   display: none; 
 }
 
@@ -521,20 +522,22 @@
   z-index: 3;
   width: 100%;
 }
-.hamburger-button{
+.hamburger-button, .hamburger-button2{
   font-size: 3rem;
-  color: var(--lowell-red);
+  color: teal;
 }
 .hamburger-button2{
   position: absolute;
   top: 30px;
   right: 30px;
   font-size: 3rem;
-  color: var(--lowell-red);
+  z-index: 4;
 }
 .ham-first-dropdowns > a{
-  color: orange;
+  color: inherit;
   font-size: 1.2rem;
+  height: inherit;
+  align-items: center;
 }
 .ham-first-dropdowns{
   width: 100%;
@@ -542,18 +545,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: inherit;
 }
 .ham-dropdowns{
   position: absolute;
   z-index: 1;
   top: 50px;
   left: 30px;
-  border-left: 3px solid var(--lowell-red);
+  border-left: 3px solid teal;
   width: 100%;
+  color: inherit;
+  padding-right: 10px;
   /* display: none; */
 }
 .ham-dropdowns a{
-  color: orange !important;
+  color: inherit !important;
   font-size: 1.1rem !important;
 }
 
@@ -576,8 +582,27 @@
   padding-top: 30px;
   display: none;
   overflow-y: auto;
+  color: var(--lowell-red);
 }
-
+.ham-second-dropdowns{
+  position: absolute;
+  z-index: 4;
+  top: 50px;
+  left: 30px;
+  border-left: 3px solid var(--lowell-red);
+  width: 100%;
+  color: inherit;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.ham-second-dropdowns > a{
+  font-size: 1rem;
+  font-weight: normal;
+  height: 31px;
+}
+.ham-first-dropdowns, .dropdown {
+  transition: margin-bottom 0.3s ease;
+}
 
 
 .right{
@@ -605,6 +630,9 @@
 
 
 @media (max-width: 1300px){
+  .off-set{
+    height: 0;
+  }
   .nav-links{
     display: none;
   }

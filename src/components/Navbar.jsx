@@ -37,6 +37,7 @@ export default function Navbar(props){
             dropped: false,
         },
     ]);
+    const [childDropdown, setChildDropdown] = useState({});
     const location = useLocation().pathname;
 
     useEffect(() => {
@@ -51,7 +52,7 @@ export default function Navbar(props){
         return () => window.removeEventListener("scroll", handleScroll);
       }, []);
 
-    const scrolledStyle = {background: "#861212", color: "white"};
+    const scrolledStyle = {background: "white", color: "white"};
 
     function toggleHamburger(){
         setHamburger(prevState=> !prevState);
@@ -65,7 +66,6 @@ export default function Navbar(props){
             )
         );
     }
-    console.log(hasDropped);
 
     const clubData = props.clubData;
     const navLinks = [
@@ -359,7 +359,12 @@ export default function Navbar(props){
             id: 7,
         }
     ];
-    
+    function toggleChildDropdown(parentId, childId) {
+        setChildDropdown(prev => ({
+            ...prev,
+            [`${parentId}-${childId}`]: !prev[`${parentId}-${childId}`],
+        }));
+    }
     const navbar = navLinks.map(link=>{
         const {name, subLinks, hasDropDown, icon, id, to} = link
         return(
@@ -390,51 +395,84 @@ export default function Navbar(props){
             </div>
         )
     });
-    const hamburgerNav = navLinks.map(link=>{
-        const {name, subLinks, hasDropDown, icon, id, to} = link;
+    const hamburgerNav = navLinks.map(link => {
+        const { name, subLinks = [], hasDropDown, icon, id, to } = link;  // Ensure subLinks is an array
         const isDropped = hasDropped.find(drop => drop.id === id)?.dropped;
-
-        return(
-            <div className="relative ham-first-dropdowns" key={id} style={{ marginBottom: isDropped ? `${subLinks.length * 50}px` : "0px" }}>
-                    <Link to={to} className="link flex-between" >
-                        <div>{icon && <FontAwesomeIcon icon={icon} className="icon" />} {name}</div>
-                    </Link>
-                    {hasDropDown ? <FontAwesomeIcon icon={hasDropped[id - 1].dropped ? faMinus : faPlus} className="dropdown-icon" onClick={()=>{toggleDropDown(id)}}/> : ""}
-                
+    
+        // Calculate margin based on child dropdowns safely
+        const additionalMargin = subLinks.reduce((acc, subLink, index) => {
+            const isChildDropped = childDropdown[`${id}-${index}`];
+            return isChildDropped && subLink.subLinks2 
+                ? acc + subLink.subLinks2.length * 31 + 10 
+                : acc;
+        }, 0);
+    
+        return (
+            <div
+                className="relative ham-first-dropdowns"
+                key={id}
+                style={{ marginBottom: isDropped ? `${subLinks.length * 42 + additionalMargin}px` : "0px" }}
+            >
+                <Link to={to} className="link flex-between">
+                    <div>{icon && <FontAwesomeIcon icon={icon} className="icon" />} {name}</div>
+                </Link>
+                {hasDropDown && (
+                    <FontAwesomeIcon
+                        icon={isDropped ? faMinus : faPlus}
+                        className="dropdown-icon"
+                        onClick={() => toggleDropDown(id)}
+                    />
+                )}
+    
                 {hasDropDown && isDropped && (
-                <ul className="ham-dropdowns">
-                    {subLinks.map((subLink, index) => (
-                        <li className="dropdown relative" key={index}>
-                            <Link className="link" to={subLink.to}>
-                                {subLink.name}
-                                {subLink.hasDropDown && (
-                                    <FontAwesomeIcon 
-                                        icon={faCaretRight} 
-                                        className="dropdown-icon right-caret" 
-                                    />
-                                )}
-                            </Link>
-
-                            {subLink.hasDropDown && subLink.subLinks2 && (
-                                <ul className="second-dropdowns">
-                                    {subLink.subLinks2.map((subLink2, idx) => (
-                                        <Link 
-                                            to={`/Club/${subLink2.name}`} 
-                                            className="link" 
-                                            key={idx}
-                                        >
-                                            {subLink2.name}
-                                        </Link>
-                                    ))}
-                                </ul>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
-});
+                    <ul className="ham-dropdowns">
+                        {subLinks.map((subLink, index) => {
+                            const isChildDropped = childDropdown[`${id}-${index}`];
+                            return (
+                                <li
+                                    className="dropdown relative"
+                                    key={index}
+                                    style={{
+                                        marginBottom: isChildDropped && subLink.subLinks2
+                                            ? `${subLink.subLinks2.length * 31 + 10}px`
+                                            : "0px"
+                                    }}
+                                >
+                                    <Link
+                                        className="link flex-between"
+                                        to={subLink.to}
+                                        onClick={() => toggleChildDropdown(id, index)}
+                                    >
+                                        {subLink.name}
+                                        {subLink.hasDropDown && (
+                                            <FontAwesomeIcon
+                                                icon={isChildDropped ? faMinus : faPlus}
+                                                className="dropdown-icon"
+                                            />
+                                        )}
+                                    </Link>
+    
+                                    {subLink.hasDropDown && isChildDropped && subLink.subLinks2 && (
+                                        <ul className="ham-second-dropdowns">
+                                            {subLink.subLinks2.map((subLink2, idx) => (
+                                                <Link
+                                                    to={`/Club/${subLink2.name}`}
+                                                    className="link"
+                                                    key={idx}
+                                                >
+                                                    {subLink2.name}
+                                                </Link>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                )}
+            </div>
+        );
+    });
     return(
         <>
             <div className={location === "/" ? "" : "off-set"}></div>

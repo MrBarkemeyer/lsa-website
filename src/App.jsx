@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import Home from "./pages/Home"
 import Elections from "./pages/Elections"
 import Layout from "./pages/Layout"
-import Club from "./pages/Club"
+import Club from "./pages/Clubs/Club"
 import TitleIX from './pages/Resources/TitleIX'
 import FreshMenCorner from './pages/More/FreshmenCorner'
 
