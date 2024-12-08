@@ -207,6 +207,28 @@ export default function Navbar(props){
                     }),
                 },
                 {
+                    name: "Volunteer and Public Service Clubs",
+                    hasDropDown: true,
+                    subLinks2: clubData.filter(club =>{
+                        return(
+                           club.Category === "Volunteering and Public Service"
+                        )
+                    }).map(object =>{
+                        return {name: object.Name}
+                    })
+                },
+                {
+                    name: "STEM Clubs",
+                    hasDropDown: true,
+                    subLinks2: clubData.filter(club =>{
+                        return(
+                           club.Category === "STEM"
+                        )
+                    }).map(object =>{
+                        return {name: object.Name}
+                    })
+                },
+                {
                     name: "Culture and Religion Clubs",
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
@@ -273,33 +295,11 @@ export default function Navbar(props){
                     })
                 },
                 {
-                    name: "STEM Clubs",
-                    hasDropDown: true,
-                    subLinks2: clubData.filter(club =>{
-                        return(
-                           club.Category === "STEM"
-                        )
-                    }).map(object =>{
-                        return {name: object.Name}
-                    })
-                },
-                {
                     name: "Visual and Performing Arts Club",
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
                         return(
                            club.Category === "VPA"
-                        )
-                    }).map(object =>{
-                        return {name: object.Name}
-                    })
-                },
-                {
-                    name: "Volunteer and Public Service Clubs",
-                    hasDropDown: true,
-                    subLinks2: clubData.filter(club =>{
-                        return(
-                           club.Category === "Volunteering and Public Service"
                         )
                     }).map(object =>{
                         return {name: object.Name}
