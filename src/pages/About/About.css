@@ -1,0 +1,44 @@
+.charter-intro, .charter > p{
+    width: 100%;
+    max-width: 912px;
+    margin: 0 auto;
+}
+.charter{
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px; 
+    justify-content: center;
+}
+.charter p, .charter h2, .charter strong{
+    width: 100%;
+}
+.charter h2{
+    text-align: center;
+}
+.constitution{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 912px;
+    margin: 0 auto;
+    color: black;
+}
+.font-button{
+    width: 100%;
+}
+.font-button > button{
+    width: 200px;
+    height: 50px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background: var(--lowell-red);
+    color: white;
+    border: none;
+}

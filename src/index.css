@@ -60,3 +60,9 @@ footer{
 .ml-16{
   margin-left: 4rem;
 }
+.glowable-text{
+  color: red;
+}
+[glow] .glowable-text {
+  color: red;
+}

@@ -7,7 +7,7 @@ import Layout from "./pages/Layout"
 import Club from "./pages/Clubs/Club"
 import TitleIX from './pages/Resources/TitleIX'
 import FreshMenCorner from './pages/More/FreshmenCorner'
-
+import Charter from './pages/About/Charter'
 function App() {
   const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
     const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
@@ -55,6 +55,9 @@ function App() {
             </Route>
               <Route path="TitleIX" element = {<TitleIX />} />
               <Route path="FreshmenCorner" element= {<FreshMenCorner />} />
+              <Route path="LSA" element={<Outlet />}>
+                <Route path="Charter" element={<Charter />}/>
+              </Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -122,7 +122,8 @@ export default function Navbar(props){
                     ]
                 },
                 {
-                    name: "Charter of the LSA"
+                    name: "Charter of the LSA",
+                    to: "LSA/Charter",
                 },
                 {
                     name: "Director of Student Activities"   
