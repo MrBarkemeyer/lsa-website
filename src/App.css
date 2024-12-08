@@ -21,6 +21,7 @@
   flex-direction: column;
   padding: 1.5rem;
   gap: 30px;
+  text-align: center;
 }
 .nav-links{
   position: fixed;
@@ -56,7 +57,7 @@
   align-items: start;
   gap: 10px;
 }
-.dropdown-icon{
+.dropdown-icon, .big-dropdown-icon{
   color: inherit;
   font-size: 1.3rem;
 }
@@ -78,6 +79,13 @@
   border-bottom-right-radius: 28px;
 }
 .dropdown > .link{
+  color: white;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+.big-dropdown > .link{
   color: white;
   display: flex;
   width: 100%;
@@ -112,7 +120,6 @@
 .first-dropdowns:hover a:after{
   width: 100%;
 }
-
 .dropdowns {
   background: var(--lowell-red);
   position: absolute;
@@ -123,17 +130,57 @@
   width: 200px;
   display: none;
 }
-
-.first-dropdowns:hover .dropdowns,
-.dropdowns:hover {
-  display: block; /* Show dropdown on hover */
+.big-dropdowns{
+  background: var(--lowell-red);
+  position: fixed;
+  z-index: 1;
+  top: 132px;
+  left: 0;
+  border: 3px solid var(--lowell-red);
+  width: 100vw;
+  display: none;
+}
+.big-dropdowns > .big-dropdown{
+  width: 370px;
+}
+.big-dropdown .link{
+  justify-content: space-between;
+}
+.big-dropdown:hover .second-dropdowns{
+  background: var(--title-color);
+  display: flex;
+  flex-wrap: wrap;
+  left: 0;
+  width: 100vw;
+  position: fixed;
+  top: inherit;
+  padding: 0 25%;
+  font-weight: normal;
+  border-radius: 0;
+  gap: 10px;
+}
+.big-dropdowns:hover a:last-child{
+  border-radius: 0px !important;
 }
 
-.dropdown:hover {
+.first-dropdowns:hover .dropdowns,
+.dropdowns:hover{
+  display: block; 
+}
+.first-dropdowns:hover .big-dropdowns{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 200px 0 200px;
+  justify-content: space-evenly;
+  gap: 30px;
+  align-items: center;
+}
+
+.dropdown:hover, .big-dropdown:hover {
   background: white;
 }
 
-.dropdown:hover .link {
+.dropdown:hover > .link, .big-dropdown:hover > .link {
   color: black;
 }
 .hero-image{
@@ -234,6 +281,10 @@
   gap: 30px;
   color: white;
 }
+.news-corner-container > h1{
+  width: 100%;
+  text-align: center;
+}
 .pdf{
   margin: 0 auto;
   height: 800px;
@@ -311,7 +362,7 @@
   display: none; 
 }
 
-.dropdown:hover .second-dropdowns {
+.dropdown:hover .second-dropdowns, .big-dropdown:hover, .big-second-dropdowns {
   display: block;
 }
 
@@ -600,7 +651,7 @@
   font-weight: normal;
   height: 31px;
 }
-.ham-first-dropdowns, .dropdown {
+.ham-first-dropdowns, .dropdown, .big-dropdown {
   transition: margin-bottom 0.3s ease;
 }
 

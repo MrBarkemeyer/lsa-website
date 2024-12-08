@@ -189,6 +189,7 @@ export default function Navbar(props){
         {
             name: "CLUBS AND SPORTS",
             hasDropDown: true,
+            bigSubLink: true,
             icon: faUsers,
             subLinks: [
                 {
@@ -366,20 +367,39 @@ export default function Navbar(props){
         }));
     }
     const navbar = navLinks.map(link=>{
-        const {name, subLinks, hasDropDown, icon, id, to} = link
+        const {name, subLinks, hasDropDown, icon, id, to, bigSubLink} = link
         return(
             <div className="relative first-dropdowns" key={id}>
                     <Link to={to} className="link" >
                         {icon && <FontAwesomeIcon icon={icon} className="icon" />} {name} {hasDropDown ? 
                             <FontAwesomeIcon icon={faCaretDown} className="dropdown-icon"/> : ""}
                     </Link>
-                {hasDropDown && 
+                {hasDropDown && !bigSubLink &&
                     <ul className="dropdowns" key={id + 1}>
                         {subLinks.map((subLink, index) =>{
                             return(
                                 <li className="dropdown relative" key={index}>
                                     <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
                                     <FontAwesomeIcon icon={faCaretRight} className="dropdown-icon right-caret" /> : ""}</Link>
+                                    {hasDropDown && subLink.subLinks2 && (
+                                        <ul className="second-dropdowns">
+                                            {subLink.subLinks2.map((subLink2, idx) => (
+                                                    <Link to={`/Club/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                                
+                            )
+                        })}
+                    </ul>}
+                {hasDropDown && bigSubLink &&
+                    <ul className="big-dropdowns" key={id + 1}>
+                        {subLinks.map((subLink, index) =>{
+                            return(
+                                <li className="big-dropdown relative" key={index}>
+                                    <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
+                                    <FontAwesomeIcon icon={faCaretDown} className="big-dropdown-icon right-caret" /> : ""}</Link>
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
