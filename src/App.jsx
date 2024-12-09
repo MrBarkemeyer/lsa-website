@@ -11,6 +11,8 @@ import Charter from './pages/About/Charter'
 import ClubResources from './pages/Clubs/ClubResources'
 import Wellness from './pages/Resources/Wellness'
 import Clubs from './pages/Clubs/Clubs'
+import AboutLSA from './pages/About/AboutLSA'
+
 
 function App() {
   const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
@@ -54,6 +56,10 @@ function App() {
           <Route element={<Layout clubData = {clubData} />}>
             <Route path="/" element={<Home />} />
             <Route path="Elections" element={<Elections />} />
+            
+            <Route path="LSA" element={<Outlet />}>
+              <Route index element={<AboutLSA/>} />
+            </Route>
 
             <Route path="Clubs" element={<Outlet />}>
               <Route index element={<Clubs clubData={clubData}/>} />

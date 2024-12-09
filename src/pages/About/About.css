@@ -1,9 +1,15 @@
-.charter-intro, .charter > p{
+.about-lsa, .charter-intro, .charter > p{
     width: 100%;
     max-width: 912px;
     margin: 0 auto;
 }
-.charter{
+.about-lsa a{
+    background: gray;
+    padding: 2rem;
+    border-radius: 10px;
+    color: white;
+}
+.charter, .about-lsa{
     padding: 3rem;
     display: flex;
     align-items: center;
