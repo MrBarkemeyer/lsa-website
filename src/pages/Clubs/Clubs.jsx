@@ -126,7 +126,6 @@ export default function Clubs(props){
             </div>
         )
     });
-    console.log(filterState === true);
 
     return(
         <>

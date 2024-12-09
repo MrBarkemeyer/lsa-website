@@ -57,6 +57,9 @@ footer{
   color: white;
   background: gray;
 }
+footer a, footer p{
+  color: inherit;
+}
 .ml-16{
   margin-left: 4rem;
 }
