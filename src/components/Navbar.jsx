@@ -129,7 +129,7 @@ export default function Navbar(props){
                     name: "Director of Student Activities"   
                 }
             ],
-            to: "/About",
+            to: "/LSA",
             id: 3,
         },
         {
@@ -195,7 +195,7 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "Club Resources",
-                    to: "Club/ClubResources"
+                    to: "Clubs/ClubResources"
                 },
                 {
                     name: "Sports",
@@ -387,7 +387,7 @@ export default function Navbar(props){
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
-                                                    <Link to={`/Club/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
+                                                    <Link to={`/Clubs/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
                                             ))}
                                         </ul>
                                     )}
@@ -406,7 +406,7 @@ export default function Navbar(props){
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
-                                                    <Link to={`/Club/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
+                                                    <Link to={`/Clubs/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
                                             ))}
                                         </ul>
                                     )}
@@ -479,7 +479,7 @@ export default function Navbar(props){
                                         <ul className="ham-second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
                                                 <Link
-                                                    to={`/Club/${subLink2.name}`}
+                                                    to={`/Clubs/${subLink2.name}`}
                                                     className="link"
                                                     key={idx}
                                                 >

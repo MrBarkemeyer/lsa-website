@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { HashRouter as Router, BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import Home from "./pages/Home"
 import Elections from "./pages/Elections"
 import Layout from "./pages/Layout"
@@ -10,7 +10,7 @@ import FreshMenCorner from './pages/More/FreshmenCorner'
 import Charter from './pages/About/Charter'
 import ClubResources from './pages/Clubs/ClubResources'
 import Wellness from './pages/Resources/Wellness'
-
+import Clubs from './pages/Clubs/Clubs'
 
 function App() {
   const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
@@ -49,26 +49,30 @@ function App() {
     }
   return (
     <>
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route element={<Layout clubData = {clubData} />}>
             <Route path="/" element={<Home />} />
             <Route path="Elections" element={<Elections />} />
-            <Route path="Club" element={<Outlet />}>
+
+            <Route path="Clubs" element={<Outlet />}>
+              <Route index element={<Clubs clubData={clubData}/>} />
               <Route path="ClubResources" element={<ClubResources />} />
               <Route path=":ClubName" element={<Club clubData={clubData}/>}/>
             </Route>
+
             <Route path="Resources" element={<Outlet />}>
               <Route path="Wellness" element={<Wellness />} />
               <Route path="TitleIX" element = {<TitleIX />} />
             </Route>
+
               <Route path="FreshmenCorner" element= {<FreshMenCorner />} />
               <Route path="LSA" element={<Outlet />}>
                 <Route path="Charter" element={<Charter />}/>
               </Route>
           </Route>
         </Routes>
-      </BrowserRouter>
+      </Router>
     </>
   )
 }

@@ -128,7 +128,7 @@ export default function Home(){
                 <Link><img src={LinkImage3} alt="Free Wellness Resources"  className="hero-link"/></Link>
             </div>
             <div className="life-at-lowell">
-                <div className="life-at-lowell-title flex-center">
+                <div className="title flex-center">
                     <h2>WATCH: Student Life at Lowell High School</h2>
                 </div>
                 <div className="preamble flex-center">
