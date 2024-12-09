@@ -336,7 +336,6 @@ export default function Navbar(props){
                     to: "/Resources/TitleIX"
                 },
             ],
-            to: "/Resources",
             id: 6,
         },
         {
@@ -359,7 +358,6 @@ export default function Navbar(props){
                     name: "Search",
                 },
             ],
-            to: "",
             id: 7,
         }
     ];

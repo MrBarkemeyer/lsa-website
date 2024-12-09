@@ -12,6 +12,7 @@ import ClubResources from './pages/Clubs/ClubResources'
 import Wellness from './pages/Resources/Wellness'
 import Clubs from './pages/Clubs/Clubs'
 import AboutLSA from './pages/About/AboutLSA'
+import Organization from './pages/Organizations/Organizations'
 
 
 function App() {
@@ -59,6 +60,10 @@ function App() {
             
             <Route path="LSA" element={<Outlet />}>
               <Route index element={<AboutLSA/>} />
+            </Route>
+
+            <Route path="Organizations" element = {<Outlet />}>
+              <Route index element={<Organization />} />
             </Route>
 
             <Route path="Clubs" element={<Outlet />}>

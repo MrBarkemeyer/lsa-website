@@ -578,7 +578,7 @@
 }
 .hamburger-button, .hamburger-button2{
   font-size: 3rem;
-  color: teal;
+  color: var(--lowell-red);
 }
 .hamburger-button2{
   position: absolute;
