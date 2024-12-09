@@ -195,6 +195,7 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "Club Resources",
+                    to: "Club/ClubResources"
                 },
                 {
                     name: "Sports",
@@ -328,10 +329,11 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "Lowell Wellness Center",
+                    to: "/Resources/Wellness"
                 },
                 {
                     name: "Title IX Support",
-                    to: "/TitleIX"
+                    to: "/Resources/TitleIX"
                 },
             ],
             to: "/Resources",

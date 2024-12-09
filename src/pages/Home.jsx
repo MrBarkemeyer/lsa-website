@@ -11,38 +11,38 @@ import {useEffect, useState} from "react"
 export default function Home(){
 
 
-    const classBoards = [
-        {
-            year: "2024-2025",
-            name: "STUDENT BODY COUNCIL",
-            id: 1,
-        },
-        {
-            year: "LOWELL 2025",
-            name: "SENIOR CLASS BOARD",
-            id: 2,
-        },
-        {
-            year: "LOWELL 2026",
-            name: "JUNIOR CLASS BOARD",
-            id: 3,
-        },
-        {
-            year: "LOWELL 2027",
-            name: "SOPHOMORE CLASS BOARD",
-            id: 4,
-        },
-        {
-            year: "LOWELL 2028",
-            name: "SOPHOMORE CLASS BOARD",
-            id: 5,
-        },
-        {
-            year: "2024-2025",
-            name: "DIRECTOR OF STUDENT ACTIVITIES",
-            id: 6,
-        }
-    ]
+    // const classBoards = [
+    //     {
+    //         year: "2024-2025",
+    //         name: "STUDENT BODY COUNCIL",
+    //         id: 1,
+    //     },
+    //     {
+    //         year: "LOWELL 2025",
+    //         name: "SENIOR CLASS BOARD",
+    //         id: 2,
+    //     },
+    //     {
+    //         year: "LOWELL 2026",
+    //         name: "JUNIOR CLASS BOARD",
+    //         id: 3,
+    //     },
+    //     {
+    //         year: "LOWELL 2027",
+    //         name: "SOPHOMORE CLASS BOARD",
+    //         id: 4,
+    //     },
+    //     {
+    //         year: "LOWELL 2028",
+    //         name: "SOPHOMORE CLASS BOARD",
+    //         id: 5,
+    //     },
+    //     {
+    //         year: "2024-2025",
+    //         name: "DIRECTOR OF STUDENT ACTIVITIES",
+    //         id: 6,
+    //     }
+    // ]
     const newsCorner = [
         {
             name: "All Grades:",
@@ -83,17 +83,17 @@ export default function Home(){
             </div>
         )
     })
-    const displayClassboards = classBoards.map(classBoard =>{
-        const {year, name, id} = classBoard;
-        return(
-            <Link className="black" key={id}>
-                <div className="class-board flex-center">
-                    <p>{year}</p> <br />
-                    <span className="bold">{name}</span>
-                </div>
-            </Link>
-        )
-    })
+    // const displayClassboards = classBoards.map(classBoard =>{
+    //     const {year, name, id} = classBoard;
+    //     return(
+    //         <Link className="black" key={id}>
+    //             <div className="class-board flex-center">
+    //                 <p>{year}</p> <br />
+    //                 <span className="bold">{name}</span>
+    //             </div>
+    //         </Link>
+    //     )
+    // })
     return(
         <>
             {/* <figure>
@@ -147,9 +147,9 @@ export default function Home(){
             <div className="banner">
                 <img src={StudentBanner} alt="student-banner" className="banner" />
             </div>
-            <div className="class-board-links">
+            {/* <div className="class-board-links">
                 {displayClassboards}
-            </div>
+            </div> */}
         </>
     )
 }

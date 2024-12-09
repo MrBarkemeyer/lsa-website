@@ -1,0 +1,13 @@
+.club-resources{
+    max-width: 912px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 3rem;
+}
+.club-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
