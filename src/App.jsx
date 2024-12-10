@@ -28,10 +28,15 @@ function App() {
     useEffect(()=>{
         async function fetchData(){
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${KEY}`;
+            const url2 = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME2}?key=${KEY}`;
             try{
                 const res = await fetch(url);
                 const data = await res.json();
                 setClubData(processSheetData(data.values));
+
+                const res2 = await fetch(url2);
+                const data2 = await res2.json();
+                setOfficerData(processSheetData(data2.values));
             }
             catch(error){
                 console.log(error);
@@ -39,24 +44,6 @@ function App() {
         }
         fetchData();
     }, []);
-
-    useEffect(()=>{
-      async function fetchData(){
-          const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME2}?key=${KEY}`;
-          try{
-              const res = await fetch(url);
-              const data = await res.json();
-              setOfficerData(processSheetData(data.values));
-          }
-          catch(error){
-              console.log(error);
-          }
-      }
-      fetchData();
-  }, []);
-
-
-
 
     function processSheetData(data) {
         if (!data || data.length === 0) return [];
