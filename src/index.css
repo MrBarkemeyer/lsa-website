@@ -9,6 +9,7 @@
   padding: 0;
   margin: 0;
   font-family: var(--primary-font);
+  scroll-behavior: smooth;
 }
 a{
   text-decoration: none;

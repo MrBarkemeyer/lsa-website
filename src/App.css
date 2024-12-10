@@ -4,6 +4,7 @@
   justify-content: center;
   flex-direction: column;
   margin: 1rem 0 1rem 0;
+  
 }
 .off-set{
   height: 120px;
@@ -25,7 +26,7 @@
 }
 .nav-links{
   position: fixed;
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -41,7 +42,7 @@
 }
 .hero-video{
   width: 100%;
-  height: calc(100vh - 120px);
+  height: 100vh;
   object-fit: cover;
   object-position: 50% 50%;
 }

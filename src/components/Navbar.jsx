@@ -40,19 +40,19 @@ export default function Navbar(props){
     const [childDropdown, setChildDropdown] = useState({});
     const location = useLocation().pathname;
 
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //       if (window.scrollY > 50) {
-    //         setHasScrolled(true); 
-    //       } else {
-    //         setHasScrolled(false); 
-    //       }
-    //     };
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => window.removeEventListener("scroll", handleScroll);
-    //   }, []);
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 50) {
+            setHasScrolled(true); 
+          } else {
+            setHasScrolled(false); 
+          }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+      }, []);
 
-    // const scrolledStyle = {background: "white", color: "white"};
+    const scrolledStyle = {background: "white", color: "white"};
 
     function toggleHamburger(){
         setHamburger(prevState=> !prevState);
@@ -499,7 +499,7 @@ export default function Navbar(props){
     });
     return(
         <>
-            <div className="off-set"></div>
+            <div className={useLocation().pathname === "/" ? "" : "off-set"}></div>
             <div className="navbar">
                 <ul className="nav-links" style={hasScrolled ? scrolledStyle : {}}>
                     <Link className="logo" to="/"><img src={Logo} alt="Lowell Student Association" /></Link>
