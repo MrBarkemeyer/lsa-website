@@ -407,7 +407,7 @@ export default function Navbar(props){
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
-                                                    <Link to={`/Clubs/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
+                                                    <Link to={`${subLinks.to}/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
                                             ))}
                                         </ul>
                                     )}
@@ -464,7 +464,7 @@ export default function Navbar(props){
                                 >
                                     <Link
                                         className="link flex-between"
-                                        to={subLink.to}
+                                        to={`${to}/${subLink.to}`}
                                         onClick={() => toggleChildDropdown(id, index)}
                                     >
                                         {subLink.name}
@@ -480,7 +480,7 @@ export default function Navbar(props){
                                         <ul className="ham-second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
                                                 <Link
-                                                    to={`/Clubs/${subLink2.name}`}
+                                                    to={`${subLink.to}/${subLink2.name}`}
                                                     className="link"
                                                     key={idx}
                                                 >

@@ -5,7 +5,7 @@ export default function SBC(props){
     const officers = props.officerData;
     const [officerData, setOfficerData] = useState([]);
     useEffect(()=>{
-        setOfficerData((officers.filter(officer => "SBC" === officer.Teams)));
+        setOfficerData((officers.filter(officer => "SBC" === officer.Team)));
     }, [props]);
 
     const displayOfficers = officerData.map((officer, index)=>{
