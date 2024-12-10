@@ -480,7 +480,7 @@ export default function Navbar(props){
                                         <ul className="ham-second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
                                                 <Link
-                                                    to={`${subLink.to}/${subLink2.name}`}
+                                                    to={`${to}/${subLink2.name}`}
                                                     className="link"
                                                     key={idx}
                                                 >

@@ -400,6 +400,8 @@
 .club-description{
   font-size: 1.5rem;
   max-width: 800px;
+  padding: 1rem;
+
 }
 .meeting-times{
   font-size: 1.3rem;
@@ -650,10 +652,11 @@
   top: 50px;
   left: 30px;
   border-left: 3px solid var(--lowell-red);
-  width: 100%;
+  /* width: 100%; */
   color: inherit;
-  padding-right: 10px;
+  /* padding-right: 10px; */
   padding-left: 10px;
+  overflow-x: none;
 }
 .ham-second-dropdowns > a{
   font-size: 1rem;
@@ -726,5 +729,15 @@
   }
   .absolute-center p{
     margin-bottom: 2rem;
+  }
+  .club-description{
+    font-size: 1.2rem;
+  }
+  .club-name{
+    font-size: 2rem;
+    text-align: center;
+  }
+  .club-officers, .meeting-times{
+    padding: 1rem;
   }
 }
