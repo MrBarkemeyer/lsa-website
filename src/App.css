@@ -240,6 +240,7 @@
   text-align: center;
   bottom: 0px;
   height: 80%;
+  padding: 1rem;
 }
 
 .absolute-center > h1{
@@ -714,5 +715,16 @@
 @media (max-width: 1000px){
   .hero-video{
     height: 50vh;
+  }
+}
+@media (max-width: 700px){
+  .pdf{
+    height: 500px;
+  }
+  .absolute-center h1{
+    font-size: 2rem;
+  }
+  .absolute-center p{
+    margin-bottom: 2rem;
   }
 }

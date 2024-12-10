@@ -79,7 +79,7 @@ export default function Clubs(props){
         return(
                 categoryFilter === Category ? <Link className="clubs" key={index} to={Name}>
                     <div className="club">
-                        <img src={`https://picsum.photos/200/200?random=${Math.floor(Math.random()*1000)}`} alt="" />
+                        <img src={`https://picsum.photos/100/100?random=${Math.floor(Math.random()*1000)}`} alt="" />
                         <p className="club-name">{Name}</p>
                         <p style={clubColor} className="club-category">{Category}</p>
                     </div>

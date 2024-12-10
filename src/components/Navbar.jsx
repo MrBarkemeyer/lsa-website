@@ -90,6 +90,7 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "2024-25 Student Body Council",
+                    to: "SBC",
                 },
                 {
                     name: "2025 Senior Board",
@@ -123,7 +124,7 @@ export default function Navbar(props){
                 },
                 {
                     name: "Charter of the LSA",
-                    to: "LSA/Charter",
+                    to: "Charter",
                 },
                 {
                     name: "Director of Student Activities"   
@@ -380,12 +381,12 @@ export default function Navbar(props){
                         {subLinks.map((subLink, index) =>{
                             return(
                                 <li className="dropdown relative" key={index}>
-                                    <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
+                                    <Link className="link" to={`${to}/${subLink.to}`}>{subLink.name} {subLink.hasDropDown ? 
                                     <FontAwesomeIcon icon={faCaretRight} className="dropdown-icon right-caret" /> : ""}</Link>
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
-                                                    <Link to={`/Clubs/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
+                                                    <Link to={`/${subLink.to}/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
                                             ))}
                                         </ul>
                                     )}

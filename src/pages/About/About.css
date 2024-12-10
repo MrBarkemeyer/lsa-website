@@ -48,3 +48,47 @@
     color: white;
     border: none;
 }
+.team-name{
+    max-width: 912px;
+    margin: 0 auto;
+    color: var(--lowell-red);
+    padding: 2rem;
+}
+.team-info{
+    padding: 3rem;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 5px; 
+    max-width: 912px;
+    margin: 0 auto ;
+    background: lightgray;
+    border-radius: 10px;
+}
+.team-member{
+    display: flex;
+    max-width: 1000px;
+    gap: 30px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.team-member-photo{
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+    padding: 1rem;
+}
+.team-member-description, .team-member h2{
+    padding: 1rem;
+}
+
+@media (max-width: 1000px){
+    .team-member{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .team-member-description{
+        font-size: 1.2rem;
+    }
+}

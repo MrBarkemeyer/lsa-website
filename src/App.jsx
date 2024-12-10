@@ -13,14 +13,18 @@ import Wellness from './pages/Resources/Wellness'
 import Clubs from './pages/Clubs/Clubs'
 import AboutLSA from './pages/About/AboutLSA'
 import Organization from './pages/Organizations/Organizations'
+import ScrollToTop from "./components/ScrollToTop";
+import SBC from './pages/About/SBC'
 
 
 function App() {
   const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
     const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
      const SHEET_NAME = "Form Responses 1"
-
+     const SHEET_NAME2 = "Officers"
     const [clubData, setClubData] = useState([]);
+    const [officerData, setOfficerData] = useState([]);
+
     useEffect(()=>{
         async function fetchData(){
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${KEY}`;
@@ -34,7 +38,25 @@ function App() {
             }
         }
         fetchData();
-    }, [])
+    }, []);
+
+    useEffect(()=>{
+      async function fetchData(){
+          const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME2}?key=${KEY}`;
+          try{
+              const res = await fetch(url);
+              const data = await res.json();
+              setOfficerData(processSheetData(data.values));
+          }
+          catch(error){
+              console.log(error);
+          }
+      }
+      fetchData();
+  }, []);
+
+
+
 
     function processSheetData(data) {
         if (!data || data.length === 0) return [];
@@ -53,6 +75,7 @@ function App() {
   return (
     <>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route element={<Layout clubData = {clubData} />}>
             <Route path="/" element={<Home />} />
@@ -60,6 +83,7 @@ function App() {
             
             <Route path="LSA" element={<Outlet />}>
               <Route index element={<AboutLSA/>} />
+              <Route path="SBC" element={<SBC officerData={officerData}/>} />
             </Route>
 
             <Route path="Organizations" element = {<Outlet />}>
