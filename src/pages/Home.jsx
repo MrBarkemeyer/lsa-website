@@ -100,7 +100,7 @@ export default function Home(){
                 <img src={HeroImg} alt="Lowell High School" className="hero-image relative" />
                 <video control autoplay src={HeroVideo} muted className="hero-video"/>
             </figure> */}
-            <video autoPlay loop muted controls={false} src={HeroVideo} className="hero-video"></video>
+            <video autoPlay loop muted playsInline controls={false} src={HeroVideo} className="hero-video"></video>
             <div className="hero-texts">
                 <p className="hero-title">Welcome to the <br />
                     <span className="bold">Lowell Student Association!</span></p>
