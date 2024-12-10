@@ -83,7 +83,7 @@ function App() {
               <Route path=":ClubName" element={<Club clubData={clubData}/>}/>
             </Route>
 
-            <Route path="Resources" element={<Outlet />}>
+            <Route element={<Outlet />}>
               <Route path="Wellness" element={<Wellness />} />
               <Route path="TitleIX" element = {<TitleIX />} />
             </Route>

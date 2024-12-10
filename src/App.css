@@ -595,7 +595,7 @@
 }
 .ham-first-dropdowns > a{
   color: inherit;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   height: inherit;
   align-items: center;
 }
@@ -620,12 +620,12 @@
 }
 .ham-dropdowns a{
   color: inherit !important;
-  font-size: 1.1rem !important;
+  font-size: 1.0rem !important;
 }
 
 .hamburger-nav{
   position: fixed;
-  width: 400px;
+  width: 380px;
   margin: 0 auto;
   right: 2%;
   top: 2%;

@@ -6,7 +6,7 @@ import {useState, useEffect} from "react"
 
 export default function Navbar(props){
     const [hasScrolled, setHasScrolled] = useState(false);
-    const [hamburger, setHamburger] = useState(true);
+    const [hamburger, setHamburger] = useState(false);
     const [hasDropped, setHasDropped] = useState([
         {
             id: 1,
@@ -330,14 +330,15 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "Lowell Wellness Center",
-                    to: "/Resources/Wellness"
+                    to: "Wellness"
                 },
                 {
                     name: "Title IX Support",
-                    to: "/Resources/TitleIX"
+                    to: "TitleIX"
                 },
             ],
             id: 6,
+            to: "",
         },
         {
             name: "MORE",
@@ -360,6 +361,7 @@ export default function Navbar(props){
                 },
             ],
             id: 7,
+            to: "",
         }
     ];
     function toggleChildDropdown(parentId, childId) {
