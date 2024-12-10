@@ -5,12 +5,12 @@ export default function SBC(props){
     const officers = props.officerData;
     const [officerData, setOfficerData] = useState([]);
     useEffect(()=>{
-        setOfficerData((officers.filter(officer => "SBC" === officer.Team)));
+        setOfficerData((officers.filter(officer => "SBC" === officer.Teams)));
     }, [props]);
 
     const displayOfficers = officerData.map((officer, index)=>{
         return(
-            <div key={index}>
+            <>
                 <div className="team-member">
                 <img src={`https://picsum.photos/200/200?random=${Math.floor(Math.random()*1000)}`} alt="" className="team-member-photo" />
                 <div>
@@ -19,9 +19,10 @@ export default function SBC(props){
                     <p className="team-member-description">{officer.Description}</p>
                 </div>
             </div>
-            </div>
+            </>
         )
     })
+
 
     return(
         <>
@@ -29,12 +30,12 @@ export default function SBC(props){
                 Student Body Council(SBC) 
                 <br />2024-2025
             </h1>
-            <div className="team-info">
-                <p><strong>LOCATION - </strong>The Cave (Room 80A) during 1st block Leadership</p>
-                <p><strong>EMAIL - </strong>lowellhssbc@gmail.com</p>
-                <p><strong>INSTAGRAM - </strong>@lowellhs</p>
-                <p><strong>FACEBOOK PAGE - </strong>Lowell Student Association</p>            
-            </div>
+            <p className="team-info">
+                <div><strong>LOCATION - </strong>The Cave (Room 80A) during 1st block Leadership</div>
+                <div><strong>EMAIL - </strong>lowellhssbc@gmail.com</div>
+                <div><strong>INSTAGRAM - </strong>@lowellhs</div>
+                <div><strong>FACEBOOK PAGE - </strong>Lowell Student Association</div>
+            </p>
             <div className="teams">
                 {displayOfficers}
             </div>
