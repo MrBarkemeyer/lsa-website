@@ -162,9 +162,8 @@
   justify-content: space-between;
   border-bottom: 1px solid orange;
 }
-.big-dropdown:hover .second-dropdowns{
+.big-second-dropdowns{
   background: var(--title-color);
-  display: flex;
   flex-wrap: wrap;
   left: 0;
   width: 100vw;
@@ -176,6 +175,8 @@
   gap: 10px;
   justify-content: center;
 }
+
+
 .big-dropdowns:hover a:last-child{
   border-radius: 0px !important;
 }
@@ -366,25 +367,29 @@
   overflow-y: auto;
   display: none; 
 }
+.big-second-dropdowns{
+  z-index: 2;
+  display: none;
+}
 
-.dropdown:hover .second-dropdowns, .big-dropdown:hover, .big-second-dropdowns {
+
+.dropdown:hover .second-dropdowns{
   display: block;
 }
 
 
-.second-dropdowns > a {
+.second-dropdowns > a, .big-second-dropdowns > a{
   color: white !important;
   display: block;
   padding: 10px 15px; 
   text-decoration: none; 
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.1s ease, color 0.3s ease;
 }
 
 
-.second-dropdowns > a:hover {
+.second-dropdowns > a:hover, .big-second-dropdowns > a:hover {
   background: white;
   color: black !important;
-
 }
 
 
@@ -692,6 +697,19 @@
     transform: translateX(500px);
   }
 }
+/* @keyframes rotate180{
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(180deg);
+  }
+}
+
+.rotate{
+  animation: rotate180 0.5s forwards;
+} */
+
 
 
 @media (max-width: 1300px){
@@ -722,7 +740,7 @@
 }
 @media (max-width: 700px){
   .pdf{
-    height: 500px;
+    height: 400px;
   }
   .absolute-center h1{
     font-size: 2rem;

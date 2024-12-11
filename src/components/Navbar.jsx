@@ -1,12 +1,18 @@
 import {Link, useLocation} from "react-router-dom"
 import Logo from "../assets/LSA-Logo.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {faPlus, faMinus, faBars, faXmark, faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp, faCaretRight} from "@fortawesome/free-solid-svg-icons"
+import {faCaretUp, faPlus, faMinus, faBars, faXmark, faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp, faCaretRight} from "@fortawesome/free-solid-svg-icons"
 import {useState, useEffect} from "react"
 
 export default function Navbar(props){
     const [hasScrolled, setHasScrolled] = useState(false);
     const [hamburger, setHamburger] = useState(false);
+    const [clickedDropdown, setClickedDropdown] = useState(false);
+
+    function toggleBigSecondDropdown(index, event) {
+        setClickedDropdown(prev => (prev === index ? false : index));
+    }
+
     const [hasDropped, setHasDropped] = useState([
         {
             id: 1,
@@ -52,11 +58,18 @@ export default function Navbar(props){
         return () => window.removeEventListener("scroll", handleScroll);
       }, []);
 
-    const scrolledStyle = {background: "white", color: "white"};
+    const scrolledStyle = {
+        background: hasScrolled ? "white" : "transparent",
+        opacity: hasScrolled ? 1 : 0.5,
+        transition: "all 0.3s ease-in-out", 
+    };
+    
 
     function toggleHamburger(){
         setHamburger(prevState=> !prevState);
     }
+
+
     function toggleDropDown(id) {
         setHasDropped(prevState =>
             prevState.map(dropdown =>
@@ -364,6 +377,8 @@ export default function Navbar(props){
             to: "",
         }
     ];
+
+
     function toggleChildDropdown(parentId, childId) {
         setChildDropdown(prev => ({
             ...prev,
@@ -401,11 +416,17 @@ export default function Navbar(props){
                     <ul className="big-dropdowns" key={id + 1}>
                         {subLinks.map((subLink, index) =>{
                             return(
-                                <li className="big-dropdown relative" key={index}>
+                                <li className="big-dropdown relative" key={index}
+                                onClick={(event) => toggleBigSecondDropdown(index, event)}
+                                >
                                     <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
-                                    <FontAwesomeIcon icon={faCaretDown} className="big-dropdown-icon right-caret" /> : ""}</Link>
+                                    <FontAwesomeIcon icon={faCaretDown} className= "big-dropdown-icon right-caret" /> : ""}</Link>
                                     {hasDropDown && subLink.subLinks2 && (
-                                        <ul className="second-dropdowns">
+                                        <ul className="big-second-dropdowns"
+                                            style={{
+                                                display: clickedDropdown === index ? "flex" : "none"
+                                            }}    
+                                        >
                                             {subLink.subLinks2.map((subLink2, idx) => (
                                                     <Link to={`${to}/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
                                             ))}
