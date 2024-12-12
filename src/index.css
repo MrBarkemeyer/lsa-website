@@ -70,3 +70,6 @@ footer a, footer p{
 [glow] .glowable-text {
   color: red;
 }
+section{
+  padding: 1rem;
+}

@@ -520,7 +520,7 @@ export default function Navbar(props){
     });
     return(
         <>
-            <div className={useLocation().pathname === "/" ? "" : "off-set"}></div>
+            <div className={useLocation().pathname === "/" ? "ham-offset" : "off-set ham-offset"}></div>
             <div className="navbar">
                 <ul className="nav-links" style={hasScrolled ? scrolledStyle : {}}>
                     <Link className="logo" to="/"><img src={Logo} alt="Lowell Student Association" /></Link>

@@ -158,7 +158,7 @@ export default function Club(props){
     
     
     return(
-        <>
+        <section>
 
             <div className="club-info">
                 <img src={clubData.Banner} alt="Club Banner" />
@@ -178,6 +178,6 @@ export default function Club(props){
                 </GlowCapture>
             </div>
            
-        </>
+        </section>
     )
 }

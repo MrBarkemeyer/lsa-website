@@ -169,7 +169,7 @@
   width: 100vw;
   position: fixed;
   top: inherit;
-  padding: 0 15%;
+  padding: 2rem 15% 2rem 15%;
   font-weight: normal;
   border-radius: 0;
   gap: 10px;
@@ -622,7 +622,7 @@
   border-left: 3px solid teal;
   width: 100%;
   color: inherit;
-  padding-right: 10px;
+  /* padding-right: 10px; */
   /* display: none; */
 }
 .ham-dropdowns a{
@@ -716,6 +716,9 @@
   .off-set{
     height: 0;
   }
+  .ham-offset{
+    height: 164px;
+  }
   .nav-links{
     display: none;
   }
@@ -727,7 +730,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    position: fixed;
+    position: absolute;
+    top: 0;
   }
   .hamburger-nav{
     display: flex !important;
@@ -739,6 +743,9 @@
   }
 }
 @media (max-width: 700px){
+  p{
+    font-size: 1.1rem;
+  }
   .pdf{
     height: 400px;
   }
