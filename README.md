@@ -1,6 +1,9 @@
 Work in Progress
 
-The following are the Dependencies for the project(libraries used)
+# Project is built with vite React.
+
+
+# The following are the Dependencies for the project(libraries used)
 
 
 to fork the project, install either node package manager(npm) to install packages.
