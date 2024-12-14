@@ -154,22 +154,27 @@ export default function Navbar(props){
                 {
                     name: "The Lowell (Journalism)",
                     to: "https://thelowell.org/",
+                    directLink: "true",
                 },
                 {
                     name: "VIDEO LOWELL",
                     to: "https://www.youtube.com/channel/UCQHQSnxqQIfYs8AjS8FXfvw",
+                    directLink: "true",
                 },
                 {
                     name: "CSF Tutoring",
                     to: "https://lowellcsf.weebly.com/",
+                    directLink: "true",
                 },
                 {
                     name: "JROTC",
                     to: "https://www.sfbrigade.org/home-of-the-cardinals.html",
+                    directLink: "true",
                 },
                 {
                     name: "Peer Resources",
                     to: "https://lhspeermentoring.weebly.com/",
+                    directLink: "true",
                 },
                 {
                     name: "Mock Trial",
@@ -181,10 +186,12 @@ export default function Navbar(props){
                 {
                     name: "Science Research Program",
                     to: "https://sites.google.com/view/lowellscienceresearch/home?authuser=0",
+                    directLink: "true",
                 },
                 {
                     name: "CardinalBotics",
                     to: "https://www.team4159.org/",
+                    directLink: "true",
                 },
                 {
                     name: "Shield and Scroll",
@@ -202,7 +209,7 @@ export default function Navbar(props){
             id: 4,
         },
         {
-            name: "CLUBS AND SPORTS",
+            name: "CLUBS",
             hasDropDown: true,
             bigSubLink: true,
             icon: faUsers,
@@ -360,7 +367,8 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "Archives",
-                    to: "http://www.lowellstudentassociation.org/archives.html"
+                    to: "http://www.lowellstudentassociation.org/archives.html",
+                    directLink: "true",
                 },
                 {
                     name: "Freshmen Corner",
@@ -398,7 +406,7 @@ export default function Navbar(props){
                         {subLinks.map((subLink, index) =>{
                             return(
                                 <li className="dropdown relative" key={index}>
-                                    <Link className="link" to={`${to}/${subLink.to}`}>{subLink.name} {subLink.hasDropDown ? 
+                                    <Link className="link" to={subLink.directLink ? `${subLink.to}` : `${to}/${subLink.to}`}>{subLink.name} {subLink.hasDropDown ? 
                                     <FontAwesomeIcon icon={faCaretRight} className="dropdown-icon right-caret" /> : ""}</Link>
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
@@ -485,7 +493,7 @@ export default function Navbar(props){
                                 >
                                     <Link
                                         className="link flex-between"
-                                        to={`${to}/${subLink.to}`}
+                                        to={subLink.directLink ? `${subLink.to}` : `${to}/${subLink.to}`}
                                         onClick={() => toggleChildDropdown(id, index)}
                                     >
                                         {subLink.name}

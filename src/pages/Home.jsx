@@ -3,6 +3,13 @@ import HeroVideo from "../assets/Hero-Video.mp4"
 import {useEffect, useState, useRef} from "react"
 import Counter from "../components/Counter"
 import {Link} from "react-router-dom"
+import SeniorBoard from "../assets/SeniorBoard.jpeg"
+import JuniorBoard from "../assets/JuniorBoard.jpeg"
+import SophomoreBoard from "../assets/SophomoreBoard.jpeg"
+import bannerImg from "../assets/Hero-img.jpg"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAnglesDown } from "@fortawesome/free-solid-svg-icons"
+
 export default function Home(){
     
     // useRef to keep track of the dom element
@@ -13,7 +20,33 @@ export default function Home(){
     // keep track of the element, and observe the element using the observe method
 
     const boardRefs = useRef([]);
-
+    const boardImg = [
+        SBCImg, SeniorBoard, JuniorBoard, SophomoreBoard,
+    ]
+    //board style in order of
+    //SBC -> SENIOR -> JUNIOR -> SOPHOMORE -> FRESHMEN 
+    //with corresponding board color 
+    const boardStyle = [{
+            color: "black",
+            background: "white",
+        },
+        {
+            color: "white",
+            background: "#861212", //lowell-red
+        },
+        {
+            color: "white",
+            background: "#3498eb",
+        },
+        {
+            color: "white",
+            background: "#8273da",
+        },
+        {
+            color: "white",
+            background: "#508d24",
+        }
+    ]
     const boardArr = [
         {
             title: "We Transform the School Experience",
@@ -58,10 +91,11 @@ export default function Home(){
         return(
             
         <section
-        className={`${index % 2 === 1 ? "flex-row-reverse" : ""} lsa-boards`}
-        ref={(el) => (boardRefs.current[index] = el)}
-        data-index={index}
-        key={index}
+            className={`${index % 2 === 1 ? "flex-row-reverse" : ""} lsa-boards`}
+            ref={(el) => (boardRefs.current[index] = el)}
+            data-index={index}
+            key={index}
+            style = {boardStyle[index]}
         >
         <div
             className={`board-description ${
@@ -82,7 +116,7 @@ export default function Home(){
                 : "to-left"
                 : ""
             }`}><img
-            src={board.image}
+            src={boardImg[index]}
         />
         </figure>
         </section>
@@ -117,13 +151,18 @@ export default function Home(){
         <>
             <video autoPlay loop muted playsInline controls={false} src={HeroVideo} className="hero-video" >
             </video>
+            <FontAwesomeIcon icon={faAnglesDown} beatFade className="scroll-icon"/>
             <div className="lsa-description center">
                 <h1>Welcome to the Lowell Student Association!</h1>
                 <p className="padding-1rem">LSA is the umbrella term for Lowell's student government or all the boards, which includes the Student Body Council, and class boards representing the Senior, Junior, Sophomore, and Freshmen classes.</p>
             </div>
+            <div className="vl-head">
+                <div className="vl"></div>
+            </div>
+            <h1 className="center">We connect with</h1>
             <div className="stats">
                 <div className="center">
-                    <Counter start={0} end={3000} duration = {2000}/>
+                    <Counter start={0} end={2500} duration = {2000}/>
                     <p>Students</p>
                 </div>
                 <div className="center">

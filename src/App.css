@@ -41,7 +41,14 @@
   z-index: 2;
   top: 0;
   /* position: relative; */
+}
 
+.scroll-icon{
+  position: absolute;
+  font-size: 2.2rem;
+  bottom: 10px;
+  right: 50%;
+  color: white;
 }
 .hero-video{
   width: 100%;
@@ -50,6 +57,7 @@
   object-position: 50% 50%;
   display: block;
   position: relative;
+  border: none;
 }
 .iframe{
   border: none;
@@ -60,13 +68,13 @@
   height: 100px;
   width: 1px;
   display: block;
-  top: -100px;
-  background: linear-gradient(to bottom, transparent, var(--lowell-red));
+  top: 400px;
+  background: linear-gradient(to bottom, transparent, black);
 }
 .vl{
   width: 0.5px;
   height: 330vh;
-  background: var(--lowell-red);
+  background: black;
   position: absolute;
   display: block;
   top: 100%;
@@ -81,14 +89,14 @@
 }
 .board-description{
   visibility: hidden;
-  padding: 1rem;
-  width: 50%;
+  padding: 3rem;
+  width: 45%;
 }
 .board-description h1{
   margin-bottom: 2rem;
 }
 .board-image{
-  width: 50%;
+  width: 45%;
   padding: 2rem;
   object-fit: contain;
   visibility: hidden;
@@ -481,7 +489,7 @@
 }
 .lsa-description{
   max-width: 800px;
-  margin: 100px auto;
+  margin: 100px auto 0 auto;
 }
 .lsa-description h1{
   padding: 1rem;
@@ -673,7 +681,7 @@
   width: 100%;
 }
 .hamburger-button, .hamburger-button2{
-  font-size: 3rem;
+  font-size: 2rem;
   color: var(--lowell-red);
 }
 .hamburger-button2{
@@ -849,6 +857,9 @@
   .stats{
     padding: 0.5rem;
   }
+  .vl-head, .vl{
+    display: none;
+  }
 }
 @media (max-width: 700px){
   p{
@@ -872,5 +883,10 @@
   }
   .club-officers, .meeting-times{
     padding: 1rem;
+  }
+  .stats{
+    max-width: none;
+    width: 100vw;
+    margin: 0;
   }
 }
