@@ -1,4 +1,4 @@
-Work in Progress
+# Work in Progress
 
 # Project is built with vite React.
 
@@ -6,7 +6,7 @@ Work in Progress
 # The following are the Dependencies for the project(libraries used)
 
 
-to fork the project, install either node package manager(npm) to install packages.
+to fork the project, install node package manager(npm) to install packages.
 Then run command npm i "the name of the package"
 
 Skip "react" and "react-dom"
