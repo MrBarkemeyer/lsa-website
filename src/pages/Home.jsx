@@ -1,155 +1,141 @@
-import HeroImg from "../assets/Hero-img.jpg"
-import StudentBanner from "../assets/student-banner.jpg"
-import VoteBanner from "../assets/Vote-banner.jpg"
-import LinkImage1 from "../assets/Student-Events-Activities.png"
-import LinkImage2 from "../assets/Our-150+-Student-Clubs.png"
-import LinkImage3 from "../assets/Free-Wellness-Resources.png"
-import PrincipalPDF from "../assets/PrincipalPDF.pdf"
-import { Link } from "react-router-dom"
+import SBCImg from "../assets/SBC.jpeg"
 import HeroVideo from "../assets/Hero-Video.mp4"
-import {useEffect, useState} from "react"
+import {useEffect, useState, useRef} from "react"
+import Counter from "../components/Counter"
+import {Link} from "react-router-dom"
 export default function Home(){
+    
+    // useRef to keep track of the dom element
+    // useState gives a variable to keep track of, if it is intersecting
+    // useEffect to keep track of function calls outside of rendering
+    // uses a callback function to instanciate the intersection observer api
+    // intersection observer api takes in an entries that gives us the ability to 
+    // keep track of the element, and observe the element using the observe method
 
+    const boardRefs = useRef([]);
 
-    // const classBoards = [
-    //     {
-    //         year: "2024-2025",
-    //         name: "STUDENT BODY COUNCIL",
-    //         id: 1,
-    //     },
-    //     {
-    //         year: "LOWELL 2025",
-    //         name: "SENIOR CLASS BOARD",
-    //         id: 2,
-    //     },
-    //     {
-    //         year: "LOWELL 2026",
-    //         name: "JUNIOR CLASS BOARD",
-    //         id: 3,
-    //     },
-    //     {
-    //         year: "LOWELL 2027",
-    //         name: "SOPHOMORE CLASS BOARD",
-    //         id: 4,
-    //     },
-    //     {
-    //         year: "LOWELL 2028",
-    //         name: "SOPHOMORE CLASS BOARD",
-    //         id: 5,
-    //     },
-    //     {
-    //         year: "2024-2025",
-    //         name: "DIRECTOR OF STUDENT ACTIVITIES",
-    //         id: 6,
-    //     }
-    // ]
-    const newsCorner = [
+    const boardArr = [
         {
-            name: "All Grades:",
-            news: "",
-            color: "#861212",
-            id: 1,
+            title: "We Transform the School Experience",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            image: SBCImg,
+            buttonName: "SBC",
         },
         {
-            name: "Seniors:",
-            news: "",
-            color: "orange",
-            id: 2,
+            title: "We Transform the School Experience",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            image: SBCImg,
+            buttonName: "Senior Board",
         },
         {
-            name: "Juniors:",
-            news: "",
-            color: "lightskyblue",
-            id: 3,
+            title: "We Transform the School Experience",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            image: SBCImg,
+            buttonName: "Junior Board",
         },
         {
-            name: "Sophomores:",
-            news: "",
-            color: "purple",
-            id: 4,
+            title: "We Transform the School Experience",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            image: SBCImg,
+            buttonName: "Sophomore Board",
         },
         {
-            name: "Freshmen",
-            news: "",
-            color: "green",
-            id: 5,
-        }
-    ]
-    const displayNewsCorner = newsCorner.map(element=>{
-        const {name, news, color, id} = element
+            title: "We Transform the School Experience",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            image: SBCImg,
+            buttonName: "Sophomore Board",
+        },
+    ];
+    const [isVisible, setIsVisible] = useState(new Array(boardArr.length).fill(
+        false,
+    ));
+
+    const displayBoards = boardArr.map((board, index)=>{
+        //loop through the boardArr to display the boards
+        //because the useRef has multiple objects in the array, we 
+        //need to give the reference through our index
+
         return(
-            <div className="news-corner" style={{color: color}} key={id}>
-                {name} {news}
-            </div>
+            
+        <section
+        className={`${index % 2 === 1 ? "flex-row-reverse" : ""} lsa-boards`}
+        ref={(el) => (boardRefs.current[index] = el)}
+        data-index={index}
+        key={index}
+        >
+        <div
+            className={`board-description ${
+            isVisible[index]
+                ? index % 2 === 1
+                ? "to-left"
+                : "to-right"
+                : ""
+            }`}
+        >
+            <h1>{board.title}</h1>
+            <p>{board.description}</p>
+        </div>
+        <figure className={`board-image ${
+            isVisible[index]
+                ? index % 2 === 1
+                ? "to-right"
+                : "to-left"
+                : ""
+            }`}><img
+            src={board.image}
+        />
+        </figure>
+        </section>
         )
     })
-    // const displayClassboards = classBoards.map(classBoard =>{
-    //     const {year, name, id} = classBoard;
-    //     return(
-    //         <Link className="black" key={id}>
-    //             <div className="class-board flex-center">
-    //                 <p>{year}</p> <br />
-    //                 <span className="bold">{name}</span>
-    //             </div>
-    //         </Link>
-    //     )
-    // })
+    useEffect(()=>{
+        //set isInvisible with the corresponding index that
+        //is intersecting the bottom of the page
+        //if so, set it to true
+        const observer = new IntersectionObserver((entries)=>{
+            entries.forEach(entry => {
+                const index = entry.target.dataset.index;
+                if (entry.isIntersecting) {
+                    setIsVisible((prevState) => {
+                      const newState = [...prevState];
+                      newState[index] = true;
+                      return newState;
+                    });
+                  }
+            });
+        }, {
+            // requires 30% the section to show up before it animate
+            threshold: 0.3
+        })
+        //observe individual ref
+        boardRefs.current.forEach((ref) => {
+            if (ref) observer.observe(ref);
+          });
+    }, []);
+
     return(
         <>
-            {/* <figure>
-                <img src={HeroImg} alt="Lowell High School" className="hero-image relative" />
-                <video control autoplay src={HeroVideo} muted className="hero-video"/>
-            </figure> */}
-            <video autoPlay loop muted playsInline controls={false} src={HeroVideo} className="hero-video"></video>
-            <div className="hero-texts">
-                <p className="hero-title">Welcome to the <br />
-                    <span className="bold">Lowell Student Association!</span></p>
-                <p className="hero-description">LSA is the umbrella term for Lowell's student government or all the boards, which includes the Student Body Council, and class boards representing the Senior, Junior, Sophomore, and Freshmen classes.</p>
+            <video autoPlay loop muted playsInline controls={false} src={HeroVideo} className="hero-video" >
+            </video>
+            <div className="lsa-description center">
+                <h1>Welcome to the Lowell Student Association!</h1>
+                <p className="padding-1rem">LSA is the umbrella term for Lowell's student government or all the boards, which includes the Student Body Council, and class boards representing the Senior, Junior, Sophomore, and Freshmen classes.</p>
             </div>
-            <figure className="vote-banner relative">
-                <img src={VoteBanner} alt="vote-banner" className="banner" />
-                <figcaption className="absolute-center">
-                    <h1>2024-25 LSA/SBC</h1>
-                    <p>Results of the Spring 2024 election is released.</p>
-                    <Link className="white" to="Elections">Check out your officers HERE!</Link>
-                </figcaption>
-            </figure>
-            <div className="news-corner-container flex-center">
-                    <h1>News Corner:</h1>
-                    <object className="pdf" 
-                        data=
-                        {PrincipalPDF}
-                        >
-                    </object>
-            </div>
-            <div className="hero-links">
-                <Link><img src={LinkImage1} alt="Student Events & Activities" className="hero-link" /></Link>
-                <Link><img src={LinkImage2} alt="Our 150+ Student Clubs"  className="hero-link"/></Link>
-                <Link><img src={LinkImage3} alt="Free Wellness Resources"  className="hero-link"/></Link>
-            </div>
-            <div className="life-at-lowell">
-                <div className="title flex-center">
-                    <h2>WATCH: Student Life at Lowell High School</h2>
+            <div className="stats">
+                <div className="center">
+                    <Counter start={0} end={3000} duration = {2000}/>
+                    <p>Students</p>
                 </div>
-                <div className="preamble flex-center">
-                <p>“We, the students of Lowell High School, in order to maintain the Lowell community, to <br />
-                acknowledge and foster the diversity of needs, views, and rights of students at Lowell to <br />
-                express opinions and interests to the community on relevant issues regarding student life, to <br />
-                promote the educational welfare, and to enhance all benefits offered by the school and the <br />
-                San Francisco Unified School District, do hereby establish and ordain this Charter of the <br />
-                Lowell High School Student Association.”</p>
-                <br /><br />
-                <span className="bold">PREAMBLE OF THE CHARTER OF THE LOWELL STUDENT ASSOCIATION</span>
-                <p className="preamble-link-text">
-                The Lowell Student Association does its best to represent the general student population and follow a body of rules listed in our charter, which you can read <a>here</a>.</p>
+                <div className="center">
+                    <Counter start={0} end={150} duration = {2000}/>
+                    <p>Clubs</p>
+                </div>
+                <div className="center">
+                    <Counter start={0} end={9000} duration = {2000}/>
+                    <p>Alumni</p>
                 </div>
             </div>
-            <div className="banner">
-                <img src={StudentBanner} alt="student-banner" className="banner" />
-            </div>
-            {/* <div className="class-board-links">
-                {displayClassboards}
-            </div> */}
+            {displayBoards}
         </>
     )
 }

@@ -16,6 +16,8 @@ import Organization from './pages/Organizations/Organizations'
 import ScrollToTop from "./components/ScrollToTop";
 import SBC from './pages/About/SBC'
 
+//note to self - at the end of all this, create a jsx file with all the array
+//to be changed every year 
 
 function App() {
   const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";

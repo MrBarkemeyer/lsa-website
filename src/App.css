@@ -6,6 +6,9 @@
   margin: 1rem 0 1rem 0;
   
 }
+.padding-1rem{
+  padding: 1rem;
+}
 .off-set{
   height: 120px;
 }
@@ -45,6 +48,56 @@
   height: 100vh;
   object-fit: cover;
   object-position: 50% 50%;
+  display: block;
+  position: relative;
+}
+.iframe{
+  border: none;
+}
+.vl-head{
+  position: relative;
+  left: 50%;
+  height: 100px;
+  width: 1px;
+  display: block;
+  top: -100px;
+  background: linear-gradient(to bottom, transparent, var(--lowell-red));
+}
+.vl{
+  width: 0.5px;
+  height: 330vh;
+  background: var(--lowell-red);
+  position: absolute;
+  display: block;
+  top: 100%;
+  margin: 0px auto;
+}
+.lsa-boards{
+  padding: 5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 60px;
+}
+.board-description{
+  visibility: hidden;
+  padding: 1rem;
+  width: 50%;
+}
+.board-description h1{
+  margin-bottom: 2rem;
+}
+.board-image{
+  width: 50%;
+  padding: 2rem;
+  object-fit: contain;
+  visibility: hidden;
+}
+.board-image img{
+  width: 100%;
+}
+.flex-row-reverse{
+  flex-direction: row-reverse;
 }
 .link{
   display: block;
@@ -235,6 +288,7 @@
   max-width: 900px;
 }
 
+
 .absolute-center{
   position: absolute;
   color: white !important;
@@ -424,6 +478,35 @@
   margin-top: 1.5rem;
   margin-bottom: 2rem;
   gap: 20px;
+}
+.lsa-description{
+  max-width: 800px;
+  margin: 100px auto;
+}
+.lsa-description h1{
+  padding: 1rem;
+  font-weight: normal;
+}
+.stats{
+  max-width: 70vw;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+.stats h2{
+  color: var(--lowell-red);
+  font-size: 4.5rem;
+  font-weight: normal;
+}
+.stats p{
+  font-weight: bold;
+}
+.none{
+  display: none;
+}
+.shown{
+  display: block;
 }
 /* truck loading animation */
 .loader {
@@ -697,19 +780,6 @@
     transform: translateX(500px);
   }
 }
-/* @keyframes rotate180{
-  from{
-    transform: rotate(0deg);
-  }
-  to{
-    transform: rotate(180deg);
-  }
-}
-
-.rotate{
-  animation: rotate180 0.5s forwards;
-} */
-
 
 
 @media (max-width: 1300px){
@@ -736,10 +806,48 @@
   .hamburger-nav{
     display: flex !important;
   }
+  .board-description p{
+    font-size: 1.2rem;
+  }
+  .board-description h1{
+    font-size: 2rem;
+  }
 }
 @media (max-width: 1000px){
   .hero-video{
     height: 50vh;
+  }
+  .lsa-boards{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    gap: 10px;
+  }
+  .lsa h1{
+    text-align: center;
+  }
+  .board-description{
+    width: 90%;
+  }
+  .board-description h1{
+    text-align: center;
+  }
+  .board-image{
+    width: 90%;
+  }
+  .board-description p{
+    font-size: 1rem;
+  }
+
+  .stats h2{
+    font-size: 2.2rem;
+  }
+  .stats p{
+    font-size: 1rem;
+  }
+  .stats{
+    padding: 0.5rem;
   }
 }
 @media (max-width: 700px){

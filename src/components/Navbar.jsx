@@ -370,7 +370,7 @@ export default function Navbar(props){
                     name: "@lowellhs Instagram Feed",
                 },
                 {
-                    name: "Search",
+                    name: "About this site",
                 },
             ],
             id: 7,

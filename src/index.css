@@ -10,12 +10,13 @@
   margin: 0;
   font-family: var(--primary-font);
   scroll-behavior: smooth;
+  
 }
 a{
   text-decoration: none;
 }
 p{
-  /* font-family: serif; */
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 1.35rem;
 }
 li{
@@ -72,4 +73,44 @@ footer a, footer p{
 }
 section{
   padding: 1rem;
+}
+.to-right{
+  animation: transformRight 0.5s forwards ease;
+}
+.to-left{
+  animation: transformLeft 0.5s forwards ease;
+}
+.to-up{
+  animation: transformUp 0.6s forwards ease;
+}
+
+@keyframes transformRight{
+  from{
+    transform: translateX(-500px);
+    visibility: visible;
+  }
+  to{
+    transform: transLateX(0);
+    visibility: visible;
+  }
+}
+@keyframes transformLeft{
+  from{
+    transform: translateX(500px);
+    visibility: visible;
+  }
+  to{
+    transform: transLateX(0);
+    visibility: visible;
+  }
+}
+@keyframes transformUp{
+  from{
+    transform: translateY(500px);
+    visibility: visible;
+  }
+  to{
+    transform: transLateX(0);
+    visibility: visible;
+  }
 }
