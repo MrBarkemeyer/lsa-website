@@ -81,7 +81,20 @@
 .team-member-description, .team-member h2{
     padding: 1rem;
 }
-
+.dsa-image{
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+.dsa{
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-direction: column;
+}
 @media (max-width: 1000px){
     .team-member{
         flex-direction: column;

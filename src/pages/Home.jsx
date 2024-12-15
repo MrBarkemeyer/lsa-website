@@ -84,8 +84,6 @@ export default function Home(){
         //need to give the reference through our index
 
         return(
-        <GlowCapture>
-            <Glow color="red">
                 <section
                     className={`${index % 2 === 1 ? "flex-row-reverse" : ""} lsa-boards`}
                     ref={(el) => (boardRefs.current[index] = el)}
@@ -102,7 +100,11 @@ export default function Home(){
                     <h1 
                         style = {boardStyle[index]}
                     >{board.title}</h1>
-                    <p className="glowable-text">{board.description}</p>
+                        <GlowCapture>
+                            <Glow 
+                                color="red"><p className="glowable-text">{board.description}</p>
+                            </Glow>
+                        </GlowCapture> 
                 </div>
                 <figure className={`board-image ${
                     isVisible[index]
@@ -113,8 +115,6 @@ export default function Home(){
                     <figcaption><strong>{board.buttonName}</strong></figcaption>
                 </figure>
                 </section>
-            </Glow>
-        </GlowCapture> 
 
         )
     })
@@ -155,7 +155,7 @@ export default function Home(){
             {/* <div className="vl-head">
                 <div className="vl"></div>
             </div> */}
-            <h1 className="center">We connect with</h1>
+            <h2 className="center">We connect with</h2>
             <div className="stats">
                 <div className="center">
                     <Counter start={0} end={2500} duration = {2000}/>

@@ -22,6 +22,7 @@ export default function Club(props){
     
     if (!clubData) {
         // Show loading or fallback if data is not ready or no matching club found
+        // a nice truck animation I found online
         return (
         <>
             <div class="loader">

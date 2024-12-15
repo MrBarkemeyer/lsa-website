@@ -15,6 +15,8 @@ import AboutLSA from './pages/About/AboutLSA'
 import Organization from './pages/Organizations/Organizations'
 import ScrollToTop from "./components/ScrollToTop";
 import SBC from './pages/About/SBC'
+import DSA from './pages/About/DSA'
+
 
 //note to self - at the end of all this, create a jsx file with all the array
 //to be changed every year 
@@ -86,6 +88,7 @@ function App() {
             <Route path="LSA" element={<Outlet />}>
               <Route index element={<AboutLSA/>} />
               <Route path="SBC" element={<SBC officerData={officerData}/>} />
+              <Route path="DSA" element={<DSA />} />
             </Route>
 
             <Route path="Organizations" element = {<Outlet />}>

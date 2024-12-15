@@ -140,7 +140,8 @@ export default function Navbar(props){
                     to: "Charter",
                 },
                 {
-                    name: "Director of Student Activities"   
+                    name: "Director of Student Activities",
+                    to: "DSA"
                 }
             ],
             to: "/LSA",
