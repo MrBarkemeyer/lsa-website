@@ -29,7 +29,7 @@
 }
 .nav-links{
   position: fixed;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.3);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -71,6 +71,7 @@
   top: 400px;
   background: linear-gradient(to bottom, transparent, black);
 }
+
 .vl{
   width: 0.5px;
   height: 330vh;
@@ -80,31 +81,56 @@
   top: 100%;
   margin: 0px auto;
 }
-.lsa-boards{
-  padding: 5rem;
+.lsa-boards {
+  padding: 3rem 5%;
   display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  gap: 60px;
-}
-.board-description{
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 40px;
+  background-color: black; /* Soft background color for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   visibility: hidden;
-  padding: 3rem;
-  width: 45%;
 }
-.board-description h1{
-  margin-bottom: 2rem;
-}
-.board-image{
-  width: 45%;
+
+.board-description,
+.board-image {
+  width: 45%; /* Ensure balanced widths */
+  max-width: 500px;
+  flex: 1;
+  text-align: center;
   padding: 2rem;
-  object-fit: contain;
-  visibility: hidden;
+  background: white; /* Clean background for each item */
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Add light shadow */
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
 }
-.board-image img{
+
+.board-description:hover,
+.board-image:hover {
+  transform: translateY(-10px); /* Subtle lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Emphasize shadow */
+}
+
+.board-description h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.board-description p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.board-image img {
   width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
 }
-.flex-row-reverse{
+
+.flex-row-reverse {
   flex-direction: row-reverse;
 }
 .link{

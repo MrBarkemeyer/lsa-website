@@ -9,7 +9,7 @@ import SophomoreBoard from "../assets/SophomoreBoard.jpeg"
 import bannerImg from "../assets/Hero-img.jpg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAnglesDown } from "@fortawesome/free-solid-svg-icons"
-
+import { GlowCapture, Glow } from "@codaworks/react-glow";
 export default function Home(){
     
     // useRef to keep track of the dom element
@@ -27,57 +27,52 @@ export default function Home(){
     //SBC -> SENIOR -> JUNIOR -> SOPHOMORE -> FRESHMEN 
     //with corresponding board color 
     const boardStyle = [{
-            color: "black",
-            background: "white",
+            color: "#861212",
         },
         {
-            color: "white",
-            background: "#861212", //lowell-red
+            color: "#861212",
         },
         {
-            color: "white",
-            background: "#3498eb",
+            color: "#3498eb",
         },
         {
-            color: "white",
-            background: "#8273da",
+            color: "#8273da",
         },
         {
-            color: "white",
-            background: "#508d24",
+            color: "#508d24",
         }
     ]
     const boardArr = [
         {
             title: "We Transform the School Experience",
-            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente",
             image: SBCImg,
             buttonName: "SBC",
         },
         {
             title: "We Transform the School Experience",
-            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente",
             image: SBCImg,
             buttonName: "Senior Board",
         },
         {
             title: "We Transform the School Experience",
-            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente",
             image: SBCImg,
             buttonName: "Junior Board",
         },
         {
             title: "We Transform the School Experience",
-            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
+            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente",
             image: SBCImg,
             buttonName: "Sophomore Board",
         },
-        {
-            title: "We Transform the School Experience",
-            description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente, iusto consectetur impedit nihil at reiciendis suscipit quibusdam. Architecto recusandae eum fuga suscipit at nostrum cumque id amet iure in fugiat qui soluta, beatae asperiores quis inventore et, accusantium esse hic culpa. Itaque temporibus dolores fugit similique amet magnam sunt beatae commodi praesentium, minima nihil, accusantium, nisi expedita dolor voluptate quis illo nulla suscipit voluptates odit repellat vel asperiores? Eaque nesciunt dolorum laudantium.",
-            image: SBCImg,
-            buttonName: "Sophomore Board",
-        },
+        // {
+        //     title: "We Transform the School Experience",
+        //     description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nobis praesentium tempora quod nesciunt id doloribus vel quasi neque repellendus deleniti eius suscipit quam alias aliquam recusandae reprehenderit, corrupti nemo enim ex! Sit facilis quis deserunt modi atque voluptatibus rem ratione natus. Sapiente",
+        //     image: SBCImg,
+        //     buttonName: "Sophomore Board",
+        // },
     ];
     const [isVisible, setIsVisible] = useState(new Array(boardArr.length).fill(
         false,
@@ -89,37 +84,38 @@ export default function Home(){
         //need to give the reference through our index
 
         return(
-            
-        <section
-            className={`${index % 2 === 1 ? "flex-row-reverse" : ""} lsa-boards`}
-            ref={(el) => (boardRefs.current[index] = el)}
-            data-index={index}
-            key={index}
-            style = {boardStyle[index]}
-        >
-        <div
-            className={`board-description ${
-            isVisible[index]
-                ? index % 2 === 1
-                ? "to-left"
-                : "to-right"
-                : ""
-            }`}
-        >
-            <h1>{board.title}</h1>
-            <p>{board.description}</p>
-        </div>
-        <figure className={`board-image ${
-            isVisible[index]
-                ? index % 2 === 1
-                ? "to-right"
-                : "to-left"
-                : ""
-            }`}><img
-            src={boardImg[index]}
-        />
-        </figure>
-        </section>
+        <GlowCapture>
+            <Glow color="red">
+                <section
+                    className={`${index % 2 === 1 ? "flex-row-reverse" : ""} lsa-boards`}
+                    ref={(el) => (boardRefs.current[index] = el)}
+                    data-index={index}
+                    key={index}
+                >
+                <div
+                    className={`board-description ${
+                    isVisible[index]
+                        ? "to-up "
+                        : ""
+                    }`}
+                >
+                    <h1 
+                        style = {boardStyle[index]}
+                    >{board.title}</h1>
+                    <p className="glowable-text">{board.description}</p>
+                </div>
+                <figure className={`board-image ${
+                    isVisible[index]
+                    ? "to-up"
+                    : ""
+                    }`}>
+                    <img src={boardImg[index]}/>
+                    <figcaption><strong>{board.buttonName}</strong></figcaption>
+                </figure>
+                </section>
+            </Glow>
+        </GlowCapture> 
+
         )
     })
     useEffect(()=>{
@@ -139,7 +135,7 @@ export default function Home(){
             });
         }, {
             // requires 30% the section to show up before it animate
-            threshold: 0.3
+            threshold: 0.5
         })
         //observe individual ref
         boardRefs.current.forEach((ref) => {
@@ -156,9 +152,9 @@ export default function Home(){
                 <h1>Welcome to the Lowell Student Association!</h1>
                 <p className="padding-1rem">LSA is the umbrella term for Lowell's student government or all the boards, which includes the Student Body Council, and class boards representing the Senior, Junior, Sophomore, and Freshmen classes.</p>
             </div>
-            <div className="vl-head">
+            {/* <div className="vl-head">
                 <div className="vl"></div>
-            </div>
+            </div> */}
             <h1 className="center">We connect with</h1>
             <div className="stats">
                 <div className="center">
