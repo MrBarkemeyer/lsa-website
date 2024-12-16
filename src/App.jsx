@@ -22,10 +22,11 @@ import DSA from './pages/About/DSA'
 //to be changed every year 
 
 function App() {
-  const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
+
+    const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
     const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
-     const SHEET_NAME = "Form Responses 1"
-     const SHEET_NAME2 = "Officers"
+    const SHEET_NAME = "Form Responses 1"
+    const SHEET_NAME2 = "Officers"
     const [clubData, setClubData] = useState([]);
     const [officerData, setOfficerData] = useState([]);
 
@@ -58,8 +59,6 @@ function App() {
       }
       fetchData();
   }, []);
-
-
 
 
     function processSheetData(data) {

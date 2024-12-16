@@ -44,7 +44,6 @@ export default function Navbar(props){
         },
     ]);
     const [childDropdown, setChildDropdown] = useState({});
-    const location = useLocation().pathname;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -426,7 +425,7 @@ export default function Navbar(props){
                         {subLinks.map((subLink, index) =>{
                             return(
                                 <li className="big-dropdown relative" key={index}
-                                onClick={(event) => toggleBigSecondDropdown(index, event)}
+                                    onClick={(event) => toggleBigSecondDropdown(index, event)}
                                 >
                                     <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
                                     <FontAwesomeIcon icon={faCaretDown} className= "big-dropdown-icon right-caret" /> : ""}</Link>

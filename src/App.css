@@ -4,7 +4,6 @@
   justify-content: center;
   flex-direction: column;
   margin: 1rem 0 1rem 0;
-  
 }
 .padding-1rem{
   padding: 1rem;
@@ -29,7 +28,7 @@
 }
 .nav-links{
   position: fixed;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.7);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -58,28 +57,6 @@
   display: block;
   position: relative;
   border: none;
-}
-.iframe{
-  border: none;
-}
-.vl-head{
-  position: relative;
-  left: 50%;
-  height: 100px;
-  width: 1px;
-  display: block;
-  top: 400px;
-  background: linear-gradient(to bottom, transparent, black);
-}
-
-.vl{
-  width: 0.5px;
-  height: 330vh;
-  background: black;
-  position: absolute;
-  display: block;
-  top: 100%;
-  margin: 0px auto;
 }
 .lsa-boards {
   padding: 3rem 5%;
@@ -193,10 +170,6 @@
   height: 100%;
   padding: 10px;
 }
-.dropdowns li {
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-}
 .first-dropdowns{
   height: inherit;
   display: flex;
@@ -272,9 +245,6 @@
   background: white;
 }
 
-.dropdown:hover > .link, .big-dropdown:hover > .link {
-  color: black;
-}
 .hero-image{
   height: 400px;
   width: 100%;
@@ -300,50 +270,7 @@
   margin-top: 40px;
   font-size: 1.3rem;
 }
-.life-at-lowell-title{
-  width: 100%;
-  height: 171px;
-  background: var(--lowell-red);
-  color: white;
-  font-size: 1.3rem;
-}
-.preamble{
-  font-size: 1.3rem;
-  margin: 2rem auto 2rem auto;
-  flex-direction: column;
-  padding: 1rem;
-}
-.preamble > p:nth-child(1){
-  border-left: 5px solid gray;
-  padding-left: 1rem;
-}
-.preamble-link-text{
-  margin: 1.5rem 0 1.5rem 0;
-  max-width: 900px;
-}
 
-
-.absolute-center{
-  position: absolute;
-  color: white !important;
-  width: 100%;
-  text-align: center;
-  bottom: 0px;
-  height: 80%;
-  padding: 1rem;
-}
-
-.absolute-center > h1{
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-.absolute-center > *{
-  height: 20%;
-}
-.absolute-center > a{
-  padding: 1rem;
-  background: var(--lowell-red);
-}
 .class-board-links{
   background: var(--lowell-red);
   display: flex;
@@ -363,21 +290,6 @@
   align-items: start;
   padding: 1rem;
   border-radius: 1rem;
-}
-.news-corner-container{
-  background-color: var(--lowell-red);
-  flex-direction: column;
-  padding: 50px;
-  margin: 0 auto;
-  display: flex;
-  align-items: start;
-  flex-direction: column;
-  gap: 30px;
-  color: white;
-}
-.news-corner-container > h1{
-  width: 100%;
-  text-align: center;
 }
 .pdf{
   margin: 0 auto;
@@ -427,7 +339,6 @@
   margin: 20px auto;
   border-radius: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-  transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
 .election-outer-container:hover {
@@ -483,7 +394,6 @@
   display: block;
   padding: 10px 15px; 
   text-decoration: none; 
-  transition: background 0.1s ease, color 0.3s ease;
 }
 
 
@@ -491,7 +401,9 @@
   background: white;
   color: black !important;
 }
-
+.dropdown:hover > .link, .big-dropdown:hover > .link {
+  color: black;
+}
 
 .second-dropdowns a:last-child {
   border-bottom-right-radius: 30px;
@@ -800,9 +712,7 @@
   font-weight: normal;
   height: 31px;
 }
-.ham-first-dropdowns, .dropdown, .big-dropdown {
-  transition: margin-bottom 0.3s ease;
-}
+
 .right{
   animation: right 0.3s forwards;
 }
@@ -900,9 +810,6 @@
   }
   .stats{
     padding: 0.5rem;
-  }
-  .vl-head, .vl{
-    display: none;
   }
 }
 @media (max-width: 700px){

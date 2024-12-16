@@ -6,7 +6,6 @@ import {Link} from "react-router-dom"
 import SeniorBoard from "../assets/SeniorBoard.jpeg"
 import JuniorBoard from "../assets/JuniorBoard.jpeg"
 import SophomoreBoard from "../assets/SophomoreBoard.jpeg"
-import bannerImg from "../assets/Hero-img.jpg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAnglesDown } from "@fortawesome/free-solid-svg-icons"
 import { GlowCapture, Glow } from "@codaworks/react-glow";
@@ -152,9 +151,6 @@ export default function Home(){
                 <h1>Welcome to the Lowell Student Association!</h1>
                 <p className="padding-1rem">LSA is the umbrella term for Lowell's student government or all the boards, which includes the Student Body Council, and class boards representing the Senior, Junior, Sophomore, and Freshmen classes.</p>
             </div>
-            {/* <div className="vl-head">
-                <div className="vl"></div>
-            </div> */}
             <h2 className="center">We connect with</h2>
             <div className="stats">
                 <div className="center">
