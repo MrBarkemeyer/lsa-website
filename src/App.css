@@ -41,6 +41,12 @@
   top: 0;
   /* position: relative; */
 }
+.nav-links img{
+  margin-right: 100px;
+}
+.nav-links div:last-child{
+  margin-right: 50px;
+}
 
 .scroll-icon{
   position: absolute;
@@ -477,7 +483,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 66vh;
+  min-height: 76vh;
 }
 
 .truckWrapper {

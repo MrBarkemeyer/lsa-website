@@ -56,10 +56,30 @@ h3{
 footer{
   height: 100px;
   color: white;
-  background: gray;
+  background: var(--lowell-red);
 }
-footer a, footer p{
-  color: inherit;
+footer div{
+  width: 400px;
+  display: flex;
+  justify-content: space-evenly;
+}
+footer a{
+  color: white;
+}
+footer a:nth-child(1):hover{
+  border-radius: 10px;
+  background: radial-gradient(circle farthest-corner at 35% 90%, #fec564, transparent 50%), radial-gradient(circle farthest-corner at 0 140%, #fec564, transparent 50%), radial-gradient(ellipse farthest-corner at 0 -25%, #5258cf, transparent 50%), radial-gradient(ellipse farthest-corner at 20% -50%, #5258cf, transparent 50%), radial-gradient(ellipse farthest-corner at 100% 0, #893dc2, transparent 50%), radial-gradient(ellipse farthest-corner at 60% -20%, #893dc2, transparent 50%), radial-gradient(ellipse farthest-corner at 100% 100%, #d9317a, transparent), linear-gradient(#6559ca, #bc318f 30%, #e33f5f 50%, #f77638 70%, #fec66d 100%);
+}
+footer a:nth-child(2):hover{
+  border-radius: 100%;
+  color: #1877F2;
+}
+footer a:nth-child(3):hover{
+  color: black;
+}
+.footer-icon{
+  font-size: 2.5rem;
+  cursor: pointer;
 }
 .ml-16{
   margin-left: 4rem;
