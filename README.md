@@ -1,9 +1,9 @@
-# Work in Progress
+## Work in Progress
 
 <p> Project is built with vite React. </p>
 <p> React for Frontend, Google Sheet for Backend</p>
 
-# The following are the Dependencies for the project(libraries used)
+## Want to contribute?
 
 
 Fork the project on vsCode, install node package manager(npm) to install packages. <br />
