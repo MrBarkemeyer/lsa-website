@@ -23,6 +23,12 @@ export default function SBC(props){
         )
     })
 
+    if (!officerData) {
+        return (
+            <LoadingTruck />
+        )
+    }
+        
 
     return(
         <>

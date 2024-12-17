@@ -89,13 +89,13 @@ export default function Home(){
                     data-index={index}
                     key={index}
                 >
-                <div
-                    className={`board-description ${
-                    isVisible[index]
-                        ? "to-up "
-                        : ""
-                    }`}
-                >
+                    <div
+                        className={`board-description ${
+                        isVisible[index]
+                            ? "to-up "
+                            : ""
+                        }`}
+                    >
                     <h1 
                         style = {boardStyle[index]}
                     >{board.title}</h1>
@@ -105,14 +105,13 @@ export default function Home(){
                             </Glow>
                         </GlowCapture> 
                 </div>
-                <figure className={`board-image ${
-                    isVisible[index]
-                    ? "to-up"
-                    : ""
-                    }`}>
-                    <img src={boardImg[index]}/>
-                    <figcaption><strong>{board.buttonName}</strong></figcaption>
-                </figure>
+                    <figure className={`board-image ${
+                        isVisible[index]
+                        && "to-up"
+                        }`}>
+                        <img src={boardImg[index]}/>
+                        <figcaption><strong>{board.buttonName}</strong></figcaption>
+                    </figure>
                 </section>
 
         )

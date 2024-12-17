@@ -106,12 +106,15 @@ export default function Navbar(props){
                 },
                 {
                     name: "2025 Senior Board",
+                    to: "SeniorBoard",
                 },
                 {
                     name: "2026 Junior Board",
+                    to: "JuniorBoard",
                 },
                 {
-                    name: "2027 Sophomore Board"
+                    name: "2027 Sophomore Board",
+                    to: "SophomoreBoard",
                 },
                 {
                     name: "Committees",
@@ -178,10 +181,11 @@ export default function Navbar(props){
                 },
                 {
                     name: "Mock Trial",
-
+                    to: "MockTrial",
                 },
                 {
                     name: "Forensic Society (Speech & Debate)",
+                    to: "Forensic"
                 },
                 {
                     name: "Science Research Program",
@@ -195,13 +199,15 @@ export default function Navbar(props){
                 },
                 {
                     name: "Shield and Scroll",
-
+                    to: "SAS",
                 },
                 {
                     name: "Song",
+                    to: "Song",
                 },
                 {
                     name: "Student Advisory Council",
+                    to: "SAC",
                 }
 
             ],
@@ -379,6 +385,7 @@ export default function Navbar(props){
                 },
                 {
                     name: "About this site",
+                    to: "AboutSite",
                 },
             ],
             id: 7,

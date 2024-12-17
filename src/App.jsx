@@ -16,7 +16,8 @@ import Organization from './pages/Organizations/Organizations'
 import ScrollToTop from "./components/ScrollToTop";
 import SBC from './pages/About/SBC'
 import DSA from './pages/About/DSA'
-
+import ClassBoard from "./pages/About/ClassBoard"
+import Site from './pages/More/Site'
 
 //note to self - at the end of all this, create a jsx file with all the array
 //to be changed every year 
@@ -64,13 +65,13 @@ function App() {
     function processSheetData(data) {
         if (!data || data.length === 0) return [];
     
-        const headers = data[0]; // First row as headers
-        const rows = data.slice(1); // Rest as data rows
+        const headers = data[0]; 
+        const rows = data.slice(1);
     
         return rows.map(row => {
             const obj = {};
             headers.forEach((header, index) => {
-                obj[header] = row[index] || ""; // Safeguard against undefined values
+                obj[header] = row[index] || "";
             });
             return obj;
         });
@@ -87,7 +88,9 @@ function App() {
             <Route path="LSA" element={<Outlet />}>
               <Route index element={<AboutLSA/>} />
               <Route path="SBC" element={<SBC officerData={officerData}/>} />
+              <Route path=":BoardName" element={<ClassBoard officerData={officerData}/>} />
               <Route path="DSA" element={<DSA />} />
+              <Route path="Charter" element={<Charter />}/>
             </Route>
 
             <Route path="Organizations" element = {<Outlet />}>
@@ -104,11 +107,9 @@ function App() {
               <Route path="Wellness" element={<Wellness />} />
               <Route path="TitleIX" element = {<TitleIX />} />
             </Route>
-
-              <Route path="FreshmenCorner" element= {<FreshMenCorner />} />
-              <Route path="LSA" element={<Outlet />}>
-                <Route path="Charter" element={<Charter />}/>
-              </Route>
+            
+            <Route path="FreshmenCorner" element= {<FreshMenCorner />} />
+            <Route path="AboutSite" element={<Site />} />
           </Route>
         </Routes>
       </Router>

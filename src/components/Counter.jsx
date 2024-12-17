@@ -11,7 +11,7 @@ export default function Counter({ start = 0, end = 100, duration = 2000 }) {
         const entry = entries[0];
         setStatState(entry.isIntersecting);
       },
-      { threshold: 0.3 } // Trigger when at least 10% of the element is visible
+      { threshold: 0.3 } // Trigger when at least 30% of the element is visible
     );
 
     if (statsRef.current) {
