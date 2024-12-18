@@ -47,7 +47,9 @@
 .nav-links div:last-child{
   margin-right: 20px;
 }
-
+.ham-first-dropdowns, .dropdown, .big-dropdown {
+  transition: margin-bottom 0.3s ease;
+}
 .scroll-icon{
   position: absolute;
   font-size: 2.2rem;
@@ -668,7 +670,7 @@
   position: absolute;
   z-index: 1;
   top: 50px;
-  left: 30px;
+  left: 20px;
   border-left: 3px solid teal;
   width: 100%;
   color: inherit;
@@ -682,9 +684,10 @@
 
 .hamburger-nav{
   position: fixed;
-  width: 380px;
+  width: 100vw;
+  max-width: 700px;
   margin: 0 auto;
-  right: 2%;
+  right: 0%;
   top: 2%;
   background: #ffffff;
   height: 95%;
@@ -731,7 +734,7 @@
 
 @keyframes left{
   from{
-    transform: translateX(500px);
+    transform: translateX(100vw);
   }
   to{
     transform: translateX(0px);
@@ -742,7 +745,7 @@
     transform: translateX(0);
   }
   to{
-    transform: translateX(500px);
+    transform: translateX(100vw);
   }
 }
 

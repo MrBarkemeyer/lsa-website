@@ -98,6 +98,15 @@ button:active {
 .margin-1rem{
     margin: 0 1rem 1rem 1rem;
 }
+.club-banner{
+    display: block;      
+    background: #000;
+    border: none;
+    height: 30vh;   
+    width: 100vw;
+}
+
+
 
 @media (max-width: 700px){
     .filter-button{

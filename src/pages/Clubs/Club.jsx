@@ -4,6 +4,8 @@ import { GlowCapture, Glow } from "@codaworks/react-glow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import LoadingTruck from "../../components/LoadingTruck"
+import "../Clubs/Club.css"
+
 export default function Club(props){
     const params = useParams().ClubName;
     const [clubName, setClubName] = useState(params);
@@ -25,14 +27,19 @@ export default function Club(props){
             <LoadingTruck />
         )
     }
-    
+    function extractFileId(driveUrl) {
+        const match = driveUrl.match(/[?&]id=([^&]+)/);
+        return match ? match[1] : null; // Return the file ID if matched, otherwise null
+    }
     
     return(
         <section>
 
             <div className="club-info">
-                <img src={clubData.Banner} alt="Club Banner" />
-                <h1 className="club-name">{clubName}</h1>
+            {clubData.Banner && <iframe src={`https://drive.google.com/file/d/${extractFileId(clubData.Banner)}/preview?modestbranding=1&rel=0`} width="640" className="club-banner"></iframe>}
+                <h1 className="club-name">
+                    {clubName}
+                </h1>
                 <p className="club-description">{clubData.ClubDescription}</p>
                 <p className="meeting-times"><strong>Meetings: </strong>We meet every {clubData.MeetingDays} {clubData.Weekly} at {clubData.MeetingPlaceTime}</p>
             </div>
