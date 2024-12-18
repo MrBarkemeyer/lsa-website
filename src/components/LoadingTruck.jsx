@@ -1,4 +1,7 @@
 export default function LoadingTruck(){
+
+    //A loading Truck Component for load times
+
     return(
         <>
             <div className="loader">

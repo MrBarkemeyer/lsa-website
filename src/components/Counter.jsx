@@ -5,6 +5,7 @@ export default function Counter({ start = 0, end = 100, duration = 2000 }) {
   const [statState, setStatState] = useState(false);
   const statsRef = useRef(null);
 
+  //A number counter Component
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {

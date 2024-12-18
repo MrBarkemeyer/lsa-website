@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGithub, faInstagram, faFacebook } from "@fortawesome/free-brands-svg-icons"
 export default function Footer(){
+    //Footer
     return(
         <>
             <footer className="flex-center">

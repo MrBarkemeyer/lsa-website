@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {faCaretUp, faPlus, faMinus, faBars, faXmark, faCaretDown, faHouse, faCheckToSlot, faBook, faUser, faUsers, faThumbTack, faThumbsUp, faCaretRight} from "@fortawesome/free-solid-svg-icons"
 import {useState, useEffect} from "react"
 
+
+//Navigation bar/hamburger menu, DO NOT TOUCH!!!!
+
 export default function Navbar(props){
     const [hasScrolled, setHasScrolled] = useState(false);
     const [hamburger, setHamburger] = useState(false);
