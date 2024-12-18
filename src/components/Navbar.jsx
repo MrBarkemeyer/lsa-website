@@ -122,6 +122,7 @@ export default function Navbar(props){
                 {
                     name: "Committees",
                     hasDropDown: true,
+                    to: "Commitees",
                     subLinks2: [
                         {
                             name: "Spirit Committees",

@@ -95,6 +95,27 @@
     gap: 30px;
     flex-direction: column;
 }
+.committees{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-direction: column;
+    max-width: 912px;
+    margin: 0 auto;
+    padding: 3rem;
+}
+.committee-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 80vw;
+    margin: 0 auto;
+}
+
+
 @media (max-width: 1000px){
     .team-member{
         flex-direction: column;

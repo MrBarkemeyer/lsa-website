@@ -592,6 +592,9 @@
   height: 50px;
   color: white;
   font-size: 1.4rem;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
 }
 .link-button:active{
   background: white;

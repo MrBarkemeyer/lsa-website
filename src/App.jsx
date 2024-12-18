@@ -18,6 +18,7 @@ import SBC from './pages/About/SBC'
 import DSA from './pages/About/DSA'
 import ClassBoard from "./pages/About/ClassBoard"
 import Site from './pages/More/Site'
+import Committees from './pages/About/Committees'
 
 //note to self - at the end of all this, create a jsx file with all the array
 //to be changed every year 
@@ -91,6 +92,10 @@ function App() {
               <Route path=":BoardName" element={<ClassBoard officerData={officerData}/>} />
               <Route path="DSA" element={<DSA />} />
               <Route path="Charter" element={<Charter />}/>
+              <Route path="Commitees" element={<Outlet />}>
+                <Route index element={<Committees />} />
+                
+              </Route>
             </Route>
 
             <Route path="Organizations" element = {<Outlet />}>
