@@ -165,6 +165,16 @@ export default function Home(){
                     <p>Alumni</p>
                 </div>
             </div>
+            <div className="preamble flex-center">
+                <p>“We, the students of Lowell High School, in order to maintain the Lowell community, to <br />
+                acknowledge and foster the diversity of needs, views, and rights of students at Lowell to <br />
+                express opinions and interests to the community on relevant issues regarding student life, to <br />
+                promote the educational welfare, and to enhance all benefits offered by the school and the <br />
+                San Francisco Unified School District, do hereby establish and ordain this Charter of the <br />
+                Lowell High School Student Association.”</p>
+                <br /><br />
+                <span className="bold">PREAMBLE OF THE CHARTER OF THE LOWELL STUDENT ASSOCIATION</span>
+            </div>
             {displayBoards}
         </>
     )
