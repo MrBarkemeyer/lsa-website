@@ -27,7 +27,7 @@ function App() {
 
     const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
     const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
-    const SHEET_NAME = "Form Responses 1"
+    const SHEET_NAME = "Website Info"
     const SHEET_NAME2 = "Officers"
     const [clubData, setClubData] = useState([]);
     const [officerData, setOfficerData] = useState([]);

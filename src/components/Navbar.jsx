@@ -92,13 +92,6 @@ export default function Navbar(props){
             id: 1,
         },
         {
-            name: "ELECTIONS",
-            hasDropDown: false,
-            icon: faCheckToSlot,
-            to: "/Elections",
-            id: 2,
-        },
-        {
             name: "ABOUT LSA",
             hasDropDown: true,
             icon: faBook,
@@ -352,6 +345,13 @@ export default function Navbar(props){
             ],
             to: "/Clubs",
             id: 5,
+        },
+        {
+            name: "ELECTIONS",
+            hasDropDown: false,
+            icon: faCheckToSlot,
+            to: "/Elections",
+            id: 2,
         },
         {
             name: "RESOURCES",

@@ -20,9 +20,14 @@ export default function Clubs(props){
     }
     const categoryFilter = searchParams.get("category");
 
-
+    function extractFileId(url) {
+        const regex = /[?&]id=([^&]+)/; // Matches the 'id' query parameter
+        const match = url.match(regex); // Apply the regex to the URL
+        return match ? match[1] : null; // Return the file ID or null if not found
+    }
+    console.log(clubData);
     const displayClubs = clubData.slice(0, visibleClubs).map((club, index)=>{
-        const {Name, Category} = club;
+        const {Name, Category, Picture} = club;
         const clubColor = {
             color: "white",
             background: 
@@ -40,16 +45,18 @@ export default function Clubs(props){
             Category === "STEM" ? "#861212" :
             "gray",
         }
+
+
         return(
                 categoryFilter === Category ? <Link className="clubs" key={index} to={Name}>
                     <div className="club">
-                        <img src={`https://picsum.photos/200/200?random=${Math.floor(Math.random()*1000)}`} alt="" />
+                        <img src={Picture && `https://drive.google.com/thumbnail?id=${extractFileId(Picture)}`} alt="" />
                         <p className="club-name">{Name}</p>
                         <p style={clubColor} className="club-category">{Category}</p>
                     </div>
                 </Link> : !categoryFilter ? <Link className="clubs" key={index} to={Name}>
                     <div className="club">
-                        <img src={`https://picsum.photos/200/200?random=${Math.floor(Math.random()*1000)}`} alt="" />
+                    {Picture && <iframe src={`https://drive.google.com/file/d/${extractFileId(Picture)}/preview?modestbranding=1&rel=0`} width="100%"></iframe>}
                         <p className="club-name">{Name}</p>
                         <p style={clubColor} className="club-category">{Category}</p>
                     </div>
@@ -58,7 +65,7 @@ export default function Clubs(props){
     });
 
     const displayFilteredClubs = clubData.map((club, index)=>{
-        const {Name, Category} = club;
+        const {Name, Category, Picture} = club;
         const clubColor = {
             color: "white",
             background: 
@@ -79,7 +86,7 @@ export default function Clubs(props){
         return(
                 categoryFilter === Category ? <Link className="clubs" key={index} to={Name}>
                     <div className="club">
-                        <img src={`https://picsum.photos/100/100?random=${Math.floor(Math.random()*1000)}`} alt="" />
+                    {Picture && <iframe src={`https://drive.google.com/file/d/${extractFileId(Picture)}/preview?modestbranding=1&rel=0`} width="100%" frameborder="0"></iframe>}
                         <p className="club-name">{Name}</p>
                         <p style={clubColor} className="club-category">{Category}</p>
                     </div>
