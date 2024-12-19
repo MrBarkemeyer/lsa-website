@@ -7,7 +7,6 @@
 
 ## Want to contribute?
 
-
 <p>Fork the project on vsCode, install node package manager(npm) and Node.js to install packages.</p> <br />
 <p>To contribute, you must demonstrate foundational knowledge for HTML, CSS, JavaScript, and some knowledge for React. </p>
 <p>Contact me @shengj12345@gmail.com or Mr. Barkemeyer barkemeyerj@sfusd.edu</p>
