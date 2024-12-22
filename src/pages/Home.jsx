@@ -145,6 +145,10 @@ export default function Home(){
         <>
             <video autoPlay loop muted playsInline controls={false} src={HeroVideo} className="hero-video" >
             </video>
+            <div className="intro-container">
+                <h2>Lowell Student Association</h2>
+                <Link to="LSA">Learn more</Link>
+            </div>
             <FontAwesomeIcon icon={faAnglesDown} beatFade className="scroll-icon"/>
             <div className="lsa-description center">
                 <h1>Welcome to the Lowell Student Association!</h1>
@@ -164,6 +168,9 @@ export default function Home(){
                     <Counter start={0} end={9000} duration = {2000}/>
                     <p>Alumni</p>
                 </div>
+            </div>
+            <div className="title">
+                <h2>WATCH: Student Life at Lowell High School</h2>
             </div>
             <div className="preamble flex-center">
                 <p>“We, the students of Lowell High School, in order to maintain the Lowell community, to <br />

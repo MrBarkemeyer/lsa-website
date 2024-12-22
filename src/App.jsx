@@ -32,6 +32,7 @@ function App() {
     const [clubData, setClubData] = useState([]);
     const [officerData, setOfficerData] = useState([]);
 
+
     useEffect(()=>{
         async function fetchData(){
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${KEY}`;
@@ -62,7 +63,7 @@ function App() {
       fetchData();
   }, []);
 
-
+  console.log(clubData);
     function processSheetData(data) {
         if (!data || data.length === 0) return [];
     
