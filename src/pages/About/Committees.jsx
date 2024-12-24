@@ -13,24 +13,24 @@ export default function Committees(){
         },
         {
             name: "2024 Senior Prom",
-            to: "SeniorProm",
+            to: "2024 Senior Prom Committee",
         },
         {
             name: "2024 Senior Boat",
-            to: "SeniorBoat",
+            to: "2024 Senior Boat Committee",
         },
         {
             name: "2025 Junior Prom",
-            to: "JuniorProm",
+            to: "2025 Junior Prom Committee",
         },
         {
             name: "2025 Junior Escape",
-            to: "JuniorEscape"
+            to: "2024 Junior Escape Committee"
         }
     ];
     const displayCommitteeButtons = committees.map((committee, index)=>{
         return(
-            <Link className="committee-button link-button" to={committee.to} key={index}>
+            <Link className="committee-button link-button" to={`/LSA/${committee.to}`} key={index}>
                 {committee.name}
             </Link>
         )
@@ -56,7 +56,7 @@ export default function Committees(){
                         <p className="committee-description">
                             In addition to the several event planning committees, the Spirit Committees are put together by each class board. The committees meets everyday after school for about 6 weeks. Their goal is to decorate the hallway with the best posters, choreograph the best dance, and pick those ready to compete in rally games.
                         </p>
-                        <Link to="SpiritCommittees" className="committee-button link-button">Spirit Committee</Link>
+                        <Link to="/LSA/Spirit Committees" className="committee-button link-button">Spirit Committee</Link>
                     </section>
                 </Glow>
             </GlowCapture>

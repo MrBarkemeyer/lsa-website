@@ -19,6 +19,7 @@ import DSA from './pages/About/DSA'
 import ClassBoard from "./pages/About/ClassBoard"
 import Site from './pages/More/Site'
 import Committees from './pages/About/Committees'
+import SpiritCommittee from './pages/About/SpiritCommittee'
 
 //note to self - at the end of all this, create a jsx file with all the array
 //to be changed every year 
@@ -63,7 +64,6 @@ function App() {
       fetchData();
   }, []);
 
-  console.log(clubData);
     function processSheetData(data) {
         if (!data || data.length === 0) return [];
     
@@ -95,7 +95,7 @@ function App() {
               <Route path="Charter" element={<Charter />}/>
               <Route path="Commitees" element={<Outlet />}>
                 <Route index element={<Committees />} />
-                
+                <Route path="Spirit Committee" element={<SpiritCommittee />} />
               </Route>
             </Route>
 

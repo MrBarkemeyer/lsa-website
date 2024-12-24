@@ -119,18 +119,23 @@ export default function Navbar(props){
                     subLinks2: [
                         {
                             name: "Spirit Committees",
+                            to: "Spirit Committee",
                         },
                         {
                             name: "2024 Senior Prom Committee",
+                            to: "2024 Senior Prom Committee"
                         },
                         {
                             name: "2025 Junior Prom Committee",
+                            to: "2025 Junior Prom Committee",
                         },
                         {
                             name: "2024 Senior Boat Committee",
+                            to: "2024 Senior Boat Committee",
                         },
                         {
                             name: "2025 Junior Escape Committee",
+                            to: "2025 Junior Escape Committee",
                         },
                     ]
                 },
@@ -178,11 +183,13 @@ export default function Navbar(props){
                 },
                 {
                     name: "Mock Trial",
-                    to: "MockTrial",
+                    to: "http://www.lowellstudentassociation.org/mock-trial.html",
+                    directLink: "true",
                 },
                 {
                     name: "Forensic Society (Speech & Debate)",
-                    to: "Forensic"
+                    to: "http://www.lowellstudentassociation.org/forensic-society-speech--debate1.html",
+                    directLink: "true",
                 },
                 {
                     name: "Science Research Program",
@@ -196,15 +203,18 @@ export default function Navbar(props){
                 },
                 {
                     name: "Shield and Scroll",
-                    to: "SAS",
+                    to: "http://www.lowellstudentassociation.org/shield-and-scroll.html",
+                    directLink: "true",
                 },
                 {
                     name: "Song",
-                    to: "Song",
+                    to: "http://www.lowellstudentassociation.org/song.html",
+                    directLink: "true",
                 },
                 {
                     name: "Student Advisory Council",
-                    to: "SAC",
+                    to: "http://www.lowellstudentassociation.org/student-advisory-council.html",
+                    directLink: "true",
                 }
 
             ],
@@ -385,9 +395,6 @@ export default function Navbar(props){
                     to: "FreshmenCorner",
                 },
                 {
-                    name: "@lowellhs Instagram Feed",
-                },
-                {
                     name: "About this site",
                     to: "AboutSite",
                 },
@@ -422,7 +429,7 @@ export default function Navbar(props){
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
-                                                    <Link to={`/${to}/${subLink2.name}`} className="link" key={idx}>{subLink2.name}</Link>
+                                                    <Link to={`${to}/${subLink2.to}`} className="link" key={idx}>{subLink2.name}</Link>
                                             ))}
                                         </ul>
                                     )}
