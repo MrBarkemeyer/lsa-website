@@ -60,6 +60,12 @@ export default function Navbar(props){
         return () => window.removeEventListener("scroll", handleScroll);
       }, []);
 
+    useEffect(
+        ()=>{
+            setHamburger(false);
+        }
+    ,[useLocation()])
+
     const scrolledStyle = {
         background: hasScrolled ? "white" : "transparent",
         opacity: hasScrolled ? 1 : 0.5,
@@ -512,16 +518,16 @@ export default function Navbar(props){
                                     <Link
                                         className="link flex-between"
                                         to={subLink.directLink ? `${subLink.to}` : `${to}/${subLink.to}`}
-                                        onClick={() => toggleChildDropdown(id, index)}
                                     >
                                         {subLink.name}
-                                        {subLink.hasDropDown && (
+                                    </Link>
+                                    {subLink.hasDropDown && (
                                             <FontAwesomeIcon
                                                 icon={isChildDropped ? faMinus : faPlus}
-                                                className="dropdown-icon"
+                                                className="second-dropdown-icon"
+                                                onClick={() => toggleChildDropdown(id, index)}
                                             />
                                         )}
-                                    </Link>
     
                                     {subLink.hasDropDown && isChildDropped && subLink.subLinks2 && (
                                         <ul className="ham-second-dropdowns">
