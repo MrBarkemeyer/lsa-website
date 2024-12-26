@@ -200,7 +200,6 @@
 .dropdown-icon, .big-dropdown-icon, .second-dropdown-icon{
   color: inherit;
   font-size: 1.3rem;
-  z-index: 5;
 }
 .second-dropdown-icon{
   position: absolute;
