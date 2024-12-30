@@ -400,10 +400,10 @@ export default function Navbar(props){
                     name: "Freshmen Corner",
                     to: "FreshmenCorner",
                 },
-                {
-                    name: "About this site",
-                    to: "AboutSite",
-                },
+                // {
+                //     name: "About this site",
+                //     to: "AboutSite",
+                // },
             ],
             id: 7,
             to: "",

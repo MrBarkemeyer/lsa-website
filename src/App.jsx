@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { HashRouter as Router, BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import Home from "./pages/Home"
 import Elections from "./pages/Elections"
 import Layout from "./pages/Layout"
@@ -80,7 +80,7 @@ function App() {
     }
   return (
     <>
-      <Router>
+      <BrowserRouter>
         <ScrollToTop />
         <Routes>
           <Route element={<Layout clubData = {clubData} />}>
@@ -118,7 +118,7 @@ function App() {
             <Route path="AboutSite" element={<Site />} />
           </Route>
         </Routes>
-      </Router>
+      </BrowserRouter>
     </>
   )
 }
