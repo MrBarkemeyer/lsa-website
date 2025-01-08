@@ -493,35 +493,7 @@
 .second-dropdowns a:last-child {
   border-bottom-right-radius: 30px;
 }
-.club-info{
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  flex-direction: column;
-  gap: 50px;
-}
-.club-description{
-  font-size: 1.5rem;
-  max-width: 800px;
 
-}
-.meeting-times{
-  font-size: 1.3rem;
-  max-width: 800px;
-  width: 100%;
-}
-.club-officers{
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: center;
-  max-width: 800px;
-  margin: 0 auto;
-  font-size: 1.3rem;
-  margin-top: 1.5rem;
-  margin-bottom: 2rem;
-  gap: 20px;
-}
 .lsa-description{
   max-width: 800px;
   margin: 100px auto 0 auto;
@@ -892,7 +864,6 @@
   .board-description p{
     font-size: 1rem;
   }
-
   .stats h2{
     font-size: 2.2rem;
   }
@@ -930,5 +901,7 @@
     max-width: none;
     width: 100vw;
     margin: 0;
+    flex-direction: column;
+    gap: 10px;
   }
 }

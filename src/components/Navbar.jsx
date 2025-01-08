@@ -108,15 +108,19 @@ export default function Navbar(props){
                 },
                 {
                     name: "2025 Senior Board",
-                    to: "SeniorBoard",
+                    to: "Senior Board",
                 },
                 {
                     name: "2026 Junior Board",
-                    to: "JuniorBoard",
+                    to: "Junior Board",
                 },
                 {
                     name: "2027 Sophomore Board",
-                    to: "SophomoreBoard",
+                    to: "Sophomore Board",
+                },
+                {
+                    name: "2028 Freshmen Board",
+                    to: "Freshmen Board",
                 },
                 {
                     name: "Committees",

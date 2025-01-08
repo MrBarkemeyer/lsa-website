@@ -25,7 +25,7 @@ export default function Clubs(props){
         const match = url.match(regex); // Apply the regex to the URL
         return match ? match[1] : null; // Return the file ID or null if not found
     }
-    console.log(clubData);
+
     const displayClubs = clubData.slice(0, visibleClubs).map((club, index)=>{
         const {Name, Category, Picture} = club;
         const clubColor = {

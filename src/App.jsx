@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import './App.css'
+import './App.scss'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import Home from "./pages/Home"
 import Elections from "./pages/Elections"

@@ -1,4 +1,4 @@
-import "./Resources.css"
+import "./Resources.scss"
 
 //more to implement
 

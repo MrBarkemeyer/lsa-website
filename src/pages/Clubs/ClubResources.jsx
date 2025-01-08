@@ -1,4 +1,4 @@
-import "./Club.css"
+import "./Club.scss"
 
 //more to implement
 

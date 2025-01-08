@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./Organizations.css"
+import "./Organizations.scss"
 export default function Organization(){
     const organizations = [
         {

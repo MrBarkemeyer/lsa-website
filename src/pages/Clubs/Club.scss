@@ -41,6 +41,34 @@
     max-width: 912px;
     margin: 0 auto;
 }
+.club-info{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    gap: 50px;
+  }
+.club-description{
+    font-size: 1.5rem;
+    max-width: 800px;
+  }
+.meeting-times{
+    font-size: 1.3rem;
+    max-width: 800px;
+    width: 100%;
+  }
+.club-officers{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    gap: 20px;
+  }
 .filter-button{
     display: flex;
     gap: 20px;

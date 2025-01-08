@@ -4,7 +4,7 @@ import { GlowCapture, Glow } from "@codaworks/react-glow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import LoadingTruck from "../../components/LoadingTruck"
-import "../Clubs/Club.css"
+import "../Clubs/Club.scss" //update to module
 
 export default function Club(props){
     const params = useParams().ClubName;
@@ -12,8 +12,10 @@ export default function Club(props){
     const [clubData, setClubData] = useState([]);
     useEffect(()=>{
         setClubName(params)
-        setClubData((props.clubData.filter(club => params === club.Name)[0]));
+        setClubData((props.clubData.filter(club => params === club.Name.trim())[0]));
     }, [params, props.clubData]);
+
+
 
     function removeLeadingAt(str) {
         if (typeof str === 'string') {
