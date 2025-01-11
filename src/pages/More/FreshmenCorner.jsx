@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom"
 import { GlowCapture, Glow } from "@codaworks/react-glow"
 import LinkButton from '../../components/LinkButton'
-
+import style from "./More.module.scss"
 export default function FreshMenCorner(){
     return(
         <>
-        <GlowCapture>
-            <Glow>
                     <div className="title">
                         <h1>Welcome, Class of 2027!</h1>
                     </div>
-                    <div className="freshmen-resources">
+                    <div className={style.freshmenResources}>
                         <div className="resource">
                             <h3>Virtual Tour of Lowell</h3>
                             <LinkButton to="https://docs.google.com/document/d/1UVpp4I76UDjqJkYXNb01JueIAPk6tvpNC2a5KZwHOU0/edit?tab=t.0">Click Here</LinkButton>
@@ -28,8 +26,6 @@ export default function FreshMenCorner(){
                             <LinkButton to="/Elections">Click Here</LinkButton>
                         </div>
                     </div>
-                </Glow>
-            </GlowCapture>
         </>
     )
 }

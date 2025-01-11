@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
 import { GlowCapture, Glow } from "@codaworks/react-glow";
+import LinkButton from "../../components/LinkButton";
+
 export default function Committees(){
 
     const committees = [
@@ -30,16 +32,12 @@ export default function Committees(){
     ];
     const displayCommitteeButtons = committees.map((committee, index)=>{
         return(
-            <Link className="committee-button link-button" to={`/LSA/${committee.to}`} key={index}>
-                {committee.name}
-            </Link>
+            <LinkButton to={`/LSA/${committee.to}`} noTarget={true}>{committee.name}</LinkButton>
         )
     })
 
     return(
         <>
-            <GlowCapture>
-                <Glow >
                     <div className="title">
                         <h1>Lowell Committees</h1>
                     </div>
@@ -56,10 +54,8 @@ export default function Committees(){
                         <p className="committee-description">
                             In addition to the several event planning committees, the Spirit Committees are put together by each class board. The committees meets everyday after school for about 6 weeks. Their goal is to decorate the hallway with the best posters, choreograph the best dance, and pick those ready to compete in rally games.
                         </p>
-                        <Link to="/LSA/Spirit Committees" className="committee-button link-button">Spirit Committee</Link>
+                        <LinkButton to="/LSA/Spirit Committees" noTarget={true}>Spirit Committee</LinkButton>
                     </section>
-                </Glow>
-            </GlowCapture>
         </>
     )
 }

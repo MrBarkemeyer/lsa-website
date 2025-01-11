@@ -1,5 +1,5 @@
 import Sheng from "../../assets/Sheng.jpg"
-import "../More/More.scss"
+import "../More/More.module.scss"
 export default function Site(){
     return(
         <>
