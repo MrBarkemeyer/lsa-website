@@ -439,7 +439,7 @@ export default function Navbar(props){
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
-                                                    <Link to={`${to}/${subLink2.to}`} className="link" key={idx}>{subLink2.name}</Link>
+                                                    <Link to={`${to}/${subLink.to}/${subLink2.to}`} className="link" key={idx}>{subLink2.name}</Link>
                                             ))}
                                         </ul>
                                     )}
@@ -537,7 +537,7 @@ export default function Navbar(props){
                                         <ul className="ham-second-dropdowns">
                                             {subLink.subLinks2.map((subLink2, idx) => (
                                                 <Link
-                                                    to={`${to}/${subLink2.name}`}
+                                                    to={`${to}/${subLink.to}/${subLink2.to}`}
                                                     className="link"
                                                     key={idx}
                                                 >
