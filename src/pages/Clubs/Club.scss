@@ -119,10 +119,6 @@ button {
   transition: background 0.5s ease-in-out;
 }
 
-button:active {
-  background: var(--lowell-red);
-  box-shadow: 0 0 20px var(--lowell-red), 0 0 40px var(--lowell-red);
-}
 .margin-1rem{
     margin: 0 1rem 1rem 1rem;
 }
@@ -144,8 +140,9 @@ button:active {
         padding-top: none;
     }
     .filter-button button{
-        width: 80px;
+        width: 100px;
         font-size: 0.6rem;
         height: 40px;
+        background: none;
     }
 }
