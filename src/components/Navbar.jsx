@@ -165,6 +165,7 @@ export default function Navbar(props){
             name: "ORGANIZATIONS",
             hasDropDown: true,
             icon: faUser,
+            bigSubLink: true,
             subLinks: [
                 {
                     name: "The Lowell (Journalism)",

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Counter({ start = 0, end = 100, duration = 2000 }) {
+export default function Counter({ start = 0, end = 100, duration = 2000, ...rest}) {
   const [count, setCount] = useState(start);
   const [statState, setStatState] = useState(false);
   const statsRef = useRef(null);
@@ -41,5 +41,5 @@ export default function Counter({ start = 0, end = 100, duration = 2000 }) {
     return () => clearInterval(timer); // Cleanup
   }, [statState, start, end, duration]);
 
-  return <h2 ref={statsRef}>{statState ? `${Math.floor(count)}+` : null}</h2>;
+  return <h2 ref={statsRef} {...rest}>{statState ? `${Math.floor(count)}+` : null}</h2>;
 }

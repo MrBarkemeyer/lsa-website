@@ -17,14 +17,6 @@
 .sheng-description{
     max-width: 912px;
 }
-
-.resource{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-  }
   .resource > *{
     margin: 1rem;
   }
@@ -33,6 +25,11 @@
     align-items: center;
     justify-self: center;
     flex-direction: column;
-    gap: 30px;
-    margin: 2rem;
+    .resource{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+    }
   }
