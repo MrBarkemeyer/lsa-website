@@ -50,13 +50,13 @@ export default function Clubs(props){
         return(
                 categoryFilter === Category ? <Link className="clubs" key={index} to={Name}>
                     <div className="club">
-                        {Picture && <img src={`https://drive.google.com/thumbnail?id=${extractFileId(Picture)}&sz=w500`} alt={`${Name}`}/>}
+                        {Picture && <img src={`https://drive.google.com/thumbnail?id=${extractFileId(Picture)}&sz=w250`} alt={`${Name}`}/>}
                         <p className="club-name">{Name}</p>
                         <p style={clubColor} className="club-category">{Category}</p>
                     </div>
                 </Link> : !categoryFilter ? <Link className="clubs" key={index} to={Name}>
                     <div className="club">
-                        {Picture && <img src={`https://drive.google.com/thumbnail?id=${extractFileId(Picture)}&sz=w500`} alt={`${Name}`}/>}
+                        {Picture && <img src={`https://drive.google.com/thumbnail?id=${extractFileId(Picture)}&sz=w250`} alt={`${Name}`}/>}
                         <p className="club-name">{Name}</p>
                         <p style={clubColor} className="club-category">{Category}</p>
                     </div>
@@ -86,7 +86,7 @@ export default function Clubs(props){
         return(
                 categoryFilter === Category ? <Link className="clubs" key={index} to={Name}>
                     <div className="club">
-                    {Picture && <img src={`https://drive.google.com/thumbnail?id=${extractFileId(Picture)}&sz=w500`} alt={`${Name}`}/>}
+                    {Picture && <img src={`https://drive.google.com/thumbnail?id=${extractFileId(Picture)}&sz=w250`} alt={`${Name}`}/>}
                         <p className="club-name">{Name}</p>
                         <p style={clubColor} className="club-category">{Category}</p>
                     </div>
