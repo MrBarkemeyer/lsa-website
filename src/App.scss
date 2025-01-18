@@ -858,6 +858,11 @@
   }
 }
 @media (max-width: 700px){
+  .logo{
+    img{
+      width: 70px;
+    }
+  }
   p{
     font-size: 1.1rem;
   }
@@ -893,4 +898,8 @@
       font-size: 1.5rem;
     }
   }
+  .hamburger-menu, .ham-offset{
+    height: 100px;
+  }
+  
 }

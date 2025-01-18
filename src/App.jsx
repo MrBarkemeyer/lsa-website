@@ -20,6 +20,7 @@ import ClassBoard from "./pages/About/ClassBoard"
 import Site from './pages/More/Site'
 import Committees from './pages/About/Committees'
 import SpiritCommittee from './pages/About/SpiritCommittee'
+import Committee from './pages/About/Committee'
 
 //note to self - at the end of all this, create a jsx file with all the array
 //to be changed every year 
@@ -96,6 +97,7 @@ function App() {
               <Route path="Commitees" element={<Outlet />}>
                 <Route index element={<Committees />} />
                 <Route path="Spirit Committee" element={<SpiritCommittee />} />
+                <Route path=":CommitteeName" element={<Committee/>} />
               </Route>
             </Route>
 
