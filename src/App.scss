@@ -40,6 +40,23 @@
   gap: 30px;
   text-align: center;
 }
+.life-at-lowell{
+  color: white;
+  background: var(--title-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1.5rem;
+  gap: 30px;
+  text-align: center;
+  .responsive-video{
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+  }
+  
+}
 .nav-links{
   position: fixed;
   background: rgba(255, 255, 255, 0.5);
@@ -199,7 +216,7 @@
 }
 .dropdown-icon, .big-dropdown-icon, .second-dropdown-icon{
   color: inherit;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 .second-dropdown-icon{
   position: absolute;
@@ -688,7 +705,7 @@
 }
 .hamburger-button2{
   position: absolute;
-  top: 0px;
+  top: 15px;
   right: 15px;
   z-index: 4;
 }
@@ -726,7 +743,7 @@
   margin: 0 auto;
   right: 0%;
   top: 2%;
-  background: #ffffff;
+  background: white;
   height: 95%;
   display: flex;
   flex-direction: column;
@@ -783,7 +800,7 @@
 
 @media (max-width: 1300px){
   .dropdown-icon, .big-dropdown-icon, .second-dropdown-icon{
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   .off-set{
     height: 0;
@@ -858,6 +875,12 @@
   }
 }
 @media (max-width: 700px){
+  .title{
+    height: 150px;
+    h1, h2{
+      font-size: 2rem;
+    }
+  }
   .logo{
     img{
       width: 70px;

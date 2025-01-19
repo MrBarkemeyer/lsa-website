@@ -1,3 +1,5 @@
+
+
 .club-resources{
     max-width: 912px;
     margin: 0 auto;
@@ -30,10 +32,17 @@
     justify-content: space-evenly;
     border-radius: 10px;
     min-height: 364px;
+    img{
+        width: 202px;
+        height: 200px;
+        object-fit: cover;
+    }
+    .club-name{
+        font-weight: bold;
+        text-align: center;
+    }
 }
-.club-name{
-    font-weight: bold;
-}
+
 .club-category{
     padding: 10px;
 }
@@ -49,6 +58,7 @@
     gap: 50px;
   }
 .club-description{
+    padding: 1rem;
     font-size: 1.5rem;
     max-width: 800px;
   }
@@ -76,16 +86,17 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
+    button{
+        width: 200px;
+        padding: 0.5rem;
+        cursor: pointer;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 5px;
+        height: 60px;
+    }
 }
-.filter-button button{
-    width: 200px;
-    padding: 0.5rem;
-    cursor: pointer;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 5px;
-    height: 60px;
-}
+
 .filter-button button:hover, .load-button:hover{
     opacity: 0.7;
 }
@@ -139,13 +150,21 @@ button:active {
 @media (max-width: 700px){
     .filter-button{
         gap: 10px;
+        button{
+            width: 100px;
+            font-size: 0.6rem;
+            height: 40px;
+            font-weight: bold;
+            background: none;
+        }
     }
     .clubs{
         padding-top: none;
     }
-    .filter-button button{
-        width: 80px;
-        font-size: 0.6rem;
-        height: 40px;
+    .club-name{
+        font-size: 3rem;
+    }
+    .club-description{
+        font-size: 1.2rem;
     }
 }

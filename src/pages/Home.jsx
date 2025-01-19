@@ -9,6 +9,7 @@ import SophomoreBoard from "../assets/SophomoreBoard.jpeg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAnglesDown } from "@fortawesome/free-solid-svg-icons"
 import { GlowCapture, Glow } from "@codaworks/react-glow";
+import studentLifeVideo from "../assets/student-life-video.mp4"
 export default function Home(){
     
     // useRef to keep track of the dom element
@@ -169,9 +170,9 @@ export default function Home(){
                 </div>
             </div>
             </div>
-            <div className="title">
+            <div className="life-at-lowell">
                 <h2>WATCH: Student Life at Lowell High School</h2>
-            </div>
+                <video controls muted src={studentLifeVideo} className="responsive-video"></video>            </div>
             <div className="preamble flex-center">
                 <p>“We, the students of Lowell High School, in order to maintain the Lowell community, to <br />
                 acknowledge and foster the diversity of needs, views, and rights of students at Lowell to <br />
@@ -182,7 +183,7 @@ export default function Home(){
                 <br /><br />
                 <span className="bold">PREAMBLE OF THE CHARTER OF THE LOWELL STUDENT ASSOCIATION</span>
             </div>
-            {displayBoards}
+            {/* {displayBoards} */}
         </>
     )
 }

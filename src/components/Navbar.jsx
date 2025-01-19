@@ -250,7 +250,7 @@ export default function Navbar(props){
                            club.Category === "Sports"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     }),
                 },
                 {
@@ -261,7 +261,7 @@ export default function Navbar(props){
                            club.Category === "Volunteering and Public Service"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -272,7 +272,7 @@ export default function Navbar(props){
                            club.Category === "STEM"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -283,7 +283,7 @@ export default function Navbar(props){
                            club.Category === "Culture/Religion"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -294,7 +294,7 @@ export default function Navbar(props){
                            club.Category === "Finance"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -305,7 +305,7 @@ export default function Navbar(props){
                            club.Category === "Food/Crafts"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -316,7 +316,7 @@ export default function Navbar(props){
                            club.Category === "Games and Fantasy"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -327,7 +327,7 @@ export default function Navbar(props){
                            club.Category === "Literature and Media"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -338,7 +338,7 @@ export default function Navbar(props){
                            club.Category === "Politics and Public Speaking"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -349,7 +349,7 @@ export default function Navbar(props){
                            club.Category === "VPA"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
                 {
@@ -360,7 +360,7 @@ export default function Navbar(props){
                            club.Category === "Health and Environmental"
                         )
                     }).map(object =>{
-                        return {name: object.Name}
+                        return {name: object.Name, to: object.Name}
                     })
                 },
             ],
@@ -509,6 +509,7 @@ export default function Navbar(props){
                 {hasDropDown && isDropped && (
                     <ul className="ham-dropdowns">
                         {subLinks.map((subLink, index) => {
+                            
                             const isChildDropped = childDropdown[`${id}-${index}`];
                             return (
                                 <li
@@ -536,15 +537,16 @@ export default function Navbar(props){
     
                                     {subLink.hasDropDown && isChildDropped && subLink.subLinks2 && (
                                         <ul className="ham-second-dropdowns">
-                                            {subLink.subLinks2.map((subLink2, idx) => (
+                                            {subLink.subLinks2.map((subLink2, idx) => {
+                                                return (
                                                 <Link
-                                                    to={`${to}/${subLink.to}/${subLink2.to}`}
+                                                    to={`${to}/${subLink2.to}`}
                                                     className="link"
                                                     key={idx}
                                                 >
                                                     {subLink2.name}
                                                 </Link>
-                                            ))}
+                                            )})}
                                         </ul>
                                     )}
                                 </li>
