@@ -194,8 +194,7 @@ export default function Navbar(props){
                 },
                 {
                     name: "Mock Trial",
-                    to: "http://www.lowellstudentassociation.org/mock-trial.html",
-                    directLink: "true",
+                    to: "Organizations/MockTrial",
                 },
                 {
                     name: "Forensic Society (Speech & Debate)",
