@@ -38,7 +38,7 @@ export default function Club(props){
         <section>
             <div className="club-info">
             {clubData.Banner && <iframe src={`https://drive.google.com/file/d/${extractFileId(clubData.Banner)}/preview?modestbranding=1&rel=0`} width="640" className="club-banner"></iframe>}
-                <h1 className="club-name">
+                <h1 className="title">
                     {clubName}
                 </h1>
                 <p className="club-description">{clubData.ClubDescription}</p>

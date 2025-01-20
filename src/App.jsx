@@ -21,6 +21,9 @@ import Site from './pages/More/Site'
 import Committees from './pages/About/Committees'
 import SpiritCommittee from './pages/About/SpiritCommittee'
 import Committee from './pages/About/Committee'
+import NewClub from './pages/Clubs/club_resources/newClub'
+import EventPlanning from './pages/Clubs/club_resources/EventPlanning'
+import Fundraising from './pages/Clubs/club_resources/Fundraising'
 
 //note to self - at the end of all this, create a jsx file with all the array
 //to be changed every year 
@@ -79,6 +82,7 @@ function App() {
             return obj;
         });
     }
+
   return (
     <>
       <BrowserRouter>
@@ -109,6 +113,9 @@ function App() {
               <Route index element={<Clubs clubData={clubData}/>} />
               <Route path="ClubResources" element={<ClubResources />} />
               <Route path=":ClubName" element={<Club clubData={clubData}/>}/>
+              <Route path="NewClub" element={<NewClub />} />
+              <Route path="EventPlanning" element={<EventPlanning />} />
+              <Route path="Fundraising" element={<Fundraising />} />
             </Route>
 
             <Route element={<Outlet />}>

@@ -1,6 +1,4 @@
-
-
-.club-resources{
+@mixin info-page{
     max-width: 912px;
     margin: 0 auto;
     display: flex;
@@ -8,10 +6,16 @@
     gap: 20px;
     padding: 3rem;
 }
+.info-page{
+    @include info-page;
+}
+.club-resources{
+    @include info-page;
+}
 .club-buttons{
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 .clubs{
     max-width: 1000px;
@@ -125,14 +129,16 @@
     background: var(--lowell-red);
     color: white;
 }
-
-button {
-  transition: background 0.5s ease-in-out;
-}
-
-button:active {
-  background: var(--lowell-red);
-  box-shadow: 0 0 20px var(--lowell-red), 0 0 40px var(--lowell-red);
+.return-button{
+    width: 200px;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    height: 60px;
+    background: var(--lowell-red);
+    color: white;
 }
 .margin-1rem{
     margin: 0 1rem 1rem 1rem;
@@ -162,7 +168,7 @@ button:active {
         padding-top: none;
     }
     .club-name{
-        font-size: 3rem;
+        font-size: 1rem;
     }
     .club-description{
         font-size: 1.2rem;

@@ -9,9 +9,9 @@ export default function DSA(){
             <section className="dsa center">
                 <div>
                     <img src={Barkemeyer} alt="Mr. Barkemeyer" className="dsa-image"/>
-                    <p>JACOB BARKEMEYER</p>
+                    <h2>JACOB BARKEMEYER</h2>
                 </div>
-                <p>That one APUSH Teacher</p>
+                <p>APUSH & Leadership Teacher, Director of Student Activities</p>
             </section>
         </>
     )
