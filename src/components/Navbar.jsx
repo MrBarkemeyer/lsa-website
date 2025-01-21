@@ -213,8 +213,7 @@ export default function Navbar(props){
                 },
                 {
                     name: "Shield and Scroll",
-                    to: "http://www.lowellstudentassociation.org/shield-and-scroll.html",
-                    directLink: "true",
+                    to: "Organizations/ShieldAndScroll",
                 },
                 {
                     name: "Song",
@@ -539,7 +538,7 @@ export default function Navbar(props){
                                             {subLink.subLinks2.map((subLink2, idx) => {
                                                 return (
                                                 <Link
-                                                    to={`${to}/${subLink2.to}`}
+                                                    to={`${to}/${subLink.to}/${subLink2.to}`}
                                                     className="link"
                                                     key={idx}
                                                 >
