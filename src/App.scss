@@ -1,3 +1,15 @@
+@mixin info-page{
+  max-width: 912px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 3rem;
+}
+.info-page{
+  @include info-page;
+  min-height: 55vh;
+}
 .logo{
   display: flex;
   align-items: center;
@@ -39,6 +51,23 @@
   padding: 1.5rem;
   gap: 30px;
   text-align: center;
+}
+.life-at-lowell{
+  color: white;
+  background: var(--title-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1.5rem;
+  gap: 30px;
+  text-align: center;
+  .responsive-video{
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+  }
+  
 }
 .nav-links{
   position: fixed;
@@ -497,29 +526,37 @@
 .lsa-description{
   max-width: 800px;
   margin: 100px auto 0 auto;
+  h1{
+    font-size: 2.5rem;
+    padding: 1rem;
+  }
+  h2{
+    font-size: 2.3rem;
+  }
+  p{
+    font-size: 1.5rem;
+  }
+  .counter{
+    font-size: 3rem;
+  }
 }
-.lsa-description h1{
-  padding: 1rem;
-}
-.lsa-description p{
-  font-size: 1.5rem;
-}
+
 .stats{
   max-width: 70vw;
   margin: 0 auto;
   padding: 2rem;
   display: flex;
   justify-content: space-evenly;
+  h2{
+    color: var(--lowell-red);
+    font-size: 4.5rem;
+    font-weight: normal;
+  }
+  p{
+    font-weight: bold;
+  }
 }
-.stats h2{
-  color: var(--lowell-red);
-  font-size: 4.5rem;
-  font-weight: normal;
-}
-.stats p{
 
-  font-weight: bold;
-}
 .none{
   display: none;
 }
@@ -640,15 +677,15 @@
   display: flex;
   justify-content: center; 
   align-items: center;
-}
-.link-button:active{
-  background: white;
-  color: black;
-  border: 3px solid var(--lowell-red);
-}
-.link-button:hover{
-  cursor: pointer;
-  opacity: 0.5;
+  &:active{
+    background: white;
+    color: black;
+    border: 3px solid var(--lowell-red);
+  }
+  &:hover{
+    cursor: pointer;
+    opacity: 0.5;
+  }
 }
 .instagram-icon{
   padding-left: 5px;
@@ -680,15 +717,9 @@
 }
 .hamburger-button2{
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 15px;
+  right: 15px;
   z-index: 4;
-}
-.ham-first-dropdowns > a{
-  color: inherit;
-  font-size: 1.1rem;
-  height: inherit;
-  align-items: center;
 }
 .ham-first-dropdowns{
   width: 100%;
@@ -697,6 +728,12 @@
   align-items: center;
   justify-content: center;
   color: inherit;
+  a{
+    color: inherit;
+    font-size: 1.1rem;
+    height: inherit;
+    align-items: center;
+  }
 }
 .ham-dropdowns{
   position: absolute;
@@ -706,14 +743,11 @@
   border-left: 3px solid var(--lowell-red);
   width: 100%;
   color: inherit;
-  /* padding-right: 10px; */
-  /* display: none; */
+  a{
+    color: inherit !important;
+    font-size: 1.0rem !important;
+  }
 }
-.ham-dropdowns a{
-  color: inherit !important;
-  font-size: 1.0rem !important;
-}
-
 .hamburger-nav{
   position: fixed;
   width: 100vw;
@@ -721,7 +755,7 @@
   margin: 0 auto;
   right: 0%;
   top: 2%;
-  background: #ffffff;
+  background: white;
   height: 95%;
   display: flex;
   flex-direction: column;
@@ -742,16 +776,14 @@
   top: 50px;
   left: 30px;
   border-left: 3px solid var(--lowell-red);
-  /* width: 100%; */
   color: inherit;
-  /* padding-right: 10px; */
   padding-left: 10px;
   overflow-x: none;
-}
-.ham-second-dropdowns > a{
-  font-size: 1rem;
-  font-weight: normal;
-  height: 31px;
+  a{
+    font-size: 1rem;
+    font-weight: normal;
+    height: 31px;
+  }
 }
 
 .right{
@@ -760,9 +792,6 @@
 .left{
   animation: left 0.3s forwards;
 }
-
-
-
 
 @keyframes left{
   from{
@@ -781,8 +810,10 @@
   }
 }
 
-
 @media (max-width: 1300px){
+  .dropdown-icon, .big-dropdown-icon, .second-dropdown-icon{
+    font-size: 1.8rem;
+  }
   .off-set{
     height: 0;
   }
@@ -856,6 +887,12 @@
   }
 }
 @media (max-width: 700px){
+  .title{
+    height: 150px;
+    h1, h2{
+      font-size: 2rem;
+    }
+  }
   .logo{
     img{
       width: 70px;
@@ -887,8 +924,13 @@
     max-width: none;
     width: 100vw;
     margin: 0;
-    flex-direction: column;
     gap: 10px;
+    .counter{
+      font-size: 2rem;
+    }
+    p{
+      font-size: 1.5rem;
+    }
   }
   .hamburger-menu, .ham-offset{
     height: 100px;

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+{style.resource}import { Link } from "react-router-dom"
 import { GlowCapture, Glow } from "@codaworks/react-glow"
 import LinkButton from '../../components/LinkButton'
 import style from "./More.module.scss"

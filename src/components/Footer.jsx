@@ -8,7 +8,7 @@ export default function Footer(){
             <footer className="flex-center">
                 <div>
                     <Link to='https://www.instagram.com/lowellhs/'><FontAwesomeIcon icon={faInstagram} className="footer-icon"/></Link>
-                    <Link to=''><FontAwesomeIcon icon={faFacebook} className="footer-icon"/></Link>
+                    <Link to='https://www.facebook.com/groups/2204571332/'><FontAwesomeIcon icon={faFacebook} className="footer-icon"/></Link>
                     <Link to="https://github.com/Sheng232/lsa-website"><FontAwesomeIcon icon={faGithub} className="footer-icon"/></Link>
                 </div>
             </footer>

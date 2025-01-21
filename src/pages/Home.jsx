@@ -9,6 +9,7 @@ import SophomoreBoard from "../assets/SophomoreBoard.jpeg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAnglesDown } from "@fortawesome/free-solid-svg-icons"
 import { GlowCapture, Glow } from "@codaworks/react-glow";
+import studentLifeVideo from "../assets/student-life-video.mp4"
 export default function Home(){
     
     // useRef to keep track of the dom element
@@ -153,25 +154,25 @@ export default function Home(){
             <div className="lsa-description center">
                 <h1>Welcome to the Lowell Student Association!</h1>
                 <p className="padding-1rem">LSA is the umbrella term for Lowell's student government or all the boards, which includes the Student Body Council, and class boards representing the Senior, Junior, Sophomore, and Freshmen classes.</p>
-            </div>
-            <h2 className="center">We connect with</h2>
-            <div className="stats">
+                <h2 className="center">We connect with</h2>
+                <div className="stats">
                 <div className="center">
-                    <Counter start={0} end={2500} duration = {2000}/>
+                    <Counter start={0} end={2500} duration = {2000} className="counter"/>
                     <p>Students</p>
                 </div>
                 <div className="center">
-                    <Counter start={0} end={150} duration = {2000}/>
+                    <Counter start={0} end={150} duration = {2000} className="counter"/>
                     <p>Clubs</p>
                 </div>
                 <div className="center">
-                    <Counter start={0} end={9000} duration = {2000}/>
+                    <Counter start={0} end={9000} duration = {2000} className="counter"/>
                     <p>Alumni</p>
                 </div>
             </div>
-            <div className="title">
-                <h2>WATCH: Student Life at Lowell High School</h2>
             </div>
+            <div className="life-at-lowell">
+                <h2>WATCH: Student Life at Lowell High School</h2>
+                <video controls muted src={studentLifeVideo} className="responsive-video"></video>            </div>
             <div className="preamble flex-center">
                 <p>“We, the students of Lowell High School, in order to maintain the Lowell community, to <br />
                 acknowledge and foster the diversity of needs, views, and rights of students at Lowell to <br />
@@ -182,7 +183,7 @@ export default function Home(){
                 <br /><br />
                 <span className="bold">PREAMBLE OF THE CHARTER OF THE LOWELL STUDENT ASSOCIATION</span>
             </div>
-            {displayBoards}
+            {/* {displayBoards} */}
         </>
     )
 }

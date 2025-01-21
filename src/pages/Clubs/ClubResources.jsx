@@ -1,5 +1,5 @@
 import "./Club.scss"
-
+import LinkButton from "../../components/LinkButton"
 //more to implement
 
 export default function ClubResources(){
@@ -17,9 +17,9 @@ export default function ClubResources(){
                 <h2><span></span>Main Contact Shirley Tran (SBC Club Coordinator)</h2>
                 <p>Email: lowell.clubcoord@gmail.com</p>
                 <div className="club-buttons">
-                    <div className="link-button flex-center">How to Start a Club</div>
-                    <div className="link-button flex-center">Event Planning Resources</div>
-                    <div className="link-button flex-center">Fundraising Resources</div>
+                    <LinkButton to="/Clubs/NewClub" noTarget={true}>How to Start a Club</LinkButton>
+                    <LinkButton to="/Clubs/EventPlanning" noTarget={true}>Event Planning Resources</LinkButton>
+                    <LinkButton to="/Clubs/Fundraising" noTarget={true}>Fundraising Resources</LinkButton>
                 </div>
             </div>
 
