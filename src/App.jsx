@@ -26,6 +26,8 @@ import EventPlanning from './pages/Clubs/club_resources/EventPlanning'
 import Fundraising from './pages/Clubs/club_resources/Fundraising'
 import MockTrial from './pages/Organizations/MockTrial'
 import ShieldAndScroll from './pages/Organizations/ShieldAndScroll'
+import Archives from './pages/More/Archives'
+
 //note to self - at the end of all this, create a jsx file with all the array
 //to be changed every year 
 
@@ -128,6 +130,7 @@ function App() {
             
             <Route path="FreshmenCorner" element= {<FreshMenCorner />} />
             <Route path="AboutSite" element={<Site />} />
+            <Route path="Archives" element={<Archives />} />
           </Route>
         </Routes>
       </BrowserRouter>

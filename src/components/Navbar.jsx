@@ -396,8 +396,7 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "Archives",
-                    to: "http://www.lowellstudentassociation.org/archives.html",
-                    directLink: "true",
+                    to: "Archives",
                 },
                 {
                     name: "Freshmen Corner",
