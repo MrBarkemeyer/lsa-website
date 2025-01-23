@@ -8,6 +8,11 @@ export default function SBC(props){
         setOfficerData((officers.filter(officer => "SBC" === officer.Team)));
     }, [props]);
 
+    function extractFileId(driveUrl) {
+        const match = driveUrl.match(/[?&]id=([^&]+)/);
+        return match ? match[1] : null; // Return the file ID if matched, otherwise null
+    }
+            
     const displayOfficers = officerData.map((officer, index)=>{
         return(
             <div key={index}>
