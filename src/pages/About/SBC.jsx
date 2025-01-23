@@ -17,7 +17,7 @@ export default function SBC(props){
         return(
             <div key={index}>
                 <div className="team-member">
-                <img src={`https://drive.google.com/file/d/${extractFileId(officer.Photo)}/preview?modestbranding=1&rel=0`} alt="" className="team-member-photo" />
+                <img src={`https://drive.google.com/thumbnail?id=${extractFileId(officer.Photo)}`} alt="" className="team-member-photo" />
                 <div>
                     <h2><span className="team-member-role" style={{color: "#861212"}}>{officer.Role}</span> 
                     <span className="team-member-name"> {officer.Name}</span></h2>
