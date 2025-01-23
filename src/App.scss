@@ -121,7 +121,7 @@
   height: auto;
   padding: 2rem;
   bottom: 5%;
-  right: 5%;
+  left: 5%;
   border-radius: 10px; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   color: #fff;
@@ -811,9 +811,27 @@
 }
 
 @media (max-width: 1300px){
+  .icon{
+    display: none;
+  }
   .dropdown-icon, .big-dropdown-icon, .second-dropdown-icon{
     font-size: 1.8rem;
   }
+  
+  .board-description p{
+    font-size: 1.2rem;
+  }
+  .board-description h1{
+    font-size: 2rem;
+  }
+  .scroll-icon{
+    display: none;
+  }
+  .intro-container{
+    display: none;
+  }
+}
+@media (max-width: 1150px){
   .off-set{
     height: 0;
   }
@@ -837,23 +855,7 @@
   .hamburger-nav{
     display: flex !important;
   }
-  .board-description p{
-    font-size: 1.2rem;
-  }
-  .board-description h1{
-    font-size: 2rem;
-  }
-  .scroll-icon{
-    display: none;
-  }
-  .intro-container{
-    display: none;
-  }
-}
-@media (max-width: 1000px){
-  .hero-video{
-    height: 50vh;
-  }
+
   .lsa-boards{
     flex-direction: column;
     align-items: center;

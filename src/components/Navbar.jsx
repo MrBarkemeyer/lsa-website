@@ -198,8 +198,7 @@ export default function Navbar(props){
                 },
                 {
                     name: "Forensic Society (Speech & Debate)",
-                    to: "http://www.lowellstudentassociation.org/forensic-society-speech--debate1.html",
-                    directLink: "true",
+                    to: "Organizations/Forensic",
                 },
                 {
                     name: "Science Research Program",
@@ -425,7 +424,7 @@ export default function Navbar(props){
             <div className="relative first-dropdowns" key={id}>
                     <Link to={to} className="link" >
                         {icon && <FontAwesomeIcon icon={icon} className="icon" />} {name} {hasDropDown ? 
-                            <FontAwesomeIcon icon={faCaretDown} className="dropdown-icon"/> : ""}
+                            <FontAwesomeIcon icon={faCaretDown} className="dropdown-icon icon"/> : ""}
                     </Link>
                 {hasDropDown && !bigSubLink &&
                     <ul className="dropdowns" key={id + 1}>

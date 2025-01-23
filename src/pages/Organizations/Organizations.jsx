@@ -10,7 +10,7 @@ export default function Organization(){
         {
             name: "Shield and Scroll",
             description: "Shield and Scroll — Lowell’s second oldest organization — is an organization dedicated to helping Lowell run as effectively and efficiently as possible. We are an honor and service society with a goal to serve the students and faculty of Lowell with service, scholarship, and citizenship.",
-            link: "SAS",
+            link: "ShieldAndScroll",
         },
         {
             name: "CSF Tutoring",

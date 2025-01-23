@@ -27,6 +27,7 @@ import Fundraising from './pages/Clubs/club_resources/Fundraising'
 import MockTrial from './pages/Organizations/MockTrial'
 import ShieldAndScroll from './pages/Organizations/ShieldAndScroll'
 import Archives from './pages/More/Archives'
+import Forensic from './pages/Organizations/Forensic'
 
 //note to self - at the end of all this, create a jsx file with all the array
 //to be changed every year 
@@ -112,6 +113,7 @@ function App() {
               <Route index element={<Organization />} />
               <Route path="MockTrial" element={<MockTrial />} />
               <Route path="ShieldAndScroll" element={<ShieldAndScroll />} />
+              <Route path="Forensic" element={<Forensic />} />
             </Route>
 
             <Route path="Clubs" element={<Outlet />}>
