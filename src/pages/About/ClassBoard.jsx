@@ -9,11 +9,17 @@ export default function ClassBoard(props){
             setOfficerData((officers.filter(officer => params === officer.Team)));
         }, [props, params]);
 
+        function extractFileId(driveUrl) {
+            const match = driveUrl.match(/[?&]id=([^&]+)/);
+            return match ? match[1] : null; // Return the file ID if matched, otherwise null
+        }
+                
+
         const displayOfficers = officerData.map((officer, index)=>{
             return(
                 <div key={index}>
                     <div className="team-member">
-                    <img src={`https://picsum.photos/200/200?random=${Math.floor(Math.random()*1000)}`} alt="" className="team-member-photo" />
+                    <img src={`https://drive.google.com/file/d/${extractFileId(officer.Photo)}/preview?modestbranding=1&rel=0`} alt="" className="team-member-photo" />
                     <div>
                         <h2><span className="team-member-role" style={{color: "#861212"}}>{officer.Role}</span> 
                         <span className="team-member-name"> {officer.Name}</span></h2>
