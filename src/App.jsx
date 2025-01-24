@@ -102,11 +102,10 @@ function App() {
               <Route path=":BoardName" element={<ClassBoard officerData={officerData}/>} />
               <Route path="DSA" element={<DSA />} />
               <Route path="Charter" element={<Charter />}/>
-              <Route path="Commitees" element={<Outlet />}>
-                <Route index element={<Committees />} />
-                <Route path="Spirit Committee" element={<SpiritCommittee />} />
-                <Route path=":CommitteeName" element={<Committee/>} />
-              </Route>
+              <Route path="Commitees" element={<Committees />} />
+              <Route path="Spirit Committee" element={<SpiritCommittee />} />
+              <Route path=":CommitteeName" element={<Committee/>} />
+              
             </Route>
 
             <Route path="Organizations" element = {<Outlet />}>
