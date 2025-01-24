@@ -194,11 +194,11 @@ export default function Navbar(props){
                 },
                 {
                     name: "Mock Trial",
-                    to: "Organizations/MockTrial",
+                    to: "MockTrial",
                 },
                 {
                     name: "Forensic Society (Speech & Debate)",
-                    to: "Organizations/Forensic",
+                    to: "Forensic",
                 },
                 {
                     name: "Science Research Program",
@@ -212,7 +212,7 @@ export default function Navbar(props){
                 },
                 {
                     name: "Shield and Scroll",
-                    to: "Organizations/ShieldAndScroll",
+                    to: "ShieldAndScroll",
                 },
                 {
                     name: "Song",
@@ -452,7 +452,7 @@ export default function Navbar(props){
                                 <li className="big-dropdown relative" key={index}
                                     onClick={(event) => toggleBigSecondDropdown(index, event)}
                                 >
-                                    <Link className="link" to={subLink.to}>{subLink.name} {subLink.hasDropDown ? 
+                                    <Link className="link" to={subLink.directLink ? `${subLink.to}` : subLink.hasDropDown ? `#` : `${to}/${subLink.to}`}>{subLink.name} {subLink.hasDropDown ? 
                                     <FontAwesomeIcon icon={faCaretDown} className= "big-dropdown-icon right-caret" /> : ""}</Link>
                                     {hasDropDown && subLink.subLinks2 && (
                                         <ul className="big-second-dropdowns"
