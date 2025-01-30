@@ -237,7 +237,7 @@ export default function Navbar(props){
             subLinks: [
                 {
                     name: "Club Resources",
-                    to: "Clubs/ClubResources"
+                    to: "ClubResources"
                 },
                 {
                     name: "Sports",
