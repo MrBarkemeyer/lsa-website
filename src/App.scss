@@ -17,6 +17,12 @@
   flex-direction: column;
   margin: 1rem 0 1rem 0;
 }
+.video-credit{
+  color: white;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
 .padding-1rem{
   padding: 1rem;
 }
@@ -844,6 +850,9 @@
   .hero-video{
     height: 66vh;
   }
+  .video-credit{
+    bottom: 11vh;
+  }
   .hamburger-menu{
     display: flex !important;
     align-items: center;
@@ -894,6 +903,9 @@
     h1, h2{
       font-size: 2rem;
     }
+  }
+  .video-credit{
+    bottom: 20vh;
   }
   .logo{
     img{

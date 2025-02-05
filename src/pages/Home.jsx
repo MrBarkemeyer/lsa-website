@@ -146,6 +146,8 @@ export default function Home(){
         <>
             <video autoPlay loop muted playsInline controls={false} src={HeroVideo} className="hero-video" >
             </video>
+            <div className="video-credit">
+                Video by Video Lowell</div>
             <div className="intro-container">
                 <h2>Lowell Student Association</h2>
                 <Link to="LSA">Learn more</Link>
