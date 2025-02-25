@@ -94,7 +94,7 @@
   background: white;
 }
 .nav-links img{
-  margin-right: 100px;
+  margin-right: 20px;
 }
 .nav-links div:last-child{
   margin-right: 20px;
@@ -110,7 +110,6 @@
   color: white;
 }
 
-
 .hero-video{
   width: 100%;
   height: 100vh;
@@ -123,7 +122,7 @@
 .intro-container {
   position: absolute;
   background: linear-gradient(135deg, rgba(134, 18, 18, 0.9), rgba(200, 50, 50, 0.8));
-  width: 500px; 
+  width: 90vw; 
   height: auto;
   padding: 2rem;
   bottom: 5%;
@@ -131,42 +130,56 @@
   border-radius: 10px; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   color: #fff;
+  &::before{
+    position: absolute;
+    content: "";
+    width: 50px; 
+    height: 5px; 
+    background-color: rgba(200, 50, 50, 1); 
+    top: -10px; 
+    left: 20px; 
+    border-radius: 5px;
+  }
+  h2{
+    font-size: 2.5rem; 
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  a{
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white; 
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.2); 
+    padding: 0.5rem 1.5rem;
+    border-radius: 5px; 
+    transition: background 0.3s ease, color 0.3s ease;
+    &:hover{
+      background: rgba(255, 255, 255, 0.5); 
+      color: #861212; 
+    }
+  }
+}
+.cardinalympics-scores{
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  margin: 0 auto;
+  .score{
+    display: flex;
+  }
+  h2{
+    font-size: 2rem;
+    font-weight: 600;
+    color: white;
+  }
+  p{
+    font-size: 1.5rem;
+  }
 }
 
-.intro-container::before {
-  position: absolute;
-  content: "";
-  width: 50px; 
-  height: 5px; 
-  background-color: rgba(200, 50, 50, 1); 
-  top: -10px; 
-  left: 20px; 
-  border-radius: 5px;
-}
-
-.intro-container h2 {
-  font-size: 2.5rem; 
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.intro-container a {
-  display: inline-block;
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: white; 
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.2); 
-  padding: 0.5rem 1.5rem;
-  border-radius: 5px; 
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.intro-container a:hover {
-  background: rgba(255, 255, 255, 0.5); 
-  color: #861212; 
-}
 .lsa-boards {
   padding: 3rem 5%;
   display: flex;
@@ -176,45 +189,6 @@
   background-color: #f2f2f2; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   visibility: hidden;
-}
-.board-description,
-.board-image {
-  width: 45%;
-  max-width: 500px;
-  flex: 1;
-  text-align: center;
-  padding: 2rem;
-  background: white; 
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
-  position: relative;
-}
-.board-description:hover,
-.board-image:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-.board-image img:hover{
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
-}
-
-.board-description h1 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-}
-
-.board-description p {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: #333;
-}
-
-.board-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover;
 }
 .flex-row-reverse {
   flex-direction: row-reverse;
