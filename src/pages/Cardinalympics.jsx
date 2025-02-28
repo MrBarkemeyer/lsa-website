@@ -6,7 +6,7 @@ export default function Cardinalympics({cardinalympicsData}){
             <div className="title">
                 <h1>2025 Cardinalympics</h1>
             </div>
-            {/* <CardinalympicLogo /> */}
+            <CardinalympicLogo />
             <div className="cardinalympics-intro-container">
                     <h1>Spirit Week Total</h1>
                     <div className="cardinalympics-scores">
@@ -20,7 +20,7 @@ export default function Cardinalympics({cardinalympicsData}){
                         </div>
                         <div className="cardinalympics-score">
                             <h2>Junior:&nbsp;</h2> 
-                            <Counter start={0} end={cardinalympicsData[2]} duration={2000} className="cardinalympics-counter" color="blue"> pts</Counter>
+                            <Counter start={0} end={cardinalympicsData[2]} duration={2000} className="cardinalympics-counter" color="#5353f6"> pts</Counter>
                         </div>
                         <div className="cardinalympics-score">
                             <h2>Senior:&nbsp;</h2> 
