@@ -34,7 +34,7 @@ import Cardinalympics from './pages/Cardinalympics'
 //to be changed every year 
 
 function App() {
-
+    //General data for the website
     const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
     const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
     const SHEET_NAME = "Website Info"
@@ -42,36 +42,55 @@ function App() {
     const [clubData, setClubData] = useState([]);
     const [officerData, setOfficerData] = useState([]);
 
+    //Cardinalympics data
+    const SPREADSHEET_ID2 = "1YoyeAEx3rFD2ctbrz3R0a0todgsNes76r_JH6MkYUO4";
+    const SHEET_NAME3 = "Sp, 24";
+    const [cardinalympicsData, setCardinalympicsData] = useState([0, 0, 0, 0]);
 
-    useEffect(()=>{
-        async function fetchData(){
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${KEY}`;
-            try{
-                const res = await fetch(url);
-                const data = await res.json();
-                setClubData(processSheetData(data.values));
-            }
-            catch(error){
-                console.log(error);
-            }
-        }
-        fetchData();
-    }, []);
-
-    useEffect(()=>{
-      async function fetchData(){
-          const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME2}?key=${KEY}`;
-          try{
-              const res = await fetch(url);
-              const data = await res.json();
-              setOfficerData(processSheetData(data.values));
-          }
-          catch(error){
+    useEffect(() => {
+      async function fetchData() {
+          try {
+              // Fetch the first data
+              const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${KEY}`;
+              const res1 = await fetch(url1);
+              const data1 = await res1.json();
+              setClubData(processSheetData(data1.values));
+  
+              // Fetch the second data
+              const url2 = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME2}?key=${KEY}`;
+              const res2 = await fetch(url2);
+              const data2 = await res2.json();
+              setOfficerData(processSheetData(data2.values));
+          } catch (error) {
               console.log(error);
           }
       }
       fetchData();
   }, []);
+    useEffect(()=>{
+      async function fetchCardinalympicsData() {
+        try {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID2}/values/${SHEET_NAME3}?key=${KEY}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            setCardinalympicsData(arrayCleanUp(data.values[0]));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+      fetchCardinalympicsData();
+    },[]);
+
+
+    function arrayCleanUp(array) {
+      const cleanedArray = [];
+      for (let i = 0; i < array.length; i++) {
+        if (array[i] !== "" && !isNaN(parseInt(array[i]))) {
+          cleanedArray.push(parseInt(array[i])); 
+        }
+      }
+      return cleanedArray;
+    }
 
     function processSheetData(data) {
         if (!data || data.length === 0) return [];
@@ -94,7 +113,7 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route element={<Layout clubData = {clubData} />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home cardinalympicsData={cardinalympicsData}/>} />
             <Route path="Elections" element={<Elections />} />
             
             <Route path="LSA" element={<Outlet />}>
@@ -133,7 +152,7 @@ function App() {
             <Route path="FreshmenCorner" element= {<FreshMenCorner />} />
             <Route path="AboutSite" element={<Site />} />
             <Route path="Archives" element={<Archives />} />
-            <Route path="Cardinalympics" element={<Cardinalympics />} />  
+            <Route path="Cardinalympics" element={<Cardinalympics cardinalympicsData={cardinalympicsData}/>} />  
           </Route>
         </Routes>
       </BrowserRouter>

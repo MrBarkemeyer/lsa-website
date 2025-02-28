@@ -5,8 +5,7 @@ import {Link} from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAnglesDown } from "@fortawesome/free-solid-svg-icons"
 import studentLifeVideo from "../assets/student-life-video.mp4"
-export default function Home(){
-
+export default function Home({cardinalympicsData}) {
     return(
         <>
             <video autoPlay loop muted playsInline controls={false} src={HeroVideo} className="hero-video" >
@@ -17,20 +16,20 @@ export default function Home(){
                 <h2>2025 Cardinalympics!</h2>
                 <div className="cardinalympics-scores">
                         <div className="score">
-                            <h2>Senior:&nbsp;</h2> 
-                            <Counter start={0} end={0} duration = {2000} className="counter" color="red"> pts</Counter>
-                        </div>
-                        <div className="score">
-                            <h2>Junior:&nbsp;</h2> 
-                            <Counter start={0} end={0} duration = {2000} className="counter" color="blue"> pts</Counter>
+                            <h2>Freshman:&nbsp;</h2> 
+                            <Counter start={0} end={cardinalympicsData[0]} duration = {2000} className="counter" color="green"> pts</Counter>
                         </div>
                         <div className="score">
                             <h2>Sophomore:&nbsp;</h2> 
-                            <Counter start={0} end={0} duration = {2000} className="counter" color="purple"> pts</Counter>
+                            <Counter start={0} end={cardinalympicsData[1]} duration = {2000} className="counter" color="purple"> pts</Counter>
                         </div>
                         <div className="score">
-                            <h2>Freshmen:&nbsp;</h2> 
-                            <Counter start={0} end={0} duration = {2000} className="counter" color="green"> pts</Counter>
+                            <h2>Junior:&nbsp;</h2> 
+                            <Counter start={0} end={cardinalympicsData[2]} duration = {2000} className="counter" color="blue"> pts</Counter>
+                        </div>
+                        <div className="score">
+                            <h2>Senior:&nbsp;</h2> 
+                            <Counter start={0} end={cardinalympicsData[3]} duration = {2000} className="counter" color="red"> pts</Counter>
                         </div>
                 </div>
                 <Link to="Cardinalympics">Learn more</Link>

@@ -119,8 +119,8 @@ export default function Navbar(props){
                     to: "Sophomore Board",
                 },
                 {
-                    name: "2028 Freshmen Board",
-                    to: "Freshmen Board",
+                    name: "2028 Freshman Board",
+                    to: "Freshman Board",
                 },
                 {
                     name: "Committees",
