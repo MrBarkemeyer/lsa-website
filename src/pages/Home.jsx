@@ -29,7 +29,7 @@ export default function Home({cardinalympicsData}) {
                         </div>
                         <div className="score">
                             <h2>Senior:&nbsp;</h2> 
-                            <Counter start={0} end={cardinalympicsData[3]} duration = {2000} className="counter" color="red"> pts</Counter>
+                            <Counter start={0} end={cardinalympicsData[3]} duration = {2000} className="counter" color="#861212"> pts</Counter>
                         </div>
                 </div>
                 <Link to="Cardinalympics">Learn more</Link>
