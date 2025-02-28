@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Counter({ start = 0, end = 100, duration = 2000, ...rest}) {
+export default function Counter({ start = 0, end = 100, duration = 2000, color = "#861212", children, ...rest}) {
   const [count, setCount] = useState(start);
   const [statState, setStatState] = useState(false);
   const statsRef = useRef(null);
+
 
   //A number counter Component
   useEffect(() => {
@@ -41,5 +42,5 @@ export default function Counter({ start = 0, end = 100, duration = 2000, ...rest
     return () => clearInterval(timer); // Cleanup
   }, [statState, start, end, duration]);
 
-  return <h2 ref={statsRef} {...rest}>{statState ? `${Math.floor(count)}+` : null}</h2>;
+  return <h2 style={{color: color}}ref={statsRef} {...rest}>{statState ? `${Math.floor(count)}` : null}{children}</h2>;
 }

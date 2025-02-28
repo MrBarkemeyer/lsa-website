@@ -119,8 +119,8 @@ export default function Navbar(props){
                     to: "Sophomore Board",
                 },
                 {
-                    name: "2028 Freshmen Board",
-                    to: "Freshmen Board",
+                    name: "2028 Freshman Board",
+                    to: "Freshman Board",
                 },
                 {
                     name: "Committees",
@@ -389,9 +389,13 @@ export default function Navbar(props){
             to: "",
         },
         {
+            name: "CARDINALYMPICS",
+            id: 7,
+            to: "Cardinalympics",
+        },
+        {
             name: "MORE",
             hasDropDown: true,
-            icon: faThumbsUp,
             subLinks: [
                 {
                     name: "Archives",
@@ -406,9 +410,9 @@ export default function Navbar(props){
                 //     to: "AboutSite",
                 // },
             ],
-            id: 7,
+            id: 8,
             to: "",
-        }
+        },
     ];
 
 
