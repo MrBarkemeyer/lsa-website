@@ -6,7 +6,7 @@ export default function Cardinalympics({cardinalympicsData}){
             <div className="title">
                 <h1>2025 Cardinalympics</h1>
             </div>
-            {/* <CardinalympicLogo /> */}
+            <CardinalympicLogo />
             <div className="cardinalympics-intro-container">
                     <h1>Spirit Week Total</h1>
                     <div className="cardinalympics-scores">
@@ -20,7 +20,7 @@ export default function Cardinalympics({cardinalympicsData}){
                         </div>
                         <div className="cardinalympics-score">
                             <h2>Junior:&nbsp;</h2> 
-                            <Counter start={0} end={cardinalympicsData[2]} duration={2000} className="cardinalympics-counter" color="blue"> pts</Counter>
+                            <Counter start={0} end={cardinalympicsData[2]} duration={2000} className="cardinalympics-counter" color="#5353f6"> pts</Counter>
                         </div>
                         <div className="cardinalympics-score">
                             <h2>Senior:&nbsp;</h2> 
@@ -29,8 +29,8 @@ export default function Cardinalympics({cardinalympicsData}){
                     </div>
                 </div>
             <section className="info-page">
-                <h3>Check out the entire activity list: <a target="_blank" href="https://docs.google.com/document/d/1VLrgGont0-x0QVqtaHyixDYa2Iyn0bpqV3ZVu8KGmGs/edit?tab=t.0">Here</a></h3>
-                <h3>For a more detailed score breakdown: <a target="_blank" href="https://docs.google.com/spreadsheets/d/1YoyeAEx3rFD2ctbrz3R0a0todgsNes76r_JH6MkYUO4/edit?gid=5259979411">Here</a></h3>
+                <h3>Check out the entire activities list: <a target="_blank" href="https://docs.google.com/document/d/1VLrgGont0-x0QVqtaHyixDYa2Iyn0bpqV3ZVu8KGmGs/edit?tab=t.0">Here</a></h3>
+                <h3>For the detailed scores breakdown: <a target="_blank" href="https://docs.google.com/spreadsheets/d/1YoyeAEx3rFD2ctbrz3R0a0todgsNes76r_JH6MkYUO4/edit?gid=5259979411">Here</a></h3>
                 <div>
                     <h1>Monday</h1>
                     <div className="event">
