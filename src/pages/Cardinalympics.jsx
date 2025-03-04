@@ -102,8 +102,7 @@ export default function Cardinalympics({cardinalympicsData}){
                     <p className="event-description"><strong>When:</strong>  Once during Lunch A, once during Lunch B, 10 minutes after the beginning of lunch</p>
                     <p className="event-description"><strong>Where:</strong>  The Catwalk</p>
                     <p className="event-description"><strong>Host:</strong>  SBC</p>
-                    <p className="event-description"><strong>Description:</strong> </p>
-                    <p className="event-description"><strong>Who?</strong> Anyone who dressed up for Old Money Monday spirit day.</p>
+                    <p className="event-description"><strong>Description:</strong> Do you still have that Batman costume at home?  A Darth Vader mask?  Want to break out your Mean Girl pink? Wear something representing a character, any character, from any movie, historical era, or Netflix show!</p>
                 </div>
 
 
@@ -155,8 +154,8 @@ export default function Cardinalympics({cardinalympicsData}){
                     <p className="event-description"><strong>When:</strong>  Once during Lunch A, once during Lunch B, 10 minutes after the beginning of lunch</p>
                     <p className="event-description"><strong>Where:</strong>  The Catwalk</p>
                     <p className="event-description"><strong>Host:</strong>  SBC</p>
-                    <p className="event-description"><strong>Description:</strong></p>
-                    <p className="event-description"><strong>Who?</strong> Anyone who dressed up for Tourist Tuesday spirit day.</p>
+                    <p className="event-description"><strong>Description:</strong> Twin with another student in the same grade OR dress as your favorite teacher or administrator!  Be creative, the more complex the twin outfit, the better!
+                    </p>
                 </div>
                                 </div>
                                 <div>
@@ -238,8 +237,9 @@ export default function Cardinalympics({cardinalympicsData}){
                     <p className="event-description"><strong>When:</strong>  once Lunch A, once Lunch B, 10 min after the beginning of lunch</p>
                     <p className="event-description"><strong>Where:</strong>  the Catwalk</p>
                     <p className="event-description"><strong>Host:</strong>  SBC</p>
-                    <p className="event-description"><strong>Description:</strong></p>
-                    <p className="event-description"><strong>Who?</strong>  Anyone who dressed up for Wake-Up Wednesday spirit day.</p>
+                    <p className="event-description"><strong>Description:</strong> Wear ALL your Lowell gear!  On a team?  Wear your uniform.  Got the red hoodie?  Wear it.  Don’t have anything?  Wear your PE uniform!  Still don’t have anything?  Go to Book to Book (they are selling items at 20% discount this week only!) OR just wear RED!
+                    </p>
+                    
                 </div>
                                 </div>
                 <div>
@@ -281,8 +281,9 @@ export default function Cardinalympics({cardinalympicsData}){
                         <p className="event-description"><strong>When:</strong>  Once Lunch A, once Lunch B, 10 min after the beginning of lunch</p>
                         <p className="event-description"><strong>Where:</strong>  The Catwalk</p>
                         <p className="event-description"><strong>Host:</strong>  SBC</p>
-                        <p className="event-description"><strong>Description:</strong></p>
-                        <p className="event-description"><strong>Who?</strong>  Anyone who dressed up for Thermal Thursday spirit day.</p>
+                        <p className="event-description"><strong>Description:</strong> Plaid shirt striped pants?  Shorts with a puffy coat?  Two different shoes and mismatched socks?  Disco on top, country western on the bottom?  Any bizarre combination of mismatching, inside out, or wacky clothes.  The wackier, the better!
+                        </p>
+                        
                     </div>
                 </div>
             </section>
