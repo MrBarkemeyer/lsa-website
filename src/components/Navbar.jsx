@@ -15,7 +15,7 @@ export default function Navbar(props){
     function toggleBigSecondDropdown(index, event) {
         setClickedDropdown(prev => (prev === index ? false : index));
     }
-
+    
     const [hasDropped, setHasDropped] = useState([
         {
             id: 1,
@@ -43,6 +43,10 @@ export default function Navbar(props){
         },
         {
             id: 7,
+            dropped: false,
+        },
+        {
+            id: 8,
             dropped: false,
         },
     ]);
