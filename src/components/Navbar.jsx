@@ -159,7 +159,7 @@ export default function Navbar(props){
                 }
             ],
             to: "/LSA",
-            id: 3,
+            id: 2,
         },
         {
             name: "ORGANIZATIONS",
@@ -227,7 +227,7 @@ export default function Navbar(props){
 
             ],
             to: "/Organizations",
-            id: 4,
+            id: 3,
         },
         {
             name: "CLUBS",
@@ -362,14 +362,14 @@ export default function Navbar(props){
                 },
             ],
             to: "/Clubs",
-            id: 5,
+            id: 4,
         },
         {
             name: "ELECTIONS",
             hasDropDown: false,
             icon: faCheckToSlot,
             to: "/Elections",
-            id: 2,
+            id: 5,
         },
         {
             name: "RESOURCES",
@@ -405,10 +405,6 @@ export default function Navbar(props){
                     name: "Freshmen Corner",
                     to: "FreshmenCorner",
                 },
-                // {
-                //     name: "About this site",
-                //     to: "AboutSite",
-                // },
             ],
             id: 8,
             to: "",

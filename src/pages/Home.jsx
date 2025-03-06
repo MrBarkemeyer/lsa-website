@@ -8,7 +8,7 @@ import studentLifeVideo from "../assets/student-life-video.mp4"
 export default function Home({cardinalympicsData}) {
     return(
         <>
-            <video autoPlay muted playsInline controls={true} src={HeroVideo} className="hero-video" >
+            <video autoPlay muted playsInline controls={false} src={HeroVideo} className="hero-video" >
             </video>
             <div className="video-credit">
                 Video by Video Lowell</div>
