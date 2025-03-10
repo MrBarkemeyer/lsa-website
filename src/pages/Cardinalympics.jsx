@@ -32,6 +32,22 @@ export default function Cardinalympics({cardinalympicsData}){
                 <h3>Check out the entire activities list: <a target="_blank" href="https://docs.google.com/document/d/1VLrgGont0-x0QVqtaHyixDYa2Iyn0bpqV3ZVu8KGmGs/edit?tab=t.0">Here</a></h3>
                 <h3>For the detailed scores breakdown: <a target="_blank" href="https://docs.google.com/spreadsheets/d/1YoyeAEx3rFD2ctbrz3R0a0todgsNes76r_JH6MkYUO4/edit?gid=5259979411">Here</a></h3>
                 <div>
+
+                <div>
+                    <h1>Special Kick-off Events</h1> 
+                    <div className="event">
+                        <h3 className="event-description">Escape <span>(300 pts)</span></h3>
+                        <p className="event-description"><strong>Description:</strong> hey lowellities‼️get excited for this year’s escape event where we invite you to join us in a thrilling scavenger hunt filled with mysteries and new challenges!🕵️‍♂️ end the night off with a comedic murder mystery movie and a BUFFET style dinner!!! 😱</p>
+                        <a className="event-description" href="https://docs.google.com/forms/u/1/d/e/1FAIpQLSenuWIkA4sIjljm8L3MeaNDdhDl2qc-mrZzCPo2UsudQmLLOQ/viewform"><strong>Sign up form</strong></a>
+                    </div>
+                    <div className="event">
+                        <h3 className="event-description">Dodgeball Tournament <span>(300 pts)</span></h3>
+                        <p className="event-description"><strong>Description:</strong> Hey everyone! Cardinalympics is officially underway! The sophomore board is hosting one of the events, DODGEBALL TOURNEY!!! ALL GRADES ALLOWED! There is a game for student vs student, and a game for teacher vs student. You can sign up via link in linktree or qr code with your friends 😝 It will be on March 14th from 4-6pm. The prizes for the teacher vs student game will be released soon, and the prizes for the student vs student is Cardinalympics points. Come to enjoy a fun game of friendly dodgeball and win some points for your grade!</p>
+                        <a className="event-description" href="https://docs.google.com/forms/u/1/d/e/1FAIpQLScHof5wcrzuf5luUuOxkBw2Eq9U4fAbjV68p_V2QAPO6z6fdw/viewform?usp=send_form"><strong>Student VS Student</strong></a>
+                        <a className="event-description" href="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc5Ux-R7qoTd72sufEOQX8gB6-nTGTDhoxRhjD54zPeMZyrBg/viewform?usp=dialog"><strong>Student VS Teacher</strong></a>
+                    </div>
+                   
+                </div>
                     <h1>Monday</h1>
                     <div className="event">
                         <h3 className="event-description">Coloring Contest <span>(100 pts)</span></h3>
