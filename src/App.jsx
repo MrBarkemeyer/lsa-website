@@ -44,8 +44,9 @@ function App() {
 
     //Cardinalympics data
     const SPREADSHEET_ID2 = "1YoyeAEx3rFD2ctbrz3R0a0todgsNes76r_JH6MkYUO4";
-    const SHEET_NAME3 = "Sp, 24";
+    const SHEET_NAME3 = "Sp, 25";
     const [cardinalympicsData, setCardinalympicsData] = useState([0, 0, 0, 0]);
+
 
     useEffect(() => {
       async function fetchData() {
