@@ -11,8 +11,13 @@ export default function Home({cardinalympicsData}) {
             <video autoPlay muted playsInline controls={false} src={HeroVideo} className="hero-video" >
             </video>
             <div className="video-credit">
-                Video by Video Lowell</div>
+                Video by Video Lowell
+            </div>
             <div className="intro-container">
+                <h2>Lowell Student Association</h2>
+                <Link to="LSA">Learn more</Link>
+            </div>    
+            {/* <div className="intro-container">
                 <h2>2025 Cardinalympics!</h2>
                 <div className="cardinalympics-scores">
                         <div className="score">
@@ -33,7 +38,7 @@ export default function Home({cardinalympicsData}) {
                         </div>
                 </div>
                 <Link to="Cardinalympics">Learn more</Link>
-            </div>
+            </div> */}
             <FontAwesomeIcon icon={faAnglesDown} beatFade className="scroll-icon"/>
             <div className="lsa-description center">
                 <h1>Welcome to the Lowell Student Association!</h1>
