@@ -47,7 +47,11 @@ function App() {
     const SHEET_NAME3 = "Sp, 25";
     const [cardinalympicsData, setCardinalympicsData] = useState([0, 0, 0, 0]);
 
+    //Elections data
+    const SHEET_NAME4 = "Elections";
+    const [electionData, setElectionData] = useState([]);
 
+    //API Calls
     useEffect(() => {
       async function fetchData() {
           try {
@@ -68,6 +72,22 @@ function App() {
       }
       fetchData();
   }, []);
+
+    useEffect(()=>{
+      async function fetchElectionData() {
+        try {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME4}?key=${KEY}`;
+            const res = await fetch(url);
+            const electionData = await res.json();
+            setElectionData(processSheetData(electionData.values));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+      fetchElectionData();
+    },[])
+
+
     useEffect(()=>{
       async function fetchCardinalympicsData() {
         try {
@@ -115,7 +135,7 @@ function App() {
         <Routes>
           <Route element={<Layout clubData = {clubData} />}>
             <Route path="/" element={<Home cardinalympicsData={cardinalympicsData}/>} />
-            <Route path="Elections" element={<Elections />} />
+            <Route path="Elections" element={<Elections electionData={electionData}/>} />
             
             <Route path="LSA" element={<Outlet />}>
               <Route index element={<AboutLSA/>} />

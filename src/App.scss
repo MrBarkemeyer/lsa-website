@@ -473,17 +473,25 @@
   max-width: 960px;
   margin: 100px auto;
 }
-.election-results {
+.elections{
   min-height: 600px;
-  background-color: #f5f5f5;
-  padding: 2rem 0; 
+  padding: 0.5rem 0; 
+  .candidate{
+    margin-bottom: 2rem;
+    p{
+      margin-left: 1vw;
+    }
+  }
+  .candidate-media-petition{
+    width: 400px;
+    height: auto;
+  }
 }
 
-.freshmen-election-title {
+.election-title {
   height: auto; 
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 2rem; 
   color: var(--lowell-red); 
 }
 
