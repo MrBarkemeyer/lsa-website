@@ -9,6 +9,9 @@
 .info-page{
   @include info-page;
   min-height: 55vh;
+  a{
+    font-size: 1rem;
+  }
 }
 .logo{
   display: flex;
