@@ -39,7 +39,7 @@ export default function SBC(props){
         <>
             <h1 className="team-name center">
                 Student Body Council(SBC) 
-                <br />2024-2025
+                <br />2025-2026
             </h1>
             <div className="team-info">
                 <p><strong>LOCATION - </strong>The Cave (Room 80A) during 1st block Leadership</p>
