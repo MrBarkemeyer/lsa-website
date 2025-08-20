@@ -38,7 +38,7 @@ export default function SBC(props){
     return(
         <>
             <h1 className="team-name center">
-                Student Body Council(SBC) 
+                Student Body Council (SBC) 
                 <br />2025-2026
             </h1>
             <div className="team-info">
