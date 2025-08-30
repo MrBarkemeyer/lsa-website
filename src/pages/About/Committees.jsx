@@ -10,24 +10,24 @@ export default function Committees(){
             to: "PromCommittee",
         },
         {
-            name: "Escape/Boat Committee",
-            to: "Escape/BoatCommittee",
+            name: "SeniorBoat Committee",
+            to: "2026 Senior Boat ommittee",
         },
         {
-            name: "2024 Senior Prom",
-            to: "2024 Senior Prom Committee",
+            name: "Senior Prom",
+            to: "2026 Senior Prom Committee",
         },
         {
-            name: "2024 Senior Boat",
-            to: "2024 Senior Boat Committee",
+            name: "Senior Boat",
+            to: "2026 Senior Boat Committee",
         },
         {
-            name: "2025 Junior Prom",
-            to: "2025 Junior Prom Committee",
+            name: "2027 Junior Prom",
+            to: "2027 Junior Prom Committee",
         },
         {
             name: "2025 Junior Escape",
-            to: "2024 Junior Escape Committee"
+            to: "2027 Junior Escape Committee"
         }
     ];
     const displayCommitteeButtons = committees.map((committee, index)=>{
