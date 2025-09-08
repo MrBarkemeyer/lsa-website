@@ -107,23 +107,23 @@ export default function Navbar(props){
             icon: faBook,
             subLinks: [
                 {
-                    name: "2024-25 Student Body Council",
+                    name: "2025-26 Student Body Council",
                     to: "SBC",
                 },
                 {
-                    name: "2025 Senior Board",
+                    name: "2026 Senior Board",
                     to: "Senior Board",
                 },
                 {
-                    name: "2026 Junior Board",
+                    name: "2027 Junior Board",
                     to: "Junior Board",
                 },
                 {
-                    name: "2027 Sophomore Board",
+                    name: "2028 Sophomore Board",
                     to: "Sophomore Board",
                 },
                 {
-                    name: "2028 Freshman Board",
+                    name: "2029 Freshman Board",
                     to: "Freshman Board",
                 },
                 {
