@@ -202,7 +202,8 @@ export default function Navbar(props){
                 },
                 {
                     name: "Forensic Society (Speech & Debate)",
-                    to: "Forensic",
+                    to: "https://www.lowellspeechanddebate.org/",
+                    directLink: "true",
                 },
                 {
                     name: "Science Research Program",
