@@ -136,19 +136,19 @@ export default function Navbar(props){
                             to: "Spirit Committee",
                         },
                         {
-                            name: "2024 Senior Prom Committee",
+                            name: "2026 Senior Prom Committee",
                             to: "2024 Senior Prom Committee"
                         },
                         {
-                            name: "2025 Junior Prom Committee",
+                            name: "2027 Junior Prom Committee",
                             to: "2025 Junior Prom Committee",
                         },
                         {
-                            name: "2024 Senior Boat Committee",
+                            name: "2026 Senior Boat Committee",
                             to: "2024 Senior Boat Committee",
                         },
                         {
-                            name: "2025 Junior Escape Committee",
+                            name: "2027 Junior Escape Committee",
                             to: "2025 Junior Escape Committee",
                         },
                     ]
