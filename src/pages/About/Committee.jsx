@@ -1,16 +1,131 @@
-import { useParams } from "react-router-dom"
+.about-lsa, .charter-intro, .charter > p{
+    width: 100%;
+    max-width: 912px;
+    margin: 0 auto;
+}
+.about-lsa a{
+    background: gray;
+    padding: 2rem;
+    border-radius: 10px;
+    color: white;
+}
+.charter, .about-lsa{
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px; 
+    justify-content: center;
+}
+.charter p, .charter h2, .charter strong{
+    width: 100%;
+}
+.charter h2{
+    text-align: center;
+}
+.constitution{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 912px;
+    margin: 0 auto;
+    color: black;
+}
+.font-button{
+    width: 100%;
+}
+.font-button > button{
+    width: 200px;
+    height: 50px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background: var(--lowell-red);
+    color: white;
+    border: none;
+}
+.team-name{
+    max-width: 912px;
+    margin: 0 auto;
+    color: var(--lowell-red);
+    padding: 2rem;
+}
+.team-info{
+    padding: 3rem;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 5px; 
+    max-width: 912px;
+    margin: 0 auto ;
+    background: lightgray;
+    border-radius: 10px;
+}
+.team-member{
+    display: flex;
+    max-width: 1000px;
+    gap: 30px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.team-member-photo{
+    width: 250px;
+    height: 250px;
+    border-radius: 100%;
+    padding: 1rem;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+}
+.team-member-description, .team-member h2{
+    padding: 1rem;
+}
+.dsa-image{
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+.dsa{
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-direction: column;
+    min-height: 70vh;
+}
+.committees{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-direction: column;
+    max-width: 912px;
+    margin: 0 auto;
+    padding: 3rem;
+}
+.committee-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 80vw;
+    margin: 0 auto;
+}
 
-export default function Committee(){
-    const params = useParams().CommitteeName;
 
-    return(
-        <>
-            <div className="title">
-                <h1>{params}</h1>
-            </div>
-            <section className="center">
-                <h2>Coming soon</h2>
-            </section>
-        </>
-    )
+@media (max-width: 1000px){
+    .team-member{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .team-member-description{
+        font-size: 1rem;
+    }
 }
