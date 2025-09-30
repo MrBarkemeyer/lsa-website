@@ -46,7 +46,7 @@ export default function Committees(){
                             Lowell Committees are all put together by each class board. Each committee has a different job/goal. Spirit committee only comes around once a year, and participation time lasts approximately two months. Their main job is to take care of spirit week activities, such as organizing the dance, hallway art, and the spirit banner. Dance committees such as prom and escape are handpicked by the board members themselves. Their job is to organize those specific dances, plan everything from the theme to the food laid out on the table. They must fund raise money in order to pay for these dances as well. Participation in the committees lasts for about a year and a half. 
                         </p>
                         <p>
-                            For more committee specific information, please refer to the committee links below. Committees in bold are planning events hosted in the current school year.
+                            For more committee specific information, please refer to the committee links below. Committees in charge are planning events hosted in the current school year.
                         </p>
                         <div className="committee-buttons">
                             {displayCommitteeButtons}
