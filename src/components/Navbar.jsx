@@ -260,7 +260,7 @@ export default function Navbar(props){
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
                         return(
-                           club.Category === "Volunteering and Public Service"
+                           club.Category === "Volunteer and Public Service"
                         )
                     }).map(object =>{
                         return {name: object.Name, to: object.Name}
@@ -315,7 +315,7 @@ export default function Navbar(props){
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
                         return(
-                           club.Category === "Games and Fantasy"
+                           club.Category === "Game and Fantasy"
                         )
                     }).map(object =>{
                         return {name: object.Name, to: object.Name}
