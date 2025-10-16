@@ -293,7 +293,7 @@ export default function Navbar(props){
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
                         return(
-                           club.Category === "Finance"
+                           club.Category === "Business"
                         )
                     }).map(object =>{
                         return {name: object.Name, to: object.Name}
@@ -304,7 +304,7 @@ export default function Navbar(props){
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
                         return(
-                           club.Category === "Food/Crafts"
+                           club.Category === "Food and Crafts"
                         )
                     }).map(object =>{
                         return {name: object.Name, to: object.Name}
@@ -326,7 +326,7 @@ export default function Navbar(props){
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
                         return(
-                           club.Category === "Literature and Media"
+                           club.Category === "Literature and Media Clubs"
                         )
                     }).map(object =>{
                         return {name: object.Name, to: object.Name}
@@ -337,7 +337,7 @@ export default function Navbar(props){
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
                         return(
-                           club.Category === "Politics and Public Speaking"
+                           club.Category === "Politics"
                         )
                     }).map(object =>{
                         return {name: object.Name, to: object.Name}
@@ -359,7 +359,7 @@ export default function Navbar(props){
                     hasDropDown: true,
                     subLinks2: clubData.filter(club =>{
                         return(
-                           club.Category === "Health and Environmental"
+                           club.Category === "Health & Environment"
                         )
                     }).map(object =>{
                         return {name: object.Name, to: object.Name}
