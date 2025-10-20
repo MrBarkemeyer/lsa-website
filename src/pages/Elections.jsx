@@ -111,8 +111,8 @@ import { Link } from "react-router-dom";
         <>
             <div className="title">
                 <h1>
-                    Spring '25 <br />
-                    Lowell Elections
+                    Fall '25 <br />
+                    Freshman Elections
                 </h1>
             </div>
             
