@@ -1,68 +1,20 @@
-import { useState } from "react";
+add this onto here import { useState } from "react";
 
 export default function ElectionPage({ electionData, displayElectionResults }) {
-  // 🔍 Helper: extract ID from Google Drive or YouTube URLs
+  // Optional helper (currently unused)
   function extractFileId(url) {
-    if (url.includes("drive.google.com")) {
-      const match = url.match(/[-\w]{25,}/);
-      return match ? match[0] : null;
-    }
-    if (url.includes("youtu.be") || url.includes("youtube.com")) {
-      const match = url.match(
-        /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/
-      );
-      return match ? match[1] : null;
-    }
-    return null;
+    const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
   }
 
-  // 🎞️ Embed component
-  const VideoEmbed = ({ url }) => {
-    if (!url) return null;
-
-    const isDrive = url.includes("drive.google.com");
-    const isYouTube = url.includes("youtu");
-    const fileId = extractFileId(url);
-
-    if (isDrive && fileId) {
-      return (
-        <iframe
-          src={`https://drive.google.com/file/d/${fileId}/preview`}
-          width="480"
-          height="270"
-          allow="autoplay"
-          className="video-frame"
-          title="Google Drive Petition"
-        />
-      );
-    }
-
-    if (isYouTube && fileId) {
-      return (
-        <iframe
-          src={`https://www.youtube.com/embed/${fileId}`}
-          width="480"
-          height="270"
-          allow="autoplay"
-          className="video-frame"
-          title="YouTube Petition"
-        />
-      );
-    }
-
-    // fallback: just show a clickable link
-    return (
-      <a href={url} target="_blank" rel="noopener noreferrer" className="petition-link">
-        Watch Petition
-      </a>
-    );
-  };
-
-  // 🧩 Candidate card
+  // Component for a single candidate with dropdown
   const CandidateCard = ({ candidate }) => {
     const [showPetition, setShowPetition] = useState(true);
 
-    const togglePetition = () => setShowPetition(prev => !prev);
+    const togglePetition = () => {
+      setShowPetition(prev => !prev);
+    };
 
     return (
       <div className="candidate">
@@ -73,11 +25,15 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
         {showPetition && (
           <p className="petition-text">{candidate.WrittenPetition}</p>
         )}
-
         {candidate.VideoPetition && (
-          <div className="video-container">
-            <VideoEmbed url={candidate.VideoPetition} />
-          </div>
+          <a
+            className="petition-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={candidate.VideoPetition}
+          >
+            My Video Petition
+          </a>
         )}
       </div>
     );
@@ -90,6 +46,7 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
 
   // Group data by board section and position
   const groupedCandidates = {};
+
   for (let i = 0; i < electionData.length; i++) {
     const candidate = electionData[i];
     const boardType = candidate.Board;
@@ -109,7 +66,6 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     groupedCandidates[boardSectionTitle][position].push(candidate);
   }
 
-  // 🎓 Define order of positions
   const LSA_POSITIONS = [
     "President",
     "Vice President",
@@ -131,8 +87,8 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     "Community Liaison"
   ];
 
-  // 🧱 Render sections dynamically
   const renderedSections = [];
+
   for (const sectionTitle in groupedCandidates) {
     const isSBC = sectionTitle === "SBC";
     const positionsList = isSBC ? SBC_POSITIONS : LSA_POSITIONS;
@@ -157,7 +113,6 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     );
   }
 
-  // 🧾 Final render
   return (
     <>
       <div className="title">
@@ -168,7 +123,15 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
       </div>
 
       <section className="info-page">
+        {/* Uncomment if you want quick nav */}
+        {/* <div className="quick-links flex-center">
+          <a href="#LSA 2028">LSA 2028 Elections</a>
+          <a href="#LSA 2027">LSA 2027 Elections</a>
+          <a href="#LSA 2026">LSA 2026 Elections</a>
+          <a href="#SBC">SBC Elections</a>
+        </div> */}
         {renderedSections}
+
         <div>{displayElectionResults}</div>
       </section>
     </>
