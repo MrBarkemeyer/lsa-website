@@ -6,7 +6,7 @@ export default function ElectionPage({ displayElectionResults }) {
 
   // Example Google Sheet CSV URL (replace YOUR_SHEET_ID with your real one)
   const SHEET_URL =
-    "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv";
+    "https://docs.google.com/spreadsheets/d/1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4/edit?gid=654173408#gid=654173408";
 
   // Load data from the sheet
   useEffect(() => {
