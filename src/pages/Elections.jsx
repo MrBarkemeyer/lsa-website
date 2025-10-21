@@ -1,7 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Papa from "papaparse"; // npm install papaparse
 
-export default function ElectionPage({ electionData, displayElectionResults }) {
-  // 🔍 Helper: extract file or video ID from Google Drive or YouTube URLs
+export default function ElectionPage({ displayElectionResults }) {
+  const [electionData, setElectionData] = useState([]);
+
+  // 🧠 Replace this with your Google Sheet's published CSV link
+  const SHEET_URL =
+    "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv";
+
+  // 🗳️ Fetch Google Sheet data once when component loads
+  useEffect(() => {
+    fetch(SHEET_URL)
+      .then(res => res.text())
+      .then(csv => {
+        const parsed = Papa.parse(csv, { header: true }).data;
+        setElectionData(parsed);
+      })
+      .catch(err => console.error("Error loading sheet data:", err));
+  }, []);
+
+  // 🔍 Helper: extract IDs from Google Drive or YouTube links
   function extractFileId(url) {
     if (!url) return null;
     if (url.includes("drive.google.com")) {
@@ -17,7 +35,7 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     return null;
   }
 
-  // 🎞️ Automatically embed Drive or YouTube videos
+  // 🎞️ Video embed handler
   const VideoEmbed = ({ url }) => {
     const info = extractFileId(url);
     if (!info) {
@@ -57,16 +75,14 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     return null;
   };
 
-  // 🧩 Candidate component
+  // 🧩 Candidate card
   const CandidateCard = ({ candidate }) => {
     const [showPetition, setShowPetition] = useState(true);
-
-    const togglePetition = () => setShowPetition(prev => !prev);
 
     return (
       <div className="candidate">
         <h3>{candidate.Name}</h3>
-        <button className="petition-toggle" onClick={togglePetition}>
+        <button className="petition-toggle" onClick={() => setShowPetition(p => !p)}>
           {showPetition ? "Hide Petition" : "Show Petition"}
         </button>
 
@@ -86,30 +102,30 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     return <p>No election data available.</p>;
   }
 
-  // 🗳️ Group data by section and position
+  // 🗳️ Group candidates by board + position
   const groupedCandidates = {};
-
   for (let i = 0; i < electionData.length; i++) {
-    const candidate = electionData[i];
-    const boardType = candidate.Board;
-    const grade = candidate.Grade;
-    const position = candidate.Position;
-    const boardSectionTitle = boardType === "LSA" ? `LSA ${grade}` : "SBC";
+    const c = electionData[i];
+    const boardType = c.Board;
+    const grade = c.Grade;
+    const position = c.Position;
+    const sectionTitle = boardType === "LSA" ? `LSA ${grade}` : "SBC";
 
-    if (!groupedCandidates[boardSectionTitle]) groupedCandidates[boardSectionTitle] = {};
-    if (!groupedCandidates[boardSectionTitle][position]) groupedCandidates[boardSectionTitle][position] = [];
+    if (!groupedCandidates[sectionTitle]) groupedCandidates[sectionTitle] = {};
+    if (!groupedCandidates[sectionTitle][position])
+      groupedCandidates[sectionTitle][position] = [];
 
-    groupedCandidates[boardSectionTitle][position].push(candidate);
+    groupedCandidates[sectionTitle][position].push(c);
   }
 
-  // 🎓 Position orders
+  // 🎓 Position lists
   const LSA_POSITIONS = [
     "President",
     "Vice President",
     "Secretary",
     "Treasurer",
     "Public Relations",
-    "Historian"
+    "Historian",
   ];
 
   const SBC_POSITIONS = [
@@ -121,42 +137,40 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     "Club Coordinator",
     "Dance Coordinator",
     "Public Relations",
-    "Community Liaison"
+    "Community Liaison",
   ];
 
-  // 🧱 Render dynamic sections
-  const renderedSections = [];
+  // 🧱 Render everything dynamically
+  const renderedSections = Object.entries(groupedCandidates).map(
+    ([sectionTitle, positions]) => {
+      const isSBC = sectionTitle === "SBC";
+      const positionsList = isSBC ? SBC_POSITIONS : LSA_POSITIONS;
 
-  for (const sectionTitle in groupedCandidates) {
-    const isSBC = sectionTitle === "SBC";
-    const positionsList = isSBC ? SBC_POSITIONS : LSA_POSITIONS;
-    const positionsInThisSection = groupedCandidates[sectionTitle];
+      return (
+        <div className="elections" key={sectionTitle} id={sectionTitle}>
+          <h2 className="center election-title flex-center">
+            {sectionTitle} Elections
+          </h2>
 
-    renderedSections.push(
-      <div className="elections" key={sectionTitle} id={sectionTitle}>
-        <h2 className="center election-title flex-center">
-          {sectionTitle} Elections
-        </h2>
+          {positionsList.map(position => (
+            <div key={position}>
+              <h3 className="center election-title flex-center">{position}</h3>
+              {(positions[position] || []).map(candidate => (
+                <CandidateCard candidate={candidate} key={candidate.Name} />
+              ))}
+            </div>
+          ))}
+        </div>
+      );
+    }
+  );
 
-        {positionsList.map(position => (
-          <div key={position}>
-            <h3 className="center election-title flex-center">{position}</h3>
-
-            {(positionsInThisSection[position] || []).map(candidate => (
-              <CandidateCard candidate={candidate} key={candidate.Name} />
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  // 🧾 Final return
+  // 🧾 Final render
   return (
     <>
       <div className="title">
         <h1>
-          Fall '25 <br />
+          Fall ’25 <br />
           Freshmen Elections
         </h1>
       </div>
