@@ -1,20 +1,67 @@
-add this onto here import { useState } from "react";
+import { useState } from "react";
 
 export default function ElectionPage({ electionData, displayElectionResults }) {
-  // Optional helper (currently unused)
+  // 🔍 Helper: extract file or video ID from Google Drive or YouTube URLs
   function extractFileId(url) {
-    const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
+    if (!url) return null;
+    if (url.includes("drive.google.com")) {
+      const match = url.match(/[-\w]{25,}/);
+      return match ? { type: "drive", id: match[0] } : null;
+    }
+    if (url.includes("youtu.be") || url.includes("youtube.com")) {
+      const match = url.match(
+        /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/
+      );
+      return match ? { type: "youtube", id: match[1] } : null;
+    }
+    return null;
   }
 
-  // Component for a single candidate with dropdown
+  // 🎞️ Automatically embed Drive or YouTube videos
+  const VideoEmbed = ({ url }) => {
+    const info = extractFileId(url);
+    if (!info) {
+      return (
+        <a href={url} target="_blank" rel="noopener noreferrer" className="petition-link">
+          Watch Petition
+        </a>
+      );
+    }
+
+    if (info.type === "drive") {
+      return (
+        <iframe
+          src={`https://drive.google.com/file/d/${info.id}/preview`}
+          width="480"
+          height="270"
+          allow="autoplay"
+          className="video-frame"
+          title="Drive Petition"
+        />
+      );
+    }
+
+    if (info.type === "youtube") {
+      return (
+        <iframe
+          src={`https://www.youtube.com/embed/${info.id}`}
+          width="480"
+          height="270"
+          allow="autoplay"
+          className="video-frame"
+          title="YouTube Petition"
+        />
+      );
+    }
+
+    return null;
+  };
+
+  // 🧩 Candidate component
   const CandidateCard = ({ candidate }) => {
     const [showPetition, setShowPetition] = useState(true);
 
-    const togglePetition = () => {
-      setShowPetition(prev => !prev);
-    };
+    const togglePetition = () => setShowPetition(prev => !prev);
 
     return (
       <div className="candidate">
@@ -22,18 +69,13 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
         <button className="petition-toggle" onClick={togglePetition}>
           {showPetition ? "Hide Petition" : "Show Petition"}
         </button>
-        {showPetition && (
-          <p className="petition-text">{candidate.WrittenPetition}</p>
-        )}
+
+        {showPetition && <p className="petition-text">{candidate.WrittenPetition}</p>}
+
         {candidate.VideoPetition && (
-          <a
-            className="petition-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={candidate.VideoPetition}
-          >
-            My Video Petition
-          </a>
+          <div className="video-container">
+            <VideoEmbed url={candidate.VideoPetition} />
+          </div>
         )}
       </div>
     );
@@ -44,7 +86,7 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     return <p>No election data available.</p>;
   }
 
-  // Group data by board section and position
+  // 🗳️ Group data by section and position
   const groupedCandidates = {};
 
   for (let i = 0; i < electionData.length; i++) {
@@ -52,20 +94,15 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     const boardType = candidate.Board;
     const grade = candidate.Grade;
     const position = candidate.Position;
-
     const boardSectionTitle = boardType === "LSA" ? `LSA ${grade}` : "SBC";
 
-    if (!groupedCandidates[boardSectionTitle]) {
-      groupedCandidates[boardSectionTitle] = {};
-    }
-
-    if (!groupedCandidates[boardSectionTitle][position]) {
-      groupedCandidates[boardSectionTitle][position] = [];
-    }
+    if (!groupedCandidates[boardSectionTitle]) groupedCandidates[boardSectionTitle] = {};
+    if (!groupedCandidates[boardSectionTitle][position]) groupedCandidates[boardSectionTitle][position] = [];
 
     groupedCandidates[boardSectionTitle][position].push(candidate);
   }
 
+  // 🎓 Position orders
   const LSA_POSITIONS = [
     "President",
     "Vice President",
@@ -87,6 +124,7 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     "Community Liaison"
   ];
 
+  // 🧱 Render dynamic sections
   const renderedSections = [];
 
   for (const sectionTitle in groupedCandidates) {
@@ -113,6 +151,7 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
     );
   }
 
+  // 🧾 Final return
   return (
     <>
       <div className="title">
@@ -123,15 +162,7 @@ export default function ElectionPage({ electionData, displayElectionResults }) {
       </div>
 
       <section className="info-page">
-        {/* Uncomment if you want quick nav */}
-        {/* <div className="quick-links flex-center">
-          <a href="#LSA 2028">LSA 2028 Elections</a>
-          <a href="#LSA 2027">LSA 2027 Elections</a>
-          <a href="#LSA 2026">LSA 2026 Elections</a>
-          <a href="#SBC">SBC Elections</a>
-        </div> */}
         {renderedSections}
-
         <div>{displayElectionResults}</div>
       </section>
     </>
