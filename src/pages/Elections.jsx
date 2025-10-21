@@ -4,7 +4,7 @@ import Papa from "papaparse"; // npm install papaparse
 export default function ElectionPage({ displayElectionResults }) {
   const [electionData, setElectionData] = useState([]);
 
-  // 🧠 Your published Google Sheet CSV link
+  // Example Google Sheet CSV URL (replace YOUR_SHEET_ID with your real one)
   const SHEET_URL =
     "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv";
 
@@ -19,7 +19,7 @@ export default function ElectionPage({ displayElectionResults }) {
       .catch(err => console.error("Error loading sheet data:", err));
   }, []);
 
-  // Extract Google Drive or YouTube video IDs
+  // Extract IDs from Google Drive or YouTube links
   function extractFileId(url) {
     if (!url) return null;
     if (url.includes("drive.google.com")) {
@@ -35,7 +35,7 @@ export default function ElectionPage({ displayElectionResults }) {
     return null;
   }
 
-  // Component for displaying videos
+  // Component to embed video
   const VideoEmbed = ({ url }) => {
     const info = extractFileId(url);
     if (!info) return null;
@@ -67,14 +67,11 @@ export default function ElectionPage({ displayElectionResults }) {
 
   // Candidate card
   const CandidateCard = ({ candidate }) => {
-    const [showPetition, setShowPetition] = useState(false);
+    const [showPetition, setShowPetition] = useState(true); // Show by default
 
     return (
       <div className="candidate">
         <h3>{candidate.Name}</h3>
-        <button onClick={() => setShowPetition(p => !p)}>
-          {showPetition ? "Hide Petition" : "Show Petition"}
-        </button>
 
         {showPetition && (
           <>
@@ -102,14 +99,22 @@ export default function ElectionPage({ displayElectionResults }) {
     );
   };
 
-  // Handle missing data
-  if (!electionData.length) {
-    return <p>Loading election data...</p>;
-  }
+  // If no data
+  if (!electionData.length) return <p>Loading election data…</p>;
 
-  // Group data by board and position
+  // Group candidates by board and position
   const groupedCandidates = {};
-  for (const c of electionData) {
+  for (const c of electionData.length ? electionData : [
+    {
+      Name: "Isabella Chen",
+      Board: "LSA",
+      Grade: "2028",
+      Position: "President",
+      WrittenPetition: "Hey Cardinals! I’m Isabella Chen and I’m running to be your freshman president! From these few weeks into high school, you’ve probably seen and experienced the stress of school. In contrast to this, I would like to help make your high school smooth and fun! My goal is to make resources more available for students, such as making sure care stations are resupplied. I would also like to have more lunch activities where students can participate in fun games to decompress and distract themselves from schoolwork. As your president I will work hard to make these goals come true in addition to any suggestions you tell me! Let’s make freshmen year unforgettable! Vote Isabella Chen to be your freshman president! ",
+      VideoPetition: "https://drive.google.com/file/d/1WpuZV07ip83LGudaVcRNwgGdaEsMWTI2/view?usp=sharing",
+      Media: "https://drive.google.com/file/d/1PBiRzBc9h62NkZmMgyCFy6L71iR05S7B/view"
+    } 
+  ]) {
     const sectionTitle = c.Board === "LSA" ? `LSA ${c.Grade}` : "SBC";
     if (!groupedCandidates[sectionTitle]) groupedCandidates[sectionTitle] = {};
     if (!groupedCandidates[sectionTitle][c.Position])
