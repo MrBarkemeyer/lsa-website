@@ -6,7 +6,7 @@ export default function ElectionPage({ displayElectionResults }) {
 
   // 🧠 Replace this with your Google Sheet's published CSV link
   const SHEET_URL =
-    "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv";
+    "https://docs.google.com/spreadsheets/d/1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4/edit?usp=sharing";
 
   // 🗳️ Fetch Google Sheet data once when component loads
   useEffect(() => {
