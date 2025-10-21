@@ -1,134 +1,52 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
- // Extract Google Drive file ID
-    function extractFileId(url) {
-        const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
-        const match = url.match(regex);
-        return match ? match[1] : null;
+max-width: 960px;
+margin: 100px auto;
+}
+.quick-links{
+  flex-direction: column;
+  gap: 1rem;
+  a{
+    font-size: 1.2rem;
+    text-decoration: underline;
+  }
+}
+.elections{
+min-height: 600px;
+padding: 0.5rem 0; 
+.candidate{
+margin-bottom: 2rem;
+    p{
+    p, .petition-link{
+margin-left: 1vw;
+}
+    .petition-link{
+      display: block;
+      margin-top: 0.5rem;
+      color: #0077cc;
     }
-
-    // Component for a single candidate with dropdown
-    const CandidateCard = ({ candidate }) => {
-        const [showPetition, setShowPetition] = useState(true);
-
-        const togglePetition = () => {
-            setShowPetition(prev => !prev);
-        };
-
-        return (
-            <div className="candidate" key={candidate.Name}>
-                <h3>{candidate.Name}</h3>
-                <button className="petition-toggle" onClick={togglePetition}>
-                    {showPetition ? "Hide Petition" : "Show Petition"}
-                </button>
-                {showPetition && (
-                    <p className="petition-text">{candidate.WrittenPetition}</p>
-                )}
-                {candidate.VideoPetition && (
-                    <a
-                        className="petition-link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={candidate.VideoPetition}
-                    >
-                        My Video Petition
-                    </a>
-                )}
-            </div>
-        );
-    };
-
-    // Group data by board section and position
-    const groupedCandidates = {};
-
-    for (let i = 0; i < electionData.length; i++) {
-        const candidate = electionData[i];
-        const boardType = candidate.Board;
-        const grade = candidate.Grade;
-        const position = candidate.Position;
-
-        const boardSectionTitle = boardType === "LSA" ? `LSA ${grade}` : "SBC";
-
-        if (!groupedCandidates[boardSectionTitle]) {
-            groupedCandidates[boardSectionTitle] = {};
-        }
-
-        if (!groupedCandidates[boardSectionTitle][position]) {
-            groupedCandidates[boardSectionTitle][position] = [];
-        }
-
-        groupedCandidates[boardSectionTitle][position].push(candidate);
-    }
-
-    const LSA_POSITIONS = [
-        "President",
-        "Vice President",
-        "Secretary",
-        "Treasurer",
-        "Public Relations",
-        "Historian"
-    ];
-
-    const SBC_POSITIONS = [
-        "President",
-        "Vice President",
-        "Secretary",
-        "Treasurer",
-        "Event Coordinator",
-        "Club Coordinator",
-        "Dance Coordinator",
-        "Public Relations",
-        "Community Liaison"
-    ];
-
-    const renderedSections = [];
-
-    for (const sectionTitle in groupedCandidates) {
-        const isSBC = sectionTitle === "SBC";
-        const positionsList = isSBC ? SBC_POSITIONS : LSA_POSITIONS;
-        const positionsInThisSection = groupedCandidates[sectionTitle];
-
-        renderedSections.push(
-            <div className="elections" key={sectionTitle} id={sectionTitle}>
-                <h2 className="center election-title flex-center">
-                    {sectionTitle} Elections
-                </h2>
-
-                {positionsList.map(position => (
-                    <div key={position}>
-                        <h3 className="center election-title flex-center">{position}</h3>
-
-                        {(positionsInThisSection[position] || []).map(candidate => (
-                            <CandidateCard candidate={candidate} key={candidate.Name} />
-                        ))}
-                    </div>
-                ))}
-            </div>
-        );
-    }
-
-    return (
-        <>
-            <div className="title">
-                <h1>
-                    Fall '25 <br />
-                    Freshmen Elections
-                </h1>
-            </div>
-            
-            <section className="info-page">
-                {/* <div className="quick-links flex-center">
-                    <a href="#LSA 2028">LSA 2028 Elections</a>
-                    <a href="#LSA 2027">LSA 2027 Elections</a>
-                    <a href="#LSA 2026">LSA 2026 Elections</a>
-                    <a href="#SBC">SBC Elections</a>
-                </div>
-                {renderedSections} */}
-                <div>
-                    {displayElectionResults}
-                </div>
-            </section>
-        </>
-    );
+    
+}
+.candidate-media-petition{
+width: 400px;
+height: auto;
+}
+  
+}
+.petition-toggle {
+  background-color: #eee;
+  border: none;
+  padding: 6px 10px;
+  margin-top: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
 }
 
+.petition-text {
+  margin-top: 0.5rem;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-left: 4px solid #ccc;
+  white-space: pre-wrap;
+}
+
+.election-title {
