@@ -1,18 +1,5 @@
 export default function Elections({electionData}){
 
-//Old Code - Not used anymore
-    const electionResults = [
-        {
-            board: "LSA 2028 Board",
-            color: "green",
-            president: "Dylan Mac",
-            vicePresident: "Trish Tran",
-            secretary: "Isabella Rabe",
-            treasurer: "Mauricio Becerra",
-            publicRelations: "Nhalan Vo",
-            historian: "Chelsea Ly"
-        },
-    ];
     const displayElectionResults = electionResults.map((element, index)=>{
         const {board, color, president, vicePresident, secretary, treasurer, publicRelations, historian} = element
         return(
