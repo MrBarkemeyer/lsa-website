@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ElectionPage({ electionData, displayElectionResults }) {
+export default function ElectionPage({ electionData }) {
   // Optional helper (currently unused)
   function extractFileId(url) {
     const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
