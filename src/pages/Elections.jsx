@@ -1,14 +1,11 @@
-export default function Elections({electionData}){
-
-//New Code Starts Here
-    // Function to extract the file ID from a Google Drive URL
-export default function Elections({ electionData }) {
-    // Extract Google Drive file ID
-function extractFileId(url) {
-const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
-const match = url.match(regex);
-return match ? match[1] : null;
-}
+import { useState } from "react";
+import { Link } from "react-router-dom";
+ // Extract Google Drive file ID
+    function extractFileId(url) {
+        const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
+        const match = url.match(regex);
+        return match ? match[1] : null;
+    }
 
     // Component for a single candidate with dropdown
     const CandidateCard = ({ candidate }) => {
@@ -17,7 +14,6 @@ return match ? match[1] : null;
         const togglePetition = () => {
             setShowPetition(prev => !prev);
         };
-
 
         return (
             <div className="candidate" key={candidate.Name}>
@@ -64,34 +60,6 @@ return match ? match[1] : null;
         groupedCandidates[boardSectionTitle][position].push(candidate);
     }
 
-    const displayElectionCandidates = (() => {
-        const groupedData = electionData.reduce((acc, curr) => {
-            const board = curr.Board;
-            const grade = curr.Grade;
-            const position = curr.Position;
-    
-            // Key for organizing: e.g. "LSA 2028" or "SBC"
-            const boardKey = board === 'LSA' ? `${board} ${grade}` : 'SBC';
-    
-            if (!acc[boardKey]) acc[boardKey] = {};
-            if (!acc[boardKey][position]) acc[boardKey][position] = [];
-    
-            acc[boardKey][position].push(curr);
-            return acc;
-        }, {});
-    
-        const POSITIONS = [
-            "President",
-            "Vice President",
-            "Secretary",
-            "Treasurer",
-            "Public Relations",
-            "Historian"
-        ];
-    
-        return Object.entries(groupedData).map(([sectionTitle, positions]) => (
-            <div className="elections" key={sectionTitle}>
-                <h2 className="election-title">
     const LSA_POSITIONS = [
         "President",
         "Vice President",
@@ -123,59 +91,44 @@ return match ? match[1] : null;
         renderedSections.push(
             <div className="elections" key={sectionTitle} id={sectionTitle}>
                 <h2 className="center election-title flex-center">
-{sectionTitle} Elections
-</h2>
-    
-                {POSITIONS.map(position => (
+                    {sectionTitle} Elections
+                </h2>
 
                 {positionsList.map(position => (
-<div key={position}>
-<h3 className="center election-title flex-center">{position}</h3>
-    
-                        {positions[position]?.map(candidate => (
-                            <div className="candidate" key={candidate.Name}>
-                                <h3>{candidate.Name}</h3>
-                                <p>{candidate.WrittenPetition}</p>
-                                {candidate.MediaPetition && <img className="candidate-media-petition"src={`https://drive.google.com/thumbnail?id=${extractFileId(candidate.MediaPetition)}`} alt={`${candidate.Name}`}/>}
-                            </div>
+                    <div key={position}>
+                        <h3 className="center election-title flex-center">{position}</h3>
 
                         {(positionsInThisSection[position] || []).map(candidate => (
                             <CandidateCard candidate={candidate} key={candidate.Name} />
-))}
-</div>
-))}
-</div>
-        ));
-    })();
-
-//New Code Starts Here
-
+                        ))}
+                    </div>
+                ))}
+            </div>
         );
     }
 
-    return(
     return (
-<>
-<div className="title">
-<h1>
-Spring '25 <br />
-Lowell Elections
-</h1>
-</div>
+        <>
+            <div className="title">
+                <h1>
+                    Fall '25 <br />
+                    Freshmen Elections
+                </h1>
+            </div>
             
-<section className="info-page">
-                {displayElectionCandidates}
-                <div className="quick-links flex-center">
+            <section className="info-page">
+                {/* <div className="quick-links flex-center">
                     <a href="#LSA 2028">LSA 2028 Elections</a>
                     <a href="#LSA 2027">LSA 2027 Elections</a>
                     <a href="#LSA 2026">LSA 2026 Elections</a>
                     <a href="#SBC">SBC Elections</a>
                 </div>
-                {renderedSections}
-</section>
-            
-</>
-    )
-}
+                {renderedSections} */}
+                <div>
+                    {displayElectionResults}
+                </div>
+            </section>
+        </>
     );
 }
+
