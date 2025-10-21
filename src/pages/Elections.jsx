@@ -1,19 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
-export default function ElectionPage({ electionData, displayElectionResults}) {
-  // Optional helper (currently unused)
-  function extractFileId(url) {
-    const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
+export default function ElectionPage({ electionData, displayElectionResults }) {
+  if (!electionData || electionData.length === 0) {
+    return <p>No election data available.</p>;
   }
 
   const CandidateCard = ({ candidate }) => {
     const [showPetition, setShowPetition] = useState(true);
 
     return (
-      <div className="candidate" key={candidate.Name}>
+      <div className="candidate">
         <h3>{candidate.Name}</h3>
         <button className="petition-toggle" onClick={() => setShowPetition(p => !p)}>
           {showPetition ? "Hide Petition" : "Show Petition"}
@@ -35,7 +31,7 @@ export default function ElectionPage({ electionData, displayElectionResults}) {
     );
   };
 
-  // Group data by board section and position
+  // Group data
   const groupedCandidates = {};
   for (const candidate of electionData) {
     const { Board, Grade, Position } = candidate;
@@ -96,15 +92,7 @@ export default function ElectionPage({ electionData, displayElectionResults}) {
       </div>
 
       <section className="info-page">
-        {/* Example navigation */}
-        {/* <div className="quick-links flex-center">
-          <a href="#LSA 2028">LSA 2028 Elections</a>
-          <a href="#LSA 2027">LSA 2027 Elections</a>
-          <a href="#LSA 2029">LSA 2029 Elections</a>
-          <a href="#SBC">SBC Elections</a>
-        </div> */}
         {renderedSections}
-
         <div>{displayElectionResults}</div>
       </section>
     </>
