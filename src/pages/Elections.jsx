@@ -76,7 +76,15 @@ const CandidateCard = ({ candidate }) => {
                 >
                     My Video Petition
                 </a>
-            )}
+            )} 
+           <a
+                    className="petition-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={candidate.MediaPetition}
+                >
+                    My Media Petition
+                </a>
         </div>
     );
 };
