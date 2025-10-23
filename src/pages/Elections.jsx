@@ -32,9 +32,16 @@ import { Link } from "react-router-dom";
                         href={candidate.VideoPetition}
                     >
                         My Video Petition
-                    </a>
+                    </a> 
                 )}
-            </div>
+            </div>   <a
+                        className="petition-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={candidate.MediaPetition}
+                    >
+                        My Media Petition
+                    </a>
         );
 // Extract Google Drive file ID
 function extractFileId(url) {
