@@ -14,7 +14,7 @@ export default function ClubResources(){
                 <h2>Join the 2025-2026 Activities Google Classroom</h2>
                 <p><strong>Join Code:</strong> knmn6yuw</p>
                 <p>Here you can find updates and announcements for clubs, such as sign-ups for co-curricular events, or important forms to fill out! Keep in mind that although the materials can be found here, you must join the google classroom to be able to submit docs, and receive important updates</p>
-                <h2><span></span>Main Contact Enkhiinkhuslen Tegshjargal (SBC Club Coordinator)</h2>
+                <h2><span></span> Main Contact Enkhiinkhuslen Tegshjargal (SBC Club Coordinator)</h2>
                 <p>Email: lowellclubcoord25@gmail.com</p>
                 <div className="club-buttons">
                     <LinkButton to="/Clubs/NewClub" noTarget={true}>How to Start a Club</LinkButton>
