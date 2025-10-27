@@ -57,7 +57,6 @@ export default function ElectionPage({ electionData = [], displayElectionResults
   // Group data by board section and position
   const groupedCandidates = {};
 
-  // Render grouped sections (assuming you have logic elsewhere)
   const renderedSections = Object.keys(groupedCandidates).map((section) => (
     <div key={section} id={section}>
       <h2>{section}</h2>
