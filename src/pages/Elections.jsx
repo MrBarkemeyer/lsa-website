@@ -29,23 +29,22 @@ const CandidateCard = ({ candidate }) => {
   };
 
   // Get image or media petition URL
-  const getMediaUrl = (url) => {
-    if (!url) return null;
+const getMediaUrl = (url) => {
+  if (!url) return null;
 
-    // Direct image (jpg, png, etc.)
-    if (url.match(/\.(jpeg|jpg|png|gif|webp)$/i)) {
-      return url;
-    }
-
-    // Google Drive image
-    const fileId = extractFileId(url);
-    if (fileId) {
-      return `https://drive.google.com/uc?export=view&id=${fileId}`;
-    }
-
-    // Fallback (just return raw URL)
+  // Direct image link
+  if (url.match(/\.(jpeg|jpg|png|gif|webp)$/i)) {
     return url;
-  };
+  }
+
+  // Google Drive file links
+  const fileId = extractFileId(url);
+  if (fileId) {
+    return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+  }
+
+  return url;
+};
 
   const videoUrl = getEmbedUrl(candidate.VideoPetition);
   const mediaUrl = getMediaUrl(candidate.MediaPetition);
