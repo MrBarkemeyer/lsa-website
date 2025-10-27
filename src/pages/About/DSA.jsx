@@ -1,4 +1,4 @@
-import Barkemeyer from "../../assets/Barkemeyer2.png";
+import Barkemeyer from "../../assets/Barkemeyer.png";
 
 export default function DSA() {
   return (
@@ -8,7 +8,7 @@ export default function DSA() {
       </div>
       <section className="dsa center">
         <div>
-          <img src="/assets/Barkemeyer2.png" alt="Mr. Barkemeyer" className="dsa-image"/>
+          <img src="/assets/Barkemeyer.png" alt="Mr. Barkemeyer" className="dsa-image"/>
           <h2>JACOB BARKEMEYER</h2>
         </div>
         <p>APUSH & Leadership Teacher, Badminton Coach, Director of Student Activities</p>
