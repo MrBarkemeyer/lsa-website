@@ -1,79 +1,92 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-// Extract Google Drive file ID (if needed later)
+// Extract Google Drive file ID
 function extractFileId(url) {
   const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
   const match = url.match(regex);
   return match ? match[1] : null;
 }
 
-// Component for a single candidate
+// Component for a single candidate with dropdown
 const CandidateCard = ({ candidate }) => {
-  const [showWritten, setShowWritten] = useState(true);
-  const [showVideo, setShowVideo] = useState(true);
-  const [showMedia, setShowMedia] = useState(true);
+  const [showPetition, setShowPetition] = useState(true);
+
+  const togglePetition = () => {
+    setShowPetition(prev => !prev);
+  };
 
   return (
     <div className="candidate" key={candidate.Name}>
       <h3>{candidate.Name}</h3>
-
-      {/* --- Written Petition --- */}
-      <button
-        className="petition-toggle"
-        onClick={() => setShowWritten(prev => !prev)}
-      >
-        {showWritten ? "Hide Written Petition" : "Show Written Petition"}
+      <button className="petition-toggle" onClick={togglePetition}>
+        {showPetition ? "Hide Petition" : "Show Petition"}
       </button>
-      {showWritten && candidate.WrittenPetition && (
+
+      {showPetition && (
         <p className="petition-text">{candidate.WrittenPetition}</p>
       )}
 
-      {/* --- Video Petition --- */}
       {candidate.VideoPetition && (
-        <>
-          <button
-            className="petition-toggle"
-            onClick={() => setShowVideo(prev => !prev)}
-          >
-            {showVideo ? "Hide Video Petition" : "Show Video Petition"}
-          </button>
-          {showVideo && (
-            <a
-              className="petition-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={candidate.VideoPetition}
-            >
-              Watch My Video Petition
-            </a>
-          )}
-        </>
+        <a
+          className="petition-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          href={candidate.VideoPetition}
+        >
+          My Video Petition
+        </a>
       )}
 
-      {/* --- Media Petition --- */}
       {candidate.MediaPetition && (
-        <>
-          <button
-            className="petition-toggle"
-            onClick={() => setShowMedia(prev => !prev)}
-          >
-            {showMedia ? "Hide Media Petition" : "Show Media Petition"}
-          </button>
-          {showMedia && (
-            <a
-              className="petition-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={candidate.MediaPetition}
-            >
-              View My Media Petition
-            </a>
-          )}
-        </>
+        <a
+          className="petition-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          href={candidate.MediaPetition}
+        >
+          My Media Petition
+        </a>
       )}
     </div>
   );
 };
 
-export default CandidateCard;
+// Main elections component
+export default function ElectionPage({ electionData = [], displayElectionResults = null }) {
+  // Group data by board section and position
+  const groupedCandidates = {};
+
+  // Render grouped sections (assuming you have logic elsewhere)
+  const renderedSections = Object.keys(groupedCandidates).map((section) => (
+    <div key={section} id={section}>
+      <h2>{section}</h2>
+      {groupedCandidates[section].map(candidate => (
+        <CandidateCard key={candidate.Name} candidate={candidate} />
+      ))}
+    </div>
+  ));
+
+  return (
+    <>
+      <div className="title">
+        <h1>Election Page</h1>
+      </div>
+
+      <section className="info-page">
+        <div className="quick-links flex-center">
+          <a href="#LSA2028">LSA 2028 Elections</a>
+          <a href="#LSA2027">LSA 2027 Elections</a>
+          <a href="#LSA2026">LSA 2026 Elections</a>
+          <a href="#SBC">SBC Elections</a>
+        </div>
+
+        {/* Render grouped candidate sections */}
+        {renderedSections}
+
+        {/* Optionally, render custom election results if provided */}
+        {displayElectionResults && <div>{displayElectionResults}</div>}
+      </section>
+    </>
+  );
+}
