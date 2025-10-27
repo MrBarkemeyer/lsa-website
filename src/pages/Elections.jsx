@@ -73,18 +73,9 @@ export default function ElectionPage({ electionData = [], displayElectionResults
         <h1>Election Page</h1>
       </div>
 
-      <section className="info-page">
-        <div className="quick-links flex-center">
-          <a href="#LSA2028">LSA 2028 Elections</a>
-          <a href="#LSA2027">LSA 2027 Elections</a>
-          <a href="#LSA2026">LSA 2026 Elections</a>
-          <a href="#SBC">SBC Elections</a>
-        </div>
-
         {/* Render grouped candidate sections */}
         {renderedSections}
 
-        {/* Optionally, render custom election results if provided */}
         {displayElectionResults && <div>{displayElectionResults}</div>}
       </section>
     </>
