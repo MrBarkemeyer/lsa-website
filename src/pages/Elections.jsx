@@ -26,59 +26,97 @@ const CandidateCard = ({ candidate }) => {
       {showPetition && (
         <p className="petition-text">{candidate.WrittenPetition}</p>
       )}
+  // Prepare Google Drive embed links
+  const videoId = candidate.VideoPetition ? extractFileId(candidate.VideoPetition) : null;
+  const mediaId = candidate.MediaPetition ? extractFileId(candidate.MediaPetition) : null;
 
-      {candidate.VideoPetition && (
-        <a
-          className="petition-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          href={candidate.VideoPetition}
-        >
-          My Video Petition
-        </a>
+  const videoEmbedUrl = videoId
+    ? `https://drive.google.com/file/d/${videoId}/preview`
+    : candidate.VideoPetition;
+
+  const imageEmbedUrl = mediaId
+    ? `https://drive.google.com/uc?export=view&id=${mediaId}`
+    : candidate.MediaPetition;
+
+  return (
+    <div className="candidate-card">
+      <h2 className="candidate-name">{candidate.Name}</h2>
+
+      <button className="petition-toggle" onClick={togglePetition}>
+        {showPetition ? "Hide Petition" : "Show Petition"}
+      </button>
+
+      {showPetition && (
+        <p className="petition-text">{candidate.WrittenPetition}</p>
       )}
 
+      {/* Embedded video petition */}
+      {candidate.VideoPetition && (
+        <div className="video-container">
+          {videoId ? (
+            <iframe
+              src={videoEmbedUrl}
+              title={`${candidate.Name}'s Video Petition`}
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              className="petition-video"
+            ></iframe>
+          ) : (
+            <a
+              className="petition-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={candidate.VideoPetition}
+            >
+              Watch My Video Petition
+            </a>
+          )}
+        </div>
+      )}
+
+      {/* Embedded image/media petition */}
       {candidate.MediaPetition && (
-        <a
-          className="petition-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          href={candidate.MediaPetition}
-        >
-          My Media Petition
-        </a>
+        <div className="media-container">
+          {mediaId ? (
+            <img
+              src={imageEmbedUrl}
+              alt={`${candidate.Name}'s Media Petition`}
+              className="petition-image"
+            />
+          ) : (
+            <a
+              className="petition-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={candidate.MediaPetition}
+            >
+              View My Media Petition
+            </a>
+          )}
+        </div>
       )}
     </div>
   );
 };
 
-// Main elections component
+// Main elections component (displays all candidates individually)
 export default function ElectionPage({ electionData = [], displayElectionResults = null }) {
-  // Group data by board section and position
-  const groupedCandidates = {};
-
-  const renderedSections = Object.keys(groupedCandidates).map((section) => (
-    <div key={section} id={section}>
-      <h2>{section}</h2>
-      {groupedCandidates[section].map(candidate => (
-        <CandidateCard key={candidate.Name} candidate={candidate} />
-      ))}
-    </div>
-  ));
-
   return (
     <>
       <div className="title">
-        <h1>Election Page</h1>
+        <h1>Election Candidates</h1>
       </div>
 
       <section className="info-page">
-        {/* Render grouped candidate sections */}
-        {renderedSections}
+        {/* Render each candidate individually */}
+        {electionData.map(candidate => (
+          <CandidateCard key={candidate.Name} candidate={candidate} />
+        ))}
 
-        {/* Optionally, render election results */}
+        {/* render election results */}
         {displayElectionResults && <div>{displayElectionResults}</div>}
       </section>
     </>
   );
 }
+
