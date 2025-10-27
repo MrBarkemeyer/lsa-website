@@ -1,41 +1,54 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-// Extract Google Drive file ID for embedding previews
-function extractFileId(url) {
-  const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-}
-
 // Component for a single candidate with petition toggles
 const CandidateCard = ({ candidate }) => {
   const [showPetition, setShowPetition] = useState(true);
 
-  const togglePetition = () => {
-    setShowPetition((prev) => !prev);
+  const togglePetition = () => setShowPetition((prev) => !prev);
+
+  // Extract Google Drive file ID
+  const extractFileId = (url) => {
+    if (!url) return null;
+    const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
   };
 
-  // Support embedded Google Drive or YouTube video
+  // Convert video link to embeddable link
   const getEmbedUrl = (url) => {
     if (!url) return null;
-    // YouTube links
     if (url.includes("youtube.com/watch?v=")) {
       return url.replace("watch?v=", "embed/");
     }
-    // Google Drive video preview
     const fileId = extractFileId(url);
     if (fileId) {
       return `https://drive.google.com/file/d/${fileId}/preview`;
     }
-    return url; // fallback to raw link
+    return null;
   };
 
-  // Handle media petitions (like images or posters)
-  const mediaFileId = extractFileId(candidate.MediaPetition);
-  const mediaUrl = mediaFileId
-    ? `https://drive.google.com/uc?export=view&id=${mediaFileId}`
-    : candidate.MediaPetition;
+  // Get image or media petition URL
+  const getMediaUrl = (url) => {
+    if (!url) return null;
+
+    // Direct image (jpg, png, etc.)
+    if (url.match(/\.(jpeg|jpg|png|gif|webp)$/i)) {
+      return url;
+    }
+
+    // Google Drive image
+    const fileId = extractFileId(url);
+    if (fileId) {
+      return `https://drive.google.com/uc?export=view&id=${fileId}`;
+    }
+
+    // Fallback (just return raw URL)
+    return url;
+  };
+
+  const videoUrl = getEmbedUrl(candidate.VideoPetition);
+  const mediaUrl = getMediaUrl(candidate.MediaPetition);
 
   return (
     <div className="candidate">
@@ -47,18 +60,18 @@ const CandidateCard = ({ candidate }) => {
 
       {showPetition && (
         <div className="petition-section">
-          {/* Written Petition */}
+          {/* Written petition */}
           {candidate.WrittenPetition && (
             <p className="petition-text">{candidate.WrittenPetition}</p>
           )}
 
-          {/* Video Petition */}
-          {candidate.VideoPetition && (
+          {/* Video petition (YouTube or Drive) */}
+          {videoUrl && (
             <div className="video-container">
               <iframe
                 width="560"
                 height="315"
-                src={getEmbedUrl(candidate.VideoPetition)}
+                src={videoUrl}
                 title={`${candidate.Name}'s Video Petition`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -67,18 +80,28 @@ const CandidateCard = ({ candidate }) => {
             </div>
           )}
 
-          {/* Media Petition (like a poster or image) */}
-          {candidate.MediaPetition && (
+          {/* Media petition (poster/image) */}
+          {mediaUrl && (
             <div className="media-container">
               <img
                 src={mediaUrl}
                 alt={`${candidate.Name}'s Media Petition`}
                 className="petition-media"
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  borderRadius: "12px",
+                  marginTop: "10px",
+                }}
+                onError={(e) => {
+                  e.target.style.display = "none";
+                }}
               />
               <a
                 href={candidate.MediaPetition}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="media-link"
               >
                 View Full Media Petition
               </a>
