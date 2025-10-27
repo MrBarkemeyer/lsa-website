@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import electionData from "../../data/electionsdata"; 
 
 // Extract Google Drive file ID
 function extractFileId(url) {
@@ -8,24 +9,11 @@ function extractFileId(url) {
   return match ? match[1] : null;
 }
 
-// Component for a single candidate with dropdown
+// Component for a single candidate
 const CandidateCard = ({ candidate }) => {
   const [showPetition, setShowPetition] = useState(true);
+  const togglePetition = () => setShowPetition((prev) => !prev);
 
-  const togglePetition = () => {
-    setShowPetition(prev => !prev);
-  };
-
-  return (
-    <div className="candidate" key={candidate.Name}>
-      <h3>{candidate.Name}</h3>
-      <button className="petition-toggle" onClick={togglePetition}>
-        {showPetition ? "Hide Petition" : "Show Petition"}
-      </button>
-
-      {showPetition && (
-        <p className="petition-text">{candidate.WrittenPetition}</p>
-      )}
   // Prepare Google Drive embed links
   const videoId = candidate.VideoPetition ? extractFileId(candidate.VideoPetition) : null;
   const mediaId = candidate.MediaPetition ? extractFileId(candidate.MediaPetition) : null;
@@ -39,8 +27,8 @@ const CandidateCard = ({ candidate }) => {
     : candidate.MediaPetition;
 
   return (
-    <div className="candidate-card">
-      <h2 className="candidate-name">{candidate.Name}</h2>
+    <div className="candidate">
+      <h3>{candidate.Name}</h3>
 
       <button className="petition-toggle" onClick={togglePetition}>
         {showPetition ? "Hide Petition" : "Show Petition"}
@@ -59,7 +47,7 @@ const CandidateCard = ({ candidate }) => {
               title={`${candidate.Name}'s Video Petition`}
               allow="autoplay; encrypted-media"
               allowFullScreen
-              className="petition-video"
+              className="candidate-video-petition"
             ></iframe>
           ) : (
             <a
@@ -81,7 +69,7 @@ const CandidateCard = ({ candidate }) => {
             <img
               src={imageEmbedUrl}
               alt={`${candidate.Name}'s Media Petition`}
-              className="petition-image"
+              className="candidate-media-petition"
             />
           ) : (
             <a
@@ -99,8 +87,8 @@ const CandidateCard = ({ candidate }) => {
   );
 };
 
-// Main elections component (displays all candidates individually)
-export default function ElectionPage({ electionData = [], displayElectionResults = null }) {
+// Main elections component
+export default function ElectionPage({ displayElectionResults = null }) {
   return (
     <>
       <div className="title">
@@ -108,15 +96,14 @@ export default function ElectionPage({ electionData = [], displayElectionResults
       </div>
 
       <section className="info-page">
-        {/* Render each candidate individually */}
-        {electionData.map(candidate => (
+        {/* Render all candidates */}
+        {electionData.map((candidate) => (
           <CandidateCard key={candidate.Name} candidate={candidate} />
         ))}
 
-        {/* render election results */}
+        {/* Optional results display */}
         {displayElectionResults && <div>{displayElectionResults}</div>}
       </section>
     </>
   );
 }
-
