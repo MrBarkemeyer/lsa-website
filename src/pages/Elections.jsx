@@ -198,14 +198,6 @@ export default function ElectionPage({
         </h1>
       </div>
 
-      <section className="info-page">
-        <div className="quick-links flex-center">
-          <a href="#LSA 2028">LSA 2028 Elections</a>
-          <a href="#LSA 2027">LSA 2027 Elections</a>
-          <a href="#LSA 2026">LSA 2026 Elections</a>
-          <a href="#SBC">SBC Elections</a>
-        </div>
-
         {renderedSections}
 
         {displayElectionResults && <div>{displayElectionResults}</div>}
