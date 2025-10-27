@@ -1,4 +1,4 @@
-import Barkemeyer from ".../src/assets/0-1.jpg"
+import Barkemeyer from "../../assets/Barkemeyer2.jpg"
 
 export default function DSA(){
     return(
