@@ -8,7 +8,7 @@ export default function DSA() {
       </div>
       <section className="dsa center">
         <div>
-          <img src="/assets/Barkemeyer.png" alt="Mr. Barkemeyer" className="dsa-image"/>
+          <img src={Barkemeyer} alt="Mr. Barkemeyer" className="dsa-image"/>
           <h2>JACOB BARKEMEYER</h2>
         </div>
         <p>APUSH & Leadership Teacher, Badminton Coach, Director of Student Activities</p>
