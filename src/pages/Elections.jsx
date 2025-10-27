@@ -72,9 +72,11 @@ export default function ElectionPage({ electionData = [], displayElectionResults
         <h1>Election Page</h1>
       </div>
 
+      <section className="info-page">
         {/* Render grouped candidate sections */}
         {renderedSections}
 
+        {/* Optionally, render election results */}
         {displayElectionResults && <div>{displayElectionResults}</div>}
       </section>
     </>
