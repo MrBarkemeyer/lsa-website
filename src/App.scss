@@ -509,22 +509,21 @@
   max-width: 100%;
 }
 
-/* Wrapper for video petitions */
-.video-wrapper {
+.video-container {
   position: relative;
-  width: 100%;          /* full width of parent */
-  max-width: 560px;     /* optional max width */
-  margin: 0 auto;       /* center horizontally */
-  height: 0;
+  width: 100%;          /* take full width of parent */
+  max-width: 560px;     /* optional max width for desktop */
+  margin: 0 auto;       /* center */
   padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
 }
 
-.video-wrapper iframe {
+.video-container iframe {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;          /* fills wrapper */
-  height: 100%;         /* fills wrapper */
+  width: 100%;
+  height: 100%;
   border: 0;
 }
 
