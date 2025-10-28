@@ -47,52 +47,45 @@ const CandidateCard = ({ candidate }) => {
       </button>
 
       {showPetition && (
-        <div className="petition-section">
-          {/* Video petition first */}
-          {videoUrl && (
-            <div className="video-container" style={{ marginBottom: "15px" }}>
-              <div className="video-wrapper">
-                <iframe
-                  src={videoUrl}
-                  title={`${candidate.Name}'s Video Petition`}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
-          )}
+  <div className="petition-section">
+    {/* Video petition (top) */}
+    {videoUrl && (
+      <div className="video-wrapper">
+        <iframe
+          src={videoUrl}
+          title={`${candidate.Name}'s Video Petition`}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </div>
+    )}
 
-          {/* Written petition */}
-          {candidate.WrittenPetition && (
-            <p className="petition-text">{candidate.WrittenPetition}</p>
-          )}
+    {/* Written petition */}
+    {candidate.WrittenPetition && (
+      <p className="petition-text">{candidate.WrittenPetition}</p>
+    )}
 
-          {/* Media petition (poster/image) */}
-          {mediaUrl && (
-            <div className="media-container" style={{ textAlign: "center", marginTop: "10px" }}>
-              <img
-                src={mediaUrl}
-                alt={`${candidate.Name}'s Media Petition`}
-                className="petition-media"
-                style={{ maxWidth: "100%", height: "auto", borderRadius: "12px" }}
-                onError={(e) => { e.target.style.display = "none"; }}
-              />
-              <a
-                href={candidate.MediaPetition}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="media-link"
-              >
-                View Full Media Petition
-              </a>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
+    {/* Media petition (poster/image) */}
+    {mediaUrl && (
+      <div className="media-container">
+        <img
+          src={mediaUrl}
+          alt={`${candidate.Name}'s Media Petition`}
+          className="petition-media"
+        />
+        <a
+          href={candidate.MediaPetition}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="media-link"
+        >
+          View Full Media Petition
+        </a>
+      </div>
+    )}
+  </div>
+)}
 
 export default CandidateCard;
 
