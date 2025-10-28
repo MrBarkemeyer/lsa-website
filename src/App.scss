@@ -508,7 +508,7 @@
 .video-wrapper {
   position: relative;
   width: 100%;
-  max-width: 600px; /* optional max width for desktop */
+  max-width: 600px; /* optional max width */
   margin: 0 auto;   /* center horizontally */
   padding-bottom: 56.25%; /* 16:9 ratio */
   height: 0;
@@ -523,6 +523,7 @@
   height: 100%;
   border: 0;
 }
+
 
 /* Media petition styling */
 .media-container {
