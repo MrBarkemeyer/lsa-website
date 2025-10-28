@@ -7,7 +7,6 @@ const CandidateCard = ({ candidate }) => {
 
   const togglePetition = () => setShowPetition((prev) => !prev);
 
-  // Extract Google Drive file ID
   const extractFileId = (url) => {
     if (!url) return null;
     const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
@@ -15,7 +14,6 @@ const CandidateCard = ({ candidate }) => {
     return match ? match[1] : null;
   };
 
-  // Convert video link to embeddable link
   const getEmbedUrl = (url) => {
     if (!url) return null;
     if (url.includes("youtube.com/watch?v=")) {
@@ -28,23 +26,13 @@ const CandidateCard = ({ candidate }) => {
     return null;
   };
 
-  // Get image or media petition URL
-const getMediaUrl = (url) => {
-  if (!url) return null;
-
-  // Direct image link
-  if (url.match(/\.(jpeg|jpg|png|gif|webp)$/i)) {
+  const getMediaUrl = (url) => {
+    if (!url) return null;
+    if (url.match(/\.(jpeg|jpg|png|gif|webp)$/i)) return url;
+    const fileId = extractFileId(url);
+    if (fileId) return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
     return url;
-  }
-
-  // Google Drive file links
-  const fileId = extractFileId(url);
-  if (fileId) {
-    return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
-  }
-
-  return url;
-};
+  };
 
   const videoUrl = getEmbedUrl(candidate.VideoPetition);
   const mediaUrl = getMediaUrl(candidate.MediaPetition);
@@ -59,12 +47,10 @@ const getMediaUrl = (url) => {
 
       {showPetition && (
         <div className="petition-section">
-          {/* Written petition */}
           {candidate.WrittenPetition && (
             <p className="petition-text">{candidate.WrittenPetition}</p>
           )}
 
-          {/* Video petition (YouTube or Drive) */}
           {videoUrl && (
             <div className="video-container">
               <iframe
@@ -79,22 +65,14 @@ const getMediaUrl = (url) => {
             </div>
           )}
 
-          {/* Media petition (poster/image) */}
           {mediaUrl && (
             <div className="media-container">
               <img
                 src={mediaUrl}
                 alt={`${candidate.Name}'s Media Petition`}
                 className="petition-media"
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                  borderRadius: "12px",
-                  marginTop: "10px",
-                }}
-                onError={(e) => {
-                  e.target.style.display = "none";
-                }}
+                style={{ maxWidth: "100%", height: "auto", borderRadius: "12px", marginTop: "10px" }}
+                onError={(e) => { e.target.style.display = "none"; }}
               />
               <a
                 href={candidate.MediaPetition}
@@ -113,11 +91,7 @@ const getMediaUrl = (url) => {
 };
 
 // Main elections component
-export default function ElectionPage({
-  electionData = [],
-  displayElectionResults = null,
-}) {
-  // Group data by board section and position
+export default function ElectionPage({ electionData = [], displayElectionResults = null }) {
   const groupedCandidates = {};
 
   for (let i = 0; i < electionData.length; i++) {
@@ -128,37 +102,14 @@ export default function ElectionPage({
 
     const boardSectionTitle = boardType === "LSA" ? `LSA ${grade}` : "SBC";
 
-    if (!groupedCandidates[boardSectionTitle]) {
-      groupedCandidates[boardSectionTitle] = {};
-    }
-
-    if (!groupedCandidates[boardSectionTitle][position]) {
-      groupedCandidates[boardSectionTitle][position] = [];
-    }
+    if (!groupedCandidates[boardSectionTitle]) groupedCandidates[boardSectionTitle] = {};
+    if (!groupedCandidates[boardSectionTitle][position]) groupedCandidates[boardSectionTitle][position] = [];
 
     groupedCandidates[boardSectionTitle][position].push(candidate);
   }
 
-  const LSA_POSITIONS = [
-    "President",
-    "Vice President",
-    "Secretary",
-    "Treasurer",
-    "Public Relations",
-    "Historian",
-  ];
-
-  const SBC_POSITIONS = [
-    "President",
-    "Vice President",
-    "Secretary",
-    "Treasurer",
-    "Event Coordinator",
-    "Club Coordinator",
-    "Dance Coordinator",
-    "Public Relations",
-    "Community Liaison",
-  ];
+  const LSA_POSITIONS = ["President","Vice President","Secretary","Treasurer","Public Relations","Historian"];
+  const SBC_POSITIONS = ["President","Vice President","Secretary","Treasurer","Event Coordinator","Club Coordinator","Dance Coordinator","Public Relations","Community Liaison"];
 
   const sectionTitles = Object.keys(groupedCandidates);
 
@@ -169,9 +120,7 @@ export default function ElectionPage({
 
     return (
       <div className="elections" key={sectionTitle} id={sectionTitle}>
-        <h2 className="center election-title flex-center">
-          {sectionTitle} Elections
-        </h2>
+        <h2 className="center election-title flex-center">{sectionTitle} Elections</h2>
 
         {positionsList.map((position) => (
           <div key={position}>
@@ -192,24 +141,11 @@ export default function ElectionPage({
   return (
     <>
       <div className="title">
-        <h1>
-          Fall '25 <br />
-          Freshmen Elections
-        </h1>
+        <h1>Fall '25 <br /> Freshmen Elections</h1>
       </div>
-
-      {/* Quick Links */}
-      <nav className="quick-links flex-center sticky-links">
-        {sectionTitles.map((title) => (
-          <a key={title} href={`#${title}`} className="quick-link">
-            {title}
-          </a>
-        ))}
-      </nav>
 
       <section className="info-page">
         {renderedSections}
-
         {displayElectionResults && <div>{displayElectionResults}</div>}
       </section>
     </>
