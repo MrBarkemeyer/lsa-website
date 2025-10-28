@@ -502,6 +502,11 @@
   display: block;
   margin-top: 0.5rem;
   color: #0077cc;
+} 
+
+.candidate, .petition-section {
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Video petition wrapper for responsive 16:9 aspect ratio */
