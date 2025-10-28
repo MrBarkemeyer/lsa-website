@@ -50,7 +50,7 @@ const CandidateCard = ({ candidate }) => {
   <div className="petition-section">
     {/* Video petition (top) */}
     {videoUrl && (
-  <div className="video-wrapper">
+  <div className="video-container">
     <iframe
       src={videoUrl}
       title={`${candidate.Name} Video Petition`}
