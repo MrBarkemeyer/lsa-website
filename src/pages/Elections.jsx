@@ -160,14 +160,14 @@ export default function ElectionPage({
     "Community Liaison",
   ];
 
-  const renderedSections = [];
+  const sectionTitles = Object.keys(groupedCandidates);
 
-  for (const sectionTitle in groupedCandidates) {
+  const renderedSections = sectionTitles.map((sectionTitle) => {
     const isSBC = sectionTitle === "SBC";
     const positionsList = isSBC ? SBC_POSITIONS : LSA_POSITIONS;
     const positionsInThisSection = groupedCandidates[sectionTitle];
 
-    renderedSections.push(
+    return (
       <div className="elections" key={sectionTitle} id={sectionTitle}>
         <h2 className="center election-title flex-center">
           {sectionTitle} Elections
@@ -187,7 +187,7 @@ export default function ElectionPage({
         ))}
       </div>
     );
-  }
+  });
 
   return (
     <>
@@ -198,6 +198,16 @@ export default function ElectionPage({
         </h1>
       </div>
 
+      {/* Quick Links */}
+      <nav className="quick-links flex-center sticky-links">
+        {sectionTitles.map((title) => (
+          <a key={title} href={`#${title}`} className="quick-link">
+            {title}
+          </a>
+        ))}
+      </nav>
+
+      <section className="info-page">
         {renderedSections}
 
         {displayElectionResults && <div>{displayElectionResults}</div>}
