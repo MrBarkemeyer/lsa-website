@@ -50,16 +50,15 @@ const CandidateCard = ({ candidate }) => {
   <div className="petition-section">
     {/* Video petition (top) */}
     {videoUrl && (
-      <div className="video-wrapper">
-        <iframe
-          src={videoUrl}
-          title={`${candidate.Name}'s Video Petition`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      </div>
-    )}
+  <div className="video-wrapper">
+    <iframe
+      src={videoUrl}
+      title={`${candidate.Name} Video Petition`}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    ></iframe>
+  </div>
+)}
 
     {/* Written petition */}
     {candidate.WrittenPetition && (
