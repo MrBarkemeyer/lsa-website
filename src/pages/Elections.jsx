@@ -20,9 +20,7 @@ const CandidateCard = ({ candidate }) => {
       return url.replace("watch?v=", "embed/");
     }
     const fileId = extractFileId(url);
-    if (fileId) {
-      return `https://drive.google.com/file/d/${fileId}/preview`;
-    }
+    if (fileId) return `https://drive.google.com/file/d/${fileId}/preview`;
     return null;
   };
 
@@ -47,12 +45,9 @@ const CandidateCard = ({ candidate }) => {
 
       {showPetition && (
         <div className="petition-section">
-          {candidate.WrittenPetition && (
-            <p className="petition-text">{candidate.WrittenPetition}</p>
-          )}
-
+          {/* Video petition first */}
           {videoUrl && (
-            <div className="video-container">
+            <div className="video-container" style={{ textAlign: "center", marginBottom: "15px" }}>
               <iframe
                 width="560"
                 height="315"
@@ -65,13 +60,19 @@ const CandidateCard = ({ candidate }) => {
             </div>
           )}
 
+          {/* Written petition */}
+          {candidate.WrittenPetition && (
+            <p className="petition-text">{candidate.WrittenPetition}</p>
+          )}
+
+          {/* Media petition */}
           {mediaUrl && (
-            <div className="media-container">
+            <div className="media-container" style={{ textAlign: "center", marginTop: "10px" }}>
               <img
                 src={mediaUrl}
                 alt={`${candidate.Name}'s Media Petition`}
                 className="petition-media"
-                style={{ maxWidth: "100%", height: "auto", borderRadius: "12px", marginTop: "10px" }}
+                style={{ maxWidth: "100%", height: "auto", borderRadius: "12px" }}
                 onError={(e) => { e.target.style.display = "none"; }}
               />
               <a
