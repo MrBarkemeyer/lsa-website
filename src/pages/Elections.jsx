@@ -7,6 +7,7 @@ const CandidateCard = ({ candidate }) => {
 
   const togglePetition = () => setShowPetition((prev) => !prev);
 
+  // Extract Google Drive file ID
   const extractFileId = (url) => {
     if (!url) return null;
     const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
@@ -14,6 +15,7 @@ const CandidateCard = ({ candidate }) => {
     return match ? match[1] : null;
   };
 
+  // Convert video link to embeddable link
   const getEmbedUrl = (url) => {
     if (!url) return null;
     if (url.includes("youtube.com/watch?v=")) {
@@ -24,6 +26,7 @@ const CandidateCard = ({ candidate }) => {
     return null;
   };
 
+  // Get image or media petition URL
   const getMediaUrl = (url) => {
     if (!url) return null;
     if (url.match(/\.(jpeg|jpg|png|gif|webp)$/i)) return url;
@@ -47,16 +50,16 @@ const CandidateCard = ({ candidate }) => {
         <div className="petition-section">
           {/* Video petition first */}
           {videoUrl && (
-            <div className="video-container" style={{ textAlign: "center", marginBottom: "15px" }}>
-              <iframe
-                width="560"
-                height="315"
-                src={videoUrl}
-                title={`${candidate.Name}'s Video Petition`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+            <div className="video-container" style={{ marginBottom: "15px" }}>
+              <div className="video-wrapper">
+                <iframe
+                  src={videoUrl}
+                  title={`${candidate.Name}'s Video Petition`}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
           )}
 
@@ -65,7 +68,7 @@ const CandidateCard = ({ candidate }) => {
             <p className="petition-text">{candidate.WrittenPetition}</p>
           )}
 
-          {/* Media petition */}
+          {/* Media petition (poster/image) */}
           {mediaUrl && (
             <div className="media-container" style={{ textAlign: "center", marginTop: "10px" }}>
               <img
@@ -90,6 +93,8 @@ const CandidateCard = ({ candidate }) => {
     </div>
   );
 };
+
+export default CandidateCard;
 
 // Main elections component
 export default function ElectionPage({ electionData = [], displayElectionResults = null }) {
