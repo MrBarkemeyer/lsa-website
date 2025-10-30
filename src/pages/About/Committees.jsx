@@ -6,20 +6,12 @@ export default function Committees(){
 
     const committees = [
         {
-            name: "Prom Committee",
-            to: "PromCommittee",
-        },
-        {
-            name: "SeniorBoat Committee",
-            to: "2026 Senior Boat ommittee",
+            name: "Senior Boat Committee",
+            to: "2026 Senior Boat Committee",
         },
         {
             name: "Senior Prom",
             to: "2026 Senior Prom Committee",
-        },
-        {
-            name: "Senior Boat",
-            to: "2026 Senior Boat Committee",
         },
         {
             name: "2027 Junior Prom",
