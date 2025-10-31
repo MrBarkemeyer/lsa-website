@@ -10,8 +10,8 @@ export default function Fundraising() {
             <LinkButton to="/Clubs/ClubResources" noTarget={true}>{"< back to club resources"}</LinkButton>
             <p>Resources to get you started on how to plan a fundraiser for your club! Club fundraisers are DIFFERENT from club events! If you are looking to plan an event, visit the event planning resources!
             </p>
-            <p><strong>KEEP IN MIND</strong> that there are only resources that are listed here. If you are looking for more information, join the 2023-2024 Activities Google Classroom (g6sf3ss). </p>
-            <h2>Main Contact Kaitlyn Lee (SBC Treasurer)</h2>
+            <p><strong>KEEP IN MIND</strong> that there are only resources that are listed here. If you are looking for more information, join the 2025-2026 Activities Google Classroom (g6sf3ss). </p>
+            <h2>Main Contact Kaitlyn Huey (SBC Treasurer)</h2>
             <p>email: lowellsbc.treasurer@gmail.com
             </p>
             <div className="club-buttons">
