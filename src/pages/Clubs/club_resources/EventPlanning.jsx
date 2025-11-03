@@ -11,7 +11,7 @@ export default function EventPlanning(){
                 <p>Resources to get you started on how to plan an event for your club! Club events are DIFFERENT from fundraisers! If you are looking to plan a fundraiser, visit the fundraising resources page!
                 </p>
                 <p><strong>KEEP IN MIND</strong> that there are only resources that are listed here. If you are looking for more information, join the 2023-2024 Activities Google Classroom (g6sf3ss). </p>
-                <h2>Main Contact Brandon Ho (SBC Events Coordinator)</h2>
+                <h2>Main Contact Brandon Ho (SBC Events Coordinator) </h2>
                 <p>email: lowelleventscoordinator@gmail.com</p>
                 <div className="club-buttons">
                     <LinkButton>Event Planning Form</LinkButton>
