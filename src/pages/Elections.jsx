@@ -1,151 +1,52 @@
-import { useState } from "react";
+@@ -2,6 +2,72 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
-// Component for a single candidate with petition toggles
-const CandidateCard = ({ candidate }) => {
-  const [showPetition, setShowPetition] = useState(true);
+export default function Elections({ electionData }) {
+    const ElectionResults = [
+        {
+            board: "LSA 2029 Election Results",
+            color: "#9c1919",
+            president: "Taran Yang",
+            vicePresident: "Preston Wang",
+            secretary: "Violette Trinh-Hsu",
+            treasurer: "Shirley Guan",
+            publicRelations: "Zarina Gorji",
+            historian: "Ashley Zhao"
+        },
+    ];
+    const displayElectionResults = ElectionResults.map((element, index)=>{
+        const {board, color, president, vicePresident, secretary, treasurer, publicRelations, historian, clubCoordinator, danceCoordinator, communityLiaison} = element
+        return(
+            <div key={index}>
+                <div className="election-outer-container">
+                    <div className="election-inner-container" style={{borderLeft: `6px solid ${color}`}}>
+                        <h3 style={{color: color}}>{board}</h3>
+                        <p><span className="bold">President: </span>{president}</p>
+                        <p><span className="bold">Vice President: </span>{vicePresident}</p>
+                        <p><span className="bold">Secretary: </span>{secretary}</p>
+                        <p><span className="bold">Treasurer: </span>{treasurer}</p>
+                        <p><span className="bold">Public Relations: </span>{publicRelations}</p>
+                        {historian && <p><span className="bold">Historian: </span>{historian}</p>}
+                        {clubCoordinator && <p><span className="bold">Club Coordinator: </span>{clubCoordinator}</p>}
+                        {danceCoordinator && <p><span className="bold">Dance Coordinator: </span>{danceCoordinator}</p>}
+                        {communityLiaison && <p><span className="bold">Community Liaison: </span>{communityLiaison}</p>}
+                    </div>
+                </div>
+            </div>
+        )
+    })
+    // Extract Google Drive file ID
+    function extractFileId(url) {
+        const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
+@@ -119,13 +185,16 @@ export default function Elections({ electionData }) {
+            </div>
 
-  const togglePetition = () => setShowPetition((prev) => !prev);
-
-  // Extract Google Drive file ID
-  const extractFileId = (url) => {
-    if (!url) return null;
-    const regex = /(?:\/file\/d\/|[?&]id=)([^/&?]+)/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-  };
-
-  // Convert video link to embeddable link
-  const getEmbedUrl = (url) => {
-    if (!url) return null;
-    if (url.includes("youtube.com/watch?v=")) {
-      return url.replace("watch?v=", "embed/");
-    }
-    const fileId = extractFileId(url);
-    if (fileId) return `https://drive.google.com/file/d/${fileId}/preview`;
-    return null;
-  };
-
-  // Get image or media petition URL
-  const getMediaUrl = (url) => {
-    if (!url) return null;
-    if (url.match(/\.(jpeg|jpg|png|gif|webp)$/i)) return url;
-    const fileId = extractFileId(url);
-    if (fileId) return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
-    return url;
-  };
-
-  const videoUrl = getEmbedUrl(candidate.VideoPetition);
-  const mediaUrl = getMediaUrl(candidate.MediaPetition);
-
-  return (
-    <div className="candidate">
-      <h3>{candidate.Name}</h3>
-
-      <button className="petition-toggle" onClick={togglePetition}>
-        {showPetition ? "Hide Petition" : "Show Petition"}
-      </button>
-
-      {showPetition && (
-  <div className="petition-section">
-    {/* Video petition (top) */}
-    {videoUrl && (
-  <div className="video-container">
-    <iframe
-      src={videoUrl}
-      title={`${candidate.Name} Video Petition`}
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    ></iframe>
-  </div>
-)}
-
-    {/* Written petition */}
-    {candidate.WrittenPetition && (
-      <p className="petition-text">{candidate.WrittenPetition}</p>
-    )}
-
-    {/* Media petition (poster/image) */}
-    {mediaUrl && (
-      <div className="media-container">
-        <img
-          src={mediaUrl}
-          alt={`${candidate.Name}'s Media Petition`}
-          className="petition-media"
-        />
-        <a
-          href={candidate.MediaPetition}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="media-link"
-        >
-          View Full Media Petition
-        </a>
-      </div>
-    )}
-  </div>
-)}
-
-export default CandidateCard;
-
-// Main elections component
-export default function ElectionPage({ electionData = [], displayElectionResults = null }) {
-  const groupedCandidates = {};
-
-  for (let i = 0; i < electionData.length; i++) {
-    const candidate = electionData[i];
-    const boardType = candidate.Board;
-    const grade = candidate.Grade;
-    const position = candidate.Position;
-
-    const boardSectionTitle = boardType === "LSA" ? `LSA ${grade}` : "SBC";
-
-    if (!groupedCandidates[boardSectionTitle]) groupedCandidates[boardSectionTitle] = {};
-    if (!groupedCandidates[boardSectionTitle][position]) groupedCandidates[boardSectionTitle][position] = [];
-
-    groupedCandidates[boardSectionTitle][position].push(candidate);
-  }
-
-  const LSA_POSITIONS = ["President","Vice President","Secretary","Treasurer","Public Relations","Historian"];
-  const SBC_POSITIONS = ["President","Vice President","Secretary","Treasurer","Event Coordinator","Club Coordinator","Dance Coordinator","Public Relations","Community Liaison"];
-
-  const sectionTitles = Object.keys(groupedCandidates);
-
-  const renderedSections = sectionTitles.map((sectionTitle) => {
-    const isSBC = sectionTitle === "SBC";
-    const positionsList = isSBC ? SBC_POSITIONS : LSA_POSITIONS;
-    const positionsInThisSection = groupedCandidates[sectionTitle];
-
-    return (
-      <div className="elections" key={sectionTitle} id={sectionTitle}>
-        <h2 className="center election-title flex-center">{sectionTitle} Elections</h2>
-
-        {positionsList.map((position) => (
-          <div key={position}>
-            <h3 className="center election-title flex-center">{position}</h3>
-
-            {(positionsInThisSection[position] || []).map((candidate) => (
-              <CandidateCard
-                candidate={candidate}
-                key={`${candidate.Name}-${candidate.Position}-${candidate.Grade}`}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+  
+                {renderedSections}
+                {renderedSections} */}
+                <div>
+                    {displayElectionResults}
+                </div>
+            </section>
+        </>
     );
-  });
-
-  return (
-    <>
-      <div className="title">
-        <h1>Fall '25 <br /> Freshmen Elections</h1>
-      </div>
-
-      <section className="info-page">
-        {renderedSections}
-        {displayElectionResults && <div>{displayElectionResults}</div>}
-      </section>
-    </>
-  );
-}
