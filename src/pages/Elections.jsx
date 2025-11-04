@@ -6,12 +6,12 @@ export default function Elections({ electionData }) {
         {
             board: "LSA 2029 Election Results",
             color: "#9c1919",
-            president: "Taran Yang",
-            vicePresident: "Preston Wang",
-            secretary: "Violette Trinh-Hsu",
-            treasurer: "Shirley Guan",
-            publicRelations: "Zarina Gorji",
-            historian: "Ashley Zhao"
+            president: "---",
+            vicePresident: "----",
+            secretary: "----",
+            treasurer: "----",
+            publicRelations: "----",
+            historian: "----"
         },
     ];
     const displayElectionResults = ElectionResults.map((element, index)=>{
