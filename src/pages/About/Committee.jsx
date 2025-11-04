@@ -1,25 +1,40 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-export default function Committees(props) {
+export default function Committees({ officerData: allOfficers }) {
   const { BoardName: params } = useParams();
-  const officers = props.officerData;
   const [officerData, setOfficerData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (officers && params) {
-      setOfficerData(officers.filter(officer => params === officer.Team));
+    if (allOfficers && params) {
+      const filtered = allOfficers.filter(
+        (officer) => officer.Team === params
+      );
+      setOfficerData(filtered);
+      setLoading(false);
     }
-  }, [officers, params]);
+  }, [allOfficers, params]);
 
   function extractFileId(driveUrl) {
     const match = driveUrl?.match(/[?&]id=([^&]+)/);
-    return match ? match[1] : null; // Return the file ID if matched, otherwise null
+    return match ? match[1] : null;
+  }
+
+  if (loading) {
+    return <LoadingTruck />;
   }
 
   if (!officerData.length) {
-    return <LoadingTruck />;
+    return (
+      <div className="center">
+        <h1 className="team-name">Committees {params}</h1>
+        <p>No officers found for this committee.</p>
+      </div>
+    );
   }
+
+  const committeeName = officerData[0]?.Team || params;
 
   const displayOfficers = officerData.map((officer, index) => (
     <div key={index} className="team-member">
@@ -43,13 +58,11 @@ export default function Committees(props) {
   return (
     <>
       <h1 className="team-name center">
-        Committees {params}
-        <br /> 2025-2026
+        {committeeName}
+        <br /> 2025–2026
       </h1>
 
-      <div className="teams">
-        {displayOfficers}
-      </div>
+      <div className="teams">{displayOfficers}</div>
     </>
   );
 }
