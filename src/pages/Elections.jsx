@@ -60,12 +60,6 @@ export default function Elections({ electionData }) {
     </section>
   );
 }
-✅ Example Usage (in App.jsx)
-jsx
-Copy code
-import React from "react";
-import Elections from "./Elections";
-
 function App() {
   return (
     <div style={{ padding: "2rem", backgroundColor: "#f7f7f7" }}>
