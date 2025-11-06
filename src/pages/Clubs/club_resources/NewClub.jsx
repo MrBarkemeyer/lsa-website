@@ -12,7 +12,7 @@ export default function NewClub(){
                 <p>KEEP IN MIND that there are only resources that are listed here. If you are looking for more information, join the 2023-2024 Activities Google Classroom (g6sf3ss). </p>
                 <h2>Main Contact Enkhiinkhuslen Tegshjargal (SBC Club Coordinator)</h2>
                 <p>Email: lowellclubcoord25@gmail.com</p>
-                <h2>Step 1 Join the 2023-2024 Activities Google Classroom</h2>
+                <h2>Step 1 Join the 2025-2026 Activities Google Classroom</h2>
                 <p>Join Code: knmn6yuw</p>
                 <p>Here you can find updates and announcements for clubs, such as sign-ups for co-curricular events, or important forms to fill out! Keep in mind that although the materials can be found here, you must join the google classroom to be able to submit docs, and receive important updates</p>
                 <h2>Step 2 Complete the Necessary Forms</h2>
