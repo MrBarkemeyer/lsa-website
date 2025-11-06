@@ -92,7 +92,6 @@ export default function NewClub() {
                     Get your club started by promoting it, and deciding when your club
                     will be meeting!
                 </p>
-                </div>
             </section>
         </>
     );
