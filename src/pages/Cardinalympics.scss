@@ -344,6 +344,87 @@
   }
 }
 
+.cardinalympics-scoreboard-mobile-list {
+  display: none;
+}
+
+.scoreboard-mobile-card {
+  background: linear-gradient(180deg, #ffffff 0%, #fcfcfd 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 0.72rem 0.8rem;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.scoreboard-mobile-card__title {
+  margin: 0 0 0.4rem;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #1f2430;
+  line-height: 1.25;
+}
+
+.scoreboard-mobile-card__meta,
+.scoreboard-mobile-card__scores {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.28rem 0.55rem;
+  font-size: 0.82rem;
+  color: #444;
+}
+
+.scoreboard-mobile-card__scores {
+  margin-top: 0.4rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.scoreboard-mobile-card__score-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.22rem;
+  padding: 0.2rem 0.28rem;
+  border-radius: 999px;
+  background: #f4f6f8;
+  color: #2c313a;
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+
+  strong {
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+    color: #5b616d;
+  }
+}
+
+.scoreboard-mobile-card__winner {
+  margin-top: 0.5rem;
+  padding-top: 0.45rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.12);
+}
+
+.scoreboard-mobile-card__winner-btn {
+  padding: 0.36rem 0.7rem;
+  font-size: 0.8rem;
+  color: #fff;
+  background: var(--lowell-red);
+  border: 1px solid var(--lowell-red);
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(156, 25, 25, 0.2);
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(156, 25, 25, 0.28);
+  }
+}
+
 .scoreboard-arrow-btn {
   display: inline-flex;
   align-items: center;
@@ -382,6 +463,98 @@
   &:hover {
     background: var(--lowell-red);
     color: #fff;
+  }
+}
+
+.cardinalympics-winning-chances {
+  margin-top: 1rem;
+  padding: 1rem 1rem 1.05rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+
+  h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    color: #1f2430;
+  }
+}
+
+.cardinalympics-winning-chances__rows {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.cardinalympics-winning-chances__label-wrap {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.cardinalympics-winning-chances__dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+}
+
+.cardinalympics-winning-chances__dot--freshman { background: #2e7d32; }
+.cardinalympics-winning-chances__dot--sophomore { background: #6a1b9a; }
+.cardinalympics-winning-chances__dot--junior { background: #1565c0; }
+.cardinalympics-winning-chances__dot--senior { background: #9c1919; }
+
+.cardinalympics-winning-chances__label {
+  font-weight: 600;
+  color: #333;
+}
+
+.cardinalympics-winning-chances__value {
+  font-weight: 700;
+  color: #1a1a1a;
+  font-variant-numeric: tabular-nums;
+}
+
+.cardinalympics-winning-chances__track {
+  height: 0.65rem;
+  background: #edf1f5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.cardinalympics-winning-chances__fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.cardinalympics-winning-chances__fill--freshman { background: #2e7d32; }
+.cardinalympics-winning-chances__fill--sophomore { background: #6a1b9a; }
+.cardinalympics-winning-chances__fill--junior { background: #1565c0; }
+.cardinalympics-winning-chances__fill--senior { background: #9c1919; }
+
+.cardinalympics-winning-chances-toggle-wrap {
+  margin-top: 0.85rem;
+}
+
+.cardinalympics-winning-chances-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--lowell-red);
+  background: #fff;
+  border: 1px solid rgba(156, 25, 25, 0.35);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.16s ease;
+
+  &:hover {
+    background: var(--lowell-red);
+    color: #fff;
+    border-color: var(--lowell-red);
+    transform: translateY(-1px);
   }
 }
 
@@ -502,9 +675,12 @@
   }
 
   .cardinalympics-scoreboard-table {
-    font-size: 0.8rem;
-    th, td {
-      padding: 0.5rem 0.4rem;
-    }
+    display: none;
+  }
+
+  .cardinalympics-scoreboard-mobile-list {
+    display: grid;
+    gap: 0.6rem;
+    padding: 0.6rem;
   }
 }

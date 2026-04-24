@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Counter from "../components/Counter";
 import {
   groupCardinalympicsEventsByWeekAndDay,
@@ -10,7 +10,7 @@ import "./Cardinalympics.scss";
 const CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
 const CLASS_SLUGS = ["freshman", "sophomore", "junior", "senior"];
 const COUNTER_COLORS = ["#2e7d32", "#6a1b9a", "#1565c0", "#9c1919"];
-const POINTS_POSSIBLE = 9750;
+const POINTS_POSSIBLE_FALLBACK = 9750;
 
 // turn a cell value into a number or bail with empty string (sheet data is messy)
 function parseScore(val) {
@@ -19,15 +19,54 @@ function parseScore(val) {
   return isNaN(n) ? "" : n;
 }
 
+function getPointsPossibleFromRows(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return POINTS_POSSIBLE_FALLBACK;
+
+  // Find Freshman score column from the visible sheet header, then take points
+  // from exactly 2 cells to the left on the SPIRIT WEEK TOTALS row.
+  const headerRow = rows.find((row) => {
+    const c = String(row?.[4] ?? "").toLowerCase();
+    return c.includes("freshmen") || c.includes("freshman");
+  });
+  const freshmanIndex = headerRow
+    ? headerRow.findIndex((cell) => {
+        const s = String(cell ?? "").toLowerCase();
+        return s.includes("freshmen") || s.includes("freshman");
+      })
+    : 4;
+
+  const pointsPossibleIndex = freshmanIndex - 2;
+  const spiritTotalsRows = rows.filter((row) =>
+    String(row?.[0] ?? "").toUpperCase().includes("SPIRIT WEEK TOTALS")
+  );
+  const spiritTotalsRow = spiritTotalsRows.length
+    ? spiritTotalsRows[spiritTotalsRows.length - 1]
+    : null;
+  if (spiritTotalsRow && pointsPossibleIndex >= 0) {
+    const total = parseScore(spiritTotalsRow[pointsPossibleIndex]);
+    if (total !== "" && total > 0) return total;
+  }
+
+  return POINTS_POSSIBLE_FALLBACK;
+}
+
 // is this row the header row? (Date, Points Poss., etc.)
 function isHeaderRow(row) {
-  if (!row || !row[0]) return false;
-  const first = String(row[0]).toLowerCase();
-  const second = row[1] ? String(row[1]).toLowerCase() : "";
+  if (!row) return false;
+  const first = String(row[0] ?? "").toLowerCase().trim();
+  const second = String(row[1] ?? "").toLowerCase().trim();
+  const third = String(row[2] ?? "").toLowerCase().trim();
+  const classCols = [4, 5, 6, 7].map((i) => String(row[i] ?? "").toLowerCase().trim());
+  const looksLikeClassHeader = classCols.some(
+    (v) => v === "29" || v === "28" || v === "27" || v === "26"
+  );
   return (
     first.includes("date") ||
     second.includes("points") ||
-    (first.includes("points") && second.includes("poss"))
+    third.includes("points") ||
+    (first.includes("points") && second.includes("poss")) ||
+    (second.includes("date") && third.includes("points")) ||
+    looksLikeClassHeader
   );
 }
 
@@ -66,7 +105,32 @@ function getWinner(row) {
   return "";
 }
 
+function isCancelledStatus(value) {
+  const s = String(value ?? "").trim().toLowerCase();
+  return s === "cancelled" || s === "canceled";
+}
+
 const INITIAL_VISIBLE_ROWS = 12;
+const CHANCE_SIMULATION_RUNS = 5000;
+const CHANCE_SMOOTHING_ALPHA = 1;
+
+function hashStringSeed(input) {
+  let h = 2166136261;
+  const s = String(input ?? "");
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function makeSeededRandom(seed) {
+  let x = seed >>> 0;
+  return () => {
+    x = (1664525 * x + 1013904223) >>> 0;
+    return x / 4294967296;
+  };
+}
 
 function ScoreboardTable({ rows }) {
   const [sidebar, setSidebar] = useState(null); // { eventName, winner } when you click a row
@@ -85,7 +149,7 @@ function ScoreboardTable({ rows }) {
   const visibleRows = showAllRows ? effectiveRows : effectiveRows.slice(0, INITIAL_VISIBLE_ROWS);
   const hasMore = effectiveRows.length > INITIAL_VISIBLE_ROWS;
 
-  const renderRow = (row, idx) => {
+  const getRowViewModel = (row) => {
     const label = String(row[0] ?? "").trim();
     const date = String(row[1] ?? "").trim();
     const ptsPoss = row[2] != null ? String(row[2]).trim() : "";
@@ -101,24 +165,48 @@ function ScoreboardTable({ rows }) {
     const sectionClass = isSectionRow(row) && !totalClass ? "scoreboard-row-section" : "";
     const isEvent = isEventRow(row);
     const hasWinner = !!winner;
+    const isCancelled = isCancelledStatus(winner);
+
+    return {
+      label,
+      date,
+      ptsPoss,
+      fr,
+      so,
+      jr,
+      sr,
+      winner,
+      totalClass,
+      sectionClass,
+      isEvent,
+      hasWinner,
+      isCancelled,
+    };
+  };
+
+  const renderRow = (row, idx) => {
+    const view = getRowViewModel(row);
+    if (!view) return null;
 
     return (
-      <tr key={idx} className={`${totalClass} ${sectionClass}`.trim()}>
-        <td>{label}</td>
-        <td>{date}</td>
-        <td>{ptsPoss}</td>
-        <td className="score-cell">{fr !== "" ? fr : "-"}</td>
-        <td className="score-cell">{so !== "" ? so : "-"}</td>
-        <td className="score-cell">{jr !== "" ? jr : "-"}</td>
-        <td className="score-cell">{sr !== "" ? sr : "-"}</td>
+      <tr key={idx} className={`${view.totalClass} ${view.sectionClass}`.trim()}>
+        <td>{view.label}</td>
+        <td>{view.date}</td>
+        <td>{view.ptsPoss}</td>
+        <td className="score-cell">{view.fr !== "" ? view.fr : "-"}</td>
+        <td className="score-cell">{view.so !== "" ? view.so : "-"}</td>
+        <td className="score-cell">{view.jr !== "" ? view.jr : "-"}</td>
+        <td className="score-cell">{view.sr !== "" ? view.sr : "-"}</td>
         <td className="scoreboard-arrow-cell">
-          {isEvent && hasWinner ? (
+          {view.isCancelled ? (
+            "Cancelled"
+          ) : view.isEvent && view.hasWinner ? (
             <button
               type="button"
               className="scoreboard-arrow-btn"
-              onClick={() => setSidebar({ eventName: label, winner })}
+              onClick={() => setSidebar({ eventName: view.label, winner: view.winner })}
               title="View winner(s)"
-              aria-label={`View winner for ${label}`}
+              aria-label={`View winner for ${view.label}`}
             >
               ▶
             </button>
@@ -149,6 +237,54 @@ function ScoreboardTable({ rows }) {
           {visibleRows.map((row, idx) => renderRow(row, idx))}
         </tbody>
       </table>
+      <div className="cardinalympics-scoreboard-mobile-list">
+        {visibleRows.map((row, idx) => {
+          const view = getRowViewModel(row);
+          if (!view) return null;
+          return (
+            <article
+              key={`m-${idx}`}
+              className={`scoreboard-mobile-card ${view.totalClass} ${view.sectionClass}`.trim()}
+            >
+              <h4 className="scoreboard-mobile-card__title">{view.label || "Event"}</h4>
+              <div className="scoreboard-mobile-card__meta">
+                <span><strong>Date:</strong> {view.date || "-"}</span>
+                <span><strong>Pts poss.:</strong> {view.ptsPoss || "-"}</span>
+              </div>
+              <div className="scoreboard-mobile-card__scores">
+                <span className="scoreboard-mobile-card__score-pill">
+                  <strong>Fr</strong> {view.fr !== "" ? view.fr : "-"}
+                </span>
+                <span className="scoreboard-mobile-card__score-pill">
+                  <strong>So</strong> {view.so !== "" ? view.so : "-"}
+                </span>
+                <span className="scoreboard-mobile-card__score-pill">
+                  <strong>Jr</strong> {view.jr !== "" ? view.jr : "-"}
+                </span>
+                <span className="scoreboard-mobile-card__score-pill">
+                  <strong>Sr</strong> {view.sr !== "" ? view.sr : "-"}
+                </span>
+              </div>
+              <div className="scoreboard-mobile-card__winner">
+                {view.isCancelled ? (
+                  <strong>Cancelled</strong>
+                ) : view.isEvent && view.hasWinner ? (
+                  <button
+                    type="button"
+                    className="scoreboard-mobile-card__winner-btn"
+                    onClick={() => setSidebar({ eventName: view.label, winner: view.winner })}
+                    aria-label={`View winner for ${view.label}`}
+                  >
+                    View winner(s)
+                  </button>
+                ) : (
+                  <span><strong>Winner:</strong> -</span>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
       {hasMore && (
         <button
           type="button"
@@ -186,6 +322,97 @@ function ScoreboardTable({ rows }) {
         </>
       )}
     </>
+  );
+}
+
+function calculateWinningChances(spiritTotals, rows, seedInput = "") {
+  const baseTotals = [0, 1, 2, 3].map((i) => {
+    const n = Number(spiritTotals?.[i]);
+    return Number.isFinite(n) ? n : 0;
+  });
+  if (!rows?.length) {
+    const max = Math.max(...baseTotals);
+    const leaders = baseTotals.map((v, i) => ({ v, i })).filter((x) => x.v === max);
+    const share = leaders.length ? 1 / leaders.length : 0;
+    const raw = [0, 1, 2, 3].map((i) => (leaders.some((l) => l.i === i) ? share : 0));
+    const denom = 1 + CHANCE_SMOOTHING_ALPHA * 4;
+    return raw.map((p) => ((p + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
+  }
+
+  const pendingEvents = [];
+  for (const row of rows) {
+    if (!row || isHeaderRow(row) || isTotalRow(row) || isSectionRow(row)) continue;
+    const winner = getWinner(row);
+    if (isCancelledStatus(winner)) continue;
+
+    const ptsPossible = parseScore(row[2]);
+    if (ptsPossible === "" || ptsPossible <= 0) continue;
+
+    const scores = [parseScore(row[IDX_FR]), parseScore(row[IDX_SO]), parseScore(row[IDX_JR]), parseScore(row[IDX_SR])];
+    const missingClassIndexes = scores
+      .map((s, i) => ({ s, i }))
+      .filter((x) => x.s === "")
+      .map((x) => x.i);
+
+    if (missingClassIndexes.length) {
+      pendingEvents.push({ ptsPossible, missingClassIndexes });
+    }
+  }
+
+  if (!pendingEvents.length) {
+    const max = Math.max(...baseTotals);
+    const leaders = baseTotals.map((v, i) => ({ v, i })).filter((x) => x.v === max);
+    const share = leaders.length ? 1 / leaders.length : 0;
+    const raw = [0, 1, 2, 3].map((i) => (leaders.some((l) => l.i === i) ? share : 0));
+    const denom = 1 + CHANCE_SMOOTHING_ALPHA * 4;
+    return raw.map((p) => ((p + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
+  }
+
+  const wins = [0, 0, 0, 0];
+  const rand = makeSeededRandom(hashStringSeed(seedInput));
+  for (let run = 0; run < CHANCE_SIMULATION_RUNS; run++) {
+    const simulated = [...baseTotals];
+    for (const ev of pendingEvents) {
+      for (const idx of ev.missingClassIndexes) {
+        simulated[idx] += rand() * ev.ptsPossible;
+      }
+    }
+    const maxScore = Math.max(...simulated);
+    const winners = simulated
+      .map((score, i) => ({ score, i }))
+      .filter((x) => x.score === maxScore)
+      .map((x) => x.i);
+    const split = 1 / winners.length;
+    for (const i of winners) wins[i] += split;
+  }
+
+  // Laplace-style smoothing keeps outputs away from exact 0%/100%.
+  const denom = CHANCE_SIMULATION_RUNS + CHANCE_SMOOTHING_ALPHA * 4;
+  return wins.map((w) => ((w + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
+}
+
+function WinningChancesBar({ chances }) {
+  return (
+    <section className="cardinalympics-winning-chances" aria-labelledby="cardinalympics-winning-chances-heading">
+      <h3 id="cardinalympics-winning-chances-heading">Projected winning chances</h3>
+      <div className="cardinalympics-winning-chances__rows">
+        {CLASS_NAMES.map((name, i) => (
+          <div className="cardinalympics-winning-chances__row" key={name}>
+            <div className="cardinalympics-winning-chances__label-wrap">
+              <span className={`cardinalympics-winning-chances__dot cardinalympics-winning-chances__dot--${CLASS_SLUGS[i]}`} />
+              <span className="cardinalympics-winning-chances__label">{name}</span>
+              <span className="cardinalympics-winning-chances__value">{chances[i].toFixed(1)}%</span>
+            </div>
+            <div className="cardinalympics-winning-chances__track" aria-hidden="true">
+              <div
+                className={`cardinalympics-winning-chances__fill cardinalympics-winning-chances__fill--${CLASS_SLUGS[i]}`}
+                style={{ width: `${Math.max(0, Math.min(100, chances[i]))}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -262,6 +489,8 @@ export default function Cardinalympics({
   scoreboardRows = [],
   cardinalympicsEvents = [],
   showScoresAndScoreboard = true,
+  showScoreBreakdown = true,
+  showWinningChances = true,
   showEvents = true,
 }) {
   const spiritTotals = [0, 1, 2, 3].map((i) => {
@@ -272,6 +501,33 @@ export default function Cardinalympics({
     spiritTotals.length === 4
       ? spiritTotals.indexOf(Math.max(...spiritTotals))
       : -1;
+  const pointsPossible = useMemo(
+    () => getPointsPossibleFromRows(scoreboardRows),
+    [scoreboardRows]
+  );
+  const scoreUpdateKey = useMemo(() => {
+    const totalsKey = spiritTotals.join("|");
+    const rowsKey = (scoreboardRows || [])
+      .map((row) =>
+        [0, 2, IDX_FR, IDX_SO, IDX_JR, IDX_SR, IDX_WINNER]
+          .map((i) => String(row?.[i] ?? "").trim())
+          .join("~")
+      )
+      .join("||");
+    return `${totalsKey}###${rowsKey}`;
+  }, [spiritTotals, scoreboardRows]);
+  const winningChances = useMemo(
+    () =>
+      showScoresAndScoreboard
+        ? calculateWinningChances(spiritTotals, scoreboardRows, scoreUpdateKey)
+        : [0, 0, 0, 0],
+    [showScoresAndScoreboard, spiritTotals, scoreboardRows, scoreUpdateKey]
+  );
+  const [showProjectedBars, setShowProjectedBars] = useState(false);
+
+  useEffect(() => {
+    setShowProjectedBars(showWinningChances);
+  }, [showWinningChances]);
 
   return (
     <div className="cardinalympics-page">
@@ -284,7 +540,7 @@ export default function Cardinalympics({
           <div className="cardinalympics-spirit-card">
             <div className="cardinalympics-spirit-card__cap" id="cardinalympics-points-cap">
               <span className="cardinalympics-spirit-card__cap-number">
-                {POINTS_POSSIBLE.toLocaleString()}
+                {pointsPossible.toLocaleString()}
               </span>
               <span className="cardinalympics-spirit-card__cap-label">points possible</span>
             </div>
@@ -318,12 +574,30 @@ export default function Cardinalympics({
         </div>
       </section>
       )}
-      {showScoresAndScoreboard && scoreboardRows.length > 0 && (
+      {showScoresAndScoreboard && showScoreBreakdown && scoreboardRows.length > 0 && (
         <div className="cardinalympics-scoreboard" id="detailed-scoreboard">
           <h2>Detailed scoreboard</h2>
           <div className="cardinalympics-scoreboard-table-wrap">
             <ScoreboardTable rows={scoreboardRows} />
           </div>
+          {showWinningChances && (
+            <div className="cardinalympics-winning-chances-toggle-wrap">
+              <button
+                type="button"
+                className="cardinalympics-winning-chances-toggle"
+                onClick={() => setShowProjectedBars((v) => !v)}
+                aria-expanded={showProjectedBars}
+                aria-controls="cardinalympics-winning-chances"
+              >
+                {showProjectedBars ? "Hide projected winning chances" : "Show projected winning chances"}
+              </button>
+            </div>
+          )}
+          {showWinningChances && showProjectedBars && (
+            <div id="cardinalympics-winning-chances">
+              <WinningChancesBar chances={winningChances} />
+            </div>
+          )}
         </div>
       )}
       {showEvents && (

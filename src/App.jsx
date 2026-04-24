@@ -180,6 +180,54 @@ async function fetchSheetBatchGetWithRetry(spreadsheetId, rangeNames, apiKey, op
   return { valueRanges: null, error: lastError || "Failed to fetch sheet data" };
 }
 
+/** Read values directly from a gid/sheetId without relying on tab title. */
+async function fetchSheetByGidWithRetry(spreadsheetId, gid, apiKey, options = {}) {
+  const attempts = options.attempts ?? SHEETS_RETRY_ATTEMPTS;
+  const delayMs = options.delayMs ?? SHEETS_RETRY_DELAY_MS;
+  const targetGid = Number(gid);
+  if (!Number.isFinite(targetGid)) return { values: null, error: "Invalid gid" };
+  let lastError = null;
+
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const params = new URLSearchParams();
+      params.set("key", apiKey);
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values:batchGetByDataFilter?${params.toString()}`;
+      const body = {
+        dataFilters: [{ gridRange: { sheetId: targetGid } }],
+        majorDimension: "ROWS",
+      };
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        ...options.fetchOptions,
+      });
+      const json = await res.json().catch(() => ({}));
+      const httpStatus = res.status;
+      const apiMessage = json?.error?.message;
+
+      if (!res.ok || json?.error) {
+        lastError = apiMessage || res.statusText || `HTTP ${httpStatus}`;
+        const retryable = httpStatus === 429 || httpStatus >= 500 || httpStatus === 0;
+        if (!retryable) break;
+      } else {
+        const values = json?.valueRanges?.[0]?.valueRange?.values;
+        if (Array.isArray(values)) return { values, error: null };
+        return { values: null, error: `No values for gid ${targetGid}` };
+      }
+    } catch (error) {
+      lastError = error?.message || "Network error";
+    }
+
+    if (i < attempts - 1) {
+      await delay(delayMs);
+    }
+  }
+
+  return { values: null, error: lastError || "Failed to fetch sheet by gid" };
+}
+
 function parseAnnouncementDate(input) {
   if (!input) return null;
   const s = String(input).trim();
@@ -247,15 +295,16 @@ function App() {
     const [clubData, setClubData] = useState([]);
     const [officerData, setOfficerData] = useState([]);
 
-    // Cardinalympics: class totals + scoreboard live in SPREADSHEET_ID2; "Cardinalympics Events" tab is on SPREADSHEET_ID (same file as Website Info).
-    const SPREADSHEET_ID2 = "1YoyeAEx3rFD2ctbrz3R0a0todgsNes76r_JH6MkYUO4";
+    // Cardinalympics: class totals + scoreboard live in this spreadsheet.
+    const CARDINALYMPICS_SPREADSHEET_ID = "1Q4BWb9A2S9qRvn4HZhMpRnDseSmnlp36T4N7SGF-JF4";
     const SHEET_NAME3 = "Sp, 25";
+    const CARDINALYMPICS_SCOREBOARD_GID = 525997941;
     const SHEET_CARDINALYMPICS_EVENTS = "Cardinalympics Events";
     const [cardinalympicsData, setCardinalympicsData] = useState([0, 0, 0, 0]);
     const [scoreboardRows, setScoreboardRows] = useState([]);
     const [cardinalympicsEvents, setCardinalympicsEvents] = useState([]);
 
-    const SHEET_NAME4 = "Copy of Elections";
+    const SHEET_NAME4 = "Elections";
     const [electionSheetValues, setElectionSheetValues] = useState(null);
     const [newsData, setNewsData] = useState([]);
 
@@ -360,7 +409,13 @@ function App() {
     );
 
     const CARDINALYMPICS_POLL_MS = 30_000;
-    const { showScoresAndScoreboard, showEvents, showHomeEventsSignupNow } = cardinalympicsConfig;
+    const {
+      showScoresAndScoreboard,
+      showScoreBreakdown,
+      showWinningChances,
+      showEvents,
+      showHomeEventsSignupNow,
+    } = cardinalympicsConfig;
     const needsCardinalympicsEventsData = showEvents || showHomeEventsSignupNow;
 
     useEffect(() => {
@@ -378,8 +433,23 @@ function App() {
 
       function applyCardinalympicsValues(values) {
         if (!Array.isArray(values) || values.length === 0) return;
-        const totals = arrayCleanUp(values[0]);
-        const classTotals = totals.length >= 5 ? totals.slice(-4) : totals.slice(0, 4);
+        const scoreFromCell = (cell) => {
+          const n = parseInt(String(cell ?? "").replace(/[^0-9-]/g, ""), 10);
+          return Number.isNaN(n) ? null : n;
+        };
+        const spiritTotalsRow = [...values].reverse().find((row) =>
+          String(row?.[0] ?? "").toUpperCase().includes("SPIRIT WEEK TOTALS")
+        );
+        let classTotals = [];
+        if (spiritTotalsRow) {
+          classTotals = [4, 5, 6, 7]
+            .map((idx) => scoreFromCell(spiritTotalsRow[idx]))
+            .filter((n) => n != null);
+        }
+        if (classTotals.length !== 4) {
+          const totals = arrayCleanUp(values[0]);
+          classTotals = totals.length >= 5 ? totals.slice(-4) : totals.slice(0, 4);
+        }
         setCardinalympicsData(classTotals);
         setScoreboardRows(values.map((row) => (Array.isArray(row) ? [...row] : row)));
       }
@@ -424,9 +494,21 @@ function App() {
           const tasks = [];
           if (showScoresAndScoreboard) {
             tasks.push(
-              fetchSheetBatchGetWithRetry(SPREADSHEET_ID2, [SHEET_NAME3], KEY, fetchOpts).then(
-                (batch) => ({ kind: "scores", batch })
-              )
+              fetchSheetByGidWithRetry(CARDINALYMPICS_SPREADSHEET_ID, CARDINALYMPICS_SCOREBOARD_GID, KEY, fetchOpts)
+                .then((gidResult) => {
+                  if (gidResult.values?.length) {
+                    return {
+                      kind: "scores",
+                      batch: { valueRanges: [{ values: gidResult.values }], error: null },
+                    };
+                  }
+                  return fetchSheetBatchGetWithRetry(
+                    CARDINALYMPICS_SPREADSHEET_ID,
+                    [SHEET_NAME3],
+                    KEY,
+                    fetchOpts
+                  ).then((batch) => ({ kind: "scores", batch }));
+                })
             );
           }
           if (needsCardinalympicsEventsData) {
@@ -722,7 +804,7 @@ function App() {
             <Route path="Events" element={<Events />} />
             <Route path="AboutSite" element={<Site />} />
             <Route path="Archives" element={<Archives />} />
-            <Route path="Cardinalympics" element={<Cardinalympics cardinalympicsData={cardinalympicsData} scoreboardRows={scoreboardRows} cardinalympicsEvents={cardinalympicsEvents} showScoresAndScoreboard={cardinalympicsConfig.showScoresAndScoreboard} showEvents={cardinalympicsConfig.showEvents} />} />  
+            <Route path="Cardinalympics" element={<Cardinalympics cardinalympicsData={cardinalympicsData} scoreboardRows={scoreboardRows} cardinalympicsEvents={cardinalympicsEvents} showScoresAndScoreboard={showScoresAndScoreboard} showScoreBreakdown={showScoreBreakdown} showWinningChances={showWinningChances} showEvents={showEvents} />} />  
             <Route path="More" element={<More />} />
             <Route path="*" element={<NotFound />} />
           </Route>
