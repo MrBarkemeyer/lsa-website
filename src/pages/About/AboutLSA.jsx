@@ -1,23 +1,85 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import "./About.scss";
 
-export default function AboutLSA(){
-    return(
-        <>
-            <div className="title">
-                <h1>Lowell Student Association</h1>
+export default function AboutLSA() {
+  return (
+    <>
+      <div className="title">
+        <h1>Lowell Student Association</h1>
+        <p className="about-lsa-tagline">Student government representing all of Lowell</p>
+      </div>
+      <div className="about-lsa">
+        <section className="about-lsa-section about-lsa-intro">
+          <p>
+            Lowell Student Association is the umbrella term for Lowell&apos;s student
+            government - all the boards together - including the Student Body
+            Council (SBC) and class boards for Seniors, Juniors, Sophomores, and
+            Freshmen. We represent the student population and operate under the
+            rules in our charter.
+          </p>
+        </section>
+
+        <section className="about-lsa-section">
+          <h2>SBC vs Class Boards</h2>
+          <div className="about-lsa-cards">
+            <div className="about-lsa-card">
+              <h3>Student Body Council (SBC)</h3>
+              <p>
+                SBC runs school-wide events and dances: Homecoming, Spirit Rallies,
+                Winterball, Last Dance, Co-Curricular Day, and more. We amplify the
+                student voice and make changes based on what students want.
+              </p>
+              <p className="about-lsa-roles">
+                <strong>Positions:</strong> President, Vice President, Election
+                Commissioner, Secretary, Treasurer, Community Liaison, Club
+                Coordinator, Events Coordinator, Dance Coordinator, Public
+                Relations, Co-Public Relations.
+              </p>
+              <Link to="SBC" className="about-lsa-card-link">Meet the SBC &rarr;</Link>
             </div>
-            <div className="about-lsa">
-                <p>Lowell Student Association is the umbrella term for Lowell's student government or all the boards, which includes SBC (Student Body Council), and class boards for the Seniors, Juniors, Sophomores, and Freshmen. We do our best to represent the general student population and follow a body of rules listed in our charter, which is at the bottom of this page. 
-                </p>
-                <h2>What is the difference between SBC and Class Boards?</h2>
-                <p>SBC is in charge of the whole entire school's events and dances. We take care of school wide events such as the Homecoming Dance, Spirit Rallies, Winterball, Last Dance, Co-Curricular day and more. SBC's main goal is to represent the student voice and make changes based on what the students want. Positions include: President, Vice President, Election Commissioner, Secretary, Treasurer, Community Liaison, Club Coordinator, Events Coordinator, Dance Coordinator, Public Relations, and Co-Public Relations. </p>
-                <p>Class boards take care of their own class. Their main goal is to raise money for their class in order to pay for big events such as prom, boat, and graduation. They also put a lot of effort into pumping up class spirit and throwing mini events to help the class bond. Positions include: President, Vice President, Secretary, Treasurer, Historian, and Public Relations.</p>
-                <h2>How do I join LSA?</h2>
-                <p>Each school year, two elections are held. The first is in the fall, for Freshmen only. This will elect the Freshman board for that year. In the spring, there is another election held for all grades (except the Seniors of course). The election commissioner is in charge of these two elections, and when the time comes, keep your eyes out for posters for an informational meeting!</p>
-                <h2>Where can I find LSA members?</h2>
-                <p>LSA members are usually huddled in the deepest, darkest, and stuffiest room in all of Lowell. The infamous room 80A (also known as "the Cave'') is where members spend their hours at work, specifically during 1st block in Leadership. In case you have never heard of room 80A, it is the tiny door that slaps you in the face when you turn right from the art wing. You can also approach any LSA member at school at any time, our pictures can be found in the "Meet the Members" section.</p>
-                <Link to="Charter"><h2>View Charter of the Lowell Student Association</h2></Link>
+            <div className="about-lsa-card">
+              <h3>Class Boards</h3>
+              <p>
+                Class boards focus on their own grade. They fundraise for major
+                events like prom, boat, and graduation, and build class spirit with
+                smaller events and bonding activities.
+              </p>
+              <p className="about-lsa-roles">
+                <strong>Positions:</strong> President, Vice President, Secretary,
+                Treasurer, Historian, Public Relations.
+              </p>
+              <Link to="/LSA-EXPLORE" className="about-lsa-card-link">Explore LSA &rarr;</Link>
             </div>
-        </>
-    )
+          </div>
+        </section>
+
+        <section className="about-lsa-section">
+          <h2>How to join LSA</h2>
+          <p>
+            Two elections are held each year. In the <strong>fall</strong>, only
+            freshmen run - that election selects the Freshman board. In the{" "}
+            <strong>spring</strong>, all grades (except seniors) can run for SBC
+            and class boards. The Election Commissioner runs both; watch for
+            posters and info meetings when the time comes.
+          </p>
+        </section>
+
+        <section className="about-lsa-section">
+          <h2>Where to find us</h2>
+          <p>
+            LSA meets in <strong>Room 80A</strong> - also known as &quot;the
+            Cave&quot; - the small room to the right from the art wing. We&apos;re
+            there during 1st block Leadership. You can also reach out to any LSA
+            member at school; photos and info are in the &quot;Meet the
+            Members&quot; section.
+          </p>
+        </section>
+
+        <Link to="Charter" className="about-lsa-charter-cta">
+          <span className="about-lsa-charter-title">Charter of the Lowell Student Association</span>
+          <span className="about-lsa-charter-desc">Read our governing rules and bylaws</span>
+        </Link>
+      </div>
+    </>
+  );
 }

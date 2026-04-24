@@ -1,29 +1,493 @@
-.about-lsa, .charter-intro, .charter > p{
+.about-lsa section {
+    min-height: unset;
+    padding: 1.5rem 0;
+}
+
+.about-lsa,
+.charter-intro,
+.charter>p {
     width: 100%;
     max-width: 912px;
     margin: 0 auto;
 }
-.about-lsa a{
+
+.about-lsa-tagline {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 400;
+    opacity: 0.95;
+}
+
+.about-lsa a:not(.about-lsa-card-link):not(.about-lsa-charter-cta) {
     background: gray;
     padding: 2rem;
     border-radius: 10px;
     color: white;
 }
-.charter, .about-lsa{
+
+.charter,
+.about-lsa {
     padding: 3rem;
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 30px; 
+    gap: 30px;
     justify-content: center;
 }
-.charter p, .charter h2, .charter strong{
+
+// main about LSA content blocks
+.about-lsa-section {
+    width: 100%;
+    max-width: 912px;
+}
+
+.about-lsa-section h2 {
+    color: var(--title-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.about-lsa-section p {
+    margin: 0 0 1rem;
+    line-height: 1.6;
+}
+
+.about-lsa-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.about-lsa-card {
+    background: #f8f8f8;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.about-lsa-card h3 {
+    color: var(--lowell-red);
+    margin: 0 0 0.25rem;
+    font-size: 1.2rem;
+}
+
+.about-lsa-card p {
+    margin: 0;
+    flex: 1;
+}
+
+.about-lsa-roles {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.about-lsa-card-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--lowell-red);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.about-lsa-card-link:hover {
+    text-decoration: underline;
+}
+
+.about-lsa-charter-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 480px;
+    padding: 1.75rem 2rem;
+    background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.about-lsa-charter-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(134, 18, 18, 0.35);
+}
+
+.about-lsa-charter-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.about-lsa-charter-desc {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+// SBC + class boards: same --board-accent treatment as election board pages
+.board-page {
+    position: relative;
+    padding-bottom: 3rem;
+    min-height: 100vh;
+    background: #f5f5f5 linear-gradient(135deg, color-mix(in srgb, var(--board-accent, #9c1919) 6%, transparent) 0%, transparent 40%, color-mix(in srgb, var(--board-accent, #9c1919) 4%, transparent) 100%);
+    background-attachment: scroll;
+}
+
+.board-page .board-hero {
+    background: linear-gradient(180deg, var(--board-accent, #9c1919) 0%, color-mix(in srgb, var(--board-accent, #9c1919) 75%, #1a0a0a) 100%);
+}
+
+.board-page .board-hero-year {
+    background: var(--board-accent, var(--lowell-red));
+}
+
+.board-page .board-contact-item strong {
+    color: var(--board-accent, var(--lowell-red));
+}
+
+.board-page .board-nav__btn {
+    color: var(--board-accent, var(--lowell-red));
+    border-color: color-mix(in srgb, var(--board-accent, var(--lowell-red)) 38%, #d0d0d0);
+}
+
+.board-page .board-nav__btn:hover {
+    background: color-mix(in srgb, var(--board-accent, var(--lowell-red)) 10%, #fff);
+}
+
+.board-page .board-officers-heading {
+    color: var(--board-accent, var(--title-color));
+    text-align: center;
+    padding-bottom: 0.5rem;
+}
+
+.board-page .board-officers-heading::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 3px;
+    margin: 0.45rem auto 0;
+    background: var(--board-accent, var(--title-color));
+    border-radius: 2px;
+}
+
+.board-page .board-officer-card-role {
+    color: var(--board-accent, var(--lowell-red));
+}
+
+// SBC and Class Board pages - hero + officer cards
+.board-hero {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(180deg, #1a0a0a 0%, #2d1515 100%);
+    color: white;
+}
+
+.board-hero-title {
+    margin: 0 0 0.25rem;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    color: white;
+}
+
+.board-hero-subtitle {
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.85;
+    letter-spacing: 0.15em;
+}
+
+.board-hero-year {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.35rem 1rem;
+    background: var(--lowell-red);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.board-hero--class .board-hero-subtitle {
+    display: none;
+}
+
+.board-contact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 2rem;
+    max-width: 912px;
+    margin: 0 auto;
+    padding: 1.25rem 2rem;
+    background: #f5f5f5;
+    border-bottom: 1px solid #eee;
+}
+
+.board-contact-item {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.board-contact-item strong {
+    color: var(--lowell-red);
+}
+
+.board-nav {
+    max-width: 912px;
+    margin: 1rem auto 0;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.board-nav--bottom {
+    margin: 0 auto 2rem;
+    padding-top: 0.25rem;
+}
+
+.board-nav__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 40px;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--lowell-red);
+    background: #fff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.board-nav__btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: #fafafa;
+}
+
+.board-nav__btn--disabled {
+    color: #8a8a8a;
+    border-color: #ddd;
+    background: #f7f7f7;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+.board-officers {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+}
+
+.board-officers-heading {
+    text-align: center;
+    color: var(--title-color);
+    margin: 0 0 1.5rem;
+    font-size: 1.35rem;
+}
+
+.board-officers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.board-officer-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+    transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-bottom: 100px;
+}
+
+.board-officer-card:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+.board-officer-card-photo-wrap {
+    aspect-ratio: 1;
+    background: #f0f0f0;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.board-officer-card-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    vertical-align: top;
+    transition: transform 0.5s ease;
+}
+
+.board-officer-card:hover .board-officer-card-photo {
+    transform: scale(1.08);
+}
+
+// the bar under the photo - normal at rest, goes frosted-glass full overlay on hover
+.board-officer-card-frame {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0.65rem 0.85rem 0.85rem;
+    background: rgba(248, 248, 250, 0.98);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0 0 11px 11px;
+    overflow: hidden;
+    transition: height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                background 0.4s ease,
+                backdrop-filter 0.4s ease,
+                -webkit-backdrop-filter 0.4s ease,
+                border-radius 0.35s ease;
+}
+
+.board-officer-card:hover .board-officer-card-frame {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 12px;
+}
+
+.board-officer-card-frame-header {
+    flex-shrink: 0;
+}
+
+.board-officer-card-role {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--lowell-red);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.board-officer-card-name {
+    margin: 0.15rem 0 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.board-officer-card-frame-body {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    margin-top: 0.35rem;
+}
+
+// short preview when the card is collapsed (2 lines max)
+.board-officer-card-preview {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #444;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: opacity 0.25s ease;
+}
+
+.board-officer-card:hover .board-officer-card-preview {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+// full bio when you hover and the frame expands - scrollable
+.board-officer-card-frame-body .board-officer-card-description {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #222;
+    line-height: 1.5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 0.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.board-officer-card:hover .board-officer-card-frame-body .board-officer-card-description {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s ease 0.15s;
+}
+
+.board-officer-card-frame-body .board-officer-card-description::-webkit-scrollbar {
+    display: none;
+}
+
+
+@media (max-width: 640px) {
+    .board-contact {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .board-nav {
+        padding: 0 0.75rem;
+    }
+
+    .board-nav__btn {
+        min-width: 0;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .board-officers-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.charter p,
+.charter h2,
+.charter strong {
     width: 100%;
 }
-.charter h2{
+
+.charter h2 {
     text-align: center;
 }
-.constitution{
+
+.constitution {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,10 +497,12 @@
     margin: 0 auto;
     color: black;
 }
-.font-button{
+
+.font-button {
     width: 100%;
 }
-.font-button > button{
+
+.font-button>button {
     width: 200px;
     height: 50px;
     font-weight: bold;
@@ -48,31 +514,35 @@
     color: white;
     border: none;
 }
-.team-name{
+
+.team-name {
     max-width: 912px;
     margin: 0 auto;
     color: var(--lowell-red);
     padding: 2rem;
 }
-.team-info{
+
+.team-info {
     padding: 3rem;
     display: flex;
     align-items: start;
     flex-direction: column;
-    gap: 5px; 
+    gap: 5px;
     max-width: 912px;
-    margin: 0 auto ;
+    margin: 0 auto;
     background: lightgray;
     border-radius: 10px;
 }
-.team-member{
+
+.team-member {
     display: flex;
     max-width: 1000px;
     gap: 30px;
     margin: 0 auto;
     padding: 2rem;
 }
-.team-member-photo{
+
+.team-member-photo {
     width: 250px;
     height: 250px;
     border-radius: 100%;
@@ -80,25 +550,133 @@
     object-fit: cover;
     aspect-ratio: 1/1;
 }
-.team-member-description, .team-member h2{
+
+.team-member-description,
+.team-member h2 {
     padding: 1rem;
 }
-.dsa-image{
+
+.dsa-image {
     width: 300px;
     height: 300px;
     object-fit: cover;
     border-radius: 100%;
 }
-.dsa{
+
+.dsa {
     display: flex;
-    /* flex-wrap: wrap; */
+    // flex-wrap: wrap; // turned off for now, layout looked weird
     justify-content: center;
     align-items: center;
     gap: 30px;
     flex-direction: column;
     min-height: 70vh;
 }
-.committees{
+
+.dsa-page {
+  width: 100%;
+  padding: 3.25rem 1rem 4rem;
+}
+
+.dsa-card {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.25rem;
+  padding: 2.75rem 2rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.08);
+}
+
+.dsa-photo-wrap {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  // Fallback glow color (Lowell red) overwritten via inline style from DSA.jsx.
+  --dsa-glow: 134 18 18;
+}
+
+.dsa-photo-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -42px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 35%,
+    rgba(var(--dsa-glow) / 0.55) 0%,
+    rgba(var(--dsa-glow) / 0.26) 30%,
+    rgba(255, 255, 255, 0.08) 48%,
+    transparent 68%
+  );
+  filter: blur(18px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dsa-photo-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(var(--dsa-glow) / 0.25) 0%,
+    transparent 60%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dsa-image {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 18px 60px rgba(var(--dsa-glow) / 0.16);
+}
+
+.dsa-info {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.dsa-name {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.1vw, 2.2rem);
+  font-weight: 700;
+  color: var(--title-color);
+  letter-spacing: -0.02em;
+}
+
+.dsa-description {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #444;
+  font-family: var(--primary-font);
+}
+
+@media (max-width: 900px) {
+  .dsa-card {
+    flex-direction: column;
+    padding: 2.25rem 1.25rem;
+    gap: 1.75rem;
+  }
+}
+
+.committees {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,7 +686,8 @@
     margin: 0 auto;
     padding: 3rem;
 }
-.committee-buttons{
+
+.committee-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,13 +698,540 @@
 }
 
 
-@media (max-width: 1000px){
-    .team-member{
+@media (max-width: 1000px) {
+    .team-member {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
-    .team-member-description{
+
+    .team-member-description {
         font-size: 1rem;
+    }
+}
+
+// Committee pages (landing, spirit, individual committee)
+.committee-page {
+    min-height: 60vh;
+    background: linear-gradient(180deg, #f7f8fb 0%, #fff 18%);
+    padding-bottom: 2.5rem;
+}
+
+// avoid inheriting global `section { min-height: 80vh; padding: 1rem; }`
+.committee-page section,
+.committees-landing section {
+    min-height: unset;
+    padding: 0;
+}
+
+.committee-page__hero {
+    text-align: center;
+    padding: clamp(2rem, 5vw, 3rem) 1.25rem;
+    background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+    color: #fff;
+    box-shadow: 0 8px 28px rgba(20, 23, 31, 0.12);
+}
+
+.committee-page__title {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    font-weight: 650;
+    color: #fff;
+    line-height: 1.2;
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.committee-page__subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.committee-page__year {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.committee-page__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.committee-page__nav-link {
+    font-weight: 600;
+    color: var(--lowell-red);
+    text-decoration: none;
+    font-size: 0.95rem;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.committee-page__officers {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0.75rem 1.25rem 0;
+}
+
+.committee-page__heading {
+    text-align: center;
+    color: var(--title-color);
+    margin: 0 0 1.15rem;
+    font-size: 1.28rem;
+}
+
+.committee-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 1rem;
+}
+
+.committee-member-card {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 0.9rem;
+    align-items: start;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    padding: 0.95rem;
+    box-shadow: 0 6px 20px rgba(20, 23, 31, 0.06);
+}
+
+.committee-member-card__media {
+    width: 96px;
+    height: 96px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f2f3f5;
+}
+
+.committee-member-card__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.committee-member-card__body {
+    min-width: 0;
+}
+
+.committee-member-card__role {
+    margin: 0 0 0.2rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--lowell-red);
+}
+
+.committee-member-card__name {
+    margin: 0;
+    font-size: 1.04rem;
+    color: var(--title-color);
+    line-height: 1.25;
+}
+
+.committee-member-card__description {
+    margin: 0.5rem 0 0;
+    font-size: 0.92rem;
+    line-height: 1.52;
+    color: #4b5563;
+    font-family: var(--primary-font);
+}
+
+section.committee-page__empty {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+    max-width: 640px;
+    margin: 1.75rem auto 0;
+    padding: clamp(1.1rem, 2.3vw, 1.75rem) clamp(1rem, 3vw, 2rem);
+    text-align: center;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px dashed rgba(0, 0, 0, 0.14);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+}
+
+section.committee-page__empty p {
+    margin: 0;
+    color: #4b5563;
+    font-size: clamp(0.98rem, 2vw, 1.08rem);
+    line-height: 1.55;
+    font-family: var(--primary-font);
+}
+
+.committee-page__back {
+    display: inline-block;
+    font-weight: 600;
+    color: var(--lowell-red);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.committees-landing {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f7f8fb 0%, #ffffff 20%);
+    padding-bottom: 3rem;
+}
+
+.committees-landing__hero {
+    text-align: center;
+    padding: clamp(2.25rem, 5vw, 3.25rem) 1.25rem;
+    background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(20, 23, 31, 0.12);
+
+    h1 {
+        margin: 0 0 0.65rem;
+        font-size: clamp(1.85rem, 4vw, 2.6rem);
+        font-weight: 650;
+        color: #fff;
+        letter-spacing: -0.02em;
+    }
+
+    p {
+        margin: 0 auto;
+        max-width: 680px;
+        font-size: 1.05rem;
+        line-height: 1.55;
+        opacity: 0.95;
+        font-family: var(--primary-font);
+    }
+}
+
+.committees-landing__intro {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    max-width: 960px;
+    margin: -1.5rem auto 0;
+    padding: 0 1.25rem;
+    position: relative;
+    z-index: 1;
+}
+
+.committees-landing__card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.25rem 1.35rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 36px rgba(20, 23, 31, 0.08);
+
+    h2 {
+        margin: 0 0 0.65rem;
+        font-size: 1.05rem;
+        color: var(--title-color);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    p {
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: #4b5563;
+        font-family: var(--primary-font);
+    }
+
+    svg {
+        color: var(--lowell-red);
+    }
+}
+
+.committees-landing__card--accent {
+    border-left: 4px solid var(--lowell-red);
+}
+
+.committees-landing__section {
+    max-width: 960px;
+    margin: 2.5rem auto 0;
+    padding: 0 1.25rem;
+}
+
+.committees-landing__section-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.35rem;
+    color: var(--title-color);
+}
+
+.committees-landing__section-lead {
+    margin: 0 0 1.25rem;
+    color: #555;
+    line-height: 1.55;
+    font-family: var(--primary-font);
+}
+
+.committees-landing__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 1rem;
+}
+
+.committees-landing__tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 1.2rem 1.25rem;
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.committees-landing__tile-title {
+    font-size: 1.08rem;
+    font-weight: 650;
+    color: var(--title-color);
+    line-height: 1.3;
+}
+
+.committees-landing__tile-cta {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--lowell-red);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+}
+
+.committees-landing__spirit {
+    max-width: 960px;
+    margin: 2.5rem auto 0;
+    padding: 0 1.25rem;
+}
+
+.committees-landing__spirit-inner {
+    border-radius: 16px;
+    padding: 1.75rem 1.5rem;
+    background: linear-gradient(135deg, rgba(134, 18, 18, 0.08) 0%, rgba(26, 26, 46, 0.06) 100%);
+    border: 1px solid rgba(134, 18, 18, 0.2);
+    text-align: center;
+
+    h2 {
+        margin: 0 0 0.65rem;
+        font-size: 1.35rem;
+        color: var(--title-color);
+    }
+
+    p {
+        margin: 0 0 1.25rem;
+        color: #454a55;
+        line-height: 1.55;
+        font-family: var(--primary-font);
+        max-width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.committees-landing__spirit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    background: var(--lowell-red);
+    color: #fff !important;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease;
+
+    &:hover {
+        background: var(--title-color);
+        transform: translateY(-1px);
+    }
+}
+
+.committees-landing__footer {
+    text-align: center;
+    margin-top: 2.5rem;
+    padding: 0 1rem;
+}
+
+.committees-landing__back {
+    font-weight: 600;
+    color: var(--lowell-red);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.spirit-committee-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f7f8fb 0%, #fff 22%);
+    padding-bottom: 3rem;
+}
+
+.spirit-committee-page__hero {
+    text-align: center;
+    padding: clamp(2.25rem, 5vw, 3.25rem) 1.25rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, var(--lowell-red) 100%);
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(20, 23, 31, 0.15);
+
+    h1 {
+        margin: 0 0 0.65rem;
+        font-size: clamp(1.85rem, 4vw, 2.5rem);
+        font-weight: 650;
+        color: #fff;
+    }
+
+    p {
+        margin: 0 auto;
+        max-width: 640px;
+        font-size: 1.05rem;
+        line-height: 1.55;
+        opacity: 0.95;
+        font-family: var(--primary-font);
+    }
+}
+
+.spirit-committee-page__nav {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1rem 1.25rem 0;
+}
+
+.spirit-committee-page__nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 600;
+    color: var(--lowell-red);
+    text-decoration: none;
+    font-size: 0.95rem;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.spirit-committee-page__content {
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding: 0 1.25rem;
+}
+
+.spirit-committee-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 1.1rem;
+}
+
+.spirit-committee-page__card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.25rem 1.3rem 1.35rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 22px rgba(20, 23, 31, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.spirit-committee-page__card-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(134, 18, 18, 0.1);
+    color: var(--lowell-red);
+    font-size: 1.1rem;
+}
+
+.spirit-committee-page__card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 650;
+    color: var(--title-color);
+}
+
+.spirit-committee-page__card-body {
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: #4b5563;
+    font-family: var(--primary-font);
+
+    p {
+        margin: 0 0 0.75rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .committees-landing__intro {
+        margin-top: 0;
+        padding-top: 1.5rem;
+    }
+
+    .committee-page__nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .committee-page__officers {
+        padding: 0.75rem 0.9rem 0;
+    }
+
+    .committee-page__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .committee-member-card {
+        grid-template-columns: 76px 1fr;
+        gap: 0.75rem;
+        padding: 0.8rem;
+    }
+
+    .committee-member-card__media {
+        width: 76px;
+        height: 76px;
     }
 }

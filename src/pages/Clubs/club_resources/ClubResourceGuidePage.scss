@@ -1,0 +1,314 @@
+.club-guide-page {
+  min-height: 80vh;
+  padding: 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #fff 12%);
+}
+
+.club-guide-page__hero {
+  background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+  color: white;
+  padding: 3rem 1.5rem 3.25rem;
+  text-align: center;
+  margin-bottom: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+  h1 {
+    margin: 0 0 0.65rem;
+    font-size: clamp(1.65rem, 3.8vw, 2.45rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: white;
+  }
+}
+
+.club-guide-page__tagline {
+  margin: 0 auto;
+  max-width: 600px;
+  font-size: 1.02rem;
+  opacity: 0.95;
+  line-height: 1.55;
+  font-family: var(--primary-font);
+}
+
+.club-guide-page__main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3.5rem;
+}
+
+.club-guide-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--lowell-red);
+  text-decoration: none;
+  font-family: var(--primary-font);
+  transition: gap 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    color: var(--title-color);
+    gap: 0.55rem;
+  }
+}
+
+.club-guide-page__lede {
+  margin: 0 0 1.35rem;
+  padding: 1.1rem 1.2rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #3d3d3d;
+  font-family: var(--primary-font);
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+
+  a {
+    font-weight: 600;
+    color: var(--lowell-red);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--title-color);
+    }
+  }
+}
+
+.club-guide-page__contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 1.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--lowell-red) 6%, white);
+  border: 1px solid color-mix(in srgb, var(--lowell-red) 15%, transparent);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+  font-family: var(--primary-font);
+}
+
+.club-guide-page__contact-label {
+  font-weight: 600;
+  color: var(--title-color);
+}
+
+.club-guide-page__contact-mail {
+  color: var(--lowell-red);
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.club-guide-page__section-title {
+  margin: 0 0 0.65rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--title-color);
+  letter-spacing: -0.01em;
+}
+
+.club-guide-page__section {
+  margin-bottom: 1.75rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.club-guide-page__section-intro {
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4a4a4a;
+  font-family: var(--primary-font);
+}
+
+.club-guide-page__code-block {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.1rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+}
+
+.club-guide-page__code-label {
+  margin: 0 0 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--title-color);
+  font-family: var(--primary-font);
+}
+
+.club-guide-page__code-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.club-guide-page__code {
+  font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.45rem 0.75rem;
+  background: #f4f4f6;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #1a1a1a;
+  user-select: all;
+}
+
+.club-guide-page__copy {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: var(--primary-font);
+  border: none;
+  border-radius: 8px;
+  background: var(--lowell-red);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+
+  &:hover {
+    background: var(--title-color);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.club-guide-page__copy--done {
+  background: #2e7d32;
+}
+
+.club-guide-page__resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.85rem;
+}
+
+.club-guide-page__resource-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: 1rem 1rem 1.05rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: inherit;
+  text-align: left;
+}
+
+.club-guide-page__resource-card--link {
+  background: #fafbfc;
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--lowell-red) 40%, transparent);
+    box-shadow: 0 6px 18px rgba(134, 18, 18, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.club-guide-page__resource-card--static {
+  background: #f5f6f8;
+  border-style: dashed;
+  cursor: default;
+}
+
+.club-guide-page__resource-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  background: rgba(134, 18, 18, 0.1);
+  color: var(--lowell-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.club-guide-page__resource-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--title-color);
+  line-height: 1.3;
+}
+
+.club-guide-page__resource-desc {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #666;
+  font-family: var(--primary-font);
+  flex: 1;
+}
+
+.club-guide-page__resource-cta {
+  margin-top: auto;
+  margin-bottom: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--lowell-red);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.club-guide-page__resource-hint {
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #888;
+  font-family: var(--primary-font);
+}
+
+.club-guide-page__next {
+  margin-top: 2rem;
+  padding: 1.35rem 1.25rem;
+  background: white;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.club-guide-page__next-title {
+  margin: 0 0 0.65rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--title-color);
+  letter-spacing: -0.01em;
+}
+
+.club-guide-page__next-body {
+  margin: 0 0 1rem;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: #444;
+  font-family: var(--primary-font);
+}
+
+@media (max-width: 520px) {
+  .club-guide-page__main {
+    padding: 1.25rem 1rem 2.75rem;
+  }
+}
