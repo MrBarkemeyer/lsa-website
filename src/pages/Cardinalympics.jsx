@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useMemo } from "react";
 import Counter from "../components/Counter";
+import CardinalympicLogo from "../components/CardinalympicLogo";
 import {
   groupCardinalympicsEventsByWeekAndDay,
   isCardinalympicsSignupPastEventDay,
@@ -527,6 +528,12 @@ export default function Cardinalympics({
 
   return (
     <div className="cardinalympics-page">
+      <header className="cardinalympics-page-header">
+        <div className="cardinalympics-page-header__logo" aria-hidden="true">
+          <CardinalympicLogo />
+        </div>
+        <h1 className="cardinalympics-page-header__title">Cardinalympics</h1>
+      </header>
       {showScoresAndScoreboard && (
       <section
         className="home-cardinalympics cardinalympics-spirit-scores-only"

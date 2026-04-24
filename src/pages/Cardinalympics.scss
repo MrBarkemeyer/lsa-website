@@ -2,6 +2,30 @@
   padding-bottom: 2rem;
 }
 
+.cardinalympics-page-header {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.2rem 1rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cardinalympics-page-header__logo {
+  transform: scale(0.92);
+  transform-origin: center;
+}
+
+.cardinalympics-page-header__title {
+  margin: 0;
+  color: var(--lowell-red);
+  font-size: clamp(1.6rem, 4.3vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
 // don't let the global section min-height make this page huge
 .cardinalympics-page section {
   min-height: unset;
@@ -649,6 +673,15 @@
 }
 
 @media (max-width: 768px) {
+  .cardinalympics-page-header {
+    padding-top: 1rem;
+    gap: 0.45rem;
+  }
+
+  .cardinalympics-page-header__logo {
+    transform: scale(0.82);
+  }
+
   .cardinalympics-content {
     padding: 0 1.35rem 2rem;
   }
