@@ -17,8 +17,7 @@ import {
   parseDateAdded,
 } from "../utils/applicationsSheet.js";
 import { driveThumbnailCandidates } from "../utils/driveMedia.js";
-
-const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/5TKdIrdcyJ4";
+import heroVideo from "../assets/student-life-video.mp4";
 
 const CARDINALYMPICS_CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
 const CARDINALYMPICS_CLASS_SLUGS = ["freshman", "sophomore", "junior", "senior"];
@@ -90,11 +89,14 @@ export default function Home({
   return (
     <>
       <div className="hero-video-wrapper">
-        <iframe
-          src={`${YOUTUBE_EMBED_URL}?autoplay=1&mute=1&loop=1&playlist=5TKdIrdcyJ4&controls=0&showinfo=0&rel=0&disablekb=1&fs=0&playsinline=1`}
+        <video
+          src={heroVideo}
           title="LSA Hero"
           className="hero-video"
-          allow="accelerometer; autoplay; muted; encrypted-media"
+          autoPlay
+          muted
+          loop
+          playsInline
         />
         <div className="video-credit">Video by Video Lowell</div>
       </div>
@@ -324,7 +326,7 @@ export default function Home({
         <h2>WATCH: Student Life at Lowell High School</h2>
         <div className="responsive-video-wrapper">
           <iframe
-            src={YOUTUBE_EMBED_URL}
+            src="https://www.youtube.com/embed/5TKdIrdcyJ4"
             title="Student Life at Lowell High School"
             className="responsive-video"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
