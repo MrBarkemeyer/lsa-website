@@ -1,0 +1,604 @@
+// per-board election page - hero, role sections, candidate cards. --board-accent drives the colors
+
+.election-board-page {
+  position: relative;
+  padding-bottom: 3rem;
+  min-height: 100vh;
+  // TODO: ADD BACK BLUR BUT PERFORMATIVE IF POSSIBLE
+  // subtle tint from board color; no blur so we don't murder performance
+  // I added blur here last time and the page lagged so badly
+  background: #f5f5f5 linear-gradient(135deg, color-mix(in srgb, var(--board-accent, #9c1919) 6%, transparent) 0%, transparent 40%, color-mix(in srgb, var(--board-accent, #9c1919) 4%, transparent) 100%);
+  background-attachment: scroll;
+
+  section {
+    min-height: unset;
+  }
+}
+
+.election-board-hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(180deg, var(--board-accent, #9c1919) 0%, color-mix(in srgb, var(--board-accent, #9c1919) 75%, #1a0a0a) 100%);
+  color: white;
+}
+
+.election-board-hero-title {
+  margin: 0 0 0.25rem;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: white;
+}
+
+.election-board-hero-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.9;
+  letter-spacing: 0.1em;
+}
+
+.election-board-main {
+  position: relative;
+  z-index: 1;
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.election-board-role-section {
+  margin-bottom: 2.5rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.election-board-role-title {
+  margin: 0 0 1rem;
+  padding: 0.5rem 0 0.5rem 1rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--board-accent, var(--title-color));
+  border-left: 4px solid var(--board-accent, var(--title-color));
+}
+
+// 2 cards per row; when there's an odd one out at the end we center it so it doesn't look sad
+.election-board-candidates-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+
+  > .election-candidate-card {
+    min-width: 0;
+  }
+
+  > .election-candidate-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 0.75rem);
+  }
+
+  // any card with a tall bio forces the whole section to one column so rows stay even (see ElectionBoardCandidatesGrid)
+  &--stacked {
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 780px;
+    margin-inline: auto;
+
+    > .election-candidate-card:last-child:nth-child(odd) {
+      grid-column: auto;
+      justify-self: stretch;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .election-board-page {
+    min-height: unset;
+  }
+
+  .election-board-main {
+    padding: 1.5rem 1rem;
+  }
+
+  .election-board-candidates-grid {
+    grid-template-columns: 1fr;
+
+    > .election-candidate-card:last-child:nth-child(odd) {
+      width: 100%;
+    }
+  }
+
+  .election-candidate-card {
+    flex-direction: column;
+  }
+
+  .election-candidate-card-media {
+    width: 100%;
+    min-width: 0;
+    border-radius: 14px 14px 0 0;
+  }
+}
+
+// candidate card: photo/video on left, name + bio on right, vote button at the bottom
+.election-candidate-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 0 34px color-mix(in srgb, var(--card-glow-color, transparent) 62%, transparent),
+    0 0 8px color-mix(in srgb, var(--card-glow-color, transparent) 45%, transparent),
+    0 6px 24px rgba(0, 0, 0, 0.12),
+    0 2px 10px rgba(0, 0, 0, 0.06);
+  border: none;
+  transition: box-shadow 0.3s ease, transform 0.25s ease;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: 0;
+  height: auto;
+}
+
+.election-candidate-card:hover {
+  box-shadow:
+    0 0 46px color-mix(in srgb, var(--card-glow-color, transparent) 72%, transparent),
+    0 0 12px color-mix(in srgb, var(--card-glow-color, transparent) 58%, transparent),
+    0 14px 36px rgba(0, 0, 0, 0.15),
+    0 4px 14px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+}
+
+.election-candidate-card-media {
+  position: relative;
+  width: 300px;
+  min-width: 300px;
+  aspect-ratio: 3 / 4;
+  height: auto;
+  align-self: flex-start;
+  flex-shrink: 0;
+  background: #f0f0f0;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 14px 0 0 0;
+}
+
+.election-candidate-card-video-tag {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 3;
+  padding: 0.22rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.election-candidate-card-pfp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.3s ease, transform 0.25s ease;
+  border-radius: 14px 0 0 0;
+  background: #fff;
+}
+
+// the little bar under the photo that says "HOVER TO VIEW VIDEO" - board color
+.election-candidate-card-media-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  border-radius: 6px 6px 0 0;
+  background: var(--card-accent, var(--title-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+}
+
+.election-candidate-card-media-bar-text {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: white;
+  text-transform: uppercase;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.election-candidate-card:hover .election-candidate-card-pfp {
+  opacity: 0.95;
+  transform: scaleX(1.08);
+  transform-origin: center;
+}
+
+.election-candidate-card-preview-player-slot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.election-candidate-card-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.election-candidate-card-video--visible {
+  opacity: 1;
+  pointer-events: none;
+}
+
+iframe.election-candidate-card-youtube-preview {
+  border: 0;
+  top: 50%;
+  left: 50%;
+  width: 237%;
+  height: 100%;
+  min-height: 100%;
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+
+.election-media-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.election-media-modal {
+  width: min(1100px, 96vw);
+  max-height: 92vh;
+  background: #0f0f10;
+  border-radius: 12px;
+  position: relative;
+  padding: 1rem 1rem 0.75rem;
+  color: #fff;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.election-media-modal--image {
+  width: auto;
+  max-width: 96vw;
+}
+
+.election-media-modal-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.election-media-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.election-media-modal-content {
+  width: 100%;
+  height: min(78vh, 700px);
+}
+
+.election-media-modal--image .election-media-modal-content {
+  width: auto;
+  height: auto;
+  max-width: 92vw;
+  max-height: 78vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.election-media-modal-image,
+.election-media-modal-video,
+.election-media-modal-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #000;
+}
+
+.election-media-modal--image .election-media-modal-image {
+  width: auto;
+  max-width: 92vw;
+  height: auto;
+  max-height: 78vh;
+}
+
+@media (max-width: 900px) {
+  .election-candidate-card {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  .election-candidate-card-media {
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .election-candidate-card-pfp {
+    border-radius: 14px 14px 0 0;
+  }
+
+  .election-candidate-card-video {
+    object-fit: cover;
+  }
+
+  iframe.election-candidate-card-youtube-preview {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+
+  .election-candidate-card-vote-btn {
+    width: 100%;
+    align-self: stretch;
+    margin-top: 0.9rem;
+  }
+}
+
+.election-candidate-card-body {
+  padding: 0.4rem 1.25rem 1rem;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.election-candidate-card-name-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.2rem;
+  flex-shrink: 0;
+}
+
+.election-candidate-card-name {
+  margin: 0 0 0.05rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.25;
+}
+
+.election-candidate-card-name-underline {
+  display: block;
+  width: 44px;
+  height: 2px;
+  border-radius: 2px;
+  margin: 0;
+}
+
+.election-candidate-card-description {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #444;
+  line-height: 1.35;
+  flex: 1;
+  min-height: 0;
+  padding-right: 0.25rem;
+  white-space: pre-line;
+}
+
+.election-candidate-card-vote-btn {
+  margin-top: 0.75rem;
+  align-self: flex-end;
+  flex-shrink: 0;
+  padding: 0.45rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: white;
+  text-transform: uppercase;
+  background: var(--board-accent, var(--lowell-red));
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, filter 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.election-candidate-card-vote-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+// back/forward between boards + link to all boards
+.election-board-nav {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 912px;
+  margin: 2rem auto 0;
+  padding: 0 1rem 2rem;
+}
+
+.election-board-nav--top {
+  margin-top: 1.25rem;
+  padding-bottom: 0;
+}
+
+.election-board-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 40px;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--board-accent, var(--lowell-red));
+  background: #fff;
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: #fafafa;
+  }
+}
+
+.election-board-nav-btn--disabled {
+  color: #8a8a8a;
+  border-color: #ddd;
+  background: #f7f7f7;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .election-board-candidates-grid {
+    grid-template-columns: 1fr;
+
+    > .election-candidate-card:last-child:nth-child(odd) {
+      grid-column: auto;
+      justify-self: stretch;
+      width: auto;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .election-board-hero {
+    padding: 2rem 1rem;
+  }
+
+  .election-board-main {
+    padding: 1.5rem 1rem;
+  }
+
+  .election-candidate-card {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    min-height: 0;
+  }
+
+  .election-candidate-card-media {
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 3 / 4;
+    min-height: 0;
+  }
+
+  .election-candidate-card-media-bar {
+    bottom: 0;
+    min-height: 28px;
+    height: auto;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .election-candidate-card-body {
+    padding: 0.9rem 0.95rem 1rem;
+    min-height: 0;
+  }
+
+  .election-candidate-card-description {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .election-candidate-card-name {
+    font-size: 1rem;
+  }
+
+  .election-media-modal-backdrop {
+    padding: 0.45rem;
+    align-items: flex-end;
+  }
+
+  .election-media-modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 12px 12px 0 0;
+    padding: 0.8rem 0.65rem 0.65rem;
+  }
+
+  .election-media-modal-title {
+    font-size: 0.92rem;
+    margin-right: 2.1rem;
+  }
+
+  .election-media-modal-close {
+    top: 0.35rem;
+    right: 0.35rem;
+    width: 30px;
+    height: 30px;
+  }
+
+  .election-media-modal-content {
+    height: min(72vh, 560px);
+  }
+
+  .election-media-modal--image .election-media-modal-content,
+  .election-media-modal--image .election-media-modal-image {
+    max-width: 96vw;
+    max-height: 72vh;
+  }
+
+  .election-board-nav {
+    padding: 0 0.75rem 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  .election-board-nav-btn {
+    min-width: 0;
+    font-size: 0.9rem;
+    padding: 0.55rem 0.7rem;
+  }
+}

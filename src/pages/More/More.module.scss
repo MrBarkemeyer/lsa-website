@@ -1,35 +1,51 @@
-@mixin flex-center{
+@mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.sheng{
-    width: 400px;
-    height: 400px;
-    border-radius: 100%;
-    object-fit: cover;
+.sheng {
+  width: 400px;
+  height: 400px;
+  border-radius: 100%;
+  object-fit: cover;
 }
-.site{
-    flex-direction: column;
-    gap: 30px;
+
+.site {
+  flex-direction: column;
+  gap: 30px;
 }
-.sheng-description{
-    max-width: 912px;
+
+.sheng-description {
+  max-width: 912px;
 }
-  .resource > *{
-    margin: 1rem;
-  }
-  .freshmenResources{
+
+.resource>* {
+  margin: 1rem;
+}
+
+.freshmenResources {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  flex-direction: column;
+
+  .resource {
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-self: center;
     flex-direction: column;
-    .resource{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      width: 100%;
-    }
+    width: 100%;
   }
+}
+
+@media (max-width: 640px) {
+  .sheng {
+    width: min(260px, 70vw);
+    height: auto;
+  }
+
+  .sheng-description {
+    padding: 0 1rem;
+  }
+}

@@ -1,139 +1,230 @@
-:root{
+:root {
   --lowell-red: #861212;
   --title-color: #9c1919;
   --secondary-color: #e87b7b;
-  --primary-font: 'Inter', sans-serif
+  --primary-font: 'Inter', sans-serif;
+
+  // spacing that shrinks on smaller screens so we don't run out of room
+  --page-pad: 3rem;
+  --page-pad-x: 3rem;
+  --page-pad-y: 3rem;
+  --tap-target: 44px;
 }
 
-*{
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: var(--primary-font);
   scroll-behavior: smooth;
 }
-a{
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
   text-decoration: none;
 }
-p{
+
+p {
   font-family: Calibri, Arial, Helvetica, sans-serif;
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  line-height: 1.55;
 }
-li{
+
+li {
   list-style: none;
 }
-.relative{
+
+.relative {
   position: relative;
 }
-.absolute{
+
+.absolute {
   position: absolute;
 }
-.bold{
+
+.bold {
   font-weight: bold;
 }
-.flex-center{
+
+.flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.white{
+
+.white {
   color: white;
 }
-.black{
+
+.black {
   color: black;
 }
-.center{
+
+.center {
   text-align: center;
 }
-h1, h2, h3, h4, h5, h6{
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: Kanit, sans-serif;
 }
-h1{
-  font-size: 3rem;
+
+h1 {
+  font-size: clamp(1.75rem, 4vw, 3rem);
 }
-h2{
-  font-size: 2.5rem;
+
+h2 {
+  font-size: clamp(1.35rem, 3.2vw, 2.5rem);
 }
-h3{
-  font-size: 1.8rem;
+
+h3 {
+  font-size: clamp(1.1rem, 2.4vw, 1.8rem);
 }
-footer{
+
+footer {
   height: 100px;
   color: white;
   background: var(--lowell-red);
 }
-footer div{
+
+footer div {
   width: 400px;
   display: flex;
   justify-content: space-evenly;
 }
-footer a{
+
+footer a {
   color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
 }
-footer a:nth-child(1):hover{
-  border-radius: 10px;
+
+footer a:nth-child(1):hover {
+  border-radius: 15px;
   background: radial-gradient(circle farthest-corner at 35% 90%, #fec564, transparent 50%), radial-gradient(circle farthest-corner at 0 140%, #fec564, transparent 50%), radial-gradient(ellipse farthest-corner at 0 -25%, #5258cf, transparent 50%), radial-gradient(ellipse farthest-corner at 20% -50%, #5258cf, transparent 50%), radial-gradient(ellipse farthest-corner at 100% 0, #893dc2, transparent 50%), radial-gradient(ellipse farthest-corner at 60% -20%, #893dc2, transparent 50%), radial-gradient(ellipse farthest-corner at 100% 100%, #d9317a, transparent), linear-gradient(#6559ca, #bc318f 30%, #e33f5f 50%, #f77638 70%, #fec66d 100%);
+  background-size: 100% 85%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-footer a:nth-child(2):hover{
+
+footer a:nth-child(2):hover {
   border-radius: 100%;
   color: #1877F2;
 }
-footer a:nth-child(3):hover{
+
+footer a:nth-child(3):hover {
   color: black;
 }
-.footer-icon{
+
+.footer-icon {
   font-size: 2.5rem;
   cursor: pointer;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
 }
-.ml-16{
+
+.ml-16 {
   margin-left: 4rem;
 }
-.glowable-text{
+
+.glowable-text {
   color: red;
 }
+
 [glow] .glowable-text {
   color: red;
 }
-section{
+
+section {
   padding: 1rem;
   min-height: 80vh;
+  width: 100%;
+  max-width: 100%;
 }
-.to-right{
+
+img, svg, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+// phones and tablets get less padding 
+@media (max-width: 1024px) {
+  :root {
+    --page-pad: 1.5rem;
+    --page-pad-x: 1.5rem;
+    --page-pad-y: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --page-pad: 1rem;
+    --page-pad-x: 1rem;
+    --page-pad-y: 1rem;
+  }
+}
+
+.to-right {
   animation: transformRight 0.5s forwards ease;
 }
-.to-left{
+
+.to-left {
   animation: transformLeft 0.5s forwards ease;
 }
-.to-up{
+
+.to-up {
   animation: transformUp 0.6s forwards ease;
 }
 
-@keyframes transformRight{
-  from{
+@keyframes transformRight {
+  from {
     transform: translateX(-500px);
     visibility: visible;
   }
-  to{
+
+  to {
     transform: transLateX(0);
     visibility: visible;
   }
 }
-@keyframes transformLeft{
-  from{
+
+@keyframes transformLeft {
+  from {
     transform: translateX(500px);
     visibility: visible;
   }
-  to{
+
+  to {
     transform: transLateX(0);
     visibility: visible;
   }
 }
-@keyframes transformUp{
-  from{
+
+@keyframes transformUp {
+  from {
     transform: translateY(500px);
     visibility: visible;
   }
-  to{
+
+  to {
     transform: transLateX(0);
     visibility: visible;
   }

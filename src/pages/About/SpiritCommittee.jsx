@@ -1,26 +1,128 @@
-export default function SpiritCommittee(){
-    return(
-        <>
-            <div className="title">
-                <h1>Spirit Committee</h1>
-            </div>
-            <section className="info-page">
-                <p>Lowell High School is a competitive school with approximately three thousand of the most outstanding students eager to impress and succeed. Not only do we make education a (friendly) competition, but class spirit as well. Our spirit weeks are a battle for each class to go head to head and prove which class is truly the best. 
-                </p>
-                <p>Fall Spirit Week is the ultimate battlefield. Each grade will be given a theme and is responsible for putting together a committees that will decorate each assigned hallway, put together a dance number, and bring their A-game to the rally. </p>
-                <p>The winning class of Spirit Week is to be determined by a number of anonymous judges based on a scoring system. This includes scores based on the decorated spirit hallways, Spirit Week participation, dance, and overall rally game wins.  </p>
-                <p> Spirit Committee is put together by each class board, with the exception of freshmen (to be discussed if you keep reading). The committee meets everyday after school for about 6 weeks. Their goal is to decorate the hallway with the best posters, choreograph the best dance, and pick those ready to compete in rally games. </p>
-                <h2>Art Committee</h2>
-                <p>Artsy or creative? Art Committee is the right place to be! Art Committee takes care of covering the assigned hallway for each class with posters according to their theme. The main job here is to make beautiful posters. Everyone is welcome to join — Art Committee's main goal here is to bring your class closer together. As long as you can hold a brush and color in the lines, you are exactly what we're looking for. </p>
-                <h2>Dance Committee</h2>
-                <p>Time to get that body moving! If you want to dance, choreograph, or just shake ya tailfeather, join Dance Committee. Learn a whole dance that goes according to your grade's spirit theme, and then get ready to perform it for the whole school at the rally! The dance is a bit part of the overall spirit score, so it is very important to bust out those dance moves and wow the crowd! </p>
-                <h2>​Freshmen Spirit Committee</h2>
-                <p>Since freshmen will not yet have their own class board, the SBC Club Coordinator and SBC Election Commissioner will be in charge of the Freshmen Spirit Committee. An info meeting will be held early in the year — keep your eyes posted for more information!</p>
-                <h2>​Late Night</h2>
-                <p>The Friday before Spirit Week is probably one of the most hectic days of the Lowell year. All the Spirit Committees from each grade work from the moment school lets out until about 10pm. All the posters must go up, which means last minute sketching, painting, drying, and taping. The dancers will be busy drilling their routine before the big spirit day... and everything must come together before three thousand Lowellites rush in on Monday morning to judge and drool in awe at the hallways. Food is provided for the committee embers by the class boards. </p>
-                <h2>How do I join Spirit Committee?</h2>
-                <p>SIMPLY SHOW UP THE DAYS YOU ARE FREE! Spirit Committee needs as much help as possible because it is literally a big project that will be graded! Depending on how many times you show up, you get signed off for doing Spirit Committee work, and can be put down as an extra-curricular activity/club! Everyone can join, and you can take part in more than one activity.</p>
-            </section>
-        </>
-    )
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faBrush,
+  faHandshake,
+  faMoon,
+  faMusic,
+  faPersonRunning,
+  faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
+import "./About.scss";
+
+const SECTIONS = [
+  {
+    id: "overview",
+    title: "Spirit at Lowell",
+    icon: faPersonRunning,
+    body: (
+      <>
+        <p>
+          Lowell competes in class spirit as well as academics. Spirit weeks are a
+          chance for each grade to show hall art, rally games, and dance performances.
+        </p>
+        <p>
+          Fall Spirit Week is the main event: each grade gets a theme and builds a
+          committee for hallway, dance, and rally. Winning classes are chosen by
+          anonymous judges using hall decoration, participation, dance, and rally wins.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "art",
+    title: "Art Committee",
+    icon: faBrush,
+    body: (
+      <p>
+        Cover the halls with posters that match your theme. Open to everyone you can
+        paint, sketch, and help your class come together.
+      </p>
+    ),
+  },
+  {
+    id: "dance",
+    title: "Dance Committee",
+    icon: faMusic,
+    body: (
+      <p>
+        Choreograph and perform a routine for Spirit Rally. Dance scores are a big part
+        of the overall spirit score so bring your best moves.
+      </p>
+    ),
+  },
+  {
+    id: "freshmen",
+    title: "Freshmen Spirit Committee",
+    icon: faUserGroup,
+    body: (
+      <p>
+        Freshmen don&apos;t have a class board yet. The SBC Club Coordinator and
+        Elections Commissioner run the freshmen Spirit Committee. Watch for an info
+        meeting early in the year.
+      </p>
+    ),
+  },
+  {
+    id: "late-night",
+    title: "Late night",
+    icon: faMoon,
+    body: (
+      <p>
+        The Friday before Spirit Week is a big push: posters go up, dancers drill, and
+        the whole committee works from after school until around 10pm. Class boards
+        provide food for volunteers.
+      </p>
+    ),
+  },
+  {
+    id: "join",
+    title: "How to join",
+    icon: faHandshake,
+    body: (
+      <p>
+        Show up when you can Spirit Committee needs lots of people. Attendance can be
+        signed off for extracurricular credit. You can join more than one subcommittee.
+      </p>
+    ),
+  },
+];
+
+export default function SpiritCommittee() {
+  return (
+    <main className="spirit-committee-page">
+      <header className="spirit-committee-page__hero">
+        <h1>Spirit Committee</h1>
+        <p>
+          Hall art, rally games, and the spirit dance each class builds a team for
+          Spirit Week.
+        </p>
+      </header>
+
+      <nav className="spirit-committee-page__nav" aria-label="Breadcrumb">
+        <Link to="/LSA/Commitees" className="spirit-committee-page__nav-link">
+          <FontAwesomeIcon icon={faArrowLeft} aria-hidden /> Committees
+        </Link>
+      </nav>
+
+      <div className="spirit-committee-page__content">
+        <div className="spirit-committee-page__grid">
+          {SECTIONS.map((section) => (
+            <article
+              key={section.id}
+              id={section.id}
+              className="spirit-committee-page__card"
+            >
+              <div className="spirit-committee-page__card-icon" aria-hidden>
+                <FontAwesomeIcon icon={section.icon} />
+              </div>
+              <h2 className="spirit-committee-page__card-title">{section.title}</h2>
+              <div className="spirit-committee-page__card-body">{section.body}</div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </main>
+  );
 }

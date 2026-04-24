@@ -1,0 +1,41 @@
+.registry-page {
+  padding-bottom: 3rem;
+}
+
+.registry-embed-section {
+  margin-top: 1rem;
+}
+
+.registry-embed {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 36px rgba(20, 23, 31, 0.06);
+  background: #fff;
+}
+
+.registry-embed iframe {
+  width: 100%;
+  height: clamp(520px, 70vh, 900px);
+  border: 0;
+  display: block;
+}
+
+.registry-open-note {
+  margin-top: 1rem;
+  text-align: center;
+  color: #555;
+  font-family: var(--primary-font);
+}
+
+.registry-open-note a {
+  color: var(--lowell-red);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.registry-open-note a:hover {
+  text-decoration: underline;
+}
+

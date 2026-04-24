@@ -1,49 +1,95 @@
-mport LinkButton from "../../../components/LinkButton"
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import "./ClubResourceGuidePage.scss";
+import ClassroomCodeBlock from "./ClassroomCodeBlock.jsx";
+import GuideResourceGrid from "./GuideResourceGrid.jsx";
+
+const CLASSROOM_CODE = "knmn6yuw";
+const COORDINATOR_EMAIL = "lowelleventscoordinator@gmail.com";
+
+/** Set `href` when you have public URLs; cards without `href` show a Classroom hint. */
+const EVENT_FORMS = [
+  {
+    title: "Event planning form",
+    description: "Initial request to plan a club event (not a fundraiser).",
+  },
+  {
+    title: "Event planning form (submit)",
+    description: "Submission or follow-up step after drafting your event plan.",
+  },
+  {
+    title: "Lowell facility usage form",
+    description: "Reserve rooms or spaces on campus for your approved event.",
+  },
+];
+
+const AFTER_APPROVAL = [
+  {
+    title: "Flier request form",
+    description: "Request approval to post paper fliers around school after your event is cleared.",
+  },
+];
 
 export default function EventPlanning() {
-    return (
-        <>
-            <div className="title">
-                <h1>Event Planning Resources</h1>
-            </div>
+  return (
+    <section className="club-guide-page">
+      <header className="club-guide-page__hero">
+        <h1>Event planning resources</h1>
+        <p className="club-guide-page__tagline">
+          Forms and contacts for club events. Fundraisers use a separate
+          process see fundraising resources.
+        </p>
+      </header>
 
-            <section className="info-page">
-                <LinkButton to="/Clubs/ClubResources" noTarget={true}>
-                    {"< back to club resources"}
-                </LinkButton>
+      <div className="club-guide-page__main">
+        <Link className="club-guide-page__back" to="/Clubs/ClubResources">
+          <FontAwesomeIcon icon={faArrowLeft} aria-hidden />
+          Back to club resources
+        </Link>
 
-                <p>
-                    Resources to get you started on how to plan an event for your club! 
-                    Club events are DIFFERENT from fundraisers! If you are looking to plan 
-                    a fundraiser, visit the fundraising resources page!
-                </p>
+        <p className="club-guide-page__lede">
+          Club <strong>events</strong> and <strong>fundraisers</strong> follow
+          different rules. Use this page for performances, meetings, and other
+          non-fundraising activities. For sales and donation drives, go to{" "}
+          <Link to="/Clubs/Fundraising">Fundraising resources</Link>. Starting a
+          new club? See{" "}
+          <Link to="/Clubs/NewClub">How to start a club</Link>.
+        </p>
 
-                <p>
-                    <strong>KEEP IN MIND</strong> that there are only resources listed here. 
-                    If you are looking for more information, join the 2023-2024 Activities 
-                    Google Classroom (g6sf3ss).
-                </p>
+        <div className="club-guide-page__contact">
+          <span className="club-guide-page__contact-label">Events coordinator</span>
+          <span>Brandon Ho (SBC)</span>
+          <span aria-hidden>·</span>
+          <a
+            className="club-guide-page__contact-mail"
+            href={`mailto:${COORDINATOR_EMAIL}`}
+          >
+            {COORDINATOR_EMAIL}
+          </a>
+        </div>
 
-                <h2>Main Contact: <span style={{ fontWeight: "600" }}>Brandon Ho (SBC Events Coordinator)</span></h2>
-                <p>email: lowelleventscoordinator@gmail.com</p>
+        <ClassroomCodeBlock code={CLASSROOM_CODE} />
 
-                <div className="club-buttons">
-                    <LinkButton>Event Planning Form</LinkButton>
-                    <LinkButton>Event Planning Form (Submit)</LinkButton>
-                    <LinkButton>Lowell Facility Usage Form</LinkButton>
-                </div>
+        <div className="club-guide-page__section">
+          <h2 className="club-guide-page__section-title">Planning forms</h2>
+          <p className="club-guide-page__section-intro">
+            Use these in order when your advisor and SBC expect them. If a link
+            is not listed here yet, open the Activities Classroom below the
+            live file usually lives there first.
+          </p>
+          <GuideResourceGrid items={EVENT_FORMS} />
+        </div>
 
-                <h2>What are your next steps?</h2>
-                <p>
-                    After your event is approved, you may begin promoting it by posting on 
-                    social media, or you can submit a flier request form to hang up fliers 
-                    around the school.
-                </p>
-
-                <div className="club-buttons">
-                    <LinkButton>Flier Request Form</LinkButton>
-                </div>
-            </section>
-        </>
-    )
+        <div className="club-guide-page__next">
+          <h2 className="club-guide-page__next-title">After your event is approved</h2>
+          <p className="club-guide-page__next-body">
+            You can promote on social media according to school guidelines. For
+            printed fliers in hallways, submit the flier request form.
+          </p>
+          <GuideResourceGrid items={AFTER_APPROVAL} />
+        </div>
+      </div>
+    </section>
+  );
 }

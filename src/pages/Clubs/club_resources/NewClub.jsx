@@ -1,98 +1,194 @@
-import LinkButton from "../../../components/LinkButton";
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faArrowUpRightFromSquare,
+  faFileLines,
+  faTableColumns,
+} from "@fortawesome/free-solid-svg-icons";
+import "./NewClub.scss";
+
+const CLASSROOM_CODE = "knmn6yuw";
+const COORDINATOR_EMAIL = "lowellclubcoord25@gmail.com";
+
+const FORM_LINKS = [
+  {
+    title: "Petition for new club",
+    description: "Official petition to propose a new club at Lowell.",
+    href: "https://docs.google.com/document/d/1C2tdUqwsz1S0V9ZbfCRr1k_uonUBG-SceAxFLxdT48o/edit?tab=t.0",
+  },
+  {
+    title: "Club registration form",
+    description: "Submit your club’s details for recognition.",
+    href: "https://docs.google.com/forms/d/e/1FAIpQLSelC6x-lAH0ZDVCV6rgW3kPS3rtA2EY3Ovt1ymoaQirc82ojg/viewform?usp=send_form",
+  },
+  {
+    title: "Club contract",
+    description: "Agreement between your club and the school.",
+    href: "https://docs.google.com/document/d/1Ma-iRM0Ekb_u6JsmHUrumZdr3akvoKn254Tq3bPK03A/edit?tab=t.0",
+  },
+  {
+    title: "Club policies",
+    description: "Rules and expectations for all recognized clubs.",
+    href: "https://docs.google.com/document/d/1e-gC-V2FurpMbVvCAsreaLbWMTrX41U6O7_tsdczjoE/edit?tab=t.0",
+  },
+  {
+    title: "Club budget sheet",
+    description: "Template for planning and tracking club finances.",
+    href: "https://docs.google.com/spreadsheets/d/1rA3dCsXYGsM59IIUCbi6FT1KawqKG4EuvjWyYuJhk-c/edit?authuser=0&usp=classroom_web",
+  },
+];
+
+function Step({ number, title, children }) {
+  return (
+    <article className="new-club-page__step">
+      <div className="new-club-page__step-head">
+        <span className="new-club-page__step-badge" aria-hidden>
+          {number}
+        </span>
+        <h2 className="new-club-page__step-title">{title}</h2>
+      </div>
+      {children}
+    </article>
+  );
+}
+
+Step.propTypes = {
+  number: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
 
 export default function NewClub() {
-    return (
-        <>  
-            <div className="title">
-                <h1>How to Start a Club</h1>
+  const [copied, setCopied] = useState(false);
+
+  async function copyJoinCode() {
+    try {
+      await navigator.clipboard.writeText(CLASSROOM_CODE);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
+  }
+
+  return (
+    <section className="new-club-page">
+      <header className="new-club-page__hero">
+        <h1>How to start a club</h1>
+        <p className="new-club-page__tagline">
+          From joining the Activities Classroom to approved forms and your
+          bulletin board follow these steps to register a new club at Lowell.
+        </p>
+      </header>
+
+      <div className="new-club-page__main">
+        <Link className="new-club-page__back" to="/Clubs/ClubResources">
+          <FontAwesomeIcon icon={faArrowLeft} aria-hidden />
+          Back to club resources
+        </Link>
+
+        <p className="new-club-page__lede">
+          This guide is for <strong>starting a new club</strong>. For event
+          logistics or fundraisers, use the{" "}
+          <Link to="/Clubs/EventPlanning">event planning</Link> and{" "}
+          <Link to="/Clubs/Fundraising">fundraising</Link> pages. Extra
+          announcements and forms also live in the Activities Google Classroom you
+          must join it to submit documents and get updates.
+        </p>
+
+        <div className="new-club-page__contact">
+          <span className="new-club-page__contact-label">Club coordinator</span>
+          <span>Enkhiinkhuslen Tegshjargal (SBC)</span>
+          <span aria-hidden>·</span>
+          <a
+            className="new-club-page__contact-mail"
+            href={`mailto:${COORDINATOR_EMAIL}`}
+          >
+            {COORDINATOR_EMAIL}
+          </a>
+        </div>
+
+        <div className="new-club-page__steps">
+          <Step number={1} title="Join the 2025-26 Activities Google Classroom">
+            <p className="new-club-page__step-body">
+              You’ll find deadlines, forms, and school-wide club announcements
+              here. Materials may be linked elsewhere, but submission and key
+              updates happen in Classroom.
+            </p>
+            <div className="new-club-page__code-row">
+              <span className="new-club-page__code">{CLASSROOM_CODE}</span>
+              <button
+                type="button"
+                className={`new-club-page__copy${copied ? " new-club-page__copy--done" : ""}`}
+                onClick={copyJoinCode}
+              >
+                {copied ? "Copied" : "Copy code"}
+              </button>
             </div>
+          </Step>
 
-            <section className="info-page">
-                <LinkButton to="/Clubs/ClubResources" noTarget={true}>
-                    {"< back to club resources"}
-                </LinkButton>
+          <Step number={2} title="Complete and submit the required forms">
+            <p className="new-club-page__step-body">
+              Before you can hold meetings, complete the documents below and get
+              approval from the SBC club coordinator. Everything should be
+              turned in by the stated deadlines; digital signatures are
+              preferred when possible.
+            </p>
+            <p className="new-club-page__note">
+              Questions about a form? Email{" "}
+              <a href={`mailto:${COORDINATOR_EMAIL}`}>{COORDINATOR_EMAIL}</a>.
+            </p>
+            <div className="new-club-page__form-grid">
+              {FORM_LINKS.map((item) => (
+                <a
+                  key={item.href}
+                  className="new-club-page__form-card"
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="new-club-page__form-icon" aria-hidden>
+                    <FontAwesomeIcon icon={faFileLines} />
+                  </span>
+                  <h3 className="new-club-page__form-title">{item.title}</h3>
+                  <p className="new-club-page__form-desc">{item.description}</p>
+                  <span className="new-club-page__form-cta">
+                    Open
+                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                  </span>
+                </a>
+              ))}
+            </div>
+          </Step>
 
-                <p>
-                    Resources to get you started on how to plan an event for your club!
-                    Club events are DIFFERENT from fundraisers! If you are looking to
-                    plan a fundraiser, visit the fundraising resources page!
-                </p>
+          <Step number={3} title="Create your club bulletin board">
+            <p className="new-club-page__step-body">
+              After you receive an email confirming your club and approved
+              paperwork, you’ll get access to a spreadsheet with your bulletin
+              board assignment. Decorate your board per the instructions, then
+              complete any follow-up form your coordinator shares (posted in
+              Classroom or sent by email).
+            </p>
+            <p className="new-club-page__note">
+              <FontAwesomeIcon icon={faTableColumns} aria-hidden /> Watch your
+              inbox and the Activities Classroom for the board roster and
+              submission link.
+            </p>
+          </Step>
 
-                <p>
-                    KEEP IN MIND that there are only resources that are listed here. If
-                    you are looking for more information, join the 2025–2026 Activities
-                    Google Classroom (knmn6yuw).
-                </p>
-
-                <h2>Main Contact: Enkhiinkhuslen Tegshjargal (SBC Club Coordinator)</h2>
-                <p>Email: lowellclubcoord25@gmail.com</p>
-
-                <h2>Step 1: Join the 2025–2026 Activities Google Classroom</h2>
-                <p>Join Code: knmn6yuw</p>
-                <p>
-                    Here you can find updates and announcements for clubs, such as
-                    sign-ups for co-curricular events, or important forms to fill out!
-                    Keep in mind that although the materials can be found here, you must
-                    join the Google Classroom to submit docs and receive important
-                    updates.
-                </p>
-
-                <h2>Step 2: Complete the Necessary Forms</h2>
-                <p>
-                    Before you can start meetings, you must fill out a couple of forms
-                    and get them approved by the SBC Club Coordinator. All of these MUST
-                    be filled out by the deadline. All forms should preferably be signed
-                    digitally. Please email lowellclubcoord25@gmail.com with any
-                    questions.
-                </p>
-
-                <div className="club-buttons">
-                    <LinkButton 
-                        to="https://docs.google.com/document/d/1C2tdUqwsz1S0V9ZbfCRr1k_uonUBG-SceAxFLxdT48o/edit?tab=t.0" 
-                        target="_blank"
-                    >
-                        Petition for New Club
-                    </LinkButton>
-                    <LinkButton 
-                        to="https://docs.google.com/forms/d/e/1FAIpQLSelC6x-lAH0ZDVCV6rgW3kPS3rtA2EY3Ovt1ymoaQirc82ojg/viewform?usp=send_form" 
-                        target="_blank"
-                    >
-                        Club Registration Form
-                    </LinkButton>
-                    <LinkButton 
-                        to="https://docs.google.com/document/d/1Ma-iRM0Ekb_u6JsmHUrumZdr3akvoKn254Tq3bPK03A/edit?tab=t.0" 
-                        target="_blank"
-                    >
-                        Club Contract
-                    </LinkButton>
-                    <LinkButton 
-                        to="https://docs.google.com/document/d/1e-gC-V2FurpMbVvCAsreaLbWMTrX41U6O7_tsdczjoE/edit?tab=t.0" 
-                        target="_blank"
-                    >
-                        Club Policies
-                    </LinkButton>
-                    <LinkButton 
-                        to="https://docs.google.com/spreadsheets/d/1rA3dCsXYGsM59IIUCbi6FT1KawqKG4EuvjWyYuJhk-c/edit?authuser=0&usp=classroom_web" 
-                        target="_blank"
-                    >
-                        Club Budget Sheet
-                    </LinkButton>
-                </div>
-
-                <h2>Step 3: Create a Club Bulletin Board</h2>
-                <p>
-                    Once you get an EMAIL saying you are CONFIRMED with all your
-                    submitted forms, you will be sent a spreadsheet with your bulletin
-                    board assignment. Check the spreadsheet, decorate your bulletin
-                    board, then submit the form below.
-                </p>
-
-                <h2>What are your next steps?</h2>
-                <p>
-                    Get your club started by promoting it, and deciding when your club
-                    will be meeting!
-                </p>
-            </section>
-        </>
-    );
+          <Step number={4} title="Launch your club">
+            <p className="new-club-page__step-body">
+              Promote your club, set a regular meeting time and place, and keep
+              officers and members informed through Classroom and your own
+              channels. Stay in touch with the club coordinator if policies or
+              rosters change during the year.
+            </p>
+          </Step>
+        </div>
+      </div>
+    </section>
+  );
 }

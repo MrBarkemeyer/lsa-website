@@ -1,329 +1,336 @@
-import CardinalympicLogo from "../components/CardinalympicLogo"
-import Counter from "../components/Counter"
-export default function Cardinalympics({cardinalympicsData}){
-    return(
-        <>
-            <div className="title">
-                <h1>2025 Cardinalympics</h1>
-            </div>
-            <CardinalympicLogo />
-            <div className="cardinalympics-intro-container">
-                    <h1>Spirit Week Total</h1>
-                    <div className="cardinalympics-scores">
-                        <div className="cardinalympics-score">
-                            <h2>Freshman:&nbsp;</h2> 
-                            <Counter start={0} end={cardinalympicsData[0]} duration={2000} className="cardinalympics-counter" color="green"> pts</Counter>
-                        </div>
-                        <div className="cardinalympics-score">
-                            <h2>Sophomore:&nbsp;</h2> 
-                            <Counter start={0} end={cardinalympicsData[1]} duration={2000} className="cardinalympics-counter" color="purple"> pts</Counter>
-                        </div>
-                        <div className="cardinalympics-score">
-                            <h2>Junior:&nbsp;</h2> 
-                            <Counter start={0} end={cardinalympicsData[2]} duration={2000} className="cardinalympics-counter" color="#5353f6"> pts</Counter>
-                        </div>
-                        <div className="cardinalympics-score">
-                            <h2>Senior:&nbsp;</h2> 
-                            <Counter start={0} end={cardinalympicsData[3]} duration={2000} className="cardinalympics-counter" color="#9c1919"> pts</Counter>
-                        </div>
-                    </div>
-                </div>
-            <section className="info-page">
-                <h3>Check out the entire activities list: <a target="_blank" href="https://docs.google.com/document/d/1VLrgGont0-x0QVqtaHyixDYa2Iyn0bpqV3ZVu8KGmGs/edit?tab=t.0">Here</a></h3>
-                <h3>For the detailed scores breakdown: <a target="_blank" href="https://docs.google.com/spreadsheets/d/1YoyeAEx3rFD2ctbrz3R0a0todgsNes76r_JH6MkYUO4/edit?gid=5259979411">Here</a></h3>
-                <div>
+/* eslint-disable react/prop-types */
+import { useState, useMemo } from "react";
+import Counter from "../components/Counter";
+import {
+  groupCardinalympicsEventsByWeekAndDay,
+  isCardinalympicsSignupPastEventDay,
+} from "../utils/cardinalympicsEventsFromSheet";
+import "./Cardinalympics.scss";
 
-                <div>
-                    <h1>Special Kick-off Events</h1> 
-                    <div className="event">
-                        <h3 className="event-description">Escape <span>(300 pts)</span></h3>
-                        <p className="event-description"><strong>Description:</strong> hey lowellities‼️get excited for this year’s escape event where we invite you to join us in a thrilling scavenger hunt filled with mysteries and new challenges!🕵️‍♂️ end the night off with a comedic murder mystery movie and a BUFFET style dinner!!! 😱</p>
-                        <a className="event-description" href="https://docs.google.com/forms/u/1/d/e/1FAIpQLSenuWIkA4sIjljm8L3MeaNDdhDl2qc-mrZzCPo2UsudQmLLOQ/viewform"><strong>Sign up form</strong></a>
-                    </div>
-                    <div className="event">
-                        <h3 className="event-description">Dodgeball Tournament <span>(300 pts)</span></h3>
-                        <p className="event-description"><strong>Description:</strong> Hey everyone! Cardinalympics is officially underway! The sophomore board is hosting one of the events, DODGEBALL TOURNEY!!! ALL GRADES ALLOWED! There is a game for student vs student, and a game for teacher vs student. You can sign up via link in linktree or qr code with your friends 😝 It will be on March 14th from 4-6pm. The prizes for the teacher vs student game will be released soon, and the prizes for the student vs student is Cardinalympics points. Come to enjoy a fun game of friendly dodgeball and win some points for your grade!</p>
-                        <a className="event-description" href="https://docs.google.com/forms/u/1/d/e/1FAIpQLScHof5wcrzuf5luUuOxkBw2Eq9U4fAbjV68p_V2QAPO6z6fdw/viewform?usp=send_form"><strong>Student VS Student</strong></a>
-                        <a className="event-description" href="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc5Ux-R7qoTd72sufEOQX8gB6-nTGTDhoxRhjD54zPeMZyrBg/viewform?usp=dialog"><strong>Student VS Teacher</strong></a>
-                    </div>
-                   
-                </div>
-                    <h1>Monday</h1>
-                    <div className="event">
-                        <h3 className="event-description">Coloring Contest <span>(100 pts)</span></h3>
-                        <p className="event-description"><strong>When:</strong>  3:50 - 4:30</p>
-                        <p className="event-description"><strong>Where:</strong>  Room 230</p>
-                        <p className="event-description"><strong>Host:</strong>  Ms. Yoshimura</p>
-                        <p className="event-description"><strong>Description:</strong>  Color inside or outside the lines, all participants will color in the same picture. Entries will be judged on originality, creativity, skill, and overall visual appeal. Coloring pens/pencils and paper will be provided.</p>
-                        <p className="event-description"><strong>Who?</strong> MAX 34 participants. The first 34 signups will be accommodated. Any no-shows by 3:50 on the day of the contest will be dropped, and anyone who shows up on the day of will be allowed in on a first come, first served basis up to a max of 35 contestants.</p>
-                        <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSeY5k0Yr42DY3nuftH-PabJH2yxvjosSqAL4pI1oayHXKGF9w/viewform"><strong>Sign up for this event</strong></a>
-                    </div>
-                    <div className="event">
-                        <h3 className="event-description">Times Tables Comp <span>(100 pts)</span></h3>
-                        <p className="event-description"><strong>When:</strong>  3:50 – 4:10</p>
-                        <p className="event-description"><strong>Where:</strong>  Room 255</p>
-                        <p className="event-description"><strong>Host:</strong>  Ms. Johnson & Mr. Zeeman</p>
-                        <p className="event-description"><strong>Description:</strong>  Can you multiply by 12s without a calculator? Do you know the answer to the dreaded 8 x 7 question? How about 9 x 6? Meet your peers and spend a quick few minutes seeing who can complete a 1-12 by 1-12 times table quickly (and accurately!).</p>
-                        <p className="event-description"><strong>Who?</strong> The first 36 individuals that sign up.</p>
-                        <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSfd7F9lfcRJyWwJn9bXWILerSZ1op8qISYbPbRWDi6QlUekKQ/viewform"><strong>Sign up for this event</strong></a>
-                    </div>
-                    <div className="event">
-                        <h3 className="event-description">Geography Bee <span>(100 pts)</span></h3>
-                        <p className="event-description"><strong>When:</strong>  3:50 – 4:20</p>
-                        <p className="event-description"><strong>Where:</strong>  Room 231</p>
-                        <p className="event-description"><strong>Host:</strong>  Ms. Hanlon-Young</p>
-                        <p className="event-description"><strong>Description:</strong>  Have you played Worldle? Can you locate and name the major mountain ranges in the Americas? Do you know the capitals of most of the countries in Africa? Join us for the Geography Bee, where you will be asked questions in three different categories, over three different rounds. Bring a friend or two AND ONE CHROMEBOOK PER TEAM and compete against others using your geography knowledge.</p>
-                        <p className="event-description"><strong>Who?</strong> Teams of 2-3 people (in the same grade level!) up to a maximum of 40 people.</p>
-                        <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSf0PEg0q_uHbTrSoOYFiylszvAIvcyUN-PP14NxwO33og8XQg/viewform?usp=header"><strong>Sign up for this event</strong></a>
-                    </div>
-                    <div className="event">
-                    <h3 className="event-description">3-Point Contest <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 – 4:20</p>
-                    <p className="event-description"><strong>Where:</strong>  Bball courts by WL</p>
-                    <p className="event-description"><strong>Host:</strong>  Ms. Gersten</p>
-                    <p className="event-description"><strong>Description:</strong>  Show off your 3-point shot by making as many of 6 shots from outside the arc as you can. Those making the most baskets in each round will move on to further rounds until winners are crowned! <strong>NOTE:</strong> JV and Varsity basketball players MAY compete!</p>
-                    <p className="event-description"><strong>Who?</strong> The first 40 who sign up. Others will be on a waiting list.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSdzKOuk1j6Y39zyKEfzOD-_ZhvSBudHBwOxbAO8_ToE--KAmA/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Climb a Wall <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 – 4:20, M 3/17</p>
-                    <p className="event-description"><strong>Where:</strong>  Climbing Wall in the Weightroom</p>
-                    <p className="event-description"><strong>Host:</strong>  Mr. Worth</p>
-                    <p className="event-description"><strong>Description:</strong>  Are you secretly Spiderman? Can you climb a wall in record time? If so, come try your wall-traversing skills on a designated course in a timed competition.</p>
-                    <p className="event-description"><strong>Who?</strong> The first 20 who sign up. Others will be on a waiting list.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSd6lRW1ePVIM0_NIUMmexIfpcbKDTiJDdu0PtQ9TjPoJ-YpMA/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Origami! <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 – 4:20, M 3/17</p>
-                    <p className="event-description"><strong>Where:</strong>  Room 137</p>
-                    <p className="event-description"><strong>Host:</strong>  Ms. Ravelli</p>
-                    <p className="event-description"><strong>Description:</strong>  Cranes! Lots and lots of cranes! Can you fold quickly and accurately, creating an origami crane? Join us to see who can make the most cranes in a timed competition. Even if you DON’T know how to make a crane, join us as basic instructions will be provided. All materials will be provided.</p>
-                    <p className="event-description"><strong>Who?</strong> The first 34 who sign up. Others will be on a waiting list.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSe8kLm_qbz9rVPF9xn1RDhGkI2MbYzHFwH62tsTYbxziwEPRQ/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Know Lowell Treasure Hunt <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 – 4:35, M 3/17</p>
-                    <p className="event-description"><strong>Where:</strong>  Room xxx</p>
-                    <p className="event-description"><strong>Host:</strong>  Ms. Theilen Burke</p>
-                    <p className="event-description"><strong>Description:</strong>  How well do you know your school and all its hidden, quirky things? Show up with up to 3 of your classmates (teams of 4 max) at 3:50 to grab your list of items to find and race around the school to take selfies of you and your teammates with specific objects. Get back to home base (room xx) first, and win!</p>
-                    <p className="event-description"><strong>Who?</strong> Unlimited number of teams, but signups must be completed by F 3/14.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSenkcOFwn4G-34L4vxCjpl8YMNLouodPxhJr5rM8SgU5lJ6nw/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Reflection Journaling <span>(300 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  8:30am - 3:50pm, M 3/17 - Th 3/20</p>
-                    <p className="event-description"><strong>Where:</strong>  Wellness</p>
-                    <p className="event-description"><strong>Host:</strong>  M. Kane & the Wellness Team</p>
-                    <p className="event-description"><strong>Description:</strong>  Do you want a little encouragement to take a minute to reflect about yourself, your life, and/or the world around you? Stop by Wellness anytime between 8:30 - 9:30 each day and pick up a daily “reflection card.” Fill it out sometime during the day and drop it off by 3:50. Similar to Cardinal CHIRP coins, this contest will be judged by total percent of classes participating. <strong>Note:</strong> Reflections WILL be read, and only those deemed actually reflective will count.</p>
-                    <p className="event-description"><strong>Who?</strong> Unlimited, one card per student per day.</p>
-                    <p className="event-description">No Sign up for this event, just show up and grab a “reflections card” one day, two days, or ALL days!</p>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Costume Contest, Character Chaos Monday <span>(Lunch A, 100 pts; Lunch B, 100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  Once during Lunch A, once during Lunch B, 10 minutes after the beginning of lunch</p>
-                    <p className="event-description"><strong>Where:</strong>  The Catwalk</p>
-                    <p className="event-description"><strong>Host:</strong>  SBC</p>
-                    <p className="event-description"><strong>Description:</strong> Do you still have that Batman costume at home?  A Darth Vader mask?  Want to break out your Mean Girl pink? Wear something representing a character, any character, from any movie, historical era, or Netflix show!</p>
-                </div>
-                </div>
-            <div>
-                <h1>Tuesday</h1>
-                <div className="event">
-                    <h3 className="event-description">General Trivia <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 - 4:35</p>
-                    <p className="event-description"><strong>Where:</strong>  Room 241</p>
-                    <p className="event-description"><strong>Host:</strong>  Mr. Knight</p>
-                    <p className="event-description"><strong>Description:</strong>  Movies! News! Sports! Music! Science! Answer trivia questions about (mostly) current events and issues in teams of up to 4 (teams must consist of students all in the same grade). Participants will answer 30 questions, in 3 batches of 10. If necessary, tiebreaker questions will be asked at the end.</p>
-                    <p className="event-description"><strong>Who?</strong> Groups of up to 4 (in the same grade level!) will compete against other groups, up to a total of 40 participants.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSf8CvViSzF1bqWnh7AoYzvnJIjJSlGu8VECuVl6CmBB9SHcZA/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Air-Dry Sculpture Making <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 – 4:35</p>
-                    <p className="event-description"><strong>Where:</strong>  218</p>
-                    <p className="event-description"><strong>Host:</strong>  Ms. Moore</p>
-                    <p className="event-description"><strong>Description:</strong>  Looking for a way to bring your ideas to life? Do you like to make small figurines of cats? Dogs? Penguins? Dragons? Use special clay to create quick (but amazing!) sculptures. Judgement will be based on criteria presented at the beginning of the competition. All materials will be provided.</p>
-                    <p className="event-description"><strong>Who?</strong> Up to 34 individuals, first to sign up welcomed. If there are any no-shows by 3:50 on the day of the competition, any who are waiting can take any empty seats (first come, first seated).</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSfRHRncFA9p1-x8PrTm0zC0cHMsXXKmUGLJ9172zfag9E5Osw/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">History Trivia Bowl <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 – 4:30</p>
-                    <p className="event-description"><strong>Where:</strong>  Room 241</p>
-                    <p className="event-description"><strong>Hosts:</strong>  Mr. Ungar & Ms. Delligatta</p>
-                    <p className="event-description"><strong>Description:</strong>  What famous French conqueror has a pastry named after him? How far did the treasure ships of Zheng He sail? Who said, "Workers of the world, UNITE!" What wall did President Reagan demand to be torn down? Answer history trivia questions about (mostly) world history in teams of up to 4. Participants will answer 30 questions, in 3 batches of 10. If necessary, tiebreaker questions will be asked at the end.</p>
-                    <p className="event-description"><strong>Who?</strong> Groups of up to 4 (in the same grade level!) will compete against other groups, up to a total of 40 participants.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSfiipE9L-H3-jkk_H5Bggt8unn-365aY-Ta_ouBUZOXe-sKzw/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">GeoGuesser Competition <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  Lunch A (11:25 - 11:45)</p>
-                    <p className="event-description"><strong>Where:</strong>  Room 212</p>
-                    <p className="event-description"><strong>Host:</strong>  Ms. Chassagne</p>
-                    <p className="event-description"><strong>Description:</strong>  Can you look at a picture and tell, approximately, where in the world it might be located? Come play GeoGuesser with your friends and see who can guess better, more often… you or your competition! There will be approximately three rounds, showing 5 images each round, and the closer you are to the actual location of the image, the higher your score. There will be three rounds played, and there will be a tiebreaker round if needed.</p>
-                    <p className="event-description"><strong>Who?</strong> Teams of 2-3 people (in the same grade level!) compete with other teams, with a maximum of 40 people participating.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSd9N1Gzt7H6h_r1VuoBpuf_6nBB-XZ8KNOvin8S4RT2LtSnMg/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Paper Airplane Fly-Away! <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 – 4:20</p>
-                    <p className="event-description"><strong>Where:</strong>  Principal’s Office</p>
-                    <p className="event-description"><strong>Host:</strong>  Principal Bautista</p>
-                    <p className="event-description"><strong>Description:</strong>  Can you build a paper airplane? Can you make it fly far (and in a somewhat straight line)? Materials for building paper airplanes will be provided. So, come and show off your engineering and piloting skills.</p>
-                    <p className="event-description"><strong>Who?</strong> The first 40 that sign up.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLScdWKEUwJA-9iq3Kv6k8c2qoIsrdIGac5pJnDzvgZkdfK1NOw/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Costume Contest, Twin Tuesday <span>(Lunch A, 100 pts; Lunch B, 100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  Once during Lunch A, once during Lunch B, 10 minutes after the beginning of lunch</p>
-                    <p className="event-description"><strong>Where:</strong>  The Catwalk</p>
-                    <p className="event-description"><strong>Host:</strong>  SBC</p>
-                    <p className="event-description"><strong>Description:</strong> Twin with another student in the same grade OR dress as your favorite teacher or administrator!  Be creative, the more complex the twin outfit, the better!</p>
-                </div>
+const CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
+const CLASS_SLUGS = ["freshman", "sophomore", "junior", "senior"];
+const COUNTER_COLORS = ["#2e7d32", "#6a1b9a", "#1565c0", "#9c1919"];
+const POINTS_POSSIBLE = 9750;
+
+// turn a cell value into a number or bail with empty string (sheet data is messy)
+function parseScore(val) {
+  if (val == null || val === "") return "";
+  const n = parseInt(String(val).replace(/[^0-9-]/g, ""), 10);
+  return isNaN(n) ? "" : n;
+}
+
+// is this row the header row? (Date, Points Poss., etc.)
+function isHeaderRow(row) {
+  if (!row || !row[0]) return false;
+  const first = String(row[0]).toLowerCase();
+  const second = row[1] ? String(row[1]).toLowerCase() : "";
+  return (
+    first.includes("date") ||
+    second.includes("points") ||
+    (first.includes("points") && second.includes("poss"))
+  );
+}
+
+// "TOTAL" row at the bottom - we skip or style it different
+function isTotalRow(row) {
+  const label = String(row[0] ?? "").toUpperCase();
+  return label.includes("TOTAL") && !label.includes("EVENTS TOTAL");
+}
+
+// sheet columns: Freshman Soph Junior Senior scores then winner. layout is kinda weird but here we are
+const IDX_FR = 4;
+const IDX_SO = 5;
+const IDX_JR = 6;
+const IDX_SR = 7;
+const IDX_WINNER = 8;
+
+// section headers like "Shorter Daily Events" - no scores, just a label
+function isSectionRow(row) {
+  if (!row || row.length < 8) return true;
+  const hasScores = [row[IDX_FR], row[IDX_SO], row[IDX_JR], row[IDX_SR]].some((c) => parseScore(c) !== "");
+  return !hasScores && String(row[0] ?? "").trim().length > 0;
+}
+
+// real event row = has at least one class score
+function isEventRow(row) {
+  if (!row || row.length < 8) return false;
+  return [row[IDX_FR], row[IDX_SO], row[IDX_JR], row[IDX_SR]].some((c) => parseScore(c) !== "");
+}
+
+// winner text might be in col 8 or 9 depending on who edited the sheet last 
+function getWinner(row) {
+  for (let c = IDX_WINNER; c <= IDX_WINNER + 2; c++) {
+    const val = row[c] != null ? String(row[c]).trim() : "";
+    if (val && !/^\d+$/.test(val)) return val;
+  }
+  return "";
+}
+
+const INITIAL_VISIBLE_ROWS = 12;
+
+function ScoreboardTable({ rows }) {
+  const [sidebar, setSidebar] = useState(null); // { eventName, winner } when you click a row
+  const [showAllRows, setShowAllRows] = useState(false);
+
+  if (!rows || rows.length === 0) return null;
+  const isSpiritTotalRow = (row) =>
+    String(row[0] ?? "").toUpperCase().includes("SPIRIT WEEK TOTALS") &&
+    row[1] != null && !isNaN(parseInt(String(row[1]), 10));
+  const withoutSpiritTotal = rows.filter((r) => !isSpiritTotalRow(r));
+  const headerRow = withoutSpiritTotal.find(isHeaderRow);
+  const dataRows = headerRow
+    ? withoutSpiritTotal.slice(withoutSpiritTotal.indexOf(headerRow) + 1)
+    : withoutSpiritTotal;
+  const effectiveRows = headerRow ? dataRows : withoutSpiritTotal;
+  const visibleRows = showAllRows ? effectiveRows : effectiveRows.slice(0, INITIAL_VISIBLE_ROWS);
+  const hasMore = effectiveRows.length > INITIAL_VISIBLE_ROWS;
+
+  const renderRow = (row, idx) => {
+    const label = String(row[0] ?? "").trim();
+    const date = String(row[1] ?? "").trim();
+    const ptsPoss = row[2] != null ? String(row[2]).trim() : "";
+    const fr = parseScore(row[IDX_FR]);
+    const so = parseScore(row[IDX_SO]);
+    const jr = parseScore(row[IDX_JR]);
+    const sr = parseScore(row[IDX_SR]);
+    const winner = getWinner(row);
+    if (!label && !date && fr === "" && so === "" && jr === "" && sr === "") return null;
+    if (isHeaderRow(row)) return null;
+
+    const totalClass = isTotalRow(row) ? "scoreboard-row-total" : "";
+    const sectionClass = isSectionRow(row) && !totalClass ? "scoreboard-row-section" : "";
+    const isEvent = isEventRow(row);
+    const hasWinner = !!winner;
+
+    return (
+      <tr key={idx} className={`${totalClass} ${sectionClass}`.trim()}>
+        <td>{label}</td>
+        <td>{date}</td>
+        <td>{ptsPoss}</td>
+        <td className="score-cell">{fr !== "" ? fr : "-"}</td>
+        <td className="score-cell">{so !== "" ? so : "-"}</td>
+        <td className="score-cell">{jr !== "" ? jr : "-"}</td>
+        <td className="score-cell">{sr !== "" ? sr : "-"}</td>
+        <td className="scoreboard-arrow-cell">
+          {isEvent && hasWinner ? (
+            <button
+              type="button"
+              className="scoreboard-arrow-btn"
+              onClick={() => setSidebar({ eventName: label, winner })}
+              title="View winner(s)"
+              aria-label={`View winner for ${label}`}
+            >
+              ▶
+            </button>
+          ) : (
+            "-"
+          )}
+        </td>
+      </tr>
+    );
+  };
+
+  return (
+    <>
+      <table className="cardinalympics-scoreboard-table">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Pts poss.</th>
+            <th className="score-cell">Fr</th>
+            <th className="score-cell">So</th>
+            <th className="score-cell">Jr</th>
+            <th className="score-cell">Sr</th>
+            <th className="scoreboard-arrow-header"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {visibleRows.map((row, idx) => renderRow(row, idx))}
+        </tbody>
+      </table>
+      {hasMore && (
+        <button
+          type="button"
+          className="cardinalympics-scoreboard-show-more"
+          onClick={() => setShowAllRows(!showAllRows)}
+        >
+          {showAllRows ? "Show fewer" : `Show more (${effectiveRows.length - INITIAL_VISIBLE_ROWS} more)`}
+        </button>
+      )}
+      {sidebar && (
+        <>
+          <div
+            className="cardinalympics-sidebar-backdrop"
+            onClick={() => setSidebar(null)}
+            onKeyDown={(e) => e.key === "Escape" && setSidebar(null)}
+            role="button"
+            tabIndex={-1}
+            aria-label="Close sidebar"
+          />
+          <aside className="cardinalympics-winner-sidebar" aria-label="Winner details">
+            <div className="cardinalympics-winner-sidebar-header">
+              <h3>Winner(s)</h3>
+              <button
+                type="button"
+                className="cardinalympics-winner-sidebar-close"
+                onClick={() => setSidebar(null)}
+                aria-label="Close"
+              >
+                x
+              </button>
             </div>
-                <div>
-                    <h1>Wednesday</h1>
-                    <div className="event">
-                    <h3 className="event-description">Photography Competition <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:50 - 4:50</p>
-                    <p className="event-description"><strong>Where:</strong>  Room 142</p>
-                    <p className="event-description"><strong>Hosts:</strong>  Mr. Flores</p>
-                    <p className="event-description"><strong>Description:</strong>  Are your friends impressed with your pics? Do you think your selfies could win an award? Bring yourself and your phone camera and join us in some friendly photo fun. Upon arriving, you will be given THREE criteria for your photos and 45 minutes to wander campus and take THREE pictures that you will upload for judging. Winning photos will be displayed in room 142 at 4:40pm. You must bring your own phone camera or camera and be able to transmit photos via email.</p>
-                    <p className="event-description"><strong>Who?</strong> The first 12 people who sign up.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSdF_wR8boFdekRPrFRj3w9KXgtMBB23sFfWgCkOwMgXV4cM2A/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Hello? Hello, Kitty?! <span>(250 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:00 – 4:30</p>
-                    <p className="event-description"><strong>Where:</strong>  Start and end in the courtyard, run all over the school</p>
-                    <p className="event-description"><strong>Hosts:</strong>  Mr. Shimmon</p>
-                    <p className="event-description"><strong>Description:</strong>  Have you ever watched Amazing Race? Do you like solving puzzles? Do you know random factoids about Lowell? In the Great Lowell Scavenger Hunt Race, you and your team (4 people max per team) will solve riddles that will lead you to specific locations where you will complete a task before receiving the next riddle/clue. There will be a total of 5 stages in this contest.</p>
-                    <p className="event-description"><strong>Who?</strong> Teams of up to 4 (in the same grade level!) will compete against others. There is no limit to the number of teams that may compete, but your team MUST register ahead of time to participate. The deadline to register is Monday, 11 March at 3:30pm.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLScyDSvsMKV8XHTtoYqYK_iDLsUzkczXYNUKGSo1iwZvTqcIZw/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">3 x 3 Basketball Tourney (Boys) <span>(250 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:00 – 4:30</p>
-                    <p className="event-description"><strong>Where:</strong>  Basketball courts by WL</p>
-                    <p className="event-description"><strong>Hosts:</strong>  Coach Magsanay & Coach Hosoda</p>
-                    <p className="event-description"><strong>Description:</strong>  Come show off your hoop skills with two of your pals in a 3-on-3 basketball tourney with a total of 8 brackets. Winners will play three half-court matches. Games are to 11 points, win by 2 (1 point per basket).</p>
-                    <p className="event-description"><strong>Who?</strong> Teams of 3, up to two teams for each grade (first teams that sign up can participate). <strong>Note:</strong> Unfortunately, NO Varsity or JV players may participate.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLScgvc4HpIHCbrNy9QKUbJVDwhJQI7y0YluLhZ1lIn0wWQLkEg/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">3 x 3 Basketball Tourney (Girls) <span>(250 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:00 – 4:30</p>
-                    <p className="event-description"><strong>Where:</strong>  Basketball courts by WL</p>
-                    <p className="event-description"><strong>Hosts:</strong>  Coach Magsanay & Coach Hosoda</p>
-                    <p className="event-description"><strong>Description:</strong>  Come show off your hoop skills with two of your pals in a 3-on-3 basketball tourney with a total of 8 brackets. Winners will play three half-court matches. Games are to 11 points, win by 2 (1 point per basket).</p>
-                    <p className="event-description"><strong>Who?</strong> Teams of 3, up to two teams for each grade (first teams that sign up can participate). <strong>Note:</strong> Unfortunately, NO Varsity or JV players may participate.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSfVI-x8cAx-cvGERLFt9hI8UrNNeHmEoaAYUOa6GQTvOlK11A/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Karaoke Contest <span>(250 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  3:00 – 4:30</p>
-                    <p className="event-description"><strong>Where:</strong>  Carol Channing Auditorium</p>
-                    <p className="event-description"><strong>Hosts:</strong>  Mr. Chan & Ms. Letzl</p>
-                    <p className="event-description"><strong>Description:</strong>  Come show us your chops! If you are budding Karaoke royalty, come sing for and compete with your peers by performing on the Carol Channing Stage. You will be judged for your singing AND your performance (it is enough to sing your song with passion and intent, so a dance routine is not necessary, but would also be accepted). Make sure that your chosen song can be found on YouTube Karaoke, that the lyrics and dance moves are clean and school-appropriate. Also, please come with a back-up song to perform in case of a need for an extra, tie-breaking, performance.</p>
-                    <p className="event-description"><strong>Who?</strong> The first 16 performers that sign up, as long as there is representation from all grades among the 16 performers. Anyone beyond the first 16 that sign up, and are chosen, will be informed that they are on a waiting list, in case of any no-shows on the day of the performance.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLScrM_mCtXXKvXgADKf9DXWyygf9yxL53w_WA7-P3NcOMvHLLA/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Penalty Kicks! <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  2:40 – 3:20</p>
-                    <p className="event-description"><strong>Where:</strong>  “Football” field</p>
-                    <p className="event-description"><strong>Hosts:</strong>  Coach Fong & Coach Lopez</p>
-                    <p className="event-description"><strong>Description:</strong>  Can you Bend it Like Beckham, are you the next Kadidiatou Diani or Lionel Messi? Come test your PK skills against those of your peers. You will go head-to-head against others in sudden-death rounds, with winners advancing to play the next bracket. Come show us your PK skills!</p>
-                    <p className="event-description"><strong>Who?</strong> The first 40 people who sign up!</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSeCbkKV9gOv1jwXydc2Edpc9myNhuqC_kNH8jW7QjV7fZksSw/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Move the Mat! <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  2:40 – 3:20</p>
-                    <p className="event-description"><strong>Where:</strong>  The gym</p>
-                    <p className="event-description"><strong>Host:</strong>  ???</p>
-                    <p className="event-description"><strong>Description:</strong>  Have you ever thrown your body down a slip-and-slide? Did you love it? Then join us in this competition where you and your team of 4 will run and jump on a mat in the gym, pushing it across the floor and back. Join us for some ridiculous fun while competing against other teams!</p>
-                    <p className="event-description"><strong>Who?</strong> Up to 12 teams of 3-4 each (in the same grade level!) with a max of 48 contestants.</p>
-                    <a className="event-description" href=""><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Table Tennis Tournament <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  2:40 – 4:00, W 3/19</p>
-                    <p className="event-description"><strong>Where:</strong>  1st floor, Science Building</p>
-                    <p className="event-description"><strong>Host:</strong>  Ms. Moses</p>
-                    <p className="event-description"><strong>Description:</strong>  Bring on your inner Fan Zhendong or Sun Yingsha! If you don't know who these Gold Medalists are, it doesn't matter! Show all of Lowell your ping-pong prowess at this table tennis tournament for the ages. Bring your own paddle or borrow one from wherever and sign up!</p>
-                    <p className="event-description"><strong>Who?</strong>  The first 16 who sign up. Others will be on a waiting list.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSeMekEKyX7Bj0V_wZ7jJ5EUoBqjRkoM4y582jMdGBXaCk5VOw/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Slow Fashion Contest <span>(300 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  2:40 – 4:00, W 3/19</p>
-                    <p className="event-description"><strong>Where:</strong>  Steve Silver Auditorium</p>
-                    <p className="event-description"><strong>Host:</strong>  Ms. Sandzik</p>
-                    <p className="event-description"><strong>Description:</strong>  Are you an avid thrifter? Do you like to reuse, repurpose, or recycle old clothes and fabrics? Are you into sustainable fashion? Come show us your slow fashionista genius in a fun fashion show. Criteria for judging, themes, etc. will be presented via email to all participants who sign up by W 3/12 at 3:40pm.</p>
-                    <p className="event-description"><strong>Who?</strong>  The first 20 who sign up. Others will be on a waiting list. Note, in order to have as much time to craft an outfit, according to judged criteria, it would be best to sign up by 3/12.</p>
-                    <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSdhE-Z_xTrq-jfR2n0Iqh1IRQzlJte6heZzl7fhSORbjRQjIQ/viewform"><strong>Sign up for this event</strong></a>
-                </div>
-                <div className="event">
-                    <h3 className="event-description">Costume Contest, Live, Laugh, Love Lowell Wednesday <span>(100 pts)</span></h3>
-                    <p className="event-description"><strong>When:</strong>  once Lunch A, once Lunch B, 10 min after the beginning of lunch</p>
-                    <p className="event-description"><strong>Where:</strong>  the Catwalk</p>
-                    <p className="event-description"><strong>Host:</strong>  SBC</p>
-                    <p className="event-description"><strong>Description:</strong> Wear ALL your Lowell gear!  On a team?  Wear your uniform.  Got the red hoodie?  Wear it.  Don’t have anything?  Wear your PE uniform!  Still don’t have anything?  Go to Book to Book (they are selling items at 20% discount this week only!) OR just wear RED!</p>
-                </div>
-            </div>
-                <div>
-                    <h1>Thursday</h1>
-                    <div className="event">
-                        <h3 className="event-description">Rubik’s Cube Competition <span>(100 pts)</span></h3>
-                        <p className="event-description"><strong>When:</strong>  3:50 – 4:15</p>
-                        <p className="event-description"><strong>Where:</strong>  Room S106</p>
-                        <p className="event-description"><strong>Host:</strong>  Mr. Hoffman</p>
-                        <p className="event-description"><strong>Description:</strong>  Do you have an urge to perfectly arrange moveable cubes so that all the colors are the same on each side? Are you fast? Do you want to challenge yourself against your peers at Lowell? Come to the Rubik’s Cube Solving Competition. You are allowed to bring your own Cube with you OR one can be provided if you don’t have your own.</p>
-                        <p className="event-description"><strong>Who?</strong>  Up to 30 individuals.</p>
-                        <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSfa1mTxZmTyC_06KYnTxQEYmavneJYo32Lvp9pyveg7BUiJ_w/viewform"><strong>Sign up for this event</strong></a>
-                    </div>
-                    <div className="event">
-                        <h3 className="event-description">LEGOs, LEGOs, LEGOs! <span>(100 pts)</span></h3>
-                        <p className="event-description"><strong>When:</strong>  3:50 – 4:30</p>
-                        <p className="event-description"><strong>Where:</strong>  Room 253</p>
-                        <p className="event-description"><strong>Hosts:</strong>  Ms. Chiu</p>
-                        <p className="event-description"><strong>Description:</strong>  Do you know your way around red and yellow and blue dimpled bricks? Can you freestyle some cool LEGO figures? Join us in room 253 to fiddle around with some LEGOs to design and build something based on criteria that will be provided at the beginning of the competition. LEGOs will be provided.</p>
-                        <p className="event-description"><strong>Who?</strong>  Any LEGO fans, up to 36 participants.</p>
-                        <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSdq0SpHgqj96vZapTjB4y4rlU6v4yEAIQ3Go8UdSYEMucF96A/viewform"><strong>Sign up for this event</strong></a>
-                    </div>
-                    <div className="event">
-                        <h3 className="event-description">Unscramble Words Competition <span>(100 pts)</span></h3>
-                        <p className="event-description"><strong>When:</strong>  3:50 – 4:20</p>
-                        <p className="event-description"><strong>Where:</strong>  Room 236</p>
-                        <p className="event-description"><strong>Host:</strong>  Ms. Bell</p>
-                        <p className="event-description"><strong>Description:</strong>  If you are one of those people who love to arrange a jumble of letters into a correctly spelled word, Oijn us (do you see what we did there??!?!) in the Unscramble Sowdr Competition. You will compete with your team to untangle three lists of scrambled words correctly and quickly.</p>
-                        <p className="event-description"><strong>Who?</strong>  Groups of up to 3 people (in the same grade level!), for a maximum of 39 participants.</p>
-                        <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLSe43KEIW1lHbhXbV61zgCoYQ7i1qZXOz2oU0AKm-E0YGOOzNQ/viewform"><strong>Sign up for this event</strong></a>
-                    </div>
-                    <div className="event">
-                        <h3 className="event-description">Sling-Shot Bulls-Eye! <span>(100 pts)</span></h3>
-                        <p className="event-description"><strong>When:</strong>  3:50 – 4:20, Th 3/20</p>
-                        <p className="event-description"><strong>Where:</strong>  East end of the soccer field (near the trees)</p>
-                        <p className="event-description"><strong>Host:</strong>  Mr. Prothro</p>
-                        <p className="event-description"><strong>Description:</strong>  Do you have good aim? Superior muscle control? Have you ever used a slingshot? Challenge yourself to hit a target with a slingshot more accurately than your peers.</p>
-                        <p className="event-description"><strong>Who?</strong>  The first 40 who sign up. Others will be on a waiting list.</p>
-                        <a className="event-description" href="https://docs.google.com/forms/d/e/1FAIpQLScwCx7VmRuwqcrPYpwaB9Gawm7H19PkhfYF_UTVW8A6Rlnvew/viewform"><strong>Sign up for this event</strong></a>
-                    </div>
-                    <div className="event">
-                        <h3 className="event-description">Costume Contest, Mismatch Thursday <span>(Lunch A, 100 pts; Lunch B, 100 pts)</span></h3>
-                        <p className="event-description"><strong>When:</strong>  Once Lunch A, once Lunch B, 10 min after the beginning of lunch</p>
-                        <p className="event-description"><strong>Where:</strong>  The Catwalk</p>
-                        <p className="event-description"><strong>Host:</strong>  SBC</p>
-                        <p className="event-description"><strong>Description:</strong> Plaid shirt striped pants?  Shorts with a puffy coat?  Two different shoes and mismatched socks?  Disco on top, country western on the bottom?  Any bizarre combination of mismatching, inside out, or wacky clothes.  The wackier, the better!
-                        </p>
-                    </div>
-                </div>
-            </section>
-            
+            <p className="cardinalympics-winner-sidebar-event">{sidebar.eventName}</p>
+            <p className="cardinalympics-winner-sidebar-winner">{sidebar.winner || "-"}</p>
+          </aside>
         </>
-    )
+      )}
+    </>
+  );
+}
+
+function CardinalympicsEventsSchedule({ events }) {
+  const weekGroups = useMemo(() => groupCardinalympicsEventsByWeekAndDay(events || []), [events]);
+
+  if (!events || events.length === 0) {
+    return (
+      <p className="cardinalympics-events-empty">
+        Event listings will appear here when the &quot;Cardinalympics Events&quot; sheet is available.
+      </p>
+    );
+  }
+
+  return (
+    <>
+      {weekGroups.map((weekGroup, weekIndex) => (
+        <section className="cardinalympics-week" key={`${weekGroup.weekLabel}-${weekIndex}`}>
+          <h3 className="cardinalympics-week__title">{weekGroup.weekLabel}</h3>
+          {weekGroup.days.map((dayGroup, dayIndex) => (
+            <div className="cardinalympics-day" key={`${weekGroup.weekLabel}-${dayGroup.dayLabel}-${dayIndex}`}>
+              <h4 className="cardinalympics-day__title">{dayGroup.dayLabel}</h4>
+              <div className="cardinalympics-day__events">
+                {dayGroup.events.map((ev) => (
+                  <div className="event cardinalympics-event" key={ev.id}>
+                    <div className="cardinalympics-event__head">
+                      <h3 className="event-description">{ev.heading}</h3>
+                      {ev.pointsPossible ? (
+                        <span className="cardinalympics-event__points-tag">
+                          {ev.pointsPossible} pts possible
+                        </span>
+                      ) : null}
+                    </div>
+                    {ev.dateDisplay ? (
+                      <p className="event-description">
+                        <strong>Date:</strong> {ev.dateDisplay}
+                      </p>
+                    ) : null}
+                    {ev.bodyText ? (
+                      <div className="event-description cardinalympics-event__body">{ev.bodyText}</div>
+                    ) : null}
+                    {ev.signUpClosed || isCardinalympicsSignupPastEventDay(ev) ? (
+                      <button
+                        type="button"
+                        className="event-description cardinalympics-event-closed"
+                        disabled
+                        aria-label={`${ev.heading} sign up is closed`}
+                      >
+                        <strong>Closed</strong>
+                      </button>
+                    ) : ev.signUpLink ? (
+                      <a
+                        className="event-description"
+                        href={ev.signUpLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <strong>Sign up</strong>
+                      </a>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+      ))}
+    </>
+  );
+}
+
+export default function Cardinalympics({
+  cardinalympicsData,
+  scoreboardRows = [],
+  cardinalympicsEvents = [],
+  showScoresAndScoreboard = true,
+  showEvents = true,
+}) {
+  const spiritTotals = [0, 1, 2, 3].map((i) => {
+    const n = Number(cardinalympicsData?.[i]);
+    return Number.isFinite(n) ? n : 0;
+  });
+  const leaderIndex =
+    spiritTotals.length === 4
+      ? spiritTotals.indexOf(Math.max(...spiritTotals))
+      : -1;
+
+  return (
+    <div className="cardinalympics-page">
+      {showScoresAndScoreboard && (
+      <section
+        className="home-cardinalympics cardinalympics-spirit-scores-only"
+        aria-labelledby="cardinalympics-points-cap"
+      >
+        <div className="home-cardinalympics__inner">
+          <div className="cardinalympics-spirit-card">
+            <div className="cardinalympics-spirit-card__cap" id="cardinalympics-points-cap">
+              <span className="cardinalympics-spirit-card__cap-number">
+                {POINTS_POSSIBLE.toLocaleString()}
+              </span>
+              <span className="cardinalympics-spirit-card__cap-label">points possible</span>
+            </div>
+            <div className="home-cardinalympics__grid" role="list">
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={CLASS_SLUGS[i]}
+                  className={`home-cardinalympics__class home-cardinalympics__class--${CLASS_SLUGS[i]}${
+                    leaderIndex === i ? " home-cardinalympics__class--leader" : ""
+                  }`}
+                  role="listitem"
+                >
+                  {leaderIndex === i && (
+                    <span className="home-cardinalympics__leader-badge">Leading</span>
+                  )}
+                  <span className="home-cardinalympics__class-name">{CLASS_NAMES[i]}</span>
+                  <div className="home-cardinalympics__points">
+                    <Counter
+                      start={0}
+                      end={spiritTotals[i]}
+                      duration={2000}
+                      className="home-cardinalympics__counter"
+                      color={COUNTER_COLORS[i]}
+                    />
+                    <span className="home-cardinalympics__pts-label">pts</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      )}
+      {showScoresAndScoreboard && scoreboardRows.length > 0 && (
+        <div className="cardinalympics-scoreboard" id="detailed-scoreboard">
+          <h2>Detailed scoreboard</h2>
+          <div className="cardinalympics-scoreboard-table-wrap">
+            <ScoreboardTable rows={scoreboardRows} />
+          </div>
+        </div>
+      )}
+      {showEvents && (
+      <section className="cardinalympics-content info-page">
+          <CardinalympicsEventsSchedule events={cardinalympicsEvents} />
+      </section>
+      )}
+    </div>
+  );
 }

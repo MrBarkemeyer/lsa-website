@@ -6,7 +6,7 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]); // only triggers when pathname changes
+  }, [pathname]);
 
   return null;
 }
