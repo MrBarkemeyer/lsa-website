@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Counter from "../components/Counter";
 import {
   groupCardinalympicsEventsByWeekAndDay,
@@ -524,10 +524,6 @@ export default function Cardinalympics({
     [showScoresAndScoreboard, spiritTotals, scoreboardRows, scoreUpdateKey]
   );
   const [showProjectedBars, setShowProjectedBars] = useState(false);
-
-  useEffect(() => {
-    setShowProjectedBars(showWinningChances);
-  }, [showWinningChances]);
 
   return (
     <div className="cardinalympics-page">
