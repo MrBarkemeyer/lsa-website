@@ -20,33 +20,26 @@ function parseScore(val) {
   return isNaN(n) ? "" : n;
 }
 
+/** Sum "Pts poss." (col 2) for leaf event rows (skip headers and any row whose label includes TOTAL). */
+function sumPointsPossibleFromEventRows(rows) {
+  if (!Array.isArray(rows)) return 0;
+  let sum = 0;
+  for (const row of rows) {
+    if (!row || row.length < 3) continue;
+    if (isHeaderRow(row)) continue;
+    const label0 = String(row[0] ?? "").toUpperCase();
+    if (label0.includes("TOTAL")) continue;
+    const pts = parseScore(row[2]);
+    if (pts !== "" && pts > 0) sum += pts;
+  }
+  return sum;
+}
+
 function getPointsPossibleFromRows(rows) {
   if (!Array.isArray(rows) || rows.length === 0) return POINTS_POSSIBLE_FALLBACK;
 
-  // Find Freshman score column from the visible sheet header, then take points
-  // from exactly 2 cells to the left on the SPIRIT WEEK TOTALS row.
-  const headerRow = rows.find((row) => {
-    const c = String(row?.[4] ?? "").toLowerCase();
-    return c.includes("freshmen") || c.includes("freshman");
-  });
-  const freshmanIndex = headerRow
-    ? headerRow.findIndex((cell) => {
-        const s = String(cell ?? "").toLowerCase();
-        return s.includes("freshmen") || s.includes("freshman");
-      })
-    : 4;
-
-  const pointsPossibleIndex = freshmanIndex - 2;
-  const spiritTotalsRows = rows.filter((row) =>
-    String(row?.[0] ?? "").toUpperCase().includes("SPIRIT WEEK TOTALS")
-  );
-  const spiritTotalsRow = spiritTotalsRows.length
-    ? spiritTotalsRows[spiritTotalsRows.length - 1]
-    : null;
-  if (spiritTotalsRow && pointsPossibleIndex >= 0) {
-    const total = parseScore(spiritTotalsRow[pointsPossibleIndex]);
-    if (total !== "" && total > 0) return total;
-  }
+  const fromEvents = sumPointsPossibleFromEventRows(rows);
+  if (fromEvents > 0) return fromEvents;
 
   return POINTS_POSSIBLE_FALLBACK;
 }
