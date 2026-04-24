@@ -64,8 +64,8 @@ export default {
   pendingSubtitle: "Please stay tuned for updates.",
 
   // polling = candidate boards + voting; title + subtitle on /Elections
-  pollingTitle: "Elections - vote now",
-  pollingSubtitle: "Polls are open. Cast your vote below.",
+  pollingTitle: "Elections",
+  pollingSubtitle: "Voting opens Monday 4/27 at 10:20 AM.",
   // toggle "VOTE NOW" button on candidate cards (/Elections/:slug)
   showVoteNowButtons: false,
 
