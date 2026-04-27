@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef, useEffect, useState, useCallback } from "react";
 import Counter from "../components/Counter";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,6 +29,104 @@ function getWeekIndex() {
   const oneWeek = 7 * 24 * 60 * 60 * 1000;
   return Math.floor((now - start) / oneWeek);
 }
+
+/** Hero background video: mobile Safari often ignores autoplay until play() runs and data is ready. */
+function HeroBackgroundVideo({ src, title, className }) {
+  const videoRef = useRef(null);
+  const [showTapToPlay, setShowTapToPlay] = useState(false);
+
+  const tryPlay = useCallback(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.muted = true;
+    el.defaultMuted = true;
+    const p = el.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(() => {
+        setShowTapToPlay(true);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return undefined;
+
+    el.setAttribute("playsinline", "");
+    el.setAttribute("webkit-playsinline", "");
+
+    const onReady = () => tryPlay();
+    el.addEventListener("loadeddata", onReady);
+    el.addEventListener("canplay", onReady);
+    el.addEventListener("loadedmetadata", onReady);
+
+    const onPlaying = () => setShowTapToPlay(false);
+    el.addEventListener("playing", onPlaying);
+
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") tryPlay();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    tryPlay();
+    const raf = requestAnimationFrame(() => tryPlay());
+    const t1 = window.setTimeout(tryPlay, 150);
+    const t2 = window.setTimeout(tryPlay, 600);
+    const t3 = window.setTimeout(() => {
+      if (el.paused) setShowTapToPlay(true);
+    }, 2800);
+
+    return () => {
+      el.removeEventListener("loadeddata", onReady);
+      el.removeEventListener("canplay", onReady);
+      el.removeEventListener("loadedmetadata", onReady);
+      el.removeEventListener("playing", onPlaying);
+      document.removeEventListener("visibilitychange", onVisibility);
+      cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.clearTimeout(t3);
+    };
+  }, [src, tryPlay]);
+
+  const onTapToPlay = useCallback(() => {
+    tryPlay();
+    setShowTapToPlay(false);
+  }, [tryPlay]);
+
+  return (
+    <>
+      <video
+        ref={videoRef}
+        src={src}
+        title={title}
+        className={className}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        disablePictureInPicture
+      />
+      {showTapToPlay && (
+        <button
+          type="button"
+          className="hero-video-tap-play"
+          onClick={onTapToPlay}
+          aria-label="Play hero video"
+        >
+          Tap to play video
+        </button>
+      )}
+    </>
+  );
+}
+
+HeroBackgroundVideo.propTypes = {
+  src: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
 
 export default function Home({
   cardinalympicsData,
@@ -89,15 +187,7 @@ export default function Home({
   return (
     <>
       <div className="hero-video-wrapper">
-        <video
-          src={heroVideo}
-          title="LSA Hero"
-          className="hero-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
+        <HeroBackgroundVideo src={heroVideo} title="LSA Hero" className="hero-video" />
         <div className="video-credit">Video by Video Lowell</div>
       </div>
       <div className="home-hero-card">

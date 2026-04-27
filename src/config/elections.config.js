@@ -39,14 +39,19 @@ export default {
     },
   },
 
-  // big banner when elections are happening (polling)
+  // big banner when elections are happening (polling) — before votingOpensAt (if set)
   banner: {
     enabled: true,
     title: "Elections in progress",
-    message: "Make your voice heard - vote in LSA elections.",
-    ctaText: "Vote now",
+    message: "Meet the candidates and get ready to vote.",
+    ctaText: "View candidates",
     ctaPath: "/Elections",
   },
+
+  // After voting opens (votingOpensAt passed, or form live with no schedule): home banner copy
+  votingLiveBannerTitle: "Vote now — LSA elections",
+  votingLiveBannerMessage:
+    "Polls are open. Check your school email for the Google Form link to cast your ballot.",
 
   // top info bar in layout (shown when state is "results")
   pollingBar: {
@@ -63,10 +68,24 @@ export default {
   pendingTitle: "Elections are coming soon",
   pendingSubtitle: "Please stay tuned for updates.",
 
-  // polling = candidate boards + voting; title + subtitle on /Elections
+  // polling = candidate boards; title + subtitle on /Elections before voting opens
   pollingTitle: "Elections",
-  pollingSubtitle: "Voting opens Monday 4/27 at 10:20 AM.",
-  // toggle "VOTE NOW" button on candidate cards (/Elections/:slug)
+  pollingSubtitle: "Browse each board to learn about the candidates. Voting opens at the time below.",
+
+  // After voting opens: replaces polling title + subtitle on /Elections (and a line under board hero)
+  votingLivePollingTitle: "Vote now",
+  votingLivePollingSubtitle:
+    "Polls are open. Check your school email for the Google Form link to cast your ballot.",
+
+  // Google Form URL for optional in-app links (e.g. candidate card). Email is primary per votingLive copy.
+  votingFormUrl: "",
+  voteButtonText: "Open voting form",
+
+  // When set (ISO 8601), vote links stay disabled until this local instant. Empty = active whenever votingFormUrl is set.
+  // Example: "2026-04-27T10:20:00-07:00"
+  votingOpensAt: "2026-04-27T10:20:00-07:00", // 10:20 AM PDT
+
+  // Unused for vote links; presence of votingFormUrl controls vote CTAs. Kept for older references.
   showVoteNowButtons: false,
 
   // Used only when `enabledElectionBoards` is empty. Each group: slug, board (title), color, roles[{ role, candidates[{ name, description, pfp, video }] }].

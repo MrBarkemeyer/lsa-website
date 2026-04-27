@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import electionsConfig from "../config/elections.config.js";
+import {
+  useElectionVotingMessagingLive,
+  formatElectionVotingOpensAt,
+} from "../utils/electionVotingWindow.js";
 import "./Elections.scss";
 
 // sheet columns can be "President" or "president" or whatever - normalize to camelCase so we don't cry
@@ -106,6 +110,7 @@ export default function Elections({
   electionsEnabled = true,
   electionsConfig: config = electionsConfig,
 }) {
+  const messagingLive = useElectionVotingMessagingLive(config);
   const state = config?.state ?? "results";
   const rawElections = electionData || [];
   const ElectionResults = rawElections.map(normalizeElectionRow).filter((r) => r.board);
@@ -153,6 +158,20 @@ export default function Elections({
   // Polling — candidate boards (URLs and nav; see electionAccess.js)
   if (state === "polling") {
     const contenders = config?.contenders ?? [];
+    const livePollingTitle = String(config?.votingLivePollingTitle ?? "").trim();
+    const livePollingSubtitle = String(config?.votingLivePollingSubtitle ?? "").trim();
+    const pollingTitle =
+      messagingLive && livePollingTitle
+        ? livePollingTitle
+        : (config?.pollingTitle ?? "Elections");
+    const pollingSubtitle =
+      messagingLive && livePollingSubtitle
+        ? livePollingSubtitle
+        : (config?.pollingSubtitle ?? "");
+    const opensAtLabel =
+      !messagingLive && String(config?.votingOpensAt ?? "").trim()
+        ? formatElectionVotingOpensAt(config)
+        : "";
     return (
       <div className="elections-page">
         <header className="elections-hero">
@@ -161,8 +180,11 @@ export default function Elections({
         </header>
         <section className="election-section">
           <div className="elections-state-header">
-            <h1>{config?.pollingTitle ?? "Elections - vote now"}</h1>
-            <p>{config?.pollingSubtitle ?? "Polls are open. Cast your vote below."}</p>
+            <h1>{pollingTitle}</h1>
+            {pollingSubtitle ? <p>{pollingSubtitle}</p> : null}
+            {opensAtLabel ? (
+              <p className="elections-voting-opens-hint">Voting opens {opensAtLabel}.</p>
+            ) : null}
           </div>
           {contenders.length === 0 ? (
             <div className="elections-message-box">
@@ -188,12 +210,17 @@ export default function Elections({
                       interactive={Boolean(slug)}
                     />
                   );
-                  return slug ? (
+                  if (!slug) {
+                    return (
+                      <div key={index} className="elections-board-card-cell">
+                        {card}
+                      </div>
+                    );
+                  }
+                  return (
                     <Link key={index} to={`/Elections/${slug}`} className="elections-board-card-link">
                       {card}
                     </Link>
-                  ) : (
-                    <div key={index}>{card}</div>
                   );
                 })}
               </div>
@@ -284,6 +311,11 @@ Elections.propTypes = {
     pendingSubtitle: PropTypes.string,
     pollingTitle: PropTypes.string,
     pollingSubtitle: PropTypes.string,
+    votingLivePollingTitle: PropTypes.string,
+    votingLivePollingSubtitle: PropTypes.string,
+    votingFormUrl: PropTypes.string,
+    votingOpensAt: PropTypes.string,
+    voteButtonText: PropTypes.string,
     contenders: PropTypes.arrayOf(
       PropTypes.shape({
         board: PropTypes.string,

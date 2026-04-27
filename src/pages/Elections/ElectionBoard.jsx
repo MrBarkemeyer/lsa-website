@@ -6,6 +6,11 @@ import electionsConfig from "../../config/elections.config.js";
 import LoadingTruck from "../../components/LoadingTruck";
 import SafeImage from "../../components/SafeImage";
 import { areElectionBoardsPublic } from "../../utils/electionAccess.js";
+import {
+  useElectionVotingLive,
+  useElectionVotingMessagingLive,
+  formatElectionVotingOpensAt,
+} from "../../utils/electionVotingWindow.js";
 import "./ElectionBoard.scss";
 
 const MEDIA_GLOW_CACHE_KEY = "lsa_election_media_glow_v2";
@@ -139,6 +144,8 @@ function ElectionCandidateCard({
   accentColor,
   onOpenMedia,
   showVoteButton = true,
+  votingFormUrl = "",
+  voteButtonText = "Vote now",
   activeMedia = null,
 }) {
   const { name, description, pfp, video } = candidate;
@@ -396,10 +403,15 @@ function ElectionCandidateCard({
         {description && (
           <p className="election-candidate-card-description">{description}</p>
         )}
-        {showVoteButton && (
-          <button type="button" className="election-candidate-card-vote-btn">
-            VOTE NOW
-          </button>
+        {showVoteButton && votingFormUrl && (
+          <a
+            href={votingFormUrl}
+            className="election-candidate-card-vote-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {voteButtonText}
+          </a>
         )}
       </div>
     </article>
@@ -416,6 +428,8 @@ ElectionCandidateCard.propTypes = {
   accentColor: PropTypes.string,
   onOpenMedia: PropTypes.func.isRequired,
   showVoteButton: PropTypes.bool,
+  votingFormUrl: PropTypes.string,
+  voteButtonText: PropTypes.string,
   activeMedia: PropTypes.object,
 };
 
@@ -442,13 +456,15 @@ function ElectionBoardCandidatesGrid({
   accentColor,
   onOpenMedia,
   showVoteButton,
+  votingFormUrl,
+  voteButtonText,
   activeMedia,
 }) {
   const gridRef = useRef(null);
   const stackedLatchRef = useRef(false);
   const [stacked, setStacked] = useState(false);
 
-  const candidatesKey = `${showVoteButton ? "1" : "0"};;${candidates
+  const candidatesKey = `${showVoteButton ? "1" : "0"}|${votingFormUrl};;${candidates
     .map((c) => `${c.name}|${c.description ?? ""}|${c.pfp ?? ""}|${c.video ?? ""}`)
     .join(";;")}`;
 
@@ -491,6 +507,8 @@ function ElectionBoardCandidatesGrid({
           accentColor={accentColor}
           onOpenMedia={onOpenMedia}
           showVoteButton={showVoteButton}
+          votingFormUrl={votingFormUrl}
+          voteButtonText={voteButtonText}
           activeMedia={activeMedia}
         />
       ))}
@@ -503,6 +521,8 @@ ElectionBoardCandidatesGrid.propTypes = {
   accentColor: PropTypes.string,
   onOpenMedia: PropTypes.func.isRequired,
   showVoteButton: PropTypes.bool,
+  votingFormUrl: PropTypes.string,
+  voteButtonText: PropTypes.string,
   activeMedia: PropTypes.object,
 };
 
@@ -724,6 +744,8 @@ ElectionMediaModal.propTypes = {
 export default function ElectionBoard({ electionsConfig: config = electionsConfig }) {
   const { boardSlug } = useParams();
   const [activeMedia, setActiveMedia] = useState(null);
+  const votingLive = useElectionVotingLive(config);
+  const messagingLive = useElectionVotingMessagingLive(config);
 
   const handleOpenElectionMedia = useCallback((payload) => {
     setActiveMedia(payload);
@@ -772,7 +794,14 @@ export default function ElectionBoard({ electionsConfig: config = electionsConfi
   }
 
   const accentColor = board.color || "var(--title-color)";
-  const showVoteNowButtons = config?.showVoteNowButtons !== false;
+  const votingFormUrl = String(config?.votingFormUrl ?? "").trim();
+  const voteButtonText = String(config?.voteButtonText ?? "Vote now").trim() || "Vote now";
+  const showVoteNowButtons = Boolean(votingFormUrl) && votingLive && !messagingLive;
+  const votingOpensHint =
+    !messagingLive && String(config?.votingOpensAt ?? "").trim()
+      ? formatElectionVotingOpensAt(config)
+      : "";
+  const votingLiveReminder = String(config?.votingLivePollingSubtitle ?? "").trim();
   const boardNav = (
     <>
       {prevSlug ? (
@@ -801,6 +830,11 @@ export default function ElectionBoard({ electionsConfig: config = electionsConfi
       <header className="election-board-hero">
         <h1 className="election-board-hero-title">{board.board}</h1>
         <p className="election-board-hero-subtitle">Meet the candidates</p>
+        {messagingLive && votingLiveReminder ? (
+          <p className="election-board-hero-voting-hint">{votingLiveReminder}</p>
+        ) : votingOpensHint ? (
+          <p className="election-board-hero-voting-hint">Voting opens {votingOpensHint}.</p>
+        ) : null}
       </header>
       <nav className="election-board-nav election-board-nav--top">{boardNav}</nav>
 
@@ -819,6 +853,8 @@ export default function ElectionBoard({ electionsConfig: config = electionsConfi
                 accentColor={accentColor}
                 onOpenMedia={handleOpenElectionMedia}
                 showVoteButton={showVoteNowButtons}
+                votingFormUrl={votingFormUrl}
+                voteButtonText={voteButtonText}
                 activeMedia={activeMedia}
               />
             </section>
@@ -833,6 +869,10 @@ export default function ElectionBoard({ electionsConfig: config = electionsConfi
 
 ElectionBoard.propTypes = {
   electionsConfig: PropTypes.shape({
+    votingFormUrl: PropTypes.string,
+    votingOpensAt: PropTypes.string,
+    votingLivePollingSubtitle: PropTypes.string,
+    voteButtonText: PropTypes.string,
     showVoteNowButtons: PropTypes.bool,
     contenders: PropTypes.arrayOf(
       PropTypes.shape({
