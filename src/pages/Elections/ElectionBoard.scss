@@ -38,6 +38,18 @@
   letter-spacing: 0.1em;
 }
 
+.election-board-hero-voting-hint {
+  margin: 1rem auto 0;
+  max-width: 28rem;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
 .election-board-main {
   position: relative;
   z-index: 1;
@@ -426,6 +438,7 @@ iframe.election-candidate-card-youtube-preview {
   white-space: pre-line;
 }
 
+a.election-candidate-card-vote-btn,
 .election-candidate-card-vote-btn {
   margin-top: 0.75rem;
   align-self: flex-end;
@@ -436,6 +449,8 @@ iframe.election-candidate-card-youtube-preview {
   letter-spacing: 0.04em;
   color: white;
   text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
   background: var(--board-accent, var(--lowell-red));
   border: none;
   border-radius: 999px;
@@ -444,8 +459,12 @@ iframe.election-candidate-card-youtube-preview {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, filter 0.2s ease;
   position: relative;
   z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
+a.election-candidate-card-vote-btn:hover,
 .election-candidate-card-vote-btn:hover {
   filter: brightness(1.1);
   transform: translateY(-2px);
@@ -558,14 +577,14 @@ iframe.election-candidate-card-youtube-preview {
 
   .election-media-modal-backdrop {
     padding: 0.45rem;
-    align-items: flex-end;
+    align-items: center;
   }
 
   .election-media-modal {
-    width: 100%;
-    max-width: 100%;
+    width: min(96vw, 720px);
+    max-width: 96vw;
     max-height: 92vh;
-    border-radius: 12px 12px 0 0;
+    border-radius: 12px;
     padding: 0.8rem 0.65rem 0.65rem;
   }
 
