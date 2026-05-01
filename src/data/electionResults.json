@@ -1,0 +1,913 @@
+{
+  "boards": [
+    {
+      "id": "lsa-2027",
+      "title": "LSA 2027",
+      "positions": [
+        {
+          "title": "President",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Zeina Danfoura",
+                  "votes": "239",
+                  "percentage": "81.02%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "56",
+                  "percentage": "18.98%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "295",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Vice President",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Sasha McKenney",
+                  "votes": "213",
+                  "percentage": "72.20%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "Zhenye Zhao",
+                  "votes": "82",
+                  "percentage": "27.80%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "295",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Secretary",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Kaylee Luk",
+                  "votes": "202",
+                  "percentage": "69.90%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "Jada Zeng",
+                  "votes": "87",
+                  "percentage": "30.10%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "289",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Treasurer",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Sienna Wong",
+                  "votes": "246",
+                  "percentage": "86.32%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "39",
+                  "percentage": "13.68%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "285",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Public Relations",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Audriana Lozano",
+                  "votes": "130",
+                  "percentage": "44.67%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Serena Tu",
+                  "votes": "161",
+                  "percentage": "55.33%",
+                  "transfer": "0",
+                  "winner": true
+                }
+              ],
+              "totalVotes": "291",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Historian",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Candice Wei",
+                  "votes": "92",
+                  "percentage": "31.83%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Bailey Hughes",
+                  "votes": "197",
+                  "percentage": "68.17%",
+                  "transfer": "0",
+                  "winner": true
+                }
+              ],
+              "totalVotes": "289",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lsa-2028",
+      "title": "LSA 2028",
+      "positions": [
+        {
+          "title": "President",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Dylan Mac",
+                  "votes": "177",
+                  "percentage": "44.14%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Cameron Wee",
+                  "votes": "224",
+                  "percentage": "55.86%",
+                  "transfer": "0",
+                  "winner": true
+                }
+              ],
+              "totalVotes": "401",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Vice President",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Andrew Bates",
+                  "votes": "349",
+                  "percentage": "87.47%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "50",
+                  "percentage": "12.53%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "399",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Treasurer",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Mia Vallejo",
+                  "votes": "108",
+                  "percentage": "26.60%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Steven Li",
+                  "votes": "68",
+                  "percentage": "16.75%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Fatima Shaikh",
+                  "votes": "123",
+                  "percentage": "30.30%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Aldo Villanueva",
+                  "votes": "59",
+                  "percentage": "14.53%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Kai Gluck",
+                  "votes": "48",
+                  "percentage": "11.82%",
+                  "transfer": "0",
+                  "winner": false,
+                  "eliminated": true
+                }
+              ],
+              "totalVotes": "406",
+              "totalPercentage": "100.00%"
+            },
+            {
+              "label": "Round Two",
+              "rows": [
+                {
+                  "candidate": "Mia Vallejo",
+                  "votes": "115",
+                  "percentage": "28.40%",
+                  "transfer": "7",
+                  "winner": false
+                },
+                {
+                  "candidate": "Steven Li",
+                  "votes": "90",
+                  "percentage": "22.22%",
+                  "transfer": "22",
+                  "winner": false
+                },
+                {
+                  "candidate": "Fatima Shaikh",
+                  "votes": "132",
+                  "percentage": "32.59%",
+                  "transfer": "9",
+                  "winner": false
+                },
+                {
+                  "candidate": "Aldo Villanueva",
+                  "votes": "68",
+                  "percentage": "16.79%",
+                  "transfer": "9",
+                  "winner": false
+                },
+                {
+                  "candidate": "Kai Gluck",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "-48",
+                  "winner": false,
+                  "eliminated": true
+                }
+              ],
+              "totalVotes": "405",
+              "totalPercentage": "100.00%"
+            },
+            {
+              "label": "Round Three",
+              "rows": [
+                {
+                  "candidate": "Mia Vallejo",
+                  "votes": "137",
+                  "percentage": "33.83%",
+                  "transfer": "22",
+                  "winner": false
+                },
+                {
+                  "candidate": "Steven Li",
+                  "votes": "109",
+                  "percentage": "26.91%",
+                  "transfer": "19",
+                  "winner": false
+                },
+                {
+                  "candidate": "Fatima Shaikh",
+                  "votes": "159",
+                  "percentage": "39.26%",
+                  "transfer": "27",
+                  "winner": true
+                },
+                {
+                  "candidate": "Aldo Villanueva",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "-68",
+                  "winner": false,
+                  "eliminated": true
+                },
+                {
+                  "candidate": "Kai Gluck",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "0",
+                  "winner": false,
+                  "eliminated": true
+                }
+              ],
+              "totalVotes": "405",
+              "totalPercentage": "100.00%"
+            },
+            {
+              "label": "Round Four",
+              "rows": [
+                {
+                  "candidate": "Mia Vallejo",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "-137",
+                  "winner": false,
+                  "eliminated": true
+                },
+                {
+                  "candidate": "Steven Li",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "-109",
+                  "winner": false,
+                  "eliminated": true
+                },
+                {
+                  "candidate": "Fatima Shaikh",
+                  "votes": "405",
+                  "percentage": "100.00%",
+                  "transfer": "246",
+                  "winner": true
+                },
+                {
+                  "candidate": "Aldo Villanueva",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "0",
+                  "winner": false,
+                  "eliminated": true
+                },
+                {
+                  "candidate": "Kai Gluck",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "0",
+                  "winner": false,
+                  "eliminated": true
+                }
+              ],
+              "totalVotes": "405",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Public Relations",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "NhaLan Vo",
+                  "votes": "190",
+                  "percentage": "47.50%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Aneesah Ahmad",
+                  "votes": "210",
+                  "percentage": "52.50%",
+                  "transfer": "0",
+                  "winner": true
+                }
+              ],
+              "totalVotes": "400",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lsa-2029",
+      "title": "LSA 2029",
+      "positions": [
+        {
+          "title": "President",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Samantha Grisel",
+                  "votes": "136",
+                  "percentage": "39.65%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Taran Yang",
+                  "votes": "139",
+                  "percentage": "40.52%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Justin Wu. Chen",
+                  "votes": "68",
+                  "percentage": "19.83%",
+                  "transfer": "0",
+                  "winner": false,
+                  "eliminated": true
+                }
+              ],
+              "totalVotes": "343",
+              "totalPercentage": "100.00%"
+            },
+            {
+              "label": "Runoff",
+              "rows": [
+                {
+                  "candidate": "Samantha Grisel",
+                  "votes": "165",
+                  "percentage": "48.10%",
+                  "transfer": "29",
+                  "winner": false
+                },
+                {
+                  "candidate": "Taran Yang",
+                  "votes": "178",
+                  "percentage": "51.90%",
+                  "transfer": "39",
+                  "winner": true
+                },
+                {
+                  "candidate": "Justin Wu. Chen",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "-68",
+                  "winner": false,
+                  "eliminated": true
+                }
+              ],
+              "totalVotes": "343",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Vice President",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Preston Wang",
+                  "votes": "247",
+                  "percentage": "72.22%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "Kayley Wu",
+                  "votes": "95",
+                  "percentage": "27.78%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "342",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Secretary",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Violette Trinh-Hsu",
+                  "votes": "299",
+                  "percentage": "89.52%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "35",
+                  "percentage": "10.48%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "334",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Treasurer",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Shirley Guan",
+                  "votes": "237",
+                  "percentage": "69.10%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "Hero Qi",
+                  "votes": "106",
+                  "percentage": "30.90%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "343",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Public Relations",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Zarina Gorji",
+                  "votes": "175",
+                  "percentage": "51.47%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "Kaylee Phu",
+                  "votes": "165",
+                  "percentage": "48.53%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "340",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Historian",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Abigail Lee",
+                  "votes": "301",
+                  "percentage": "88.27%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "40",
+                  "percentage": "11.73%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "341",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sbc",
+      "title": "SBC",
+      "positions": [
+        {
+          "title": "President",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Riley Chon",
+                  "votes": "838",
+                  "percentage": "83.13%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "170",
+                  "percentage": "16.87%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "1008",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Vice President",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Alina Nitedthunyakij",
+                  "votes": "848",
+                  "percentage": "84.63%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "154",
+                  "percentage": "15.37%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "1002",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Secretary",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Genevieve Tran",
+                  "votes": "551",
+                  "percentage": "55.66%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "Linda Nguyen",
+                  "votes": "439",
+                  "percentage": "44.34%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "990",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Treasurer",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Carson Lem",
+                  "votes": "840",
+                  "percentage": "85.28%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "145",
+                  "percentage": "14.72%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "985",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Events Coordinator",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Trish Tran",
+                  "votes": "313",
+                  "percentage": "31.58%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Leo Zhou",
+                  "votes": "600",
+                  "percentage": "60.54%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Yuxi Lei",
+                  "votes": "78",
+                  "percentage": "7.87%",
+                  "transfer": "0",
+                  "winner": false,
+                  "eliminated": true
+                }
+              ],
+              "totalVotes": "991",
+              "totalPercentage": "99.99%"
+            },
+            {
+              "label": "Round Two",
+              "rows": [
+                {
+                  "candidate": "Trish Tran",
+                  "votes": "335",
+                  "percentage": "33.91%",
+                  "transfer": "22",
+                  "winner": false
+                },
+                {
+                  "candidate": "Leo Zhou",
+                  "votes": "653",
+                  "percentage": "66.09%",
+                  "transfer": "53",
+                  "winner": true
+                },
+                {
+                  "candidate": "Yuxi Lei",
+                  "votes": "0",
+                  "percentage": "0.00%",
+                  "transfer": "-78",
+                  "winner": false,
+                  "eliminated": true
+                }
+              ],
+              "totalVotes": "988",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lsa-coordinators",
+      "title": "LSA Coordinators",
+      "positions": [
+        {
+          "title": "Club Coordinator",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Anna Le",
+                  "votes": "477",
+                  "percentage": "48.77%",
+                  "transfer": "0",
+                  "winner": false
+                },
+                {
+                  "candidate": "Sarrisar Thowthong",
+                  "votes": "501",
+                  "percentage": "51.23%",
+                  "transfer": "0",
+                  "winner": true
+                }
+              ],
+              "totalVotes": "978",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Dance Coordinator",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Emily Ma",
+                  "votes": "658",
+                  "percentage": "67.77%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "Priscilla Tram Anh Lam",
+                  "votes": "313",
+                  "percentage": "32.23%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "971",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Public Relations",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Fiona Yu",
+                  "votes": "857",
+                  "percentage": "87.81%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "All other candidates",
+                  "votes": "119",
+                  "percentage": "12.19%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "976",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        },
+        {
+          "title": "Community Liaison",
+          "rounds": [
+            {
+              "label": "Round One",
+              "rows": [
+                {
+                  "candidate": "Mikayla Liu",
+                  "votes": "706",
+                  "percentage": "71.82%",
+                  "transfer": "0",
+                  "winner": true
+                },
+                {
+                  "candidate": "Kevin Y. Liang",
+                  "votes": "277",
+                  "percentage": "28.18%",
+                  "transfer": "0",
+                  "winner": false
+                }
+              ],
+              "totalVotes": "983",
+              "totalPercentage": "100.00%"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

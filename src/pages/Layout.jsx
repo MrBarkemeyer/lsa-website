@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ElectionBanner from "../components/ElectionBanner";
 import ElectionsBar from "../components/ElectionsBar";
+import { useElectionResultsReleased } from "../utils/electionVotingWindow.js";
 
 export default function Layout(props) {
   const clubData = props.clubData;
@@ -12,6 +13,7 @@ export default function Layout(props) {
   const state = electionsConfig?.state;
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const resultsReleased = useElectionResultsReleased(electionsConfig ?? {});
 
   const showElectionBanner =
     electionsEnabled &&
@@ -20,6 +22,7 @@ export default function Layout(props) {
   const showElectionsBar =
     electionsEnabled &&
     state === "results" &&
+    resultsReleased &&
     electionsConfig?.pollingBar?.enabled;
 
   return (

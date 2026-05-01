@@ -4,7 +4,7 @@
 
 export default {
   // "pending" | "polling" | "results" — see src/utils/electionAccess.js for URL rules
-  state: "polling",
+  state: "results",
 
   // Which Board values from the sheet to show (case-insensitive). Order = card order on /Elections.
   // Example sheet Board cell: "SBC". Add "2027" etc. when those rows exist in the sheet.
@@ -80,6 +80,15 @@ export default {
   // Google Form URL for optional in-app links (e.g. candidate card). Email is primary per votingLive copy.
   votingFormUrl: "",
   voteButtonText: "Open voting form",
+
+  // When `state` is "results", tables stay hidden until this instant (visitor's browser clock vs ISO time).
+  // Empty = show results as soon as state is "results". Use timezone offset so "today 3:45 PM" is unambiguous.
+  // Example same-day 3:45 PM Pacific: "2026-05-01T15:45:00-07:00"
+  resultsReleaseAt: "2026-05-01T15:42:00-07:00",
+
+  // Copy on /Elections/Results before `resultsReleaseAt` (when state is already "results").
+  resultsPendingTitle: "Results go live soon",
+  resultsPendingSubtitle: "", // empty = default line with formatted date/time below
 
   // When set (ISO 8601), vote links stay disabled until this local instant. Empty = active whenever votingFormUrl is set.
   // Example: "2026-04-27T10:20:00-07:00"

@@ -56,6 +56,28 @@
   }
 }
 
+// Quiet line above candidate cards while waiting for resultsReleaseAt
+.elections-results-embargo-note {
+  max-width: 912px;
+  margin: -0.5rem auto 1.5rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.elections-results-embargo-subtitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5c4033;
+}
+
+.elections-results-embargo-detail {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: #666;
+  line-height: 1.4;
+}
+
 .elections-voting-opens-hint {
   margin: 0.75rem auto 0;
   max-width: 36rem;
@@ -293,6 +315,155 @@
   margin-top: 2rem;
 }
 
+.election-results-board-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 2.5rem;
+}
+
+.election-results-board {
+  border: 3px solid #111;
+  border-radius: 6px;
+  background: #fff;
+  margin-bottom: 1.4rem;
+  overflow: hidden;
+}
+
+.election-results-board-title {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  border-bottom: 2px solid #111;
+  background: #f6f6f6;
+}
+
+.election-results-position-list {
+  padding: 0.6rem 0.6rem 0.9rem;
+}
+
+.election-results-position {
+  border: 2px solid #111;
+  margin: 0.55rem 0;
+}
+
+.election-results-position-title {
+  margin: 0;
+  padding: 0.45rem 0.7rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  border-bottom: 1px solid #111;
+  background: #fafafa;
+}
+
+.election-results-rounds-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem 1rem;
+  padding: 0.55rem 0.75rem 0.65rem;
+  background: #f3f3f3;
+  border-bottom: 1px solid #ddd;
+}
+
+.election-results-rounds-summary {
+  margin: 0;
+  flex: 1 1 220px;
+  font-size: 0.88rem;
+  line-height: 1.35;
+  color: #444;
+}
+
+.election-results-rounds-button {
+  flex: 0 0 auto;
+  padding: 0.45rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--lowell-red, #861212);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+
+.election-results-rounds-button:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.election-results-rounds-button:focus-visible {
+  outline: 2px solid #333;
+  outline-offset: 2px;
+}
+
+.election-results-rounds-panel {
+  padding: 0;
+}
+
+.election-results-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.election-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 620px;
+}
+
+.election-results-table th,
+.election-results-table td {
+  border: 1px solid #222;
+  padding: 0.45rem 0.55rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.election-results-table th {
+  font-weight: 700;
+  background: #f1f1f1;
+}
+
+.election-results-table td:first-child,
+.election-results-table th:first-child {
+  text-align: left;
+}
+
+.election-results-round-block {
+  padding: 0.5rem 0.65rem 0.85rem;
+}
+
+.election-results-round-block + .election-results-round-block {
+  border-top: 1px solid #ccc;
+  margin-top: 0.35rem;
+  padding-top: 0.85rem;
+}
+
+.election-results-round-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.election-results-round-total {
+  margin: 0.45rem 0 0;
+  padding: 0 0.65rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.election-results-row--winner td {
+  background: #d4edda;
+}
+
+.election-results-row--eliminated td {
+  background: #e9ecef;
+}
+
 @media (max-width: 641px) {
   .elections-hero {
     padding: 2rem 1rem;
@@ -370,5 +541,23 @@
 
   .election-board-card-footer {
     padding: 0.6rem 1rem 0.7rem;
+  }
+
+  .election-results-board-list {
+    padding: 0.8rem 0.8rem 1.8rem;
+  }
+
+  .election-results-board-title {
+    font-size: 1.08rem;
+  }
+
+  .election-results-position-title {
+    font-size: 0.98rem;
+  }
+
+  .election-results-table th,
+  .election-results-table td {
+    font-size: 0.86rem;
+    padding: 0.38rem 0.42rem;
   }
 }

@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import {
+  areElectionResultsReleased,
+  parseResultsReleaseAtMs,
+} from "./electionAccess.js";
 
 function parseVotingOpensAtMs(raw) {
   if (raw == null) return null;
@@ -99,4 +103,60 @@ export function useElectionVotingMessagingLive(config) {
   }, [url, opensAtKey]);
 
   return live;
+}
+
+/** Human-readable release time for election results (same pattern as voting opens). */
+export function formatElectionResultsReleaseAt(config) {
+  const ms = parseResultsReleaseAtMs(config?.resultsReleaseAt);
+  if (ms == null) return "";
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }).format(new Date(ms));
+  } catch {
+    return new Date(ms).toLocaleString();
+  }
+}
+
+/** Subtitle + optional detail for candidate view during results embargo (`resultsReleaseAt` not reached). */
+export function getResultsEmbargoCopy(config) {
+  const whenLabel = formatElectionResultsReleaseAt(config);
+  const subtitle = config?.resultsPendingTitle ?? "Results go live soon";
+  const detailRaw =
+    String(config?.resultsPendingSubtitle ?? "").trim() ||
+    (whenLabel ? `Detailed results will be posted ${whenLabel}.` : "");
+  return {
+    subtitle,
+    detail: detailRaw || undefined,
+  };
+}
+
+/**
+ * Re-computes when results unlock (interval + one shot at release time) so the page updates without refresh.
+ */
+export function useElectionResultsReleased(config) {
+  const releaseAtKey = String(config?.resultsReleaseAt ?? "").trim();
+  const [released, setReleased] = useState(() =>
+    areElectionResultsReleased({ resultsReleaseAt: releaseAtKey || undefined })
+  );
+
+  useEffect(() => {
+    const snap = { resultsReleaseAt: releaseAtKey || undefined };
+    const tick = () => setReleased(areElectionResultsReleased(snap));
+    tick();
+    const intervalId = window.setInterval(tick, 30_000);
+    const releaseMs = parseResultsReleaseAtMs(releaseAtKey);
+    let timeoutId = null;
+    if (releaseMs != null && releaseMs > Date.now()) {
+      const delay = Math.min(releaseMs - Date.now() + 400, 86_400_000);
+      timeoutId = window.setTimeout(tick, delay);
+    }
+    return () => {
+      window.clearInterval(intervalId);
+      if (timeoutId != null) window.clearTimeout(timeoutId);
+    };
+  }, [releaseAtKey]);
+
+  return released;
 }

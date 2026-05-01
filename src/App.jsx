@@ -36,10 +36,7 @@ import More from './pages/More/More'
 import Forensic from './pages/Organizations/Forensic'
 import Cardinalympics from './pages/Cardinalympics'
 import { site } from './config/site.config.js'
-import {
-  mergeElectionConfigWithSheet,
-  isElectionCandidateSheetFormat,
-} from './utils/electionCandidatesFromSheet.js'
+import { mergeElectionConfigWithSheet } from './utils/electionCandidatesFromSheet.js'
 import { parseCardinalympicsEventsSheet } from './utils/cardinalympicsEventsFromSheet.js'
 import applicationsSheetConfig from './config/applications.config.js'
 import cardinalympicsConfig from './config/cardinalympics.config.js'
@@ -397,12 +394,6 @@ function App() {
       fetchCoreSheetsAndAnnouncements();
     }, [shouldCheckSheetsNow]);
 
-    const electionData = useMemo(() => {
-      if (!electionSheetValues?.length) return [];
-      if (isElectionCandidateSheetFormat(electionSheetValues)) return [];
-      return processSheetData(electionSheetValues);
-    }, [electionSheetValues]);
-
     const electionsConfigResolved = useMemo(
       () => mergeElectionConfigWithSheet(site.elections, electionSheetValues),
       [electionSheetValues]
@@ -743,9 +734,9 @@ function App() {
           <Route element={<Layout clubData={clubData} electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />}>
             <Route path="/" element={<Home cardinalympicsData={cardinalympicsData} cardinalympicsEvents={cardinalympicsEvents} newsData={newsData} clubData={clubData} applicationsData={applicationsData} showCardinalympicsScores={cardinalympicsConfig.showScoresAndScoreboard} showCardinalympicsSignupNow={cardinalympicsConfig.showHomeEventsSignupNow} />} />
             <Route path="Elections" element={<Outlet />}>
-              <Route index element={<Elections electionData={electionData} electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />} />
+              <Route index element={<Elections electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />} />
               <Route path=":boardSlug" element={<ElectionBoard electionsConfig={electionsConfigResolved} />} />
-              <Route path="Results" element={<ElectionResults electionData={electionData} electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />} />
+              <Route path="Results" element={<ElectionResults electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />} />
             </Route>
             
             <Route path="LSA" element={<Outlet />}>
