@@ -1,99 +1,201 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import electionsConfig from "../../config/elections.config.js";
-import { areElectionResultsPublic } from "../../utils/electionAccess.js";
+import ElectionsCandidateBoardsView from "./ElectionsCandidateBoards.jsx";
+import {
+  getResultsEmbargoCopy,
+  useElectionResultsReleased,
+  useElectionVotingMessagingLive,
+} from "../../utils/electionVotingWindow.js";
+import electionResultsStatic from "../../data/electionResults.json";
 import "../Elections.scss";
 
-// Normalize sheet rows (same mapping as `Elections.jsx` so results cards render consistently).
-function normalizeElectionRow(row) {
-  if (!row || typeof row !== "object") return row;
-  const keyMap = {
-    board: ["board", "Board"],
-    color: ["color", "Color"],
-    president: ["president", "President"],
-    vicePresident: ["vicePresident", "Vice President", "VicePresident"],
-    secretary: ["secretary", "Secretary"],
-    treasurer: ["treasurer", "Treasurer"],
-    publicRelations: ["publicRelations", "Public Relations", "PublicRelations"],
-    historian: ["historian", "Historian"],
-    clubCoordinator: ["clubCoordinator", "Club Coordinator", "ClubCoordinator"],
-    danceCoordinator: ["danceCoordinator", "Dance Coordinator", "DanceCoordinator"],
-    communityLiaison: ["communityLiaison", "Community Liaison", "CommunityLiaison"],
-  };
-
-  const out = {};
-  for (const [camelKey, possibleHeaders] of Object.entries(keyMap)) {
-    for (const h of possibleHeaders) {
-      if (row[h] !== undefined && row[h] !== "") {
-        out[camelKey] = row[h];
-        break;
-      }
-    }
-  }
-  return out;
+function isBlank(value) {
+  return String(value ?? "").trim() === "";
 }
 
-const RESULT_ROLES = [
-  ["president", "President"],
-  ["vicePresident", "Vice President"],
-  ["secretary", "Secretary"],
-  ["treasurer", "Treasurer"],
-  ["publicRelations", "Public Relations"],
-  ["historian", "Historian"],
-  ["clubCoordinator", "Club Coordinator"],
-  ["danceCoordinator", "Dance Coordinator"],
-  ["communityLiaison", "Community Liaison"],
-];
-
-function getResultRows(element) {
-  const rows = [];
-  for (const [key, label] of RESULT_ROLES) {
-    const value = element[key];
-    if (value != null && String(value).trim() !== "") {
-      rows.push({ role: label, value: String(value).trim() });
-    }
-  }
-  return rows;
+function parsePercentageValue(cell) {
+  const s = String(cell ?? "")
+    .trim()
+    .replace(/%/g, "");
+  if (!s || s === "—") return NaN;
+  const n = parseFloat(s.replace(/,/g, ""));
+  return Number.isFinite(n) ? n : NaN;
 }
 
-function ElectionBoardCard({ board, color, rows }) {
-  const accent = color || "var(--title-color)";
+/** Row index(es) with the highest percentage in a round (ties all get green). */
+function rowIndicesWithMaxPercentage(rows, percentageKey = "Percentage") {
+  let max = -Infinity;
+  for (const row of rows) {
+    const n = parsePercentageValue(row[percentageKey]);
+    if (Number.isFinite(n) && n > max) max = n;
+  }
+  if (!Number.isFinite(max) || max < 0) return new Set();
+  const indices = new Set();
+  rows.forEach((row, i) => {
+    const n = parsePercentageValue(row[percentageKey]);
+    if (Number.isFinite(n) && n === max) indices.add(i);
+  });
+  return indices;
+}
+
+/** Turn `electionResults.json` into render-ready board → positions → rounds. */
+function boardsFromStaticJson(data) {
+  if (!data?.boards?.length) return [];
+  return data.boards.map((b) => ({
+    board: String(b.title ?? "").trim() || "Election results",
+    positions: (b.positions ?? []).map((p) => ({
+      title: String(p.title ?? "").trim() || "Position",
+      rounds: (p.rounds ?? []).map((r) => {
+        const columns = ["Candidate", "Votes", "Percentage", "Transfer (Elimination)"];
+        const rows = (r.rows ?? []).map((row) => {
+          const votes = row.votes === "" || row.votes == null ? "—" : String(row.votes);
+          const pct = row.percentage === "" || row.percentage == null ? "—" : String(row.percentage);
+          const xfer = row.transfer === "" || row.transfer == null ? "—" : String(row.transfer);
+          return {
+            Candidate: String(row.candidate ?? "").trim() || "—",
+            Votes: votes,
+            Percentage: pct,
+            "Transfer (Elimination)": xfer,
+            __winner: row.winner === true,
+            __eliminated: row.eliminated === true,
+          };
+        });
+        return {
+          label: String(r.label ?? "").trim() || "Round One",
+          columns,
+          rows,
+          totalVotes: r.totalVotes != null ? String(r.totalVotes) : "",
+          totalPercentage: r.totalPercentage != null ? String(r.totalPercentage) : "",
+        };
+      }),
+    })),
+  }));
+}
+
+function ElectionResultsRoundTable({ round }) {
+  const leadingIndices = rowIndicesWithMaxPercentage(round.rows);
+  const usePercentLeader = leadingIndices.size > 0;
 
   return (
-    <article className="election-board-card" style={{ "--board-accent": accent }}>
-      <div className="election-board-card-header">
-        <h3 className="election-board-card-title">{board}</h3>
+    <div className="election-results-round-block">
+      <h4 className="election-results-round-label">{round.label}</h4>
+      <div className="election-results-table-wrap">
+        <table className="election-results-table">
+          <thead>
+            <tr>
+              {round.columns.map((column) => (
+                <th key={column}>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {round.rows.map((row, rowIndex) => {
+              const isLeader = usePercentLeader
+                ? leadingIndices.has(rowIndex)
+                : row.__winner;
+              const cls = [
+                isLeader ? "election-results-row--winner" : "",
+                row.__eliminated ? "election-results-row--eliminated" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+              return (
+                <tr key={rowIndex} className={cls || undefined}>
+                  {round.columns.map((column) => (
+                    <td key={column}>
+                      {isBlank(row[column]) ? "—" : String(row[column]).trim()}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
-      <div className="election-board-card-body">
-        {rows.map(({ role, value }, i) => (
-          <div key={i} className="election-board-card-row">
-            <span className="election-board-card-role">{role}:</span>
-            <span className="election-board-card-value">{value}</span>
-          </div>
-        ))}
-      </div>
-    </article>
+      {(round.totalVotes || round.totalPercentage) && (
+        <p className="election-results-round-total">
+          <strong>Total:</strong>{" "}
+          {round.totalVotes ? <span>{round.totalVotes} votes</span> : null}
+          {round.totalVotes && round.totalPercentage ? " · " : null}
+          {round.totalPercentage ? <span>{round.totalPercentage}</span> : null}
+        </p>
+      )}
+    </div>
   );
 }
 
-ElectionBoardCard.propTypes = {
-  board: PropTypes.string.isRequired,
-  color: PropTypes.string,
-  rows: PropTypes.arrayOf(
-    PropTypes.shape({ role: PropTypes.string.isRequired, value: PropTypes.string.isRequired })
-  ).isRequired,
+ElectionResultsRoundTable.propTypes = {
+  round: PropTypes.shape({
+    label: PropTypes.string,
+    columns: PropTypes.arrayOf(PropTypes.string),
+    rows: PropTypes.arrayOf(PropTypes.object),
+    totalVotes: PropTypes.string,
+    totalPercentage: PropTypes.string,
+  }).isRequired,
+};
+
+/** One position: up to 3 rounds → show all; 4+ rounds → show round 1 until expanded. */
+function ElectionPositionSection({ positionBlock, positionIndex }) {
+  const rounds = positionBlock.rounds ?? [];
+  const needsRoundExpand = rounds.length > 3;
+  const [showAllRounds, setShowAllRounds] = useState(false);
+  const visibleRounds =
+    needsRoundExpand && !showAllRounds ? rounds.slice(0, 1) : rounds;
+  const panelId = `election-rounds-panel-${positionBlock.title}-${positionIndex}`.replace(/\s+/g, "-");
+
+  return (
+    <section className="election-results-position">
+      <h3 className="election-results-position-title">{positionBlock.title}</h3>
+      {needsRoundExpand ? (
+        <div className="election-results-rounds-toolbar">
+          <p className="election-results-rounds-summary" id={`${panelId}-summary`}>
+            {showAllRounds
+              ? `All ${rounds.length} rounds are shown below.`
+              : `Round 1 of ${rounds.length} is shown. Use the button to see every round.`}
+          </p>
+          <button
+            type="button"
+            className="election-results-rounds-button"
+            onClick={() => setShowAllRounds((open) => !open)}
+            aria-expanded={showAllRounds}
+            aria-controls={panelId}
+            aria-describedby={`${panelId}-summary`}
+          >
+            {showAllRounds ? "Show fewer rounds" : `Show all ${rounds.length} rounds`}
+          </button>
+        </div>
+      ) : null}
+      <div id={panelId} className="election-results-rounds-panel">
+        {visibleRounds.map((round, roundIndex) => (
+          <ElectionResultsRoundTable
+            key={`${round.label}-${roundIndex}`}
+            round={round}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+ElectionPositionSection.propTypes = {
+  positionBlock: PropTypes.shape({
+    title: PropTypes.string,
+    rounds: PropTypes.array,
+  }).isRequired,
+  positionIndex: PropTypes.number.isRequired,
 };
 
 export default function ElectionResults({
-  electionData,
   electionsEnabled = true,
   electionsConfig: config = electionsConfig,
 }) {
   const state = config?.state ?? "results";
-  const rawElections = electionData || [];
-  const ElectionResults = rawElections.map(normalizeElectionRow).filter((r) => r.board);
+  const resultsReleased = useElectionResultsReleased(config);
+  const messagingLive = useElectionVotingMessagingLive(config);
+  const boardsModel = boardsFromStaticJson(electionResultsStatic);
 
-  // Elections are off site-wide.
   if (!electionsEnabled) {
     return (
       <div className="elections-page">
@@ -114,7 +216,6 @@ export default function ElectionResults({
     );
   }
 
-  // Elections exist, but results aren't ready yet.
   if (state === "pending") {
     return (
       <div className="elections-page">
@@ -148,8 +249,7 @@ export default function ElectionResults({
           <div className="elections-message-box">
             <h2>Results not posted yet</h2>
             <p>
-              {config?.pollingBar?.message ??
-                "Results will be posted after voting ends."}
+              {config?.pollingBar?.message ?? "Results will be posted after voting ends."}
             </p>
             <p style={{ marginTop: "0.75rem", fontStyle: "italic", color: "#666" }}>
               Check back when elections are closed.
@@ -163,7 +263,18 @@ export default function ElectionResults({
     );
   }
 
-  if (!areElectionResultsPublic(config)) {
+  if (state === "results" && !resultsReleased) {
+    const embargo = getResultsEmbargoCopy(config);
+    return (
+      <ElectionsCandidateBoardsView
+        config={config}
+        messagingLive={messagingLive}
+        resultsEmbargo={{ subtitle: embargo.subtitle, detail: embargo.detail }}
+      />
+    );
+  }
+
+  if (state !== "results") {
     return (
       <div className="elections-page">
         <header className="elections-hero">
@@ -184,23 +295,6 @@ export default function ElectionResults({
     );
   }
 
-  // Final results (or placeholder if the sheet is empty).
-  const displayResults =
-    ElectionResults.length > 0
-      ? ElectionResults
-      : [
-        {
-          board: "LSA 2029 Election Results",
-          color: "#9c1919",
-          president: "Taran Yang",
-          vicePresident: "Preston Wang",
-          secretary: "Violette Trinh-Hsu",
-          treasurer: "Shirley Guan",
-          publicRelations: "Zarina Gorji",
-          historian: "Ashley Zhao",
-        },
-      ];
-
   return (
     <div className="elections-page">
       <header className="elections-hero">
@@ -209,47 +303,49 @@ export default function ElectionResults({
         <span className="elections-hero-badge">Results</span>
       </header>
       <section className="election-section">
-        <div className="elections-board-cards">
-          {displayResults.map((element, index) => (
-            <ElectionBoardCard
-              key={index}
-              board={element.board}
-              color={element.color}
-              rows={getResultRows(element)}
-            />
-          ))}
-        </div>
+        {!boardsModel.length ? (
+          <div className="elections-message-box">
+            <h2>Results not posted yet</h2>
+            <p>Add data to <code>src/data/electionResults.json</code>.</p>
+          </div>
+        ) : (
+          <div className="election-results-board-list">
+            {boardsModel.map((boardBlock, boardIndex) => (
+              <article key={`${boardBlock.board}-${boardIndex}`} className="election-results-board">
+                <h2 className="election-results-board-title">{boardBlock.board}</h2>
+                <div className="election-results-position-list">
+                  {boardBlock.positions.map((positionBlock, positionIndex) => (
+                    <ElectionPositionSection
+                      key={`${positionBlock.title}-${positionIndex}`}
+                      positionBlock={positionBlock}
+                      positionIndex={positionIndex}
+                    />
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
 }
 
 ElectionResults.propTypes = {
-  electionData: PropTypes.arrayOf(
-    PropTypes.shape({
-      board: PropTypes.string,
-      color: PropTypes.string,
-      president: PropTypes.string,
-      vicePresident: PropTypes.string,
-      secretary: PropTypes.string,
-      treasurer: PropTypes.string,
-      publicRelations: PropTypes.string,
-      historian: PropTypes.string,
-      clubCoordinator: PropTypes.string,
-      danceCoordinator: PropTypes.string,
-      communityLiaison: PropTypes.string,
-    })
-  ),
   electionsEnabled: PropTypes.bool,
   electionsConfig: PropTypes.shape({
     state: PropTypes.oneOf(["pending", "polling", "results"]),
     notHappeningMessage: PropTypes.string,
+    pendingTitle: PropTypes.string,
+    pendingSubtitle: PropTypes.string,
     pollingBar: PropTypes.shape({
       message: PropTypes.string,
       resultsLabel: PropTypes.string,
       resultsPath: PropTypes.string,
       enabled: PropTypes.bool,
     }),
+    resultsReleaseAt: PropTypes.string,
+    resultsPendingTitle: PropTypes.string,
+    resultsPendingSubtitle: PropTypes.string,
   }),
 };
-
