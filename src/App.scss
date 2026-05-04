@@ -1899,37 +1899,6 @@
   }
 }
 
-.elections-bar {
-  background: #f0f4f8;
-  border-bottom: 1px solid #e0e6ed;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-}
-
-.elections-bar-inner {
-  max-width: 912px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.elections-bar-message {
-  color: #444;
-}
-
-.elections-bar-link {
-  color: var(--lowell-red, #861212);
-  font-weight: 600;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 .second-dropdowns {
   background: var(--lowell-red);
   position: absolute;

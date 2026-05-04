@@ -1,14 +1,22 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-// the "polls are open" bar that shows when we're in polling mode
-export default function ElectionsBar({ config }) {
+// Site-wide strip when election results are live (Layout). On `/` the navbar spacer is
+// only `ham-offset` (no height >1000px), so optional top margin matches `.off-set` nav clearance.
+export default function ElectionsBar({ config, reserveNavClearance = false }) {
   if (!config?.pollingBar?.enabled) return null;
 
   const { message, resultsLabel, resultsPath } = config.pollingBar;
 
   return (
-    <div className="elections-bar">
+    <div
+      className={[
+        "elections-bar",
+        reserveNavClearance ? "elections-bar--below-home-nav" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <div className="elections-bar-inner">
         <span className="elections-bar-message">{message}</span>
         {resultsPath && (
@@ -22,6 +30,7 @@ export default function ElectionsBar({ config }) {
 }
 
 ElectionsBar.propTypes = {
+  reserveNavClearance: PropTypes.bool,
   config: PropTypes.shape({
     pollingBar: PropTypes.shape({
       enabled: PropTypes.bool,

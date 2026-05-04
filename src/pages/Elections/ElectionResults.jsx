@@ -9,6 +9,7 @@ import {
   useElectionVotingMessagingLive,
 } from "../../utils/electionVotingWindow.js";
 import electionResultsStatic from "../../data/electionResults.json";
+import ElectionBanner from "../../components/ElectionBanner.jsx";
 import "../Elections.scss";
 
 function isBlank(value) {
@@ -101,10 +102,10 @@ function ElectionResultsRoundTable({ round }) {
               ]
                 .filter(Boolean)
                 .join(" ");
-              return (
+                  return (
                 <tr key={rowIndex} className={cls || undefined}>
                   {round.columns.map((column) => (
-                    <td key={column}>
+                    <td key={column} data-label={column}>
                       {isBlank(row[column]) ? "—" : String(row[column]).trim()}
                     </td>
                   ))}
@@ -302,6 +303,7 @@ export default function ElectionResults({
         <p className="elections-hero-subtitle">Election Results</p>
         <span className="elections-hero-badge">Results</span>
       </header>
+      {config?.pollingBar?.enabled ? <ElectionBanner config={config} /> : null}
       <section className="election-section">
         {!boardsModel.length ? (
           <div className="elections-message-box">
@@ -347,5 +349,7 @@ ElectionResults.propTypes = {
     resultsReleaseAt: PropTypes.string,
     resultsPendingTitle: PropTypes.string,
     resultsPendingSubtitle: PropTypes.string,
+    resultsBannerTitle: PropTypes.string,
+    resultsBannerMessage: PropTypes.string,
   }),
 };

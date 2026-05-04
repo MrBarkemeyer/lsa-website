@@ -34,6 +34,7 @@ import ShieldAndScroll from './pages/Organizations/ShieldAndScroll'
 import Archives from './pages/More/Archives'
 import More from './pages/More/More'
 import Forensic from './pages/Organizations/Forensic'
+import VideoLowell from './pages/Organizations/VideoLowell'
 import Cardinalympics from './pages/Cardinalympics'
 import { site } from './config/site.config.js'
 import { mergeElectionConfigWithSheet } from './utils/electionCandidatesFromSheet.js'
@@ -406,6 +407,7 @@ function App() {
       showWinningChances,
       showEvents,
       showHomeEventsSignupNow,
+      displayMode: cardinalympicsDisplayMode,
     } = cardinalympicsConfig;
     const needsCardinalympicsEventsData = showEvents || showHomeEventsSignupNow;
 
@@ -732,7 +734,7 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route element={<Layout clubData={clubData} electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />}>
-            <Route path="/" element={<Home cardinalympicsData={cardinalympicsData} cardinalympicsEvents={cardinalympicsEvents} newsData={newsData} clubData={clubData} applicationsData={applicationsData} showCardinalympicsScores={cardinalympicsConfig.showScoresAndScoreboard} showCardinalympicsSignupNow={cardinalympicsConfig.showHomeEventsSignupNow} />} />
+            <Route path="/" element={<Home cardinalympicsData={cardinalympicsData} cardinalympicsEvents={cardinalympicsEvents} newsData={newsData} clubData={clubData} applicationsData={applicationsData} showCardinalympicsScores={cardinalympicsConfig.showScoresAndScoreboard} showCardinalympicsSignupNow={cardinalympicsConfig.showHomeEventsSignupNow} cardinalympicsDisplayMode={cardinalympicsDisplayMode} />} />
             <Route path="Elections" element={<Outlet />}>
               <Route index element={<Elections electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />} />
               <Route path=":boardSlug" element={<ElectionBoard electionsConfig={electionsConfigResolved} />} />
@@ -755,6 +757,7 @@ function App() {
               <Route path="MockTrial" element={<MockTrial />} />
               <Route path="ShieldAndScroll" element={<ShieldAndScroll />} />
               <Route path="Forensic" element={<Forensic />} />
+              <Route path="VideoLowell" element={<VideoLowell />} />
             </Route>
 
             <Route path="Clubs" element={<Outlet />}>
@@ -795,7 +798,7 @@ function App() {
             <Route path="Events" element={<Events />} />
             <Route path="AboutSite" element={<Site />} />
             <Route path="Archives" element={<Archives />} />
-            <Route path="Cardinalympics" element={<Cardinalympics cardinalympicsData={cardinalympicsData} scoreboardRows={scoreboardRows} cardinalympicsEvents={cardinalympicsEvents} showScoresAndScoreboard={showScoresAndScoreboard} showScoreBreakdown={showScoreBreakdown} showWinningChances={showWinningChances} showEvents={showEvents} />} />  
+            <Route path="Cardinalympics" element={<Cardinalympics cardinalympicsData={cardinalympicsData} scoreboardRows={scoreboardRows} cardinalympicsEvents={cardinalympicsEvents} showScoresAndScoreboard={showScoresAndScoreboard} showScoreBreakdown={showScoreBreakdown} showWinningChances={showWinningChances} showEvents={showEvents} cardinalympicsDisplayMode={cardinalympicsDisplayMode} />} />  
             <Route path="More" element={<More />} />
             <Route path="*" element={<NotFound />} />
           </Route>
