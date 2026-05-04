@@ -336,6 +336,8 @@
   font-weight: 800;
   border-bottom: 2px solid #111;
   background: #f6f6f6;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 
 .election-results-position-list {
@@ -354,6 +356,8 @@
   font-weight: 800;
   border-bottom: 1px solid #111;
   background: #fafafa;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 
 .election-results-rounds-toolbar {
@@ -405,7 +409,11 @@
 
 .election-results-table-wrap {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .election-results-table {
@@ -544,20 +552,135 @@
   }
 
   .election-results-board-list {
-    padding: 0.8rem 0.8rem 1.8rem;
+    padding: 0.65rem 0.5rem 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .election-results-board {
+    border-width: 2px;
+    border-radius: 4px;
   }
 
   .election-results-board-title {
     font-size: 1.08rem;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .election-results-position-list {
+    padding: 0.45rem 0.45rem 0.65rem;
   }
 
   .election-results-position-title {
     font-size: 0.98rem;
+    padding: 0.4rem 0.55rem;
   }
 
-  .election-results-table th,
-  .election-results-table td {
+  .election-results-rounds-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5rem 0.55rem 0.55rem;
+  }
+
+  .election-results-rounds-summary {
+    flex: 1 1 auto;
+    font-size: 0.84rem;
+  }
+
+  .election-results-rounds-button {
+    width: 100%;
+    padding: 0.55rem 0.85rem;
     font-size: 0.86rem;
-    padding: 0.38rem 0.42rem;
+  }
+
+  .election-results-round-block {
+    padding: 0.45rem 0.4rem 0.7rem;
+  }
+
+  .election-results-round-label {
+    font-size: 0.88rem;
+    padding: 0 0.15rem;
+    overflow-wrap: anywhere;
+  }
+
+  .election-results-round-total {
+    font-size: 0.84rem;
+    padding: 0 0.35rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  /* Stack each candidate row as a card — no horizontal table scroll */
+  .election-results-table-wrap {
+    overflow-x: visible;
+  }
+
+  .election-results-table {
+    min-width: 0;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .election-results-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .election-results-table tbody tr {
+    display: block;
+    border: 1px solid #222;
+    border-radius: 6px;
+    margin-bottom: 0.55rem;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .election-results-table tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .election-results-table tbody td {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem 0.65rem;
+    min-width: 0;
+    text-align: left;
+    font-size: 0.86rem;
+    padding: 0.42rem 0.5rem;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    word-break: break-word;
+  }
+
+  .election-results-table tbody td::before {
+    content: attr(data-label);
+    flex: 0 0 6.75rem;
+    max-width: 42%;
+    font-weight: 700;
+    color: #333;
+    font-size: 0.72rem;
+    line-height: 1.25;
+    text-align: left;
+    text-transform: none;
+  }
+
+  .election-results-table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  .elections-message-box {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 1.35rem 1rem;
+    box-sizing: border-box;
+    max-width: calc(100% - 1rem);
   }
 }

@@ -53,7 +53,13 @@ export default {
   votingLiveBannerMessage:
     "Polls are open. Check your school email for the Google Form link to cast your ballot.",
 
-  // top info bar in layout (shown when state is "results")
+  // When state is "results" and results are live: same red banner as voting-live (see ElectionBanner).
+  // `pollingBar.message` is used as fallback body if `resultsBannerMessage` is empty (e.g. sheet merge).
+  resultsBannerTitle: "Election results — LSA elections",
+  resultsBannerMessage:
+    "Full counts are posted. Open the Elections page to see results for each board and position.",
+
+  // Enables the results banner + optional CTA when state is "results" (Layout, Home, under hero on results page).
   pollingBar: {
     enabled: true,
     message: "Election results are now available.",

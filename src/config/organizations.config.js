@@ -6,6 +6,12 @@ export default [
     link: "https://thelowell.org/",
   },
   {
+    name: "Video Lowell",
+    description:
+      "Video Lowell is Lowell's student video production team, covering assemblies, sports, performances, and daily life on campus. Episodes are published on YouTube for the whole community.",
+    link: "https://www.youtube.com/@videolowell",
+  },
+  {
     name: "Shield and Scroll",
     description:
       "Shield and Scroll - Lowell's second oldest organization - is an organization dedicated to helping Lowell run as effectively and efficiently as possible. We are an honor and service society with a goal to serve the students and faculty of Lowell with service, scholarship, and citizenship.",

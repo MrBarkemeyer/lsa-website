@@ -115,7 +115,7 @@ export function buildNavLinks(clubData) {
         },
         {
           name: "VIDEO LOWELL",
-          to: "https://www.youtube.com/channel/UCQHQSnxqQIfYs8AjS8FXfvw",
+          to: "https://www.youtube.com/@videolowell",
           directLink: true,
         },
         {

@@ -7,6 +7,7 @@ import News from "./News";
 import { site } from "../config/site.config.js";
 import { getClubsInSheetOrder } from "../utils/clubSpotlight.js";
 import ElectionBanner from "../components/ElectionBanner";
+import { useElectionResultsReleased } from "../utils/electionVotingWindow.js";
 import CardinalympicLogo from "../components/CardinalympicLogo";
 import PropTypes from "prop-types";
 import SafeImage from "../components/SafeImage";
@@ -17,6 +18,7 @@ import {
   parseDateAdded,
 } from "../utils/applicationsSheet.js";
 import { driveThumbnailCandidates } from "../utils/driveMedia.js";
+import { cardinalympicsLeaderBadgeLabel } from "../utils/cardinalympicsDisplayMode.js";
 import heroVideo from "../assets/student-life-video.mp4";
 
 const CARDINALYMPICS_CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
@@ -30,10 +32,27 @@ function getWeekIndex() {
   return Math.floor((now - start) / oneWeek);
 }
 
+const HERO_MOBILE_MAX_PX = 1000;
+
 /** Hero background video: mobile Safari often ignores autoplay until play() runs and data is ready. */
 function HeroBackgroundVideo({ src, title, className }) {
   const videoRef = useRef(null);
   const [showTapToPlay, setShowTapToPlay] = useState(false);
+  const [isMobileLayout, setIsMobileLayout] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(`(max-width: ${HERO_MOBILE_MAX_PX}px)`).matches
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${HERO_MOBILE_MAX_PX}px)`);
+    const sync = () => setIsMobileLayout(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (isMobileLayout) setShowTapToPlay(false);
+  }, [isMobileLayout]);
 
   const tryPlay = useCallback(() => {
     const el = videoRef.current;
@@ -43,10 +62,10 @@ function HeroBackgroundVideo({ src, title, className }) {
     const p = el.play();
     if (p && typeof p.catch === "function") {
       p.catch(() => {
-        setShowTapToPlay(true);
+        if (!isMobileLayout) setShowTapToPlay(true);
       });
     }
-  }, []);
+  }, [isMobileLayout]);
 
   useEffect(() => {
     const el = videoRef.current;
@@ -73,7 +92,7 @@ function HeroBackgroundVideo({ src, title, className }) {
     const t1 = window.setTimeout(tryPlay, 150);
     const t2 = window.setTimeout(tryPlay, 600);
     const t3 = window.setTimeout(() => {
-      if (el.paused) setShowTapToPlay(true);
+      if (el.paused && !isMobileLayout) setShowTapToPlay(true);
     }, 2800);
 
     return () => {
@@ -87,7 +106,7 @@ function HeroBackgroundVideo({ src, title, className }) {
       window.clearTimeout(t2);
       window.clearTimeout(t3);
     };
-  }, [src, tryPlay]);
+  }, [src, tryPlay, isMobileLayout]);
 
   const onTapToPlay = useCallback(() => {
     tryPlay();
@@ -108,7 +127,7 @@ function HeroBackgroundVideo({ src, title, className }) {
         preload="auto"
         disablePictureInPicture
       />
-      {showTapToPlay && (
+      {showTapToPlay && !isMobileLayout && (
         <button
           type="button"
           className="hero-video-tap-play"
@@ -136,6 +155,7 @@ export default function Home({
   applicationsData = [],
   showCardinalympicsScores = true,
   showCardinalympicsSignupNow = false,
+  cardinalympicsDisplayMode = "activeGame",
 }) {
   const weekIndex = getWeekIndex();
   const spotlightPool = getClubsInSheetOrder(clubData);
@@ -148,10 +168,16 @@ export default function Home({
     .sort((a, b) => parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded))
     .slice(0, 5);
 
+  const resultsReleased = useElectionResultsReleased(site.elections ?? {});
   const showElectionBanner =
     site.electionsEnabled &&
     site.elections?.banner?.enabled &&
     site.elections?.state === "polling";
+  const showElectionResultsBanner =
+    site.electionsEnabled &&
+    site.elections?.state === "results" &&
+    resultsReleased &&
+    site.elections?.pollingBar?.enabled;
 
   const spotlightDisplayName = spotlightClub ? spotlightClub.Name : "";
   const spotlightDisplayBlurb = spotlightClub
@@ -173,6 +199,7 @@ export default function Home({
     cardinalympicsScores.length === 4
       ? cardinalympicsScores.indexOf(Math.max(...cardinalympicsScores))
       : -1;
+  const cardinalympicsTopClassBadge = cardinalympicsLeaderBadgeLabel(cardinalympicsDisplayMode);
   const homeSignupEvents = (cardinalympicsEvents || [])
     .filter((ev) => ev && (ev.signUpLink || ev.signUpClosed))
     .slice(0, 6);
@@ -201,7 +228,7 @@ export default function Home({
           <FontAwesomeIcon icon={faArrowRight} className="home-hero-card__cta-icon" aria-hidden />
         </Link>
       </div>
-      {showElectionBanner && (
+      {(showElectionBanner || showElectionResultsBanner) && (
         <ElectionBanner config={site.elections} />
       )}
       {showCardinalympicsSignupNow && homeSignupEvents.length > 0 && (
@@ -276,7 +303,7 @@ export default function Home({
                       role="listitem"
                     >
                       {cardinalympicsLeaderIndex === i && (
-                        <span className="home-cardinalympics__leader-badge">Leading</span>
+                        <span className="home-cardinalympics__leader-badge">{cardinalympicsTopClassBadge}</span>
                       )}
                       <span className="home-cardinalympics__class-name">
                         {CARDINALYMPICS_CLASS_NAMES[i]}
@@ -447,6 +474,7 @@ Home.propTypes = {
   cardinalympicsEvents: PropTypes.arrayOf(PropTypes.object),
   showCardinalympicsSignupNow: PropTypes.bool,
   showCardinalympicsScores: PropTypes.bool,
+  cardinalympicsDisplayMode: PropTypes.string,
   cardinalympicsData: PropTypes.arrayOf(PropTypes.number),
   newsData: PropTypes.arrayOf(
     PropTypes.shape({

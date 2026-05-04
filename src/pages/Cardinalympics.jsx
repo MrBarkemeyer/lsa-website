@@ -6,6 +6,10 @@ import {
   groupCardinalympicsEventsByWeekAndDay,
   isCardinalympicsSignupPastEventDay,
 } from "../utils/cardinalympicsEventsFromSheet";
+import {
+  cardinalympicsIsResultsMode,
+  cardinalympicsLeaderBadgeLabel,
+} from "../utils/cardinalympicsDisplayMode.js";
 import "./Cardinalympics.scss";
 
 const CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
@@ -486,6 +490,7 @@ export default function Cardinalympics({
   showScoreBreakdown = true,
   showWinningChances = true,
   showEvents = true,
+  cardinalympicsDisplayMode = "activeGame",
 }) {
   const spiritTotals = [0, 1, 2, 3].map((i) => {
     const n = Number(cardinalympicsData?.[i]);
@@ -495,6 +500,8 @@ export default function Cardinalympics({
     spiritTotals.length === 4
       ? spiritTotals.indexOf(Math.max(...spiritTotals))
       : -1;
+  const topClassBadge = cardinalympicsLeaderBadgeLabel(cardinalympicsDisplayMode);
+  const resultsMode = cardinalympicsIsResultsMode(cardinalympicsDisplayMode);
   const pointsPossible = useMemo(
     () => getPointsPossibleFromRows(scoreboardRows),
     [scoreboardRows]
@@ -512,10 +519,10 @@ export default function Cardinalympics({
   }, [spiritTotals, scoreboardRows]);
   const winningChances = useMemo(
     () =>
-      showScoresAndScoreboard
+      showScoresAndScoreboard && !resultsMode
         ? calculateWinningChances(spiritTotals, scoreboardRows, scoreUpdateKey)
         : [0, 0, 0, 0],
-    [showScoresAndScoreboard, spiritTotals, scoreboardRows, scoreUpdateKey]
+    [showScoresAndScoreboard, resultsMode, spiritTotals, scoreboardRows, scoreUpdateKey]
   );
   const [showProjectedBars, setShowProjectedBars] = useState(false);
 
@@ -550,7 +557,7 @@ export default function Cardinalympics({
                   role="listitem"
                 >
                   {leaderIndex === i && (
-                    <span className="home-cardinalympics__leader-badge">Leading</span>
+                    <span className="home-cardinalympics__leader-badge">{topClassBadge}</span>
                   )}
                   <span className="home-cardinalympics__class-name">{CLASS_NAMES[i]}</span>
                   <div className="home-cardinalympics__points">
@@ -576,7 +583,7 @@ export default function Cardinalympics({
           <div className="cardinalympics-scoreboard-table-wrap">
             <ScoreboardTable rows={scoreboardRows} />
           </div>
-          {showWinningChances && (
+          {showWinningChances && !resultsMode && (
             <div className="cardinalympics-winning-chances-toggle-wrap">
               <button
                 type="button"
@@ -589,7 +596,7 @@ export default function Cardinalympics({
               </button>
             </div>
           )}
-          {showWinningChances && showProjectedBars && (
+          {showWinningChances && !resultsMode && showProjectedBars && (
             <div id="cardinalympics-winning-chances">
               <WinningChancesBar chances={winningChances} />
             </div>
