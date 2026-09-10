@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { Suspense } from "react";
 import { Outlet, useLocation, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -23,7 +24,7 @@ export default function Layout(props) {
   const showElectionBanner =
     electionsEnabled &&
     electionsConfig?.banner?.enabled &&
-    state === "polling";
+    (state === "polling" || state === "pending");
   const showElectionResultsBanner =
     electionsEnabled &&
     state === "results" &&
@@ -37,7 +38,9 @@ export default function Layout(props) {
       {(showElectionBanner || showElectionResultsBanner) && !isHomePage && (
         <ElectionBanner config={electionsConfig} />
       )}
-      <Outlet />
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
       <Footer />
     </>
   );

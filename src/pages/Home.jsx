@@ -24,6 +24,7 @@ import heroVideo from "../assets/student-life-video.mp4";
 const CARDINALYMPICS_CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
 const CARDINALYMPICS_CLASS_SLUGS = ["freshman", "sophomore", "junior", "senior"];
 const CARDINALYMPICS_COUNTER_COLORS = ["#2e7d32", "#6a1b9a", "#1565c0", "#9c1919"];
+const EMPTY_ARRAY = [];
 
 function getWeekIndex() {
   const now = new Date();
@@ -149,35 +150,45 @@ HeroBackgroundVideo.propTypes = {
 
 export default function Home({
   cardinalympicsData,
-  cardinalympicsEvents = [],
+  cardinalympicsEvents = EMPTY_ARRAY,
   newsData,
-  clubData = [],
-  applicationsData = [],
+  clubData = EMPTY_ARRAY,
+  applicationsData = EMPTY_ARRAY,
   showCardinalympicsScores = true,
   showCardinalympicsSignupNow = false,
   cardinalympicsDisplayMode = "activeGame",
+  electionsConfig = site.elections,
 }) {
+  const spotlightPool = useMemo(() => getClubsInSheetOrder(clubData), [clubData]);
   const weekIndex = getWeekIndex();
-  const spotlightPool = getClubsInSheetOrder(clubData);
   const spotlightClub =
     spotlightPool.length > 0 ? spotlightPool[weekIndex % spotlightPool.length] : null;
 
-  const applicationsOpenForNews = (applicationsData || [])
-    .map(normalizeApplicationRow)
-    .filter((r) => r && isLikelyDataRow(r) && isApplicationOpen(r))
-    .sort((a, b) => parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded))
-    .slice(0, 5);
+  const applicationsOpenForNews = useMemo(
+    () =>
+      applicationsData
+        .reduce((openRows, row) => {
+          const normalized = normalizeApplicationRow(row);
+          if (normalized && isLikelyDataRow(normalized) && isApplicationOpen(normalized)) {
+            openRows.push(normalized);
+          }
+          return openRows;
+        }, [])
+        .sort((a, b) => parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded))
+        .slice(0, 5),
+    [applicationsData]
+  );
 
-  const resultsReleased = useElectionResultsReleased(site.elections ?? {});
+  const resultsReleased = useElectionResultsReleased(electionsConfig);
   const showElectionBanner =
     site.electionsEnabled &&
-    site.elections?.banner?.enabled &&
-    site.elections?.state === "polling";
+    electionsConfig?.banner?.enabled &&
+    (electionsConfig?.state === "polling" || electionsConfig?.state === "pending");
   const showElectionResultsBanner =
     site.electionsEnabled &&
-    site.elections?.state === "results" &&
+    electionsConfig?.state === "results" &&
     resultsReleased &&
-    site.elections?.pollingBar?.enabled;
+    electionsConfig?.pollingBar?.enabled;
 
   const spotlightDisplayName = spotlightClub ? spotlightClub.Name : "";
   const spotlightDisplayBlurb = spotlightClub
@@ -191,22 +202,32 @@ export default function Home({
     ? spotlightDisplayName.trim().charAt(0).toUpperCase()
     : "";
 
-  const cardinalympicsScores = [0, 1, 2, 3].map((i) => {
-    const n = Number(cardinalympicsData?.[i]);
-    return Number.isFinite(n) ? n : 0;
-  });
+  const cardinalympicsScores = useMemo(
+    () =>
+      [0, 1, 2, 3].map((index) => {
+        const score = Number(cardinalympicsData?.[index]);
+        return Number.isFinite(score) ? score : 0;
+      }),
+    [cardinalympicsData]
+  );
   const cardinalympicsLeaderIndex =
     cardinalympicsScores.length === 4
       ? cardinalympicsScores.indexOf(Math.max(...cardinalympicsScores))
       : -1;
   const cardinalympicsTopClassBadge = cardinalympicsLeaderBadgeLabel(cardinalympicsDisplayMode);
-  const homeSignupEvents = (cardinalympicsEvents || [])
-    .filter((ev) => ev && (ev.signUpLink || ev.signUpClosed))
-    .slice(0, 6);
+  const homeSignupEvents = useMemo(
+    () =>
+      cardinalympicsEvents
+        .filter((event) => event && (event.signUpLink || event.signUpClosed))
+        .slice(0, 6),
+    [cardinalympicsEvents]
+  );
   const signupEventNamesTicker = useMemo(() => {
-    const names = homeSignupEvents
-      .map((ev) => String(ev?.heading || "").trim())
-      .filter(Boolean);
+    const names = homeSignupEvents.reduce((result, event) => {
+      const heading = String(event?.heading || "").trim();
+      if (heading) result.push(heading);
+      return result;
+    }, []);
     if (!names.length) return "";
     return `${names.join("  •  ")}  •  ${names.join("  •  ")}`;
   }, [homeSignupEvents]);
@@ -229,7 +250,7 @@ export default function Home({
         </Link>
       </div>
       {(showElectionBanner || showElectionResultsBanner) && (
-        <ElectionBanner config={site.elections} />
+        <ElectionBanner config={electionsConfig} />
       )}
       {showCardinalympicsSignupNow && homeSignupEvents.length > 0 && (
         <section className="home-cardinalympics-signup" aria-labelledby="home-cardinalympics-signup-heading">
@@ -418,8 +439,8 @@ export default function Home({
         <div className="applications-news-section center">
           <h2>Applications now open</h2>
           <div className="applications-news-container">
-            {applicationsOpenForNews.map((item, index) => (
-              <div key={index} className="applications-news-item">
+            {applicationsOpenForNews.map((item) => (
+              <div key={`${item.name}-${item.dateAdded}`} className="applications-news-item">
                 <h3>{item.name}</h3>
                 {item.dateAdded && <p className="applications-news-date">Added: {item.dateAdded}</p>}
                 {item.notes && <p className="applications-news-content">{item.notes}</p>}
@@ -491,4 +512,5 @@ Home.propTypes = {
     })
   ),
   applicationsData: PropTypes.arrayOf(PropTypes.object),
+  electionsConfig: PropTypes.object,
 };

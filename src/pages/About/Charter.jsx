@@ -1,14 +1,8 @@
 import "./About.scss";
 import { useState } from "react";
 import { GlowCapture, Glow } from "@codaworks/react-glow";
-export default function Charter() {
-  const [isCursive, setIsCursive] = useState(true);
 
-  function toggleCursive() {
-    setIsCursive((prevState) => !prevState);
-  }
-
-  const charterParagraph = [
+const CHARTER_PARAGRAPHS = [
     {
       article: "Article I. Student Body Council",
       sections: [
@@ -428,11 +422,18 @@ export default function Charter() {
       ],
     },
   ];
-  const constitution = charterParagraph.map((p, index) => {
+export default function Charter() {
+  const [isCursive, setIsCursive] = useState(true);
+
+  function toggleCursive() {
+    setIsCursive((prevState) => !prevState);
+  }
+
+  const constitution = CHARTER_PARAGRAPHS.map((p) => {
     return (
-      <GlowCapture key={index}>
+      <GlowCapture key={p.article}>
         <Glow color="red">
-          <div className="constitution glowable-text" key={index}>
+          <div className="constitution glowable-text">
             <h2
               style={{
                 fontFamily: isCursive ? "Cedarville Cursive" : "Open Sans",
@@ -440,9 +441,9 @@ export default function Charter() {
             >
               {p.article}
             </h2>
-            {p.sections.map((section, idx) => (
+            {p.sections.map((section, sectionIndex) => (
               <p
-                key={idx}
+                key={`${section.title}-${section.paragraph}-${sectionIndex}`}
                 style={{
                   fontFamily: isCursive
                     ? "'Cedarville Cursive', 'cursive"

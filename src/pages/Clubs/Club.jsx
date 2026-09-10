@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
@@ -7,33 +7,29 @@ import { faCalendarDays, faUserGroup, faLink } from "@fortawesome/free-solid-svg
 import LoadingTruck from "../../components/LoadingTruck";
 import "../Clubs/Club.scss";
 
+function removeLeadingAt(value) {
+  return typeof value === "string" ? value.replace(/^@/, "") : "";
+}
+
+function extractFileId(driveUrl) {
+  const match = driveUrl?.match(/[?&]id=([^&]+)/);
+  return match ? match[1] : null;
+}
+
 export default function Club({ clubData: clubDataProp }) {
   const params = useParams().ClubName;
-  const [clubData, setClubData] = useState(null);
-
-  useEffect(() => {
-    if (clubDataProp && params) {
-      const foundClub = clubDataProp.find(
+  const clubData = useMemo(
+    () =>
+      clubDataProp && params
+        ? clubDataProp.find(
         (club) => club.Name && club.Name.trim() === params
-      );
-      setClubData(foundClub || null);
-    }
-  }, [params, clubDataProp]);
-
-  function removeLeadingAt(str) {
-    if (typeof str === "string") {
-      return str.replace(/^@/, "");
-    }
-    return "";
-  }
+          ) || null
+        : null,
+    [params, clubDataProp]
+  );
 
   if (!clubData) {
     return <LoadingTruck />;
-  }
-
-  function extractFileId(driveUrl) {
-    const match = driveUrl?.match(/[?&]id=([^&]+)/);
-    return match ? match[1] : null;
   }
 
   const hasBanner = Boolean(clubData.Banner && extractFileId(clubData.Banner));

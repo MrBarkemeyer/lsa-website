@@ -1,49 +1,52 @@
-import { useState, useEffect, useMemo } from 'react'
+import { lazy, useState, useEffect, useMemo } from 'react'
 import './App.scss'
 import { Routes, Route, Outlet, Navigate, useLocation } from 'react-router-dom'
 import Home from "./pages/Home"
-import Elections from "./pages/Elections"
-import ElectionBoard from "./pages/Elections/ElectionBoard"
-import ElectionResults from "./pages/Elections/ElectionResults"
 import Layout from "./pages/Layout"
-import Club from "./pages/Clubs/Club"
-import TitleIX from './pages/Resources/TitleIX'
-import FreshMenCorner from './pages/More/FreshmenCorner'
-import Charter from './pages/About/Charter'
-import ClubResources from './pages/Clubs/ClubResources'
-import Wellness from './pages/Resources/Wellness'
-import Resources from './pages/Resources/Resources'
-import Clubs from './pages/Clubs/Clubs'
-import AboutLSA from './pages/About/AboutLSA'
-import Organization from './pages/Organizations/Organizations'
 import ScrollToTop from "./components/ScrollToTop";
-import SBC from './pages/About/SBC'
-import DSA from './pages/About/DSA'
-import Site from './pages/More/Site'
-import Events from './pages/More/Events'
-import Committees from './pages/About/Committees'
-import SpiritCommittee from './pages/About/SpiritCommittee'
-import LsaTeamPage from './pages/About/LsaTeamPage'
-import LSAExplore from './pages/About/LSAExplore'
-import Registry from './pages/Registry/Registry'
-import NewClub from './pages/Clubs/club_resources/NewClub'
-import EventPlanning from './pages/Clubs/club_resources/EventPlanning'
-import Fundraising from './pages/Clubs/club_resources/Fundraising'
-import MockTrial from './pages/Organizations/MockTrial'
-import ShieldAndScroll from './pages/Organizations/ShieldAndScroll'
-import Archives from './pages/More/Archives'
-import More from './pages/More/More'
-import Forensic from './pages/Organizations/Forensic'
-import VideoLowell from './pages/Organizations/VideoLowell'
-import Cardinalympics from './pages/Cardinalympics'
 import { site } from './config/site.config.js'
 import { mergeElectionConfigWithSheet } from './utils/electionCandidatesFromSheet.js'
 import { parseCardinalympicsEventsSheet } from './utils/cardinalympicsEventsFromSheet.js'
+import { parseAnnouncementsSheet } from './utils/announcementsSheet.js'
+import { ElectionTimingProvider } from './utils/electionVotingWindow.js'
 import applicationsSheetConfig from './config/applications.config.js'
 import cardinalympicsConfig from './config/cardinalympics.config.js'
-import ApplicationsOpen from './pages/ApplicationsOpen'
-import Announcements from './pages/Announcements'
 import NotFound from './pages/NotFound'
+
+const Elections = lazy(() => import("./pages/Elections"));
+const ElectionBoard = lazy(() => import("./pages/Elections/ElectionBoard"));
+const ElectionResults = lazy(() => import("./pages/Elections/ElectionResults"));
+const Club = lazy(() => import("./pages/Clubs/Club"));
+const TitleIX = lazy(() => import("./pages/Resources/TitleIX"));
+const FreshMenCorner = lazy(() => import("./pages/More/FreshmenCorner"));
+const Charter = lazy(() => import("./pages/About/Charter"));
+const ClubResources = lazy(() => import("./pages/Clubs/ClubResources"));
+const Wellness = lazy(() => import("./pages/Resources/Wellness"));
+const Resources = lazy(() => import("./pages/Resources/Resources"));
+const Clubs = lazy(() => import("./pages/Clubs/Clubs"));
+const AboutLSA = lazy(() => import("./pages/About/AboutLSA"));
+const Organization = lazy(() => import("./pages/Organizations/Organizations"));
+const SBC = lazy(() => import("./pages/About/SBC"));
+const DSA = lazy(() => import("./pages/About/DSA"));
+const Site = lazy(() => import("./pages/More/Site"));
+const Events = lazy(() => import("./pages/More/Events"));
+const Committees = lazy(() => import("./pages/About/Committees"));
+const SpiritCommittee = lazy(() => import("./pages/About/SpiritCommittee"));
+const LsaTeamPage = lazy(() => import("./pages/About/LsaTeamPage"));
+const LSAExplore = lazy(() => import("./pages/About/LSAExplore"));
+const Registry = lazy(() => import("./pages/Registry/Registry"));
+const NewClub = lazy(() => import("./pages/Clubs/club_resources/NewClub"));
+const EventPlanning = lazy(() => import("./pages/Clubs/club_resources/EventPlanning"));
+const Fundraising = lazy(() => import("./pages/Clubs/club_resources/Fundraising"));
+const MockTrial = lazy(() => import("./pages/Organizations/MockTrial"));
+const ShieldAndScroll = lazy(() => import("./pages/Organizations/ShieldAndScroll"));
+const Archives = lazy(() => import("./pages/More/Archives"));
+const More = lazy(() => import("./pages/More/More"));
+const Forensic = lazy(() => import("./pages/Organizations/Forensic"));
+const VideoLowell = lazy(() => import("./pages/Organizations/VideoLowell"));
+const Cardinalympics = lazy(() => import("./pages/Cardinalympics"));
+const ApplicationsOpen = lazy(() => import("./pages/ApplicationsOpen"));
+const Announcements = lazy(() => import("./pages/Announcements"));
 
 const SHEETS_COOKIE_TTL_DAYS = 1;
 const SHEETS_CHECK_WINDOW_MS = 60 * 1000;
@@ -52,6 +55,16 @@ const SHEETS_RETRY_ATTEMPTS = 3;
 const SHEETS_RETRY_DELAY_MS = 700;
 /** Tab title in the spreadsheet is misspelled "Annoucements" (one n). */
 const ANNOUNCEMENTS_ARCHIVE_SHEET_NAME = "Annoucements Archive";
+const GOOGLE_API_KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
+const MAIN_SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
+const WEBSITE_INFO_SHEET = "Website Info";
+const OFFICERS_SHEET = "Officers";
+const ELECTIONS_SHEET = "Elections";
+const CARDINALYMPICS_SPREADSHEET_ID = "1Q4BWb9A2S9qRvn4HZhMpRnDseSmnlp36T4N7SGF-JF4";
+const CARDINALYMPICS_SCORE_SHEET = "Sp, 25";
+const CARDINALYMPICS_SCOREBOARD_GID = 525997941;
+const CARDINALYMPICS_EVENTS_SHEET = "Cardinalympics Events";
+const CARDINALYMPICS_POLL_MS = 30_000;
 
 /** Live Cardinalympics sheet fetch + polling only on routes that show scores or events from the sheet. */
 function routeWantsCardinalympicsLiveFetch(pathname) {
@@ -117,6 +130,8 @@ function reserveSheetsRefreshWindow() {
   writeCookie(SHEETS_LAST_CHECK_COOKIE, now);
   return true;
 }
+
+const SHOULD_CHECK_SHEETS_NOW = reserveSheetsRefreshWindow();
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -226,91 +241,68 @@ async function fetchSheetByGidWithRetry(spreadsheetId, gid, apiKey, options = {}
   return { values: null, error: lastError || "Failed to fetch sheet by gid" };
 }
 
-function parseAnnouncementDate(input) {
-  if (!input) return null;
-  const s = String(input).trim();
-  const mdy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/);
-  if (mdy) {
-    const month = parseInt(mdy[1], 10) - 1;
-    const day = parseInt(mdy[2], 10);
-    let year = parseInt(mdy[3], 10);
-    if (year < 100) year += 2000;
-    const d = new Date(year, month, day);
-    if (!Number.isNaN(d.getTime())) return d;
-  }
-  const parsed = Date.parse(s);
-  return Number.isNaN(parsed) ? null : new Date(parsed);
+function arrayCleanUp(array) {
+  return array.reduce((cleaned, value) => {
+    const parsed = parseInt(value, 10);
+    if (value !== "" && !Number.isNaN(parsed)) cleaned.push(parsed);
+    return cleaned;
+  }, []);
 }
 
-function processAnnouncementsSheetData(values) {
-  if (!Array.isArray(values) || values.length < 2) return [];
-  const headers = values[0].map((h) => String(h || "").trim().toLowerCase());
-  const normalizedHeaders = headers.map((h) =>
-    h
-      .toLowerCase()
-      .replace(/\([^)]*\)/g, "")
-      .replace(/[^a-z0-9]/g, "")
+function processSheetData(data) {
+  if (!data?.length) return [];
+  const [headers, ...rows] = data;
+  return rows.map((row) =>
+    Object.fromEntries(headers.map((header, index) => [header, row[index] || ""]))
   );
-  let titleIndex = headers.findIndex(
-    (h) => h === "name" || h === "title" || h === "event name"
-  );
-  if (titleIndex < 0) {
-    titleIndex = normalizedHeaders.findIndex((h) => h === "eventname");
-  }
-  let dateIndex = headers.findIndex((h) => h === "date (mm/dd/yy)" || h.includes("mm/dd/yy"));
-  if (dateIndex < 0) {
-    dateIndex = headers.findIndex((h) => h === "year" || h === "date");
-  }
-  const contentIndex = headers.findIndex((h) => h === "description" || h === "content");
-  if (contentIndex < 0) return [];
-  if (titleIndex < 0) titleIndex = 0;
+}
 
-  return values
-    .slice(1)
-    .map((row) => ({
-      title: String(row?.[titleIndex] ?? "").trim(),
-      date: String(row?.[dateIndex] ?? "").trim() || "Unknown",
-      content: String(row?.[contentIndex] ?? "").trim(),
-    }))
-    .filter((item) => item.title && item.content)
-    .sort((a, b) => {
-      const ad = parseAnnouncementDate(a.date);
-      const bd = parseAnnouncementDate(b.date);
-      if (!ad && !bd) return 0;
-      if (!ad) return 1;
-      if (!bd) return -1;
-      return bd.getTime() - ad.getTime();
-    });
+function processApplicationsSheetData(data) {
+  if (!data?.length) return [];
+  let headerRowIndex = 0;
+  for (let i = 0; i < Math.min(data.length, 5); i++) {
+    const row = data[i];
+    if (
+      Array.isArray(row) &&
+      row.some((cell) => {
+        const value = String(cell || "").trim();
+        return value === "Status" || value === "Name of Org/Club";
+      })
+    ) {
+      headerRowIndex = i;
+      break;
+    }
+  }
+
+  const headers = data[headerRowIndex];
+  return data.slice(headerRowIndex + 1).map((row) =>
+    Object.fromEntries(
+      headers.map((header, index) => [
+        String(header ?? "").trim() || `Column${index}`,
+        row[index] != null ? String(row[index]) : "",
+      ])
+    )
+  );
 }
 
 function App() {
     const location = useLocation();
-    // main site data from Google Sheets (yes the key is here, we're not doing auth for a read-only sheet)
-    const KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
-    const SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
-    const SHEET_NAME = "Website Info"
-    const SHEET_NAME2 = "Officers"
     const [clubData, setClubData] = useState([]);
     const [officerData, setOfficerData] = useState([]);
 
-    // Cardinalympics: class totals + scoreboard live in this spreadsheet.
-    const CARDINALYMPICS_SPREADSHEET_ID = "1Q4BWb9A2S9qRvn4HZhMpRnDseSmnlp36T4N7SGF-JF4";
-    const SHEET_NAME3 = "Sp, 25";
-    const CARDINALYMPICS_SCOREBOARD_GID = 525997941;
-    const SHEET_CARDINALYMPICS_EVENTS = "Cardinalympics Events";
     const [cardinalympicsData, setCardinalympicsData] = useState([0, 0, 0, 0]);
     const [scoreboardRows, setScoreboardRows] = useState([]);
     const [cardinalympicsEvents, setCardinalympicsEvents] = useState([]);
 
-    const SHEET_NAME4 = "Elections";
     const [electionSheetValues, setElectionSheetValues] = useState(null);
     const [newsData, setNewsData] = useState([]);
+    const [newsLoading, setNewsLoading] = useState(true);
 
     // which clubs/orgs have applications open right now
     const [applicationsData, setApplicationsData] = useState([]);
     const [applicationsLoading, setApplicationsLoading] = useState(true);
     const [applicationsError, setApplicationsError] = useState(null);
-    const shouldCheckSheetsNow = useMemo(() => reserveSheetsRefreshWindow(), []);
+    const shouldCheckSheetsNow = SHOULD_CHECK_SHEETS_NOW;
 
     // Website Info + Officers + Elections + announcements archive: one batchGet per refresh (4 tabs -> 1 API call).
     // Elections tab loads on every route because Layout/Navbar/banner use electionsConfigResolved (sheet merge), not only /Elections.
@@ -335,7 +327,7 @@ function App() {
           setElectionSheetValues(cachedElectionValues);
         }
         if (cachedAnnouncementsValues?.length) {
-          setNewsData(processAnnouncementsSheetData(cachedAnnouncementsValues));
+          setNewsData(parseAnnouncementsSheet(cachedAnnouncementsValues));
         }
 
         const skipNetwork =
@@ -344,11 +336,23 @@ function App() {
           cachedOfficerValues?.length &&
           cachedElectionValues?.length &&
           cachedAnnouncementsValues?.length;
-        if (skipNetwork) return;
+        if (skipNetwork) {
+          setNewsLoading(false);
+          return;
+        }
 
         try {
-          const batchTabNames = [SHEET_NAME, SHEET_NAME2, SHEET_NAME4, ANNOUNCEMENTS_ARCHIVE_SHEET_NAME];
-          const batch = await fetchSheetBatchGetWithRetry(SPREADSHEET_ID, batchTabNames, KEY);
+          const batchTabNames = [
+            WEBSITE_INFO_SHEET,
+            OFFICERS_SHEET,
+            ELECTIONS_SHEET,
+            ANNOUNCEMENTS_ARCHIVE_SHEET_NAME,
+          ];
+          const batch = await fetchSheetBatchGetWithRetry(
+            MAIN_SPREADSHEET_ID,
+            batchTabNames,
+            GOOGLE_API_KEY
+          );
           if (batch.error || !batch.valueRanges?.length) {
             console.warn("Main spreadsheet batch:", batch.error);
             return;
@@ -378,7 +382,7 @@ function App() {
             console.warn("Elections sheet: empty or missing");
           }
           if (announcementVals?.length) {
-            const parsed = processAnnouncementsSheetData(announcementVals);
+            const parsed = parseAnnouncementsSheet(announcementVals);
             if (parsed.length) {
               setNewsData(parsed);
               writeJsonCookie(announcementsCookieKey, announcementVals);
@@ -390,6 +394,8 @@ function App() {
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          setNewsLoading(false);
         }
       }
       fetchCoreSheetsAndAnnouncements();
@@ -400,7 +406,6 @@ function App() {
       [electionSheetValues]
     );
 
-    const CARDINALYMPICS_POLL_MS = 30_000;
     const {
       showScoresAndScoreboard,
       showScoreBreakdown,
@@ -487,7 +492,12 @@ function App() {
           const tasks = [];
           if (showScoresAndScoreboard) {
             tasks.push(
-              fetchSheetByGidWithRetry(CARDINALYMPICS_SPREADSHEET_ID, CARDINALYMPICS_SCOREBOARD_GID, KEY, fetchOpts)
+              fetchSheetByGidWithRetry(
+                CARDINALYMPICS_SPREADSHEET_ID,
+                CARDINALYMPICS_SCOREBOARD_GID,
+                GOOGLE_API_KEY,
+                fetchOpts
+              )
                 .then((gidResult) => {
                   if (gidResult.values?.length) {
                     return {
@@ -497,8 +507,8 @@ function App() {
                   }
                   return fetchSheetBatchGetWithRetry(
                     CARDINALYMPICS_SPREADSHEET_ID,
-                    [SHEET_NAME3],
-                    KEY,
+                    [CARDINALYMPICS_SCORE_SHEET],
+                    GOOGLE_API_KEY,
                     fetchOpts
                   ).then((batch) => ({ kind: "scores", batch }));
                 })
@@ -506,7 +516,12 @@ function App() {
           }
           if (needsCardinalympicsEventsData) {
             tasks.push(
-              fetchSheetBatchGetWithRetry(SPREADSHEET_ID, [SHEET_CARDINALYMPICS_EVENTS], KEY, fetchOpts).then(
+              fetchSheetBatchGetWithRetry(
+                MAIN_SPREADSHEET_ID,
+                [CARDINALYMPICS_EVENTS_SHEET],
+                GOOGLE_API_KEY,
+                fetchOpts
+              ).then(
                 (batch) => ({ kind: "events", batch })
               )
             );
@@ -635,7 +650,11 @@ function App() {
             : [sheetName].filter(Boolean);
 
           let lastError = null;
-          const batch = await fetchSheetBatchGetWithRetry(spreadsheetId, names, KEY);
+          const batch = await fetchSheetBatchGetWithRetry(
+            spreadsheetId,
+            names,
+            GOOGLE_API_KEY
+          );
           if (!batch.error && batch.valueRanges?.length) {
             for (let i = 0; i < names.length; i++) {
               const vals = batch.valueRanges[i]?.values;
@@ -678,63 +697,22 @@ function App() {
     }, [shouldCheckSheetsNow, location.pathname]);
 
 
-    function arrayCleanUp(array) {
-      const cleanedArray = [];
-      for (let i = 0; i < array.length; i++) {
-        if (array[i] !== "" && !isNaN(parseInt(array[i]))) {
-          cleanedArray.push(parseInt(array[i]));
-        }
-      }
-      return cleanedArray;
-    }
-
-    function processSheetData(data) {
-        if (!data || data.length === 0) return [];
-    
-        const headers = data[0]; 
-        const rows = data.slice(1);
-    
-        return rows.map(row => {
-            const obj = {};
-            headers.forEach((header, index) => {
-                obj[header] = row[index] || "";
-            });
-            return obj;
-        });
-    }
-
-    // applications sheet 
-    function processApplicationsSheetData(data) {
-        if (!data || data.length === 0) return [];
-        let headerRowIndex = 0;
-        for (let i = 0; i < Math.min(data.length, 5); i++) {
-            const row = data[i];
-            if (Array.isArray(row) && row.some(cell => {
-                const s = String(cell || "").trim();
-                return s === "Status" || s === "Name of Org/Club";
-            })) {
-                headerRowIndex = i;
-                break;
-            }
-        }
-        const headers = data[headerRowIndex];
-        const rows = data.slice(headerRowIndex + 1);
-        return rows.map(row => {
-            const obj = {};
-            headers.forEach((header, index) => {
-                const key = String(header ?? "").trim() || `Column${index}`;
-                obj[key] = row[index] != null ? String(row[index]) : "";
-            });
-            return obj;
-        });
-    }
-
   return (
     <>
         <ScrollToTop />
         <Routes>
-          <Route element={<Layout clubData={clubData} electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />}>
-            <Route path="/" element={<Home cardinalympicsData={cardinalympicsData} cardinalympicsEvents={cardinalympicsEvents} newsData={newsData} clubData={clubData} applicationsData={applicationsData} showCardinalympicsScores={cardinalympicsConfig.showScoresAndScoreboard} showCardinalympicsSignupNow={cardinalympicsConfig.showHomeEventsSignupNow} cardinalympicsDisplayMode={cardinalympicsDisplayMode} />} />
+          <Route
+            element={
+              <ElectionTimingProvider config={electionsConfigResolved}>
+                <Layout
+                  clubData={clubData}
+                  electionsEnabled={site.electionsEnabled}
+                  electionsConfig={electionsConfigResolved}
+                />
+              </ElectionTimingProvider>
+            }
+          >
+            <Route path="/" element={<Home cardinalympicsData={cardinalympicsData} cardinalympicsEvents={cardinalympicsEvents} newsData={newsData} clubData={clubData} applicationsData={applicationsData} showCardinalympicsScores={cardinalympicsConfig.showScoresAndScoreboard} showCardinalympicsSignupNow={cardinalympicsConfig.showHomeEventsSignupNow} cardinalympicsDisplayMode={cardinalympicsDisplayMode} electionsConfig={electionsConfigResolved} />} />
             <Route path="Elections" element={<Outlet />}>
               <Route index element={<Elections electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />} />
               <Route path=":boardSlug" element={<ElectionBoard electionsConfig={electionsConfigResolved} />} />
@@ -779,7 +757,10 @@ function App() {
                 />
               }
             />
-            <Route path="Announcements" element={<Announcements />} />
+            <Route
+              path="Announcements"
+              element={<Announcements announcements={newsData} loading={newsLoading} />}
+            />
             <Route path="Resources" element={<Outlet />}>
               <Route index element={<Resources />} />
               <Route

@@ -112,7 +112,7 @@ export default function NewClub() {
         </div>
 
         <div className="new-club-page__steps">
-          <Step number={1} title="Join the 2025-26 Activities Google Classroom">
+          <Step number={1} title="Join the 2026-27 Activities Google Classroom">
             <p className="new-club-page__step-body">
               You’ll find deadlines, forms, and school-wide club announcements
               here. Materials may be linked elsewhere, but submission and key

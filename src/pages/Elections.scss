@@ -311,6 +311,13 @@
   }
 }
 
+.elections-pending-date {
+  margin: 0.75rem 0 0 !important;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--title-color) !important;
+}
+
 .election-state-off .elections-message-box {
   margin-top: 2rem;
 }

@@ -52,10 +52,10 @@ export default function FreshMenCorner() {
               Follow announcements, reminders, and class spirit updates.
             </p>
             <LinkButton
-              to="https://www.instagram.com/lowell2027board"
+              to="https://www.instagram.com/lsaboard2030"
               style={cardButtonStyle}
             >
-              @lowell2027board
+              @lsaboard2030
             </LinkButton>
           </div>
           <div className="freshmen-corner__card">

@@ -26,7 +26,7 @@ export default function SBC({ officerData: officerDataProp }) {
       <header className="board-hero">
         <h1 className="board-hero-title">Student Body Council</h1>
         <p className="board-hero-subtitle">SBC</p>
-        <span className="board-hero-year">2025-2026</span>
+        <span className="board-hero-year">2026-2027</span>
       </header>
 
       <div className="board-contact">
@@ -57,8 +57,8 @@ export default function SBC({ officerData: officerDataProp }) {
       <section className="board-officers">
         <h2 className="board-officers-heading">Meet the board</h2>
         <div className="board-officers-grid">
-          {officerData.map((officer, index) => (
-            <article key={index} className="board-officer-card">
+          {officerData.map((officer) => (
+            <article key={`${officer.Name}-${officer.Role}`} className="board-officer-card">
               <div className="board-officer-card-photo-wrap">
                 <SafeImage
                   src={driveThumbnailCandidates(officer.Photo, "w600")}
