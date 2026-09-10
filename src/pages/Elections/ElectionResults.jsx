@@ -229,6 +229,9 @@ export default function ElectionResults({
           <div className="elections-message-box">
             <h2>{config?.pendingTitle ?? "Elections are coming soon"}</h2>
             <p>{config?.pendingSubtitle ?? "Please stay tuned for updates."}</p>
+            {String(config?.pendingDate ?? "").trim() ? (
+              <p className="elections-pending-date">{config.pendingDate}</p>
+            ) : null}
           </div>
         </section>
         <div className="center" style={{ marginTop: "1rem" }}>
@@ -340,6 +343,7 @@ ElectionResults.propTypes = {
     notHappeningMessage: PropTypes.string,
     pendingTitle: PropTypes.string,
     pendingSubtitle: PropTypes.string,
+    pendingDate: PropTypes.string,
     pollingBar: PropTypes.shape({
       message: PropTypes.string,
       resultsLabel: PropTypes.string,

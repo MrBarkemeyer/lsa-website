@@ -16,8 +16,8 @@ function ElectionBoardCard({ board, color, rows, interactive = false }) {
         </p>
       </div>
       <div className="election-board-card-body">
-        {rows.map(({ role, value }, i) => (
-          <div key={i} className="election-board-card-row">
+        {rows.map(({ role, value }) => (
+          <div key={role} className="election-board-card-row">
             <span className="election-board-card-role">{role}:</span>
             <span className="election-board-card-value">{value}</span>
           </div>
@@ -105,7 +105,7 @@ export default function ElectionsCandidateBoardsView({
           <>
             <p className="elections-scroll-hint">Swipe left/right to see all boards</p>
             <div className="elections-board-cards">
-              {contenders.map((group, index) => {
+              {contenders.map((group) => {
                 const rows = (group.roles ?? []).map((r) => {
                   const cands = Array.isArray(r.candidates) ? r.candidates : [];
                   const names = cands.map((c) => (typeof c === "string" ? c : c?.name ?? "")).filter(Boolean);
@@ -114,7 +114,6 @@ export default function ElectionsCandidateBoardsView({
                 const slug = group.slug;
                 const card = (
                   <ElectionBoardCard
-                    key={index}
                     board={group.board}
                     color={group.color}
                     rows={rows}
@@ -123,13 +122,13 @@ export default function ElectionsCandidateBoardsView({
                 );
                 if (!slug) {
                   return (
-                    <div key={index} className="elections-board-card-cell">
+                    <div key={group.board} className="elections-board-card-cell">
                       {card}
                     </div>
                   );
                 }
                 return (
-                  <Link key={index} to={`/Elections/${slug}`} className="elections-board-card-link">
+                  <Link key={slug} to={`/Elections/${slug}`} className="elections-board-card-link">
                     {card}
                   </Link>
                 );

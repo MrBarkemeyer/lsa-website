@@ -500,9 +500,9 @@ function ElectionBoardCandidatesGrid({
       ref={gridRef}
       className={`election-board-candidates-grid${stacked ? " election-board-candidates-grid--stacked" : ""}`}
     >
-      {candidates.map((c, i) => (
+      {candidates.map((c) => (
         <ElectionCandidateCard
-          key={i}
+          key={c.name}
           candidate={c}
           accentColor={accentColor}
           onOpenMedia={onOpenMedia}
@@ -839,16 +839,16 @@ export default function ElectionBoard({ electionsConfig: config = electionsConfi
       <nav className="election-board-nav election-board-nav--top">{boardNav}</nav>
 
       <main className="election-board-main">
-        {(board.roles ?? []).map((roleGroup, roleIndex) => {
+        {(board.roles ?? []).map((roleGroup) => {
           const candidates = (roleGroup.candidates ?? []).map(normalizeCandidate);
           if (candidates.length === 0) return null;
           return (
-            <section key={roleIndex} className="election-board-role-section">
+            <section key={roleGroup.role} className="election-board-role-section">
               <h2 className="election-board-role-title" style={{ borderLeftColor: accentColor }}>
                 {roleGroup.role}
               </h2>
               <ElectionBoardCandidatesGrid
-                key={`${boardSlug}-${roleIndex}`}
+                key={`${boardSlug}-${roleGroup.role}`}
                 candidates={candidates}
                 accentColor={accentColor}
                 onOpenMedia={handleOpenElectionMedia}

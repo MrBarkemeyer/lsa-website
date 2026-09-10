@@ -4,11 +4,11 @@
 
 export default {
   // "pending" | "polling" | "results" — see src/utils/electionAccess.js for URL rules
-  state: "results",
+  state: "pending",
 
   // Which Board values from the sheet to show (case-insensitive). Order = card order on /Elections.
   // Example sheet Board cell: "SBC". Add "2027" etc. when those rows exist in the sheet.
-  enabledElectionBoards: ["SBC", "LSA-2027", "LSA-2028", "LSA-2029"],
+  enabledElectionBoards: ["LSA-2030"],
   
   // Optional display + URL per Board value from the sheet (keys match the Board cell, case-insensitive).
   electionBoardMeta: {
@@ -17,35 +17,35 @@ export default {
       title: "SBC Elections",
       color: "#9c1919",
     },
-    "2026": {
-      slug: "LSA-2026",
-      title: "LSA-2026",
-      color: "#9c1919",
-    },
     "2027": {
       slug: "LSA-2027",
       title: "LSA-2027 Elections",
-      color: "#1565c0",
+      color: "#9c1919",
     },
     "2028": {
       slug: "LSA-2028",
       title: "LSA-2028 Elections",
-      color: "#6a1b9a",
+      color: "#1565c0",
     },
     "2029": {
       slug: "LSA-2029",
       title: "LSA-2029 Elections",
+      color: "#6a1b9a",
+    },
+    "2030": {
+      slug: "LSA-2030",
+      title: "LSA-2030 Elections",
       color: "#2e7d32",
     },
   },
 
-  // big banner when elections are happening (polling) — before votingOpensAt (if set)
+  // Site-wide banner during pending or polling — before votingOpensAt (if set)
   banner: {
     enabled: true,
-    title: "Elections in progress",
-    message: "Meet the candidates and get ready to vote.",
-    ctaText: "View candidates",
-    ctaPath: "/Elections",
+    title: "Freshman Board elections coming soon",
+    message: "This election is for the Class of 2030 freshman board.",
+    ctaText: "Learn more",
+    ctaPath: "/LSA",
   },
 
   // After voting opens (votingOpensAt passed, or form live with no schedule): home banner copy
@@ -71,8 +71,10 @@ export default {
   notHappeningMessage: "Elections are not currently happening. Check back later for updates.",
 
   // pending = before the election/campaign phase starts
-  pendingTitle: "Elections are coming soon",
-  pendingSubtitle: "Please stay tuned for updates.",
+  pendingTitle: "Freshman Board elections are coming soon",
+  pendingSubtitle: "This election is for the Class of 2030 freshman board.",
+  // Shown on /Elections and in the site banner. Example: "Thursday, September 24, 2026"
+  pendingDate: "",
 
   // polling = candidate boards; title + subtitle on /Elections before voting opens
   pollingTitle: "Elections",

@@ -20,8 +20,8 @@ export default function Organization() {
         </p>
       </div>
       <div className="organizations-page__list">
-        {organizations.map((organization, index) => (
-          <article className="org-card" key={index}>
+        {organizations.map((organization) => (
+          <article className="org-card" key={organization.name}>
             <div className="org-card__body">
               <h2 className="org-card__title">{organization.name}</h2>
               <p className="org-card__description">{organization.description}</p>

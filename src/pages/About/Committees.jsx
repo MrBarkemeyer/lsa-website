@@ -4,10 +4,10 @@ import { faArrowRight, faCalendarDays, faFire } from "@fortawesome/free-solid-sv
 import "./About.scss";
 
 const EVENT_COMMITTEES = [
-  { name: "Senior Boat Committee", to: "2026 Senior Boat Committee" },
-  { name: "Senior Prom", to: "2026 Senior Prom Committee" },
-  { name: "2027 Junior Prom", to: "2027 Junior Prom Committee" },
-  { name: "2025 Junior Escape", to: "2027 Junior Escape Committee" },
+  { name: "Senior Boat Committee", to: "2027 Senior Boat Committee" },
+  { name: "Senior Prom", to: "2027 Senior Prom Committee" },
+  { name: "2028 Junior Prom", to: "2028 Junior Prom Committee" },
+  { name: "2028 Junior Escape", to: "2028 Junior Escape Committee" },
 ];
 
 export default function Committees() {

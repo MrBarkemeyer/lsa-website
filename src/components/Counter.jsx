@@ -12,9 +12,11 @@ export default function Counter({
   const [count, setCount] = useState(start);
   const [statState, setStatState] = useState(false);
   const statsRef = useRef(null);
+  const countRef = useRef(start);
 
   // when start/end change we reset the count (otherwise it looks stuck)
   useEffect(() => {
+    countRef.current = start;
     setCount(start);
   }, [start, end]);
 
@@ -44,17 +46,17 @@ export default function Counter({
     if (!statState) return; // Only run the counter when visible
 
     const increment = (end - start) / (duration / 50); // How much to increment each interval
-    const timer = setInterval(() => {
-      setCount((prev) => {
-        if (prev >= end) {
-          clearInterval(timer); // Stop the timer
-          return end;
-        }
-        return prev + increment;
-      });
+    const timer = window.setInterval(() => {
+      if (countRef.current >= end) {
+        window.clearInterval(timer);
+        setCount(end);
+        return;
+      }
+      countRef.current += increment;
+      setCount(countRef.current);
     }, 50); // Update every 50 milliseconds
 
-    return () => clearInterval(timer); // Cleanup
+    return () => window.clearInterval(timer); // Cleanup
   }, [statState, start, end, duration]);
 
   return (

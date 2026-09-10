@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { getCategoryColorMap } from "../../config/clubs/index.js";
 import SafeImage from "../../components/SafeImage";
 import { driveThumbnailCandidates } from "../../utils/driveMedia.js";
+import "./Club.scss";
 
 export default function Clubs({ clubData }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,12 +24,12 @@ export default function Clubs({ clubData }) {
       : { color: "white", backgroundColor: color };
   }
 
-  function renderClub(club, index) {
+  function renderClub(club) {
     const { Name, Category, Picture } = club;
     const clubColor = getCategoryColor(Category);
 
     return (
-      <Link className="club-card" key={index} to={Name}>
+      <Link className="club-card" key={Name} to={Name}>
         <div className="club-card__image-wrap">
           {Picture ? (
             <SafeImage
@@ -73,21 +74,21 @@ export default function Clubs({ clubData }) {
 
   const displayClubs = filteredClubs
     .slice(0, categoryFilter ? filteredClubs.length : visibleClubs)
-    .map((club, index) => renderClub(club, index));
+    .map(renderClub);
 
   const uniqueCategories = useMemo(() => {
     const categories = clubData.map((club) => club.Category);
     return [...new Set(categories)];
   }, [clubData]);
 
-  const filterButtons = uniqueCategories.map((category, index) => {
+  const filterButtons = uniqueCategories.map((category) => {
     const clubColor = getCategoryColor(category, false);
     const isActive = categoryFilter === category;
 
     return (
       <button
         type="button"
-        key={index}
+        key={category}
         className={`clubs-page__filter-btn ${isActive ? "clubs-page__filter-btn--active" : ""}`}
         style={isActive ? clubColor : {}}
         onClick={() =>

@@ -13,7 +13,7 @@ function getPreview(text) {
 
 export default function News({ newsData, previewMode = true }) {
   const newsItems = useMemo(() => (newsData && newsData.length ? newsData : []), [newsData]);
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [expandedId, setExpandedId] = useState(null);
   const visibleNews = previewMode
     ? newsItems.slice(0, INITIAL_VISIBLE_COUNT)
     : newsItems;
@@ -26,17 +26,17 @@ export default function News({ newsData, previewMode = true }) {
         {visibleNews.length === 0 && (
           <p className="news-empty">No announcements posted yet.</p>
         )}
-        {visibleNews.map((news, index) => {
-          const globalIndex = index;
-          const isExpanded = expandedIndex === globalIndex;
+        {visibleNews.map((news) => {
+          const id = news.id ?? `${news.title}-${news.date}-${news.content}`;
+          const isExpanded = expandedId === id;
           const contentToRender = isExpanded ? news.content : getPreview(news.content);
 
           return (
           <button
             type="button"
-            key={globalIndex}
+            key={id}
             className={`news-item ${isExpanded ? "expanded" : ""}`}
-            onClick={() => setExpandedIndex(isExpanded ? null : globalIndex)}
+            onClick={() => setExpandedId(isExpanded ? null : id)}
             aria-expanded={isExpanded}
           >
             <h3>{news.title}</h3>
@@ -60,6 +60,7 @@ export default function News({ newsData, previewMode = true }) {
 News.propTypes = {
   newsData: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string,
       title: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,

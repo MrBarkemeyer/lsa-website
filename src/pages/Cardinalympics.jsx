@@ -16,6 +16,7 @@ const CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
 const CLASS_SLUGS = ["freshman", "sophomore", "junior", "senior"];
 const COUNTER_COLORS = ["#2e7d32", "#6a1b9a", "#1565c0", "#9c1919"];
 const POINTS_POSSIBLE_FALLBACK = 9750;
+const EMPTY_ROWS = [];
 
 // turn a cell value into a number or bail with empty string (sheet data is messy)
 function parseScore(val) {
@@ -108,6 +109,46 @@ function isCancelledStatus(value) {
   return s === "cancelled" || s === "canceled";
 }
 
+function isSpiritTotalRow(row) {
+  return (
+    String(row[0] ?? "").toUpperCase().includes("SPIRIT WEEK TOTALS") &&
+    row[1] != null &&
+    !Number.isNaN(parseInt(String(row[1]), 10))
+  );
+}
+
+function getRowViewModel(row) {
+  const label = String(row[0] ?? "").trim();
+  const date = String(row[1] ?? "").trim();
+  const ptsPoss = row[2] != null ? String(row[2]).trim() : "";
+  const fr = parseScore(row[IDX_FR]);
+  const so = parseScore(row[IDX_SO]);
+  const jr = parseScore(row[IDX_JR]);
+  const sr = parseScore(row[IDX_SR]);
+  const winner = getWinner(row);
+  if (!label && !date && fr === "" && so === "" && jr === "" && sr === "") return null;
+  if (isHeaderRow(row)) return null;
+
+  const totalClass = isTotalRow(row) ? "scoreboard-row-total" : "";
+  const sectionClass = isSectionRow(row) && !totalClass ? "scoreboard-row-section" : "";
+  return {
+    key: `${label}-${date}-${ptsPoss}`,
+    label,
+    date,
+    ptsPoss,
+    fr,
+    so,
+    jr,
+    sr,
+    winner,
+    totalClass,
+    sectionClass,
+    isEvent: isEventRow(row),
+    hasWinner: Boolean(winner),
+    isCancelled: isCancelledStatus(winner),
+  };
+}
+
 const INITIAL_VISIBLE_ROWS = 12;
 const CHANCE_SIMULATION_RUNS = 5000;
 const CHANCE_SMOOTHING_ALPHA = 1;
@@ -134,60 +175,33 @@ function ScoreboardTable({ rows }) {
   const [sidebar, setSidebar] = useState(null); // { eventName, winner } when you click a row
   const [showAllRows, setShowAllRows] = useState(false);
 
-  if (!rows || rows.length === 0) return null;
-  const isSpiritTotalRow = (row) =>
-    String(row[0] ?? "").toUpperCase().includes("SPIRIT WEEK TOTALS") &&
-    row[1] != null && !isNaN(parseInt(String(row[1]), 10));
-  const withoutSpiritTotal = rows.filter((r) => !isSpiritTotalRow(r));
-  const headerRow = withoutSpiritTotal.find(isHeaderRow);
-  const dataRows = headerRow
-    ? withoutSpiritTotal.slice(withoutSpiritTotal.indexOf(headerRow) + 1)
-    : withoutSpiritTotal;
-  const effectiveRows = headerRow ? dataRows : withoutSpiritTotal;
-  const visibleRows = showAllRows ? effectiveRows : effectiveRows.slice(0, INITIAL_VISIBLE_ROWS);
-  const hasMore = effectiveRows.length > INITIAL_VISIBLE_ROWS;
-
-  const getRowViewModel = (row) => {
-    const label = String(row[0] ?? "").trim();
-    const date = String(row[1] ?? "").trim();
-    const ptsPoss = row[2] != null ? String(row[2]).trim() : "";
-    const fr = parseScore(row[IDX_FR]);
-    const so = parseScore(row[IDX_SO]);
-    const jr = parseScore(row[IDX_JR]);
-    const sr = parseScore(row[IDX_SR]);
-    const winner = getWinner(row);
-    if (!label && !date && fr === "" && so === "" && jr === "" && sr === "") return null;
-    if (isHeaderRow(row)) return null;
-
-    const totalClass = isTotalRow(row) ? "scoreboard-row-total" : "";
-    const sectionClass = isSectionRow(row) && !totalClass ? "scoreboard-row-section" : "";
-    const isEvent = isEventRow(row);
-    const hasWinner = !!winner;
-    const isCancelled = isCancelledStatus(winner);
-
+  const { visibleRowModels, hasMore, hiddenRowCount } = useMemo(() => {
+    if (!rows?.length) {
+      return { visibleRowModels: [], hasMore: false, hiddenRowCount: 0 };
+    }
+    const withoutSpiritTotal = rows.filter((row) => !isSpiritTotalRow(row));
+    const headerIndex = withoutSpiritTotal.findIndex(isHeaderRow);
+    const effectiveRows =
+      headerIndex >= 0 ? withoutSpiritTotal.slice(headerIndex + 1) : withoutSpiritTotal;
+    const visibleRows = showAllRows
+      ? effectiveRows
+      : effectiveRows.slice(0, INITIAL_VISIBLE_ROWS);
     return {
-      label,
-      date,
-      ptsPoss,
-      fr,
-      so,
-      jr,
-      sr,
-      winner,
-      totalClass,
-      sectionClass,
-      isEvent,
-      hasWinner,
-      isCancelled,
+      visibleRowModels: visibleRows.reduce((models, row) => {
+        const model = getRowViewModel(row);
+        if (model) models.push(model);
+        return models;
+      }, []),
+      hasMore: effectiveRows.length > INITIAL_VISIBLE_ROWS,
+      hiddenRowCount: Math.max(0, effectiveRows.length - INITIAL_VISIBLE_ROWS),
     };
-  };
+  }, [rows, showAllRows]);
 
-  const renderRow = (row, idx) => {
-    const view = getRowViewModel(row);
-    if (!view) return null;
+  if (!rows?.length) return null;
 
+  const renderRow = (view) => {
     return (
-      <tr key={idx} className={`${view.totalClass} ${view.sectionClass}`.trim()}>
+      <tr key={view.key} className={`${view.totalClass} ${view.sectionClass}`.trim()}>
         <td>{view.label}</td>
         <td>{view.date}</td>
         <td>{view.ptsPoss}</td>
@@ -232,16 +246,14 @@ function ScoreboardTable({ rows }) {
           </tr>
         </thead>
         <tbody>
-          {visibleRows.map((row, idx) => renderRow(row, idx))}
+          {visibleRowModels.map(renderRow)}
         </tbody>
       </table>
       <div className="cardinalympics-scoreboard-mobile-list">
-        {visibleRows.map((row, idx) => {
-          const view = getRowViewModel(row);
-          if (!view) return null;
+        {visibleRowModels.map((view) => {
           return (
             <article
-              key={`m-${idx}`}
+              key={view.key}
               className={`scoreboard-mobile-card ${view.totalClass} ${view.sectionClass}`.trim()}
             >
               <h4 className="scoreboard-mobile-card__title">{view.label || "Event"}</h4>
@@ -289,7 +301,7 @@ function ScoreboardTable({ rows }) {
           className="cardinalympics-scoreboard-show-more"
           onClick={() => setShowAllRows(!showAllRows)}
         >
-          {showAllRows ? "Show fewer" : `Show more (${effectiveRows.length - INITIAL_VISIBLE_ROWS} more)`}
+          {showAllRows ? "Show fewer" : `Show more (${hiddenRowCount} more)`}
         </button>
       )}
       {sidebar && (
@@ -484,18 +496,22 @@ function CardinalympicsEventsSchedule({ events }) {
 
 export default function Cardinalympics({
   cardinalympicsData,
-  scoreboardRows = [],
-  cardinalympicsEvents = [],
+  scoreboardRows = EMPTY_ROWS,
+  cardinalympicsEvents = EMPTY_ROWS,
   showScoresAndScoreboard = true,
   showScoreBreakdown = true,
   showWinningChances = true,
   showEvents = true,
   cardinalympicsDisplayMode = "activeGame",
 }) {
-  const spiritTotals = [0, 1, 2, 3].map((i) => {
-    const n = Number(cardinalympicsData?.[i]);
-    return Number.isFinite(n) ? n : 0;
-  });
+  const spiritTotals = useMemo(
+    () =>
+      [0, 1, 2, 3].map((index) => {
+        const score = Number(cardinalympicsData?.[index]);
+        return Number.isFinite(score) ? score : 0;
+      }),
+    [cardinalympicsData]
+  );
   const leaderIndex =
     spiritTotals.length === 4
       ? spiritTotals.indexOf(Math.max(...spiritTotals))

@@ -10,10 +10,10 @@ export function parseResultsReleaseAtMs(raw) {
 }
 
 /** True when no release time is set, or the current time is past `resultsReleaseAt`. */
-export function areElectionResultsReleased(config) {
+export function areElectionResultsReleased(config, now = Date.now()) {
   const ms = parseResultsReleaseAtMs(config?.resultsReleaseAt);
   if (ms == null) return true;
-  return Date.now() >= ms;
+  return now >= ms;
 }
 
 /**

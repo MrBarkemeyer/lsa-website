@@ -53,6 +53,9 @@ export default function Elections({
               {config?.pendingSubtitle ??
                 "Please stay tuned for updates."}
             </p>
+            {String(config?.pendingDate ?? "").trim() ? (
+              <p className="elections-pending-date">{config.pendingDate}</p>
+            ) : null}
           </div>
         </section>
       </div>
@@ -95,6 +98,9 @@ export default function Elections({
         <div className="elections-message-box">
           <h2>{config?.pendingTitle ?? "Elections are coming soon"}</h2>
           <p>{config?.pendingSubtitle ?? "Please stay tuned for updates."}</p>
+          {String(config?.pendingDate ?? "").trim() ? (
+            <p className="elections-pending-date">{config.pendingDate}</p>
+          ) : null}
         </div>
       </section>
     </div>
@@ -108,6 +114,7 @@ Elections.propTypes = {
     notHappeningMessage: PropTypes.string,
     pendingTitle: PropTypes.string,
     pendingSubtitle: PropTypes.string,
+    pendingDate: PropTypes.string,
     pollingTitle: PropTypes.string,
     pollingSubtitle: PropTypes.string,
     votingLivePollingTitle: PropTypes.string,

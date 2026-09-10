@@ -43,6 +43,30 @@ export default function ElectionBanner({ config }) {
     );
   }
 
+  if (state === "pending" && config?.banner?.enabled) {
+    const { title, message, ctaText, ctaPath } = config.banner;
+    const date = String(config?.pendingDate ?? "").trim();
+    const displayMessage = date
+      ? `${String(message ?? "").trim()} ${date}`.trim()
+      : message;
+
+    return (
+      <div className="election-banner">
+        <div className="election-banner-inner">
+          <h3 className="election-banner-title">{title}</h3>
+          {displayMessage ? (
+            <p className="election-banner-message">{displayMessage}</p>
+          ) : null}
+          {ctaText && ctaPath ? (
+            <Link to={ctaPath} className="election-banner-cta">
+              {ctaText}
+            </Link>
+          ) : null}
+        </div>
+      </div>
+    );
+  }
+
   if (state === "polling" && config?.banner?.enabled) {
     const { title, message, ctaText, ctaPath } = config.banner;
     const liveTitle = String(config?.votingLiveBannerTitle ?? "").trim();
@@ -78,6 +102,7 @@ ElectionBanner.propTypes = {
     resultsBannerTitle: PropTypes.string,
     resultsBannerMessage: PropTypes.string,
     resultsReleaseAt: PropTypes.string,
+    pendingDate: PropTypes.string,
     banner: PropTypes.shape({
       enabled: PropTypes.bool,
       title: PropTypes.string,

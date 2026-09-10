@@ -212,11 +212,6 @@ export function mergeElectionConfigWithSheet(config, values) {
         toMediaUrl(r.mediaPetition) ||
         `https://i.pravatar.cc/400?u=${encodeURIComponent(r.name)}`;
       const video = toVideoUrl(r.videoPetition);
-      console.log("[Elections Candidate Media]", {
-        candidate: r.name,
-        board: normalizedBoard,
-        imageSource: pfp,
-      });
       byPosition.get(pos).push({
         name: r.name,
         description: r.writtenPetition || "",

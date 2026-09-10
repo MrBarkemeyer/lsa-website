@@ -17,7 +17,7 @@ export default function ClassroomCodeBlock({ code, classNamePrefix = "club-guide
   return (
     <div className={`${classNamePrefix}__code-block`}>
       <p className={`${classNamePrefix}__code-label`}>
-        2025–26 Activities Google Classroom
+        2026–27 Activities Google Classroom
       </p>
       <div className={`${classNamePrefix}__code-row`}>
         <span className={`${classNamePrefix}__code`}>{code}</span>
