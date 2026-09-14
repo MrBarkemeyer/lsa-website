@@ -53,9 +53,9 @@
   max-width: 1100px;
   margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem 1.25rem;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: stretch;
 }
 
 .clubs-page__search {
@@ -63,8 +63,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.25rem;
-  min-width: 260px;
-  flex: 0 1 310px;
+  width: 100%;
 }
 
 .clubs-page__search-label {
@@ -111,7 +110,7 @@
   gap: 0.5rem;
   align-items: center;
   justify-content: flex-start;
-  flex: 1 1 600px;
+  width: 100%;
 }
 
 .clubs-page__filter-btn {
@@ -317,6 +316,20 @@
   }
 }
 
+@media (min-width: 701px) {
+  .clubs-page__filters-row {
+    align-items: center;
+  }
+
+  .clubs-page__search {
+    width: min(36rem, 100%);
+  }
+
+  .clubs-page__filter-list {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 1350px) and (min-width: 1001px) {
   .clubs-page__filters {
     top: 92px;
@@ -348,8 +361,6 @@
 
 @media (max-width: 700px) {
   .clubs-page__filters-row {
-    flex-direction: column;
-    align-items: stretch;
     gap: 0.75rem;
     min-height: 0;
     max-width: 100%;
@@ -361,8 +372,6 @@
 
   .clubs-page__search {
     align-items: stretch;
-    min-width: 100%;
-    flex: 1 1 auto;
   }
 
   .clubs-page__search-input {
