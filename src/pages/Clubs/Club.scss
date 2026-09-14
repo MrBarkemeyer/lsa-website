@@ -401,6 +401,7 @@
   }
 
   .clubs-page__filter-list {
+    flex: 0 0 auto;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
@@ -412,9 +413,7 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     gap: 0.5rem;
-    padding-bottom: 0.35rem;
-    scrollbar-width: thin;
-    scrollbar-color: #c8c8c8 transparent;
+    scrollbar-width: none;
     position: relative;
     box-shadow:
       inset 12px 0 10px -8px rgba(255, 255, 255, 0.97),
@@ -422,12 +421,7 @@
   }
 
   .clubs-page__filter-list::-webkit-scrollbar {
-    height: 5px;
-  }
-
-  .clubs-page__filter-list::-webkit-scrollbar-thumb {
-    background: #c8c8c8;
-    border-radius: 999px;
+    display: none;
   }
 
   .clubs-page__filter-list .clubs-page__filter-btn,
