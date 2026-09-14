@@ -4,7 +4,7 @@ const META = electionsConfig.electionBoardMeta || {};
 
 /**
  * Accent for /LSA/SBC and class board pages (non-election), aligned with
- * `electionBoardMeta` colors (SBC, 2027–2030).
+ * `electionBoardMeta` colors (SBC, 2027-2030).
  *
  * @param {"SBC"|"Senior Board"|"Junior Board"|"Sophomore Board"|"Freshman Board"} boardKey
  * @returns {string} CSS color (hex)

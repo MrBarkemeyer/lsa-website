@@ -422,6 +422,10 @@ const CHARTER_PARAGRAPHS = [
       ],
     },
   ];
+
+const CURSIVE_FONT = '"Cedarville Cursive", cursive';
+const READABLE_FONT = '"Open Sans", sans-serif';
+
 export default function Charter() {
   const [isCursive, setIsCursive] = useState(true);
 
@@ -436,7 +440,7 @@ export default function Charter() {
           <div className="constitution glowable-text">
             <h2
               style={{
-                fontFamily: isCursive ? "Cedarville Cursive" : "Open Sans",
+                fontFamily: isCursive ? CURSIVE_FONT : READABLE_FONT,
               }}
             >
               {p.article}
@@ -445,14 +449,12 @@ export default function Charter() {
               <p
                 key={`${section.title}-${section.paragraph}-${sectionIndex}`}
                 style={{
-                  fontFamily: isCursive
-                    ? "'Cedarville Cursive', 'cursive"
-                    : "Open Sans, serif",
+                  fontFamily: isCursive ? CURSIVE_FONT : READABLE_FONT,
                 }}
               >
                 <strong
                   style={{
-                    fontFamily: isCursive ? "Cedarville Cursive" : "Open Sans",
+                    fontFamily: isCursive ? CURSIVE_FONT : READABLE_FONT,
                   }}
                 >
                   {section.title}
@@ -488,7 +490,9 @@ export default function Charter() {
           Charter.
         </p>
         <div className="font-button flex-center">
-          <button onClick={toggleCursive}>Can&apos;t Read Cursive?</button>
+          <button type="button" onClick={toggleCursive}>
+            {isCursive ? "Can\u0027t read cursive?" : "Use cursive"}
+          </button>
         </div>
         {constitution}
       </div>

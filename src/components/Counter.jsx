@@ -44,6 +44,11 @@ export default function Counter({
 
   useEffect(() => {
     if (!statState) return; // Only run the counter when visible
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      countRef.current = end;
+      setCount(end);
+      return;
+    }
 
     const increment = (end - start) / (duration / 50); // How much to increment each interval
     const timer = window.setInterval(() => {

@@ -220,7 +220,6 @@
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(31, 37, 48, 0.08);
   border: 1px solid #e5e7ea;
-  border-top: 3px solid var(--club-color);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 
   &:focus-visible {

@@ -1,5 +1,6 @@
 import Barkemeyer from "../../assets/Barkemeyer.png";
 import { useEffect, useState } from "react";
+import "./About.scss";
 
 export default function DSA() {
   const [glowRGB, setGlowRGB] = useState("134 18 18"); // fallback Lowell red

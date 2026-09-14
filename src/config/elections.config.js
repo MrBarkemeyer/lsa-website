@@ -1,5 +1,5 @@
 // Elections: polling UI reads candidates from the Google Sheet tab "Elections" (same spreadsheet as Website Info)
-// when `enabledElectionBoards` is non-empty. Columns A–G: Name, Grade, Board, Position, WrittenPetition,
+// when `enabledElectionBoards` is non-empty. Columns A-G: Name, Grade, Board, Position, WrittenPetition,
 // MediaPetition, VideoPetition. Leave `enabledElectionBoards` as [] to use only `contenders` below (manual / demo).
 
 export default {

@@ -1,4 +1,4 @@
-// Parse the "Elections" tab (columns A–G): Name, Grade, Board, Position, WrittenPetition, MediaPetition, VideoPetition.
+// Parse the "Elections" tab (columns A-G): Name, Grade, Board, Position, WrittenPetition, MediaPetition, VideoPetition.
 // Build `contenders` for polling when `enabledElectionBoards` is set in elections.config.js.
 
 const FIELD_KEYS = [
@@ -35,7 +35,7 @@ function cellStr(row, index) {
   return v != null ? String(v).trim() : "";
 }
 
-/** Map header row to field -> column index; fall back to A–G order when headers don't match. */
+/** Map header row to field -> column index; fall back to A-G order when headers don't match. */
 function buildColumnIndexMap(headerRow) {
   const map = {};
   if (!headerRow || headerRow.length === 0) {

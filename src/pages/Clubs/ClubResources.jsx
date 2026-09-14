@@ -54,7 +54,7 @@ export default function ClubResources() {
               </div>
               <div>
                 <h2 className="club-resources-page__card-title">
-                  2026–27 Activities Google Classroom
+                  2026-27 Activities Google Classroom
                 </h2>
               </div>
             </div>

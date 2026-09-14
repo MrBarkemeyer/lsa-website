@@ -233,22 +233,29 @@ export default function Home({
   }, [homeSignupEvents]);
 
   return (
-    <>
-      <div className="hero-video-wrapper">
-        <HeroBackgroundVideo src={heroVideo} title="LSA Hero" className="hero-video" />
-        <div className="video-credit">Video by Video Lowell</div>
-      </div>
-      <div className="home-hero-card">
-        <p className="home-hero-card__eyebrow">Lowell High School</p>
-        <h2 className="home-hero-card__title">Lowell Student Association</h2>
-        <p className="home-hero-card__lede">
-          Student government for every class — leadership, events, and voice for the Lowell community.
-        </p>
-        <Link to="/LSA" className="home-hero-card__cta">
-          About LSA
-          <FontAwesomeIcon icon={faArrowRight} className="home-hero-card__cta-icon" aria-hidden />
-        </Link>
-      </div>
+    <main className="home-page">
+      <section className="home-hero" aria-labelledby="home-hero-title">
+        <div className="hero-video-wrapper">
+          <HeroBackgroundVideo src={heroVideo} title="LSA Hero" className="hero-video" />
+          <div className="video-credit">Video by Video Lowell</div>
+        </div>
+        <div className="home-hero-card">
+          <p className="home-hero-card__eyebrow">Lowell High School</p>
+          <h1 id="home-hero-title" className="home-hero-card__title">
+            Lowell Student Association
+          </h1>
+          <p className="home-hero-card__lede">
+            Student government for every class — leadership, events, and voice for the Lowell community.
+          </p>
+          <Link to="/LSA" className="home-hero-card__cta">
+            About LSA
+            <FontAwesomeIcon icon={faArrowRight} className="home-hero-card__cta-icon" aria-hidden />
+          </Link>
+        </div>
+        <a href="#welcome-lsa" className="scroll-icon" aria-label="Continue to welcome section">
+          <FontAwesomeIcon icon={faAnglesDown} aria-hidden />
+        </a>
+      </section>
       {(showElectionBanner || showElectionResultsBanner) && (
         <ElectionBanner config={electionsConfig} />
       )}
@@ -278,9 +285,125 @@ export default function Home({
         </section>
       )}
 
+      <section className="lsa-description" id="welcome-lsa" aria-labelledby="welcome-lsa-title">
+        <div className="home-section-heading">
+          <p className="home-section-heading__eyebrow">Who we are</p>
+          <h2 id="welcome-lsa-title">Welcome to the Lowell Student Association!</h2>
+          <p>
+            LSA is the umbrella term for Lowell&apos;s student government or all
+            the boards, which includes the Student Body Council, and class boards
+            representing the Senior, Junior, Sophomore, and Freshmen classes.
+          </p>
+        </div>
+        <div className="home-stats">
+          <h3>We connect with</h3>
+          <div className="stats" aria-label="We connect with statistics">
+            <div className="stat-card center">
+              <div className="stat-card__value">
+                <Counter
+                  start={0}
+                  end={2500}
+                  duration={2000}
+                  className="counter"
+                  color="var(--lowell-red)"
+                />
+                <span className="stat-card__plus">+</span>
+              </div>
+              <p className="stat-card__label">Students</p>
+            </div>
+            <div className="stat-card center">
+              <div className="stat-card__value">
+                <Counter
+                  start={0}
+                  end={150}
+                  duration={2000}
+                  className="counter"
+                  color="var(--lowell-red)"
+                />
+                <span className="stat-card__plus">+</span>
+              </div>
+              <p className="stat-card__label">Clubs</p>
+            </div>
+            <div className="stat-card center">
+              <div className="stat-card__value">
+                <Counter
+                  start={0}
+                  end={9000}
+                  duration={2000}
+                  className="counter"
+                  color="var(--lowell-red)"
+                />
+                <span className="stat-card__plus">+</span>
+              </div>
+              <p className="stat-card__label">Alumni</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="home-updates" aria-label="Latest from Lowell">
+        <div className="home-updates__news">
+          <News newsData={newsData} />
+        </div>
+        {spotlightClub && (
+          <aside className="club-spotlight-section" aria-labelledby="club-spotlight-heading">
+            <p className="home-section-heading__eyebrow">This week at Lowell</p>
+            <h2 id="club-spotlight-heading">Club spotlight</h2>
+            <div className="club-spotlight">
+              <div className="club-spotlight__media">
+                {spotlightClub?.Picture ? (
+                  <SafeImage
+                    src={driveThumbnailCandidates(spotlightClub.Picture, "w300")}
+                    alt={spotlightDisplayName}
+                    className="club-spotlight__img"
+                    variant="club"
+                  />
+                ) : (
+                  <div className="club-spotlight__placeholder" aria-hidden="true">
+                    {spotlightInitial}
+                  </div>
+                )}
+              </div>
+              <div className="club-spotlight__content">
+                <h3 className="club-spotlight__title">{spotlightDisplayName}</h3>
+                {spotlightDisplayBlurb ? (
+                  <p className="club-spotlight__excerpt">{spotlightDisplayBlurb}</p>
+                ) : null}
+                <Link to={spotlightHref} className="club-spotlight-link">
+                  {spotlightCtaText}
+                </Link>
+              </div>
+            </div>
+          </aside>
+        )}
+      </section>
+      {applicationsOpenForNews.length > 0 && (
+        <section className="applications-news-section" aria-labelledby="applications-news-heading">
+          <div className="home-section-heading">
+            <p className="home-section-heading__eyebrow">Get involved</p>
+            <h2 id="applications-news-heading">Applications now open</h2>
+          </div>
+          <div className="applications-news-container">
+            {applicationsOpenForNews.map((item) => (
+              <article key={`${item.name}-${item.dateAdded}`} className="applications-news-item">
+                <h3>{item.name}</h3>
+                {item.dateAdded && <p className="applications-news-date">Added: {item.dateAdded}</p>}
+                {item.notes && <p className="applications-news-content">{item.notes}</p>}
+                {item.link && (
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="applications-news-link">
+                    Go to application &rarr;
+                  </a>
+                )}
+              </article>
+            ))}
+          </div>
+          <p className="applications-news-view-all">
+            <Link to="/ApplicationsOpen" className="applications-news-view-all__button">
+              View all applications open
+            </Link>
+          </p>
+        </section>
+      )}
 
-
-      {/* Cardinalympics section (toggle in src/config/cardinalympics.config.js) */}
       {showCardinalympicsScores && (
         <section
           className="home-cardinalympics"
@@ -289,25 +412,21 @@ export default function Home({
           <div className="home-cardinalympics__inner">
             <div className="home-cardinalympics__content-wrap">
               <div className="home-cardinalympics__head-wrap">
-                <div className="home-cardinalympics__head">
-                  <div className="home-cardinalympics__intro">
-                    <div className="home-cardinalympics__title-line">
-                      <h2 id="home-cardinalympics-heading" className="home-cardinalympics__title">
-                        Cardinalympics
-                      </h2>
-                      <span
-                        className="home-cardinalympics__live"
-                        role="status"
-                        aria-label="Scores from the live scoreboard"
-                      >
-                        <span className="home-cardinalympics__live-dot" aria-hidden="true" />
-                        Live
-                      </span>
-                    </div>
-                    <p className="home-cardinalympics__subtitle">
-                      Spirit Week class totals!
-                    </p>
+                <div className="home-cardinalympics__intro">
+                  <div className="home-cardinalympics__title-line">
+                    <h2 id="home-cardinalympics-heading" className="home-cardinalympics__title">
+                      Cardinalympics
+                    </h2>
+                    <span
+                      className="home-cardinalympics__live"
+                      role="status"
+                      aria-label="Scores from the live scoreboard"
+                    >
+                      <span className="home-cardinalympics__live-dot" aria-hidden="true" />
+                      Live
+                    </span>
                   </div>
+                  <p className="home-cardinalympics__subtitle">Spirit Week class totals!</p>
                 </div>
               </div>
               <div className="home-cardinalympics__scores-wrap">
@@ -324,7 +443,9 @@ export default function Home({
                       role="listitem"
                     >
                       {cardinalympicsLeaderIndex === i && (
-                        <span className="home-cardinalympics__leader-badge">{cardinalympicsTopClassBadge}</span>
+                        <span className="home-cardinalympics__leader-badge">
+                          {cardinalympicsTopClassBadge}
+                        </span>
                       )}
                       <span className="home-cardinalympics__class-name">
                         {CARDINALYMPICS_CLASS_NAMES[i]}
@@ -351,117 +472,11 @@ export default function Home({
         </section>
       )}
 
-
-
-      {/* LSA description section */}
-      <FontAwesomeIcon icon={faAnglesDown} beatFade className="scroll-icon" />
-      <div className="lsa-description center" id="welcome-lsa">
-        <h1>Welcome to the Lowell Student Association!</h1>
-        <p className="padding-1rem">
-          LSA is the umbrella term for Lowell&apos;s student government or all
-          the boards, which includes the Student Body Council, and class boards
-          representing the Senior, Junior, Sophomore, and Freshmen classes.
-        </p>
-        <h2 className="center">We connect with</h2>
-        <div className="stats" aria-label="We connect with statistics">
-          <div className="stat-card center">
-            <div className="stat-card__value">
-              <Counter
-                start={0}
-                end={2500}
-                duration={2000}
-                className="counter"
-                color="var(--lowell-red)"
-              />
-              <span className="stat-card__plus">+</span>
-            </div>
-            <p className="stat-card__label">Students</p>
-          </div>
-          <div className="stat-card center">
-            <div className="stat-card__value">
-              <Counter
-                start={0}
-                end={150}
-                duration={2000}
-                className="counter"
-                color="var(--lowell-red)"
-              />
-              <span className="stat-card__plus">+</span>
-            </div>
-            <p className="stat-card__label">Clubs</p>
-          </div>
-          <div className="stat-card center">
-            <div className="stat-card__value">
-              <Counter
-                start={0}
-                end={9000}
-                duration={2000}
-                className="counter"
-                color="var(--lowell-red)"
-              />
-              <span className="stat-card__plus">+</span>
-            </div>
-            <p className="stat-card__label">Alumni</p>
-          </div>
+      <section className="life-at-lowell" aria-labelledby="life-at-lowell-heading">
+        <div className="life-at-lowell__heading">
+          <p className="home-section-heading__eyebrow">Campus life</p>
+          <h2 id="life-at-lowell-heading">WATCH: Student Life at Lowell High School</h2>
         </div>
-      </div>
-      {spotlightClub && (
-        <div className="club-spotlight-section center">
-          <h2>Club spotlight</h2>
-          <div className="club-spotlight">
-            <h3 className="club-spotlight__title">{spotlightDisplayName}</h3>
-            <div className="club-spotlight__row">
-              <div className="club-spotlight__media" aria-hidden="true">
-                {spotlightClub?.Picture ? (
-                  <SafeImage
-                    src={driveThumbnailCandidates(spotlightClub.Picture, "w300")}
-                    alt={spotlightDisplayName}
-                    className="club-spotlight__img"
-                    variant="club"
-                  />
-                ) : (
-                  <div className="club-spotlight__placeholder">{spotlightInitial}</div>
-                )}
-              </div>
-              {spotlightDisplayBlurb ? (
-                <div className="club-spotlight__content">
-                  <p className="club-spotlight__excerpt">{spotlightDisplayBlurb}</p>
-                </div>
-              ) : null}
-            </div>
-            <Link to={spotlightHref} className="club-spotlight-link">
-              {spotlightCtaText}
-            </Link>
-          </div>
-        </div>
-      )}
-      {applicationsOpenForNews.length > 0 && (
-        <div className="applications-news-section center">
-          <h2>Applications now open</h2>
-          <div className="applications-news-container">
-            {applicationsOpenForNews.map((item) => (
-              <div key={`${item.name}-${item.dateAdded}`} className="applications-news-item">
-                <h3>{item.name}</h3>
-                {item.dateAdded && <p className="applications-news-date">Added: {item.dateAdded}</p>}
-                {item.notes && <p className="applications-news-content">{item.notes}</p>}
-                {item.link && (
-                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="applications-news-link">
-                    Go to application &rarr;
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-          <p className="center applications-news-view-all">
-            <Link to="/ApplicationsOpen" className="applications-news-view-all__button">
-              View all applications open
-            </Link>
-          </p>
-        </div>
-      )}
-      <News newsData={newsData} />
-      <div className="life-at-lowell">
-        <h2>WATCH: Student Life at Lowell High School</h2>
         <div className="responsive-video-wrapper">
           <iframe
             src="https://www.youtube.com/embed/5TKdIrdcyJ4"
@@ -471,9 +486,9 @@ export default function Home({
             allowFullScreen
           />
         </div>
-      </div>
-      <div className="preamble flex-center">
-        <p>
+      </section>
+      <section className="preamble" aria-labelledby="charter-preamble-source">
+        <blockquote>
           “We, the students of Lowell High School, in order to maintain the
           Lowell community, to acknowledge and foster the diversity of needs,
           views, and rights of students at Lowell to express opinions and
@@ -482,12 +497,12 @@ export default function Home({
           offered by the school and the San Francisco Unified School District,
           do hereby establish and ordain this Charter of the Lowell High School
           Student Association.”
-        </p>
-        <span className="bold">
+        </blockquote>
+        <p id="charter-preamble-source" className="bold">
           PREAMBLE OF THE CHARTER OF THE LOWELL STUDENT ASSOCIATION
-        </span>
-      </div>
-    </>
+        </p>
+      </section>
+    </main>
   );
 }
 
