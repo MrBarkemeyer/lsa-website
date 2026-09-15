@@ -35,13 +35,10 @@ export default function FreshMenCorner() {
             <p className="freshmen-corner__eyebrow">Important Document</p>
             <h3 className="freshmen-corner__title">Master registry list</h3>
             <p className="freshmen-corner__description">
-              Review the master list for clubs, resources, and class information.
+              Review the master list for clubs, resources, and class
+              information.
             </p>
-            <LinkButton
-              to="/Registry"
-              noTarget={true}
-              style={cardButtonStyle}
-            >
+            <LinkButton to="/Registry" noTarget={true} style={cardButtonStyle}>
               View registry
             </LinkButton>
           </div>

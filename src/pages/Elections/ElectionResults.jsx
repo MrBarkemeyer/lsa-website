@@ -49,11 +49,23 @@ function boardsFromStaticJson(data) {
     positions: (b.positions ?? []).map((p) => ({
       title: String(p.title ?? "").trim() || "Position",
       rounds: (p.rounds ?? []).map((r) => {
-        const columns = ["Candidate", "Votes", "Percentage", "Transfer (Elimination)"];
+        const columns = [
+          "Candidate",
+          "Votes",
+          "Percentage",
+          "Transfer (Elimination)",
+        ];
         const rows = (r.rows ?? []).map((row) => {
-          const votes = row.votes === "" || row.votes == null ? "—" : String(row.votes);
-          const pct = row.percentage === "" || row.percentage == null ? "—" : String(row.percentage);
-          const xfer = row.transfer === "" || row.transfer == null ? "—" : String(row.transfer);
+          const votes =
+            row.votes === "" || row.votes == null ? "—" : String(row.votes);
+          const pct =
+            row.percentage === "" || row.percentage == null
+              ? "—"
+              : String(row.percentage);
+          const xfer =
+            row.transfer === "" || row.transfer == null
+              ? "—"
+              : String(row.transfer);
           return {
             Candidate: String(row.candidate ?? "").trim() || "—",
             Votes: votes,
@@ -68,7 +80,8 @@ function boardsFromStaticJson(data) {
           columns,
           rows,
           totalVotes: r.totalVotes != null ? String(r.totalVotes) : "",
-          totalPercentage: r.totalPercentage != null ? String(r.totalPercentage) : "",
+          totalPercentage:
+            r.totalPercentage != null ? String(r.totalPercentage) : "",
         };
       }),
     })),
@@ -102,7 +115,7 @@ function ElectionResultsRoundTable({ round }) {
               ]
                 .filter(Boolean)
                 .join(" ");
-                  return (
+              return (
                 <tr key={rowIndex} className={cls || undefined}>
                   {round.columns.map((column) => (
                     <td key={column} data-label={column}>
@@ -144,14 +157,21 @@ function ElectionPositionSection({ positionBlock, positionIndex }) {
   const [showAllRounds, setShowAllRounds] = useState(false);
   const visibleRounds =
     needsRoundExpand && !showAllRounds ? rounds.slice(0, 1) : rounds;
-  const panelId = `election-rounds-panel-${positionBlock.title}-${positionIndex}`.replace(/\s+/g, "-");
+  const panelId =
+    `election-rounds-panel-${positionBlock.title}-${positionIndex}`.replace(
+      /\s+/g,
+      "-",
+    );
 
   return (
     <section className="election-results-position">
       <h3 className="election-results-position-title">{positionBlock.title}</h3>
       {needsRoundExpand ? (
         <div className="election-results-rounds-toolbar">
-          <p className="election-results-rounds-summary" id={`${panelId}-summary`}>
+          <p
+            className="election-results-rounds-summary"
+            id={`${panelId}-summary`}
+          >
             {showAllRounds
               ? `All ${rounds.length} rounds are shown below.`
               : `Round 1 of ${rounds.length} is shown. Use the button to see every round.`}
@@ -164,7 +184,9 @@ function ElectionPositionSection({ positionBlock, positionIndex }) {
             aria-controls={panelId}
             aria-describedby={`${panelId}-summary`}
           >
-            {showAllRounds ? "Show fewer rounds" : `Show all ${rounds.length} rounds`}
+            {showAllRounds
+              ? "Show fewer rounds"
+              : `Show all ${rounds.length} rounds`}
           </button>
         </div>
       ) : null}
@@ -207,7 +229,10 @@ export default function ElectionResults({
         <section className="election-section election-state-off">
           <div className="elections-message-box">
             <h2>No elections at this time</h2>
-            <p>{config?.notHappeningMessage ?? "Elections are not currently happening. Check back later for updates."}</p>
+            <p>
+              {config?.notHappeningMessage ??
+                "Elections are not currently happening. Check back later for updates."}
+            </p>
           </div>
         </section>
         <div className="center" style={{ marginTop: "1rem" }}>
@@ -253,9 +278,16 @@ export default function ElectionResults({
           <div className="elections-message-box">
             <h2>Results not posted yet</h2>
             <p>
-              {config?.pollingBar?.message ?? "Results will be posted after voting ends."}
+              {config?.pollingBar?.message ??
+                "Results will be posted after voting ends."}
             </p>
-            <p style={{ marginTop: "0.75rem", fontStyle: "italic", color: "#666" }}>
+            <p
+              style={{
+                marginTop: "0.75rem",
+                fontStyle: "italic",
+                color: "#666",
+              }}
+            >
               Check back when elections are closed.
             </p>
           </div>
@@ -311,13 +343,20 @@ export default function ElectionResults({
         {!boardsModel.length ? (
           <div className="elections-message-box">
             <h2>Results not posted yet</h2>
-            <p>Add data to <code>src/data/electionResults.json</code>.</p>
+            <p>
+              Add data to <code>src/data/electionResults.json</code>.
+            </p>
           </div>
         ) : (
           <div className="election-results-board-list">
             {boardsModel.map((boardBlock, boardIndex) => (
-              <article key={`${boardBlock.board}-${boardIndex}`} className="election-results-board">
-                <h2 className="election-results-board-title">{boardBlock.board}</h2>
+              <article
+                key={`${boardBlock.board}-${boardIndex}`}
+                className="election-results-board"
+              >
+                <h2 className="election-results-board-title">
+                  {boardBlock.board}
+                </h2>
                 <div className="election-results-position-list">
                   {boardBlock.positions.map((positionBlock, positionIndex) => (
                     <ElectionPositionSection

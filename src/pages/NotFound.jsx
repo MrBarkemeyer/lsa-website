@@ -28,7 +28,14 @@ function NotFoundArt() {
       <circle cx="28" cy="38" r="3" fill="#f0b8b8" opacity="0.75" />
       <circle cx="124" cy="88" r="3.5" fill="#e8a0a0" opacity="0.85" />
       <defs>
-        <linearGradient id="notFoundGrad" x1="20" y1="20" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="notFoundGrad"
+          x1="20"
+          y1="20"
+          x2="120"
+          y2="120"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#ffe8e8" />
           <stop offset="1" stopColor="#ffd6d6" />
         </linearGradient>
@@ -47,7 +54,9 @@ export default function NotFound() {
           <NotFoundArt />
         </div>
         <p className="not-found__eyebrow">404 · page not found</p>
-        <h1 className="not-found__heading">This page is playing hide-and-seek</h1>
+        <h1 className="not-found__heading">
+          This page is playing hide-and-seek
+        </h1>
         <p className="not-found__text">
           We looked through our routes and could not find{" "}
           <code className="not-found__path">{location.pathname}</code>

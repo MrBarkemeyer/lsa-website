@@ -64,7 +64,9 @@ export default function ClubResources() {
               site only mirrors some of what is posted there.
             </p>
             <div className="club-resources-page__code-row">
-              <span className="club-resources-page__code">{CLASSROOM_CODE}</span>
+              <span className="club-resources-page__code">
+                {CLASSROOM_CODE}
+              </span>
               <button
                 type="button"
                 className={`club-resources-page__copy${copied ? " club-resources-page__copy--done" : ""}`}
@@ -101,7 +103,9 @@ export default function ClubResources() {
           </article>
         </div>
 
-        <h2 className="club-resources-page__section-title">Guides &amp; tools</h2>
+        <h2 className="club-resources-page__section-title">
+          Guides &amp; tools
+        </h2>
         <div className="club-resources-page__guides">
           <Link className="club-resources-page__guide" to="/Clubs/NewClub">
             <span className="club-resources-page__guide-icon" aria-hidden>
@@ -127,9 +131,7 @@ export default function ClubResources() {
             <span className="club-resources-page__guide-icon" aria-hidden>
               <FontAwesomeIcon icon={faCalendarDays} />
             </span>
-            <h3 className="club-resources-page__guide-title">
-              Event planning
-            </h3>
+            <h3 className="club-resources-page__guide-title">Event planning</h3>
             <p className="club-resources-page__guide-desc">
               Resources for scheduling, approvals, and running club events
               safely and on time.

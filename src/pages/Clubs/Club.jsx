@@ -3,7 +3,11 @@ import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
-import { faCalendarDays, faUserGroup, faLink } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarDays,
+  faUserGroup,
+  faLink,
+} from "@fortawesome/free-solid-svg-icons";
 import LoadingTruck from "../../components/LoadingTruck";
 import SafeImage from "../../components/SafeImage";
 import { getCategoryColorMap } from "../../config/clubs/index.js";
@@ -12,6 +16,21 @@ import "../Clubs/Club.scss";
 
 function removeLeadingAt(value) {
   return typeof value === "string" ? value.replace(/^@/, "") : "";
+}
+
+function getClubFrequency(club) {
+  return String(club?.["Bi Weekly or Weekly?"] || club?.Weekly || "").trim();
+}
+
+function meetingCadenceLabel(frequency) {
+  const value = frequency
+    .toLowerCase()
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (value === "weekly") return "every week";
+  if (value === "biweekly" || value === "bi weekly") return "biweekly";
+  return "";
 }
 
 function getImageAccent(image) {
@@ -37,7 +56,9 @@ function getImageAccent(image) {
   }
 
   if (!count) return "";
-  const channels = [red / count, green / count, blue / count].map((value) => value / 255);
+  const channels = [red / count, green / count, blue / count].map(
+    (value) => value / 255,
+  );
   const max = Math.max(...channels);
   const min = Math.min(...channels);
   const delta = max - min;
@@ -60,10 +81,10 @@ export default function Club({ clubData: clubDataProp }) {
     () =>
       clubDataProp && params
         ? clubDataProp.find(
-        (club) => club.Name && club.Name.trim() === params
+            (club) => club.Name && club.Name.trim() === params,
           ) || null
         : null,
-    [params, clubDataProp]
+    [params, clubDataProp],
   );
   const colorMap = useMemo(() => getCategoryColorMap(), []);
   const bannerUrl = String(clubData?.Banner || "").trim();
@@ -81,15 +102,22 @@ export default function Club({ clubData: clubDataProp }) {
 
   const hasBanner = bannerCandidates.length > 0;
   const websiteUrl = clubData.Website || clubData.CustomWebsite;
+  const meetingFrequency = getClubFrequency(clubData);
+  const meetingCadence = meetingCadenceLabel(meetingFrequency);
+  const meetingDays = String(clubData.MeetingDays || "").trim();
+  const showMeetingDays = Boolean(
+    meetingDays && meetingDays.toLowerCase() !== "always",
+  );
+  const meetingPlace = String(clubData.MeetingPlaceTime || "").trim();
   const hasMeetingInfo = Boolean(
-    clubData.MeetingDays || clubData.Weekly || clubData.MeetingPlaceTime
+    meetingCadence || showMeetingDays || meetingPlace,
   );
   const hasLeadership = Boolean(
-    clubData.President || clubData.VP || clubData.OtherOfficers
+    clubData.President || clubData.VP || clubData.OtherOfficers,
   );
   const hasMainContent = Boolean(clubData.ClubDescription || hasLeadership);
   const hasAsideContent = Boolean(
-    hasMeetingInfo || websiteUrl || clubData.Instagram
+    hasMeetingInfo || websiteUrl || clubData.Instagram,
   );
 
   function sampleBanner(event) {
@@ -153,26 +181,39 @@ export default function Club({ clubData: clubDataProp }) {
             {hasLeadership && (
               <section className="club-section club-leadership">
                 <h2 className="club-section__heading">
-                  <FontAwesomeIcon icon={faUserGroup} className="club-section__icon" />
+                  <FontAwesomeIcon
+                    icon={faUserGroup}
+                    className="club-section__icon"
+                  />
                   Club Officers
                 </h2>
                 <div className="club-leadership__grid">
                   {clubData.President && (
                     <div className="club-leadership__item">
                       <span className="club-leadership__role">President</span>
-                      <span className="club-leadership__name">{clubData.President}</span>
+                      <span className="club-leadership__name">
+                        {clubData.President}
+                      </span>
                     </div>
                   )}
                   {clubData.VP && (
                     <div className="club-leadership__item">
-                      <span className="club-leadership__role">Vice President</span>
-                      <span className="club-leadership__name">{clubData.VP}</span>
+                      <span className="club-leadership__role">
+                        Vice President
+                      </span>
+                      <span className="club-leadership__name">
+                        {clubData.VP}
+                      </span>
                     </div>
                   )}
                   {clubData.OtherOfficers && (
                     <div className="club-leadership__item club-leadership__item--wide">
-                      <span className="club-leadership__role">Other Officers</span>
-                      <span className="club-leadership__name">{clubData.OtherOfficers}</span>
+                      <span className="club-leadership__role">
+                        Other Officers
+                      </span>
+                      <span className="club-leadership__name">
+                        {clubData.OtherOfficers}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -182,24 +223,32 @@ export default function Club({ clubData: clubDataProp }) {
         )}
 
         {hasAsideContent && (
-          <aside className="club-content__aside" aria-label={`${params} details`}>
+          <aside
+            className="club-content__aside"
+            aria-label={`${params} details`}
+          >
             {hasMeetingInfo && (
               <section className="club-section club-meetings">
                 <h2 className="club-section__heading">
-                  <FontAwesomeIcon icon={faCalendarDays} className="club-section__icon" />
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    className="club-section__icon"
+                  />
                   Meetings
                 </h2>
                 <p className="club-meetings__text">
-                  We meet{" "}
-                  {clubData.MeetingDays && (
+                  Meets
+                  {meetingCadence ? ` ${meetingCadence}` : null}
+                  {showMeetingDays && (
                     <>
-                      every <strong>{clubData.MeetingDays}</strong>{" "}
+                      {" "}
+                      on <strong>{meetingDays}</strong>
                     </>
                   )}
-                  {clubData.Weekly}
-                  {clubData.MeetingPlaceTime && (
+                  {meetingPlace && (
                     <>
-                      {" "}at <strong>{clubData.MeetingPlaceTime}</strong>
+                      {" "}
+                      at <strong>{meetingPlace}</strong>
                     </>
                   )}
                 </p>
@@ -209,7 +258,10 @@ export default function Club({ clubData: clubDataProp }) {
             {(websiteUrl || clubData.Instagram) && (
               <section className="club-section club-connect">
                 <h2 className="club-section__heading">
-                  <FontAwesomeIcon icon={faLink} className="club-section__icon" />
+                  <FontAwesomeIcon
+                    icon={faLink}
+                    className="club-section__icon"
+                  />
                   Connect
                 </h2>
                 <div className="club-connect__links">
@@ -255,6 +307,7 @@ Club.propTypes = {
       ClubDescription: PropTypes.string,
       MeetingDays: PropTypes.string,
       Weekly: PropTypes.string,
+      "Bi Weekly or Weekly?": PropTypes.string,
       MeetingPlaceTime: PropTypes.string,
       President: PropTypes.string,
       VP: PropTypes.string,
@@ -262,6 +315,6 @@ Club.propTypes = {
       Instagram: PropTypes.string,
       Website: PropTypes.string,
       CustomWebsite: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };

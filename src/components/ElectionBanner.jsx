@@ -1,6 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useElectionVotingMessagingLive, useElectionResultsReleased } from "../utils/electionVotingWindow.js";
+import {
+  useElectionVotingMessagingLive,
+  useElectionResultsReleased,
+} from "../utils/electionVotingWindow.js";
 
 function normalizePath(p) {
   const s = String(p ?? "").trim();
@@ -17,7 +20,8 @@ export default function ElectionBanner({ config }) {
 
   if (state === "results" && resultsReleased && config?.pollingBar?.enabled) {
     const title =
-      String(config?.resultsBannerTitle ?? "").trim() || "Election results — LSA elections";
+      String(config?.resultsBannerTitle ?? "").trim() ||
+      "Election results — LSA elections";
     const message =
       String(config?.resultsBannerMessage ?? "").trim() ||
       String(config?.pollingBar?.message ?? "").trim();

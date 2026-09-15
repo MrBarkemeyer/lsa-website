@@ -1,7 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-export default function ClassroomCodeBlock({ code, classNamePrefix = "club-guide-page" }) {
+export default function ClassroomCodeBlock({
+  code,
+  classNamePrefix = "club-guide-page",
+}) {
   const [copied, setCopied] = useState(false);
 
   async function copyJoinCode() {

@@ -75,7 +75,7 @@
   }
 }
 
-.preamble>p:nth-child(1) {
+.preamble > p:nth-child(1) {
   border-left: 4px solid var(--title-color);
   padding-left: 1.5rem;
   margin-left: 0;
@@ -316,7 +316,10 @@
     color: #fff;
     font-weight: 600;
     text-decoration: none;
-    transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+    transition:
+      background-color 0.18s ease,
+      transform 0.12s ease,
+      box-shadow 0.18s ease;
 
     &:hover {
       background: #6f0f0f;
@@ -425,7 +428,10 @@
   color: #fff;
   font-weight: 700;
   text-decoration: none;
-  transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+  transition:
+    background-color 0.18s ease,
+    transform 0.12s ease,
+    box-shadow 0.18s ease;
 
   &:hover {
     background: #6f0f0f;
@@ -486,7 +492,9 @@
     border-radius: 10px;
     box-shadow: none;
     border-left: 4px solid var(--lowell-red);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-1px);
@@ -538,7 +546,9 @@
     background: #fff;
     border: 2px solid var(--lowell-red);
     border-radius: 8px;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
 
     &:hover {
       background: var(--lowell-red);
@@ -623,7 +633,9 @@
     background: #f8f9fa;
     text-align: left;
     cursor: pointer;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
 
     &:hover {
       transform: translateY(-1px);
@@ -746,7 +758,9 @@
     border: 2px solid var(--lowell-red);
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
 
     &:hover {
       background: var(--lowell-red);
@@ -846,7 +860,7 @@
 }
 
 .nav-links:hover,
-.first-dropdowns>a:hover .nav-links {
+.first-dropdowns > a:hover .nav-links {
   background: white;
 }
 
@@ -876,7 +890,6 @@
 }
 
 @keyframes bounce {
-
   0%,
   20%,
   50%,
@@ -982,7 +995,12 @@
     right: 1.25rem;
     height: 3px;
     border-radius: 0 0 4px 4px;
-    background: linear-gradient(90deg, transparent, var(--lowell-red, #861212), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--lowell-red, #861212),
+      transparent
+    );
     opacity: 0.85;
   }
 }
@@ -1025,7 +1043,10 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 4px 14px rgba(134, 18, 18, 0.45);
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     background: #9e1a1a;
@@ -1137,7 +1158,9 @@
     0 1px 1px rgba(255, 255, 255, 0.95) inset,
     0 8px 32px rgba(0, 0, 0, 0.06);
 
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  @supports not (
+    (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+  ) {
     background: linear-gradient(165deg, #ffffff 0%, #f3f4f6 100%);
   }
 }
@@ -1234,7 +1257,12 @@
   height: 3px;
   margin: 0 auto 0.65rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent, var(--lowell-red, #861212), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--lowell-red, #861212),
+    transparent
+  );
 }
 
 .home-cardinalympics__grid {
@@ -1252,7 +1280,9 @@
   border-radius: 14px;
   padding: 1rem 0.65rem 0.75rem;
   border: 2px solid transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1349,7 +1379,9 @@
   color: var(--lowell-red, #861212);
   text-decoration: none;
   border-bottom: 2px solid transparent;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
     border-bottom-color: var(--lowell-red, #861212);
@@ -1391,7 +1423,11 @@
 }
 
 .cardinalympics-intro-container {
-  background: linear-gradient(135deg, rgba(134, 18, 18, 0.9), rgba(200, 50, 50, 0.8));
+  background: linear-gradient(
+    135deg,
+    rgba(134, 18, 18, 0.9),
+    rgba(200, 50, 50, 0.8)
+  );
   width: 90vw;
   height: auto;
   padding: 2rem;
@@ -1457,7 +1493,6 @@
   .event-description {
     margin-left: 1vw;
   }
-
 }
 
 .lsa-boards {
@@ -1543,7 +1578,7 @@
   border-bottom-right-radius: 28px;
 }
 
-.dropdown>.link {
+.dropdown > .link {
   color: white;
   display: flex;
   width: 100%;
@@ -1551,7 +1586,7 @@
   padding: 10px;
 }
 
-.big-dropdown>.link {
+.big-dropdown > .link {
   color: white;
   display: flex;
   width: 100%;
@@ -1566,7 +1601,7 @@
   align-items: center;
 }
 
-.first-dropdowns>a {
+.first-dropdowns > a {
   display: block;
   color: var(--lowell-red);
   text-decoration: none;
@@ -1576,15 +1611,15 @@
   gap: 5px;
 }
 
-.first-dropdowns>a::after {
-  content: '';
+.first-dropdowns > a::after {
+  content: "";
   position: absolute;
   height: 5px;
   left: 0;
   bottom: 35px;
   width: 0;
   background: var(--lowell-red);
-  transition: width .2s;
+  transition: width 0.2s;
 }
 
 .first-dropdowns:hover a:after {
@@ -1612,10 +1647,9 @@
   border: 3px solid var(--lowell-red);
   width: 100%;
   display: none;
-
 }
 
-.big-dropdowns>.big-dropdown {
+.big-dropdowns > .big-dropdown {
   width: 300px;
 }
 
@@ -1641,7 +1675,6 @@
   gap: 10px;
   justify-content: center;
 }
-
 
 .big-dropdowns:hover a:last-child {
   border-radius: 0px !important;
@@ -1765,14 +1798,14 @@
   border-left: 6px solid green;
 }
 
-.election-inner-container>h3 {
+.election-inner-container > h3 {
   height: auto;
   margin-bottom: 1rem;
   font-size: 1.8rem;
   font-weight: 600;
 }
 
-.election-inner-container>p {
+.election-inner-container > p {
   height: auto;
   margin-bottom: 0.8rem;
   font-size: 1rem;
@@ -1842,7 +1875,11 @@
 }
 
 .election-banner {
-  background: linear-gradient(135deg, var(--lowell-red, #861212) 0%, #a01818 100%);
+  background: linear-gradient(
+    135deg,
+    var(--lowell-red, #861212) 0%,
+    #a01818 100%
+  );
   color: white;
   padding: 0.9rem 1.5rem;
   text-align: center;
@@ -1891,7 +1928,9 @@
   border-radius: 6px;
   font-weight: 600;
   text-decoration: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 
   &:hover {
     transform: translateY(-1px);
@@ -1917,29 +1956,26 @@
   display: none;
 }
 
-
 .dropdown:hover .second-dropdowns {
   display: block;
 }
 
-
-.second-dropdowns>a,
-.big-second-dropdowns>a {
+.second-dropdowns > a,
+.big-second-dropdowns > a {
   color: white !important;
   display: block;
   padding: 10px 15px;
   text-decoration: none;
 }
 
-
-.second-dropdowns>a:hover,
-.big-second-dropdowns>a:hover {
+.second-dropdowns > a:hover,
+.big-second-dropdowns > a:hover {
   background: white;
   color: black !important;
 }
 
-.dropdown:hover>.link,
-.big-dropdown:hover>.link {
+.dropdown:hover > .link,
+.big-dropdown:hover > .link {
   color: black;
 }
 
@@ -1952,7 +1988,11 @@
   max-width: none;
   margin: 100px auto 3rem auto;
   padding: 2.5rem 2.75rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.92) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.92) 100%
+  );
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -1967,7 +2007,11 @@
     left: 0;
     width: 6px;
     border-radius: 16px 0 0 16px;
-    background: linear-gradient(180deg, var(--lowell-red, #861212) 0%, rgba(156, 25, 25, 0.55) 100%);
+    background: linear-gradient(
+      180deg,
+      var(--lowell-red, #861212) 0%,
+      rgba(156, 25, 25, 0.55) 100%
+    );
   }
 
   h1 {
@@ -2012,7 +2056,10 @@
     padding: 1.25rem 1rem 1.1rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     border: 1px solid rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
     height: 100%;
 
     &:hover {
@@ -2214,8 +2261,8 @@
   padding: 2rem;
 }
 
-.title-ix>p,
-.title-ix>a {
+.title-ix > p,
+.title-ix > a {
   width: 100%;
   font-size: 1.3rem;
 }
@@ -2266,7 +2313,7 @@
 
   a {
     color: inherit !important;
-    font-size: 1.0rem !important;
+    font-size: 1rem !important;
   }
 }
 
@@ -2626,7 +2673,6 @@
   .ham-offset {
     height: 100px;
   }
-
 }
 
 // Homepage editorial layout. Keep every override under .home-page so shared
@@ -2685,7 +2731,12 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(90deg, rgba(12, 9, 8, 0.8) 0%, rgba(12, 9, 8, 0.35) 48%, rgba(12, 9, 8, 0.08) 75%),
+        linear-gradient(
+          90deg,
+          rgba(12, 9, 8, 0.8) 0%,
+          rgba(12, 9, 8, 0.35) 48%,
+          rgba(12, 9, 8, 0.08) 75%
+        ),
         linear-gradient(0deg, rgba(12, 9, 8, 0.62) 0%, transparent 42%);
     }
   }
@@ -3399,7 +3450,11 @@
 
       &::after {
         background:
-          linear-gradient(0deg, rgba(12, 9, 8, 0.84) 0%, rgba(12, 9, 8, 0.28) 72%),
+          linear-gradient(
+            0deg,
+            rgba(12, 9, 8, 0.84) 0%,
+            rgba(12, 9, 8, 0.28) 72%
+          ),
           linear-gradient(90deg, rgba(12, 9, 8, 0.35), transparent);
       }
     }

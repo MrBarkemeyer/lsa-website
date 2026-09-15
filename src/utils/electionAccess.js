@@ -22,7 +22,8 @@ export function areElectionResultsReleased(config, now = Date.now()) {
  */
 export function areElectionBoardsPublic(config) {
   if (config?.state === "polling") return true;
-  if (config?.state === "results" && !areElectionResultsReleased(config)) return true;
+  if (config?.state === "results" && !areElectionResultsReleased(config))
+    return true;
   return false;
 }
 

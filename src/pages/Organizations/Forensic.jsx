@@ -22,8 +22,8 @@ export default function Forensic() {
         <p>
           Our head coach and sponsor is Mr. Abad, a Lowell alum, holder of the
           California High School Speech Association&apos;s (CHSSA) 2019 Donovan
-          Cummings&apos; Service Above Self Award, and is CHSSA&apos;s 2023 Hall of Fame
-          Inductee.
+          Cummings&apos; Service Above Self Award, and is CHSSA&apos;s 2023 Hall
+          of Fame Inductee.
         </p>
         <p>
           Our student cabinet works with our coaches and directors to serve
@@ -125,8 +125,8 @@ export default function Forensic() {
         </p>
         <p>
           IE gives you freedom to express yourself through improvisation,
-          acting, or original writing. Whether it&apos;s duet acting, expert extemp,
-          or heartfelt oratory, there&apos;s something for everyone.
+          acting, or original writing. Whether it&apos;s duet acting, expert
+          extemp, or heartfelt oratory, there&apos;s something for everyone.
         </p>
         <p>
           Practice is flexible, often done solo or in small groups, with
@@ -165,8 +165,8 @@ export default function Forensic() {
         </p>
         <p>
           Parli is fast-paced and team-based. You get 30 minutes to prep before
-          debating against another team on a surprise prompt. We&apos;ll help find
-          you a partner if you don&apos;t have one.
+          debating against another team on a surprise prompt. We&apos;ll help
+          find you a partner if you don&apos;t have one.
         </p>
         <p>
           Practices vary week-to-week and can involve joint sessions with
@@ -216,11 +216,13 @@ export default function Forensic() {
           Chicago, and Lexington. Frequent travel is one of the best perks!
         </p>
         <p>
-          You&apos;ll meet upperclassmen mentors, develop college-ready skills, and
-          have access to alumni who&apos;ve gone to places like Harvard, Princeton,
-          and UC Berkeley.
+          You&apos;ll meet upperclassmen mentors, develop college-ready skills,
+          and have access to alumni who&apos;ve gone to places like Harvard,
+          Princeton, and UC Berkeley.
         </p>
-        <p>Feel free to email us with any questions-we&apos;re happy to chat!</p>
+        <p>
+          Feel free to email us with any questions-we&apos;re happy to chat!
+        </p>
       </section>
     </>
   );

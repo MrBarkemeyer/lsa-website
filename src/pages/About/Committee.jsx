@@ -53,7 +53,9 @@ export default function Committee({ officerData: allOfficers }) {
         <p className="committee-member-card__role">{officer.Role}</p>
         <h3 className="committee-member-card__name">{officer.Name}</h3>
         {officer.Description && (
-          <p className="committee-member-card__description">{officer.Description}</p>
+          <p className="committee-member-card__description">
+            {officer.Description}
+          </p>
         )}
       </div>
     </article>
@@ -92,6 +94,6 @@ Committee.propTypes = {
       Role: PropTypes.string.isRequired,
       Photo: PropTypes.string,
       Description: PropTypes.string,
-    })
+    }),
   ),
 };

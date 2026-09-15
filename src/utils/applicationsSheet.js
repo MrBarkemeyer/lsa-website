@@ -8,7 +8,7 @@ function getByKey(row, ...possibleKeys) {
   const keys = Object.keys(row || {});
   for (const want of possibleKeys) {
     const found = keys.find(
-      (k) => String(k).trim().toLowerCase() === want.toLowerCase()
+      (k) => String(k).trim().toLowerCase() === want.toLowerCase(),
     );
     if (found && row[found] != null && String(row[found]).trim() !== "") {
       return String(row[found]).trim();

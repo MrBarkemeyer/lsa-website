@@ -30,46 +30,58 @@ export function announcementMonthValue(input) {
 export function parseAnnouncementsSheet(values) {
   if (!Array.isArray(values) || values.length < 2) return [];
 
-  const headers = values[0].map((header) => String(header || "").trim().toLowerCase());
+  const headers = values[0].map((header) =>
+    String(header || "")
+      .trim()
+      .toLowerCase(),
+  );
   const normalizedHeaders = headers.map((header) =>
-    header.replace(/\([^)]*\)/g, "").replace(/[^a-z0-9]/g, "")
+    header.replace(/\([^)]*\)/g, "").replace(/[^a-z0-9]/g, ""),
   );
   let titleIndex = headers.findIndex(
-    (header) => header === "name" || header === "title" || header === "event name"
+    (header) =>
+      header === "name" || header === "title" || header === "event name",
   );
   if (titleIndex < 0) {
-    titleIndex = normalizedHeaders.findIndex((header) => header === "eventname");
+    titleIndex = normalizedHeaders.findIndex(
+      (header) => header === "eventname",
+    );
   }
   if (titleIndex < 0) titleIndex = 0;
 
   let dateIndex = headers.findIndex(
-    (header) => header === "date (mm/dd/yy)" || header.includes("mm/dd/yy")
+    (header) => header === "date (mm/dd/yy)" || header.includes("mm/dd/yy"),
   );
   if (dateIndex < 0) {
-    dateIndex = headers.findIndex((header) => header === "year" || header === "date");
+    dateIndex = headers.findIndex(
+      (header) => header === "year" || header === "date",
+    );
   }
   const contentIndex = headers.findIndex(
-    (header) => header === "description" || header === "content"
+    (header) => header === "description" || header === "content",
   );
   if (contentIndex < 0) return [];
 
-  return values.slice(1).reduce((announcements, row, rowIndex) => {
-    const item = {
-      id: `${String(row?.[titleIndex] ?? "").trim()}-${String(
-        row?.[dateIndex] ?? ""
-      ).trim()}-${rowIndex}`,
-      title: String(row?.[titleIndex] ?? "").trim(),
-      date: String(row?.[dateIndex] ?? "").trim() || "Unknown",
-      content: String(row?.[contentIndex] ?? "").trim(),
-    };
-    if (item.title && item.content) announcements.push(item);
-    return announcements;
-  }, []).sort((a, b) => {
+  return values
+    .slice(1)
+    .reduce((announcements, row, rowIndex) => {
+      const item = {
+        id: `${String(row?.[titleIndex] ?? "").trim()}-${String(
+          row?.[dateIndex] ?? "",
+        ).trim()}-${rowIndex}`,
+        title: String(row?.[titleIndex] ?? "").trim(),
+        date: String(row?.[dateIndex] ?? "").trim() || "Unknown",
+        content: String(row?.[contentIndex] ?? "").trim(),
+      };
+      if (item.title && item.content) announcements.push(item);
+      return announcements;
+    }, [])
+    .sort((a, b) => {
       const aDate = parseAnnouncementDate(a.date);
       const bDate = parseAnnouncementDate(b.date);
       if (!aDate && !bDate) return 0;
       if (!aDate) return 1;
       if (!bDate) return -1;
       return bDate.getTime() - aDate.getTime();
-  });
+    });
 }

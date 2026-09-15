@@ -12,16 +12,19 @@ export default function Wellness() {
       <div className="resource-content">
         <section className="resource-section">
           <article className="resource-card">
-            <h2 className="resource-section__heading">About wellness support</h2>
+            <h2 className="resource-section__heading">
+              About wellness support
+            </h2>
             <p>
-              The Lowell Wellness Team supports students through stress, life changes,
-              and day-to-day challenges. Whether you are overwhelmed, anxious, or just
-              need someone to talk to, this is a safe place to check in.
+              The Lowell Wellness Team supports students through stress, life
+              changes, and day-to-day challenges. Whether you are overwhelmed,
+              anxious, or just need someone to talk to, this is a safe place to
+              check in.
             </p>
             <p>
-              Wellness services are here to help you care for your mental health,
-              develop coping strategies, and stay connected to trusted adults and
-              resources.
+              Wellness services are here to help you care for your mental
+              health, develop coping strategies, and stay connected to trusted
+              adults and resources.
             </p>
           </article>
         </section>
@@ -43,8 +46,8 @@ export default function Wellness() {
           <article className="resource-tile">
             <h2>Looking for school support?</h2>
             <p>
-              Reach out to school counselors, wellness staff, or a trusted teacher for
-              support and referrals.
+              Reach out to school counselors, wellness staff, or a trusted
+              teacher for support and referrals.
             </p>
             <a
               className="resource-link-btn resource-link-btn--ghost"

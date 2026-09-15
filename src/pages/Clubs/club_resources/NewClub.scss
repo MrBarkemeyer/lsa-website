@@ -5,7 +5,11 @@
 }
 
 .new-club-page__hero {
-  background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--title-color) 0%,
+    var(--lowell-red) 100%
+  );
   color: white;
   padding: 3rem 1.5rem 3.25rem;
   text-align: center;
@@ -46,7 +50,9 @@
   color: var(--lowell-red);
   text-decoration: none;
   font-family: var(--primary-font);
-  transition: gap 0.2s ease, color 0.2s ease;
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
     color: var(--title-color);
@@ -136,7 +142,11 @@
   width: 2.35rem;
   height: 2.35rem;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--title-color) 0%,
+    var(--lowell-red) 100%
+  );
   color: white;
   font-weight: 700;
   font-size: 1rem;
@@ -198,7 +208,9 @@
   background: var(--lowell-red);
   color: white;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
 
   &:hover {
     background: var(--title-color);
@@ -259,7 +271,10 @@
   border: 1px solid rgba(0, 0, 0, 0.08);
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 
   &:hover {
     border-color: color-mix(in srgb, var(--lowell-red) 40%, transparent);

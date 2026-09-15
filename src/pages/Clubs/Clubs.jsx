@@ -41,9 +41,7 @@ export default function Clubs({ clubData }) {
           ) : (
             <div className="club-card__placeholder" aria-hidden="true" />
           )}
-          <span className="club-card__category">
-            {Category}
-          </span>
+          <span className="club-card__category">{Category}</span>
         </div>
         <h3 className="club-card__name">{Name}</h3>
       </Link>
@@ -114,7 +112,8 @@ export default function Clubs({ clubData }) {
       <div className="clubs-page__hero">
         <h1>Clubs &amp; Sports</h1>
         <p className="clubs-page__tagline">
-          Browse all registered clubs and sports at Lowell. Use filters or search to find a specific club.
+          Browse all registered clubs and sports at Lowell. Use filters or
+          search to find a specific club.
         </p>
       </div>
       <div className="clubs-page__filters">
@@ -146,7 +145,10 @@ export default function Clubs({ clubData }) {
           </div>
           <p className="clubs-page__filter-scroll-hint">
             Swipe or scroll sideways{" "}
-            <span className="clubs-page__filter-scroll-hint-arrows" aria-hidden="true">
+            <span
+              className="clubs-page__filter-scroll-hint-arrows"
+              aria-hidden="true"
+            >
               ← →
             </span>{" "}
             for all categories
@@ -181,21 +183,28 @@ export default function Clubs({ clubData }) {
           <div className="clubs-page__empty">
             <h2 className="clubs-page__empty-title">No clubs found</h2>
             <p className="clubs-page__empty-text">
-              Try checking your spelling or adjusting the filters. If you are looking for a team or activity that is not a club,
-              please also check the Organizations tab.
+              Try checking your spelling or adjusting the filters. If you are
+              looking for a team or activity that is not a club, please also
+              check the Organizations tab.
             </p>
           </div>
         ) : (
           displayClubs
         )}
       </div>
-      {!categoryFilter && filteredClubs.length > 0 && visibleClubs < filteredClubs.length && (
-        <div className="clubs-page__load-wrap">
-          <button type="button" className="clubs-page__load" onClick={loadMore}>
-            Load more clubs
-          </button>
-        </div>
-      )}
+      {!categoryFilter &&
+        filteredClubs.length > 0 &&
+        visibleClubs < filteredClubs.length && (
+          <div className="clubs-page__load-wrap">
+            <button
+              type="button"
+              className="clubs-page__load"
+              onClick={loadMore}
+            >
+              Load more clubs
+            </button>
+          </div>
+        )}
     </section>
   );
 }
@@ -215,6 +224,6 @@ Clubs.propTypes = {
       OtherOfficers: PropTypes.string,
       Instagram: PropTypes.string,
       Banner: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };

@@ -16,7 +16,8 @@ export default function Elections({
 }) {
   const [searchParams] = useSearchParams();
   const wantsCandidatesView =
-    searchParams.get("candidates") === "1" || searchParams.get("view") === "candidates";
+    searchParams.get("candidates") === "1" ||
+    searchParams.get("view") === "candidates";
   const messagingLive = useElectionVotingMessagingLive(config);
   const resultsReleased = useElectionResultsReleased(config);
   const state = config?.state ?? "results";
@@ -31,7 +32,10 @@ export default function Elections({
         <section className="election-section election-state-off">
           <div className="elections-message-box">
             <h2>No elections at this time</h2>
-            <p>{config?.notHappeningMessage ?? "Elections are not currently happening. Check back later for updates."}</p>
+            <p>
+              {config?.notHappeningMessage ??
+                "Elections are not currently happening. Check back later for updates."}
+            </p>
           </div>
         </section>
       </div>
@@ -49,10 +53,7 @@ export default function Elections({
         <section className="election-section election-state-off">
           <div className="elections-message-box">
             <h2>{config?.pendingTitle ?? "Elections are coming soon"}</h2>
-            <p>
-              {config?.pendingSubtitle ??
-                "Please stay tuned for updates."}
-            </p>
+            <p>{config?.pendingSubtitle ?? "Please stay tuned for updates."}</p>
             {String(config?.pendingDate ?? "").trim() ? (
               <p className="elections-pending-date">{config.pendingDate}</p>
             ) : null}
@@ -63,7 +64,12 @@ export default function Elections({
   }
 
   if (state === "polling") {
-    return <ElectionsCandidateBoardsView config={config} messagingLive={messagingLive} />;
+    return (
+      <ElectionsCandidateBoardsView
+        config={config}
+        messagingLive={messagingLive}
+      />
+    );
   }
 
   if (state === "results" && !resultsReleased) {
@@ -78,12 +84,20 @@ export default function Elections({
   }
 
   if (state === "results" && wantsCandidatesView) {
-    return <ElectionsCandidateBoardsView config={config} messagingLive={messagingLive} />;
+    return (
+      <ElectionsCandidateBoardsView
+        config={config}
+        messagingLive={messagingLive}
+      />
+    );
   }
 
   if (state === "results") {
     return (
-      <ElectionResultsPage electionsEnabled={electionsEnabled} electionsConfig={config} />
+      <ElectionResultsPage
+        electionsEnabled={electionsEnabled}
+        electionsConfig={config}
+      />
     );
   }
 
@@ -138,11 +152,11 @@ Elections.propTypes = {
                   pfp: PropTypes.string,
                   video: PropTypes.string,
                 }),
-              ])
+              ]),
             ),
-          })
+          }),
         ),
-      })
+      }),
     ),
   }),
 };

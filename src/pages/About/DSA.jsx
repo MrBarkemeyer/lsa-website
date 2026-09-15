@@ -84,11 +84,7 @@ export default function DSA() {
             aria-hidden
             style={{ "--dsa-glow": glowRGB }}
           >
-            <img
-              src={Barkemeyer}
-              alt="Mr. Barkemeyer"
-              className="dsa-image"
-            />
+            <img src={Barkemeyer} alt="Mr. Barkemeyer" className="dsa-image" />
           </div>
 
           <div className="dsa-info">

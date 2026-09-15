@@ -38,7 +38,10 @@ function scheduleDeadlineTicks(tick, deadlines) {
   return deadlines.reduce((timeoutIds, deadline) => {
     if (deadline != null && deadline > Date.now()) {
       timeoutIds.push(
-        window.setTimeout(tick, Math.min(deadline - Date.now() + 400, 86_400_000))
+        window.setTimeout(
+          tick,
+          Math.min(deadline - Date.now() + 400, 86_400_000),
+        ),
       );
     }
     return timeoutIds;
@@ -68,7 +71,7 @@ export function ElectionTimingProvider({ config, children }) {
       setTiming((current) =>
         nextPhase === current.phase
           ? current
-          : { now: nextNow, phase: nextPhase }
+          : { now: nextNow, phase: nextPhase },
       );
     };
     tick();
@@ -83,7 +86,11 @@ export function ElectionTimingProvider({ config, children }) {
     };
   }, [config, votingOpensAt, resultsReleaseAt]);
 
-  return createElement(ElectionNowContext.Provider, { value: timing.now }, children);
+  return createElement(
+    ElectionNowContext.Provider,
+    { value: timing.now },
+    children,
+  );
 }
 
 ElectionTimingProvider.propTypes = {

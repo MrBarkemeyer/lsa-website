@@ -19,13 +19,15 @@ const SECTIONS = [
     body: (
       <>
         <p>
-          Lowell competes in class spirit as well as academics. Spirit weeks are a
-          chance for each grade to show hall art, rally games, and dance performances.
+          Lowell competes in class spirit as well as academics. Spirit weeks are
+          a chance for each grade to show hall art, rally games, and dance
+          performances.
         </p>
         <p>
-          Fall Spirit Week is the main event: each grade gets a theme and builds a
-          committee for hallway, dance, and rally. Winning classes are chosen by
-          anonymous judges using hall decoration, participation, dance, and rally wins.
+          Fall Spirit Week is the main event: each grade gets a theme and builds
+          a committee for hallway, dance, and rally. Winning classes are chosen
+          by anonymous judges using hall decoration, participation, dance, and
+          rally wins.
         </p>
       </>
     ),
@@ -36,8 +38,8 @@ const SECTIONS = [
     icon: faBrush,
     body: (
       <p>
-        Cover the halls with posters that match your theme. Open to everyone you can
-        paint, sketch, and help your class come together.
+        Cover the halls with posters that match your theme. Open to everyone you
+        can paint, sketch, and help your class come together.
       </p>
     ),
   },
@@ -47,8 +49,8 @@ const SECTIONS = [
     icon: faMusic,
     body: (
       <p>
-        Choreograph and perform a routine for Spirit Rally. Dance scores are a big part
-        of the overall spirit score so bring your best moves.
+        Choreograph and perform a routine for Spirit Rally. Dance scores are a
+        big part of the overall spirit score so bring your best moves.
       </p>
     ),
   },
@@ -59,8 +61,8 @@ const SECTIONS = [
     body: (
       <p>
         Freshmen don&apos;t have a class board yet. The SBC Club Coordinator and
-        Elections Commissioner run the freshmen Spirit Committee. Watch for an info
-        meeting early in the year.
+        Elections Commissioner run the freshmen Spirit Committee. Watch for an
+        info meeting early in the year.
       </p>
     ),
   },
@@ -70,9 +72,9 @@ const SECTIONS = [
     icon: faMoon,
     body: (
       <p>
-        The Friday before Spirit Week is a big push: posters go up, dancers drill, and
-        the whole committee works from after school until around 10pm. Class boards
-        provide food for volunteers.
+        The Friday before Spirit Week is a big push: posters go up, dancers
+        drill, and the whole committee works from after school until around
+        10pm. Class boards provide food for volunteers.
       </p>
     ),
   },
@@ -82,8 +84,9 @@ const SECTIONS = [
     icon: faHandshake,
     body: (
       <p>
-        Show up when you can Spirit Committee needs lots of people. Attendance can be
-        signed off for extracurricular credit. You can join more than one subcommittee.
+        Show up when you can Spirit Committee needs lots of people. Attendance
+        can be signed off for extracurricular credit. You can join more than one
+        subcommittee.
       </p>
     ),
   },
@@ -95,8 +98,8 @@ export default function SpiritCommittee() {
       <header className="spirit-committee-page__hero">
         <h1>Spirit Committee</h1>
         <p>
-          Hall art, rally games, and the spirit dance each class builds a team for
-          Spirit Week.
+          Hall art, rally games, and the spirit dance each class builds a team
+          for Spirit Week.
         </p>
       </header>
 
@@ -117,8 +120,12 @@ export default function SpiritCommittee() {
               <div className="spirit-committee-page__card-icon" aria-hidden>
                 <FontAwesomeIcon icon={section.icon} />
               </div>
-              <h2 className="spirit-committee-page__card-title">{section.title}</h2>
-              <div className="spirit-committee-page__card-body">{section.body}</div>
+              <h2 className="spirit-committee-page__card-title">
+                {section.title}
+              </h2>
+              <div className="spirit-committee-page__card-body">
+                {section.body}
+              </div>
             </article>
           ))}
         </div>

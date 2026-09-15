@@ -42,7 +42,9 @@ function buildEnabledElectionSlugSet(electionsConfig) {
   };
 
   // Include slugs currently available in contenders (already merged from sheet/config in App.jsx).
-  const contenders = Array.isArray(electionsConfig?.contenders) ? electionsConfig.contenders : [];
+  const contenders = Array.isArray(electionsConfig?.contenders)
+    ? electionsConfig.contenders
+    : [];
   contenders.forEach((c) => {
     add(c?.slug);
     add(c?.board);
@@ -51,7 +53,9 @@ function buildEnabledElectionSlugSet(electionsConfig) {
   // Include explicit enabled board keys + any mapped meta slug/title.
   enabled.forEach((boardKey) => {
     add(boardKey);
-    const match = metaEntries.find(([k]) => k.toLowerCase() === String(boardKey).toLowerCase());
+    const match = metaEntries.find(
+      ([k]) => k.toLowerCase() === String(boardKey).toLowerCase(),
+    );
     if (match) {
       const [, item] = match;
       add(item?.slug);
@@ -161,10 +165,7 @@ function HamburgerSubRow({
             : "0px",
       }}
     >
-      <Link
-        className="link flex-between"
-        to={subLinkHref(parentTo, subLink)}
-      >
+      <Link className="link flex-between" to={subLinkHref(parentTo, subLink)}>
         {subLink.name}
       </Link>
       {subLink.hasDropDown && (
@@ -194,7 +195,7 @@ HamburgerSubRow.propTypes = {
       PropTypes.shape({
         name: PropTypes.string.isRequired,
         to: PropTypes.string.isRequired,
-      })
+      }),
     ),
   }).isRequired,
 };
@@ -233,10 +234,7 @@ function DesktopBigSubRow({
   ) : null;
 
   return (
-    <li
-      className="big-dropdown relative"
-      onClick={onToggleRow}
-    >
+    <li className="big-dropdown relative" onClick={onToggleRow}>
       <Link className="link" to={linkTo}>
         {subLink.name}{" "}
         {subLink.hasDropDown ? (
@@ -316,11 +314,8 @@ function HamburgerSection({
 
   const additionalMargin = subLinks.reduce((acc, subLink, index) => {
     const nestedKey = `${id}-${index}`;
-    const nestedOn =
-      !!mobileNestedOpen[nestedKey] && subLink.subLinks2?.length;
-    return nestedOn
-      ? acc + subLink.subLinks2.length * 31 + 10
-      : acc;
+    const nestedOn = !!mobileNestedOpen[nestedKey] && subLink.subLinks2?.length;
+    return nestedOn ? acc + subLink.subLinks2.length * 31 + 10 : acc;
   }, 0);
 
   return (
@@ -379,7 +374,11 @@ HamburgerSection.propTypes = {
   onToggleNested: PropTypes.func.isRequired,
 };
 
-export default function Navbar({ clubData, electionsEnabled = true, electionsConfig = null }) {
+export default function Navbar({
+  clubData,
+  electionsEnabled = true,
+  electionsConfig = null,
+}) {
   const location = useLocation();
   const [hasScrolled, setHasScrolled] = useState(false);
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
@@ -469,8 +468,7 @@ export default function Navbar({ clubData, electionsEnabled = true, electionsCon
         return (
           <div className="relative first-dropdowns" key={id}>
             <Link to={to} className="link">
-              {icon && <FontAwesomeIcon icon={icon} className="icon" />}{" "}
-              {name}{" "}
+              {icon && <FontAwesomeIcon icon={icon} className="icon" />} {name}{" "}
               {hasDropDown ? (
                 <FontAwesomeIcon
                   icon={faCaretDown}
@@ -511,7 +509,7 @@ export default function Navbar({ clubData, electionsEnabled = true, electionsCon
           </div>
         );
       }),
-    [navLinksFiltered, openBigSubRow, toggleBigSubRow]
+    [navLinksFiltered, openBigSubRow, toggleBigSubRow],
   );
 
   const hamburgerItems = useMemo(
@@ -532,7 +530,7 @@ export default function Navbar({ clubData, electionsEnabled = true, electionsCon
       mobileNestedOpen,
       toggleMobileSection,
       toggleMobileNested,
-    ]
+    ],
   );
 
   return (
@@ -543,10 +541,7 @@ export default function Navbar({ clubData, electionsEnabled = true, electionsCon
         }
       />
       <div className="navbar">
-        <ul
-          className="nav-links"
-          style={hasScrolled ? scrolledStyle : {}}
-        >
+        <ul className="nav-links" style={hasScrolled ? scrolledStyle : {}}>
           <NavLogo />
           {desktopItems}
         </ul>
@@ -593,7 +588,7 @@ Navbar.propTypes = {
     PropTypes.shape({
       Name: PropTypes.string.isRequired,
       Category: PropTypes.string.isRequired,
-    })
+    }),
   ),
   electionsEnabled: PropTypes.bool,
   electionsConfig: PropTypes.object,

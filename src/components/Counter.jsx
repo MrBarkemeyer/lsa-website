@@ -30,7 +30,7 @@ export default function Counter({
         const entry = entries[0];
         setStatState(entry.isIntersecting);
       },
-      { threshold: 0.3 } // Trigger when at least 30% of the element is visible
+      { threshold: 0.3 }, // Trigger when at least 30% of the element is visible
     );
 
     observer.observe(currentRef);

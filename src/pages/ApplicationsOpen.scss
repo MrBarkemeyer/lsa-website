@@ -5,7 +5,11 @@
 }
 
 .applications-open__hero {
-  background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--title-color) 0%,
+    var(--lowell-red) 100%
+  );
   color: #fff;
   padding: clamp(2.25rem, 5vw, 3.25rem) 1.25rem;
   text-align: center;
@@ -67,7 +71,10 @@
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
 
   &--primary {
     background: var(--lowell-red);
@@ -197,7 +204,9 @@
   border-radius: 14px;
   padding: 1.15rem 1.2rem 1.25rem;
   box-shadow: 0 6px 22px rgba(20, 23, 31, 0.06);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
   position: relative;
   overflow: hidden;
 
@@ -208,7 +217,11 @@
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(180deg, var(--lowell-red) 0%, var(--title-color) 100%);
+    background: linear-gradient(
+      180deg,
+      var(--lowell-red) 0%,
+      var(--title-color) 100%
+    );
     border-radius: 14px 0 0 14px;
   }
 
@@ -284,7 +297,9 @@
     color: #fff !important;
     border: none;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.15s ease;
+    transition:
+      background 0.2s ease,
+      transform 0.15s ease;
 
     &:hover {
       background: var(--title-color);

@@ -16,7 +16,8 @@ export default function Layout(props) {
   const isHomePage = location.pathname === "/";
   const resultsReleased = useElectionResultsReleased(electionsConfig ?? {});
   const wantsElectionsCandidatesView =
-    searchParams.get("candidates") === "1" || searchParams.get("view") === "candidates";
+    searchParams.get("candidates") === "1" ||
+    searchParams.get("view") === "candidates";
   const electionsMessageUnderHero =
     location.pathname === "/Elections/Results" ||
     (location.pathname === "/Elections" && !wantsElectionsCandidatesView);
@@ -34,7 +35,11 @@ export default function Layout(props) {
 
   return (
     <>
-      <Navbar clubData={clubData} electionsEnabled={electionsEnabled} electionsConfig={electionsConfig} />
+      <Navbar
+        clubData={clubData}
+        electionsEnabled={electionsEnabled}
+        electionsConfig={electionsConfig}
+      />
       {(showElectionBanner || showElectionResultsBanner) && !isHomePage && (
         <ElectionBanner config={electionsConfig} />
       )}

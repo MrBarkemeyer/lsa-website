@@ -1,17 +1,17 @@
-import { lazy, useState, useEffect, useMemo } from 'react'
-import './App.scss'
-import { Routes, Route, Outlet, Navigate, useLocation } from 'react-router-dom'
-import Home from "./pages/Home"
-import Layout from "./pages/Layout"
+import { lazy, useState, useEffect, useMemo } from "react";
+import "./App.scss";
+import { Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
+import Home from "./pages/Home";
+import Layout from "./pages/Layout";
 import ScrollToTop from "./components/ScrollToTop";
-import { site } from './config/site.config.js'
-import { mergeElectionConfigWithSheet } from './utils/electionCandidatesFromSheet.js'
-import { parseCardinalympicsEventsSheet } from './utils/cardinalympicsEventsFromSheet.js'
-import { parseAnnouncementsSheet } from './utils/announcementsSheet.js'
-import { ElectionTimingProvider } from './utils/electionVotingWindow.js'
-import applicationsSheetConfig from './config/applications.config.js'
-import cardinalympicsConfig from './config/cardinalympics.config.js'
-import NotFound from './pages/NotFound'
+import { site } from "./config/site.config.js";
+import { mergeElectionConfigWithSheet } from "./utils/electionCandidatesFromSheet.js";
+import { parseCardinalympicsEventsSheet } from "./utils/cardinalympicsEventsFromSheet.js";
+import { parseAnnouncementsSheet } from "./utils/announcementsSheet.js";
+import { ElectionTimingProvider } from "./utils/electionVotingWindow.js";
+import applicationsSheetConfig from "./config/applications.config.js";
+import cardinalympicsConfig from "./config/cardinalympics.config.js";
+import NotFound from "./pages/NotFound";
 
 const Elections = lazy(() => import("./pages/Elections"));
 const ElectionBoard = lazy(() => import("./pages/Elections/ElectionBoard"));
@@ -36,10 +36,16 @@ const LsaTeamPage = lazy(() => import("./pages/About/LsaTeamPage"));
 const LSAExplore = lazy(() => import("./pages/About/LSAExplore"));
 const Registry = lazy(() => import("./pages/Registry/Registry"));
 const NewClub = lazy(() => import("./pages/Clubs/club_resources/NewClub"));
-const EventPlanning = lazy(() => import("./pages/Clubs/club_resources/EventPlanning"));
-const Fundraising = lazy(() => import("./pages/Clubs/club_resources/Fundraising"));
+const EventPlanning = lazy(
+  () => import("./pages/Clubs/club_resources/EventPlanning"),
+);
+const Fundraising = lazy(
+  () => import("./pages/Clubs/club_resources/Fundraising"),
+);
 const MockTrial = lazy(() => import("./pages/Organizations/MockTrial"));
-const ShieldAndScroll = lazy(() => import("./pages/Organizations/ShieldAndScroll"));
+const ShieldAndScroll = lazy(
+  () => import("./pages/Organizations/ShieldAndScroll"),
+);
 const Archives = lazy(() => import("./pages/More/Archives"));
 const More = lazy(() => import("./pages/More/More"));
 const Forensic = lazy(() => import("./pages/Organizations/Forensic"));
@@ -60,7 +66,8 @@ const MAIN_SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
 const WEBSITE_INFO_SHEET = "Website Info";
 const OFFICERS_SHEET = "Officers";
 const ELECTIONS_SHEET = "Elections";
-const CARDINALYMPICS_SPREADSHEET_ID = "1Q4BWb9A2S9qRvn4HZhMpRnDseSmnlp36T4N7SGF-JF4";
+const CARDINALYMPICS_SPREADSHEET_ID =
+  "1Q4BWb9A2S9qRvn4HZhMpRnDseSmnlp36T4N7SGF-JF4";
 const CARDINALYMPICS_SCORE_SHEET = "Sp, 25";
 const CARDINALYMPICS_SCOREBOARD_GID = 525997941;
 const CARDINALYMPICS_EVENTS_SHEET = "Cardinalympics Events";
@@ -151,7 +158,12 @@ function tabNameToValuesRangeA1(tabName) {
 }
 
 /** One HTTP request for multiple tabs on the same spreadsheet (saves quota vs. separate values.get calls). */
-async function fetchSheetBatchGetWithRetry(spreadsheetId, rangeNames, apiKey, options = {}) {
+async function fetchSheetBatchGetWithRetry(
+  spreadsheetId,
+  rangeNames,
+  apiKey,
+  options = {},
+) {
   const attempts = options.attempts ?? SHEETS_RETRY_ATTEMPTS;
   const delayMs = options.delayMs ?? SHEETS_RETRY_DELAY_MS;
   let lastError = null;
@@ -172,7 +184,8 @@ async function fetchSheetBatchGetWithRetry(spreadsheetId, rangeNames, apiKey, op
 
       if (!res.ok || json?.error) {
         lastError = apiMessage || res.statusText || `HTTP ${httpStatus}`;
-        const retryable = httpStatus === 429 || httpStatus >= 500 || httpStatus === 0;
+        const retryable =
+          httpStatus === 429 || httpStatus >= 500 || httpStatus === 0;
         if (!retryable) {
           break;
         }
@@ -190,15 +203,24 @@ async function fetchSheetBatchGetWithRetry(spreadsheetId, rangeNames, apiKey, op
     }
   }
 
-  return { valueRanges: null, error: lastError || "Failed to fetch sheet data" };
+  return {
+    valueRanges: null,
+    error: lastError || "Failed to fetch sheet data",
+  };
 }
 
 /** Read values directly from a gid/sheetId without relying on tab title. */
-async function fetchSheetByGidWithRetry(spreadsheetId, gid, apiKey, options = {}) {
+async function fetchSheetByGidWithRetry(
+  spreadsheetId,
+  gid,
+  apiKey,
+  options = {},
+) {
   const attempts = options.attempts ?? SHEETS_RETRY_ATTEMPTS;
   const delayMs = options.delayMs ?? SHEETS_RETRY_DELAY_MS;
   const targetGid = Number(gid);
-  if (!Number.isFinite(targetGid)) return { values: null, error: "Invalid gid" };
+  if (!Number.isFinite(targetGid))
+    return { values: null, error: "Invalid gid" };
   let lastError = null;
 
   for (let i = 0; i < attempts; i++) {
@@ -222,7 +244,8 @@ async function fetchSheetByGidWithRetry(spreadsheetId, gid, apiKey, options = {}
 
       if (!res.ok || json?.error) {
         lastError = apiMessage || res.statusText || `HTTP ${httpStatus}`;
-        const retryable = httpStatus === 429 || httpStatus >= 500 || httpStatus === 0;
+        const retryable =
+          httpStatus === 429 || httpStatus >= 500 || httpStatus === 0;
         if (!retryable) break;
       } else {
         const values = json?.valueRanges?.[0]?.valueRange?.values;
@@ -253,7 +276,9 @@ function processSheetData(data) {
   if (!data?.length) return [];
   const [headers, ...rows] = data;
   return rows.map((row) =>
-    Object.fromEntries(headers.map((header, index) => [header, row[index] || ""]))
+    Object.fromEntries(
+      headers.map((header, index) => [header, row[index] || ""]),
+    ),
   );
 }
 
@@ -275,517 +300,609 @@ function processApplicationsSheetData(data) {
   }
 
   const headers = data[headerRowIndex];
-  return data.slice(headerRowIndex + 1).map((row) =>
-    Object.fromEntries(
-      headers.map((header, index) => [
-        String(header ?? "").trim() || `Column${index}`,
-        row[index] != null ? String(row[index]) : "",
-      ])
-    )
-  );
+  return data
+    .slice(headerRowIndex + 1)
+    .map((row) =>
+      Object.fromEntries(
+        headers.map((header, index) => [
+          String(header ?? "").trim() || `Column${index}`,
+          row[index] != null ? String(row[index]) : "",
+        ]),
+      ),
+    );
 }
 
 function App() {
-    const location = useLocation();
-    const [clubData, setClubData] = useState([]);
-    const [officerData, setOfficerData] = useState([]);
+  const location = useLocation();
+  const [clubData, setClubData] = useState([]);
+  const [officerData, setOfficerData] = useState([]);
 
-    const [cardinalympicsData, setCardinalympicsData] = useState([0, 0, 0, 0]);
-    const [scoreboardRows, setScoreboardRows] = useState([]);
-    const [cardinalympicsEvents, setCardinalympicsEvents] = useState([]);
+  const [cardinalympicsData, setCardinalympicsData] = useState([0, 0, 0, 0]);
+  const [scoreboardRows, setScoreboardRows] = useState([]);
+  const [cardinalympicsEvents, setCardinalympicsEvents] = useState([]);
 
-    const [electionSheetValues, setElectionSheetValues] = useState(null);
-    const [newsData, setNewsData] = useState([]);
-    const [newsLoading, setNewsLoading] = useState(true);
+  const [electionSheetValues, setElectionSheetValues] = useState(null);
+  const [newsData, setNewsData] = useState([]);
+  const [newsLoading, setNewsLoading] = useState(true);
 
-    // which clubs/orgs have applications open right now
-    const [applicationsData, setApplicationsData] = useState([]);
-    const [applicationsLoading, setApplicationsLoading] = useState(true);
-    const [applicationsError, setApplicationsError] = useState(null);
-    const shouldCheckSheetsNow = SHOULD_CHECK_SHEETS_NOW;
+  // which clubs/orgs have applications open right now
+  const [applicationsData, setApplicationsData] = useState([]);
+  const [applicationsLoading, setApplicationsLoading] = useState(true);
+  const [applicationsError, setApplicationsError] = useState(null);
+  const shouldCheckSheetsNow = SHOULD_CHECK_SHEETS_NOW;
 
-    // Website Info + Officers + Elections + announcements archive: one batchGet per refresh (4 tabs -> 1 API call).
-    // Elections tab loads on every route because Layout/Navbar/banner use electionsConfigResolved (sheet merge), not only /Elections.
-    useEffect(() => {
-      async function fetchCoreSheetsAndAnnouncements() {
-        const clubCookieKey = "lsa_sheet_website_info_v1";
-        const officerCookieKey = "lsa_sheet_officers_v1";
-        const electionCookieKey = "lsa_sheet_elections_v1";
-        const announcementsCookieKey = "lsa_sheet_home_announcements_v1";
-        const cachedClubValues = readJsonCookie(clubCookieKey);
-        const cachedOfficerValues = readJsonCookie(officerCookieKey);
-        const cachedElectionValues = readJsonCookie(electionCookieKey);
-        const cachedAnnouncementsValues = readJsonCookie(announcementsCookieKey);
+  // Website Info + Officers + Elections + announcements archive: one batchGet per refresh (4 tabs -> 1 API call).
+  // Elections tab loads on every route because Layout/Navbar/banner use electionsConfigResolved (sheet merge), not only /Elections.
+  useEffect(() => {
+    async function fetchCoreSheetsAndAnnouncements() {
+      const clubCookieKey = "lsa_sheet_website_info_v1";
+      const officerCookieKey = "lsa_sheet_officers_v1";
+      const electionCookieKey = "lsa_sheet_elections_v1";
+      const announcementsCookieKey = "lsa_sheet_home_announcements_v1";
+      const cachedClubValues = readJsonCookie(clubCookieKey);
+      const cachedOfficerValues = readJsonCookie(officerCookieKey);
+      const cachedElectionValues = readJsonCookie(electionCookieKey);
+      const cachedAnnouncementsValues = readJsonCookie(announcementsCookieKey);
 
-        if (cachedClubValues?.length) {
-          setClubData(processSheetData(cachedClubValues));
-        }
-        if (cachedOfficerValues?.length) {
-          setOfficerData(processSheetData(cachedOfficerValues));
-        }
-        if (cachedElectionValues?.length) {
-          setElectionSheetValues(cachedElectionValues);
-        }
-        if (cachedAnnouncementsValues?.length) {
-          setNewsData(parseAnnouncementsSheet(cachedAnnouncementsValues));
-        }
+      if (cachedClubValues?.length) {
+        setClubData(processSheetData(cachedClubValues));
+      }
+      if (cachedOfficerValues?.length) {
+        setOfficerData(processSheetData(cachedOfficerValues));
+      }
+      if (cachedElectionValues?.length) {
+        setElectionSheetValues(cachedElectionValues);
+      }
+      if (cachedAnnouncementsValues?.length) {
+        setNewsData(parseAnnouncementsSheet(cachedAnnouncementsValues));
+      }
 
-        const skipNetwork =
-          !shouldCheckSheetsNow &&
-          cachedClubValues?.length &&
-          cachedOfficerValues?.length &&
-          cachedElectionValues?.length &&
-          cachedAnnouncementsValues?.length;
-        if (skipNetwork) {
-          setNewsLoading(false);
+      const skipNetwork =
+        !shouldCheckSheetsNow &&
+        cachedClubValues?.length &&
+        cachedOfficerValues?.length &&
+        cachedElectionValues?.length &&
+        cachedAnnouncementsValues?.length;
+      if (skipNetwork) {
+        setNewsLoading(false);
+        return;
+      }
+
+      try {
+        const batchTabNames = [
+          WEBSITE_INFO_SHEET,
+          OFFICERS_SHEET,
+          ELECTIONS_SHEET,
+          ANNOUNCEMENTS_ARCHIVE_SHEET_NAME,
+        ];
+        const batch = await fetchSheetBatchGetWithRetry(
+          MAIN_SPREADSHEET_ID,
+          batchTabNames,
+          GOOGLE_API_KEY,
+        );
+        if (batch.error || !batch.valueRanges?.length) {
+          console.warn("Main spreadsheet batch:", batch.error);
           return;
         }
+        const vr = batch.valueRanges;
+        const clubVals = vr[0]?.values;
+        const officerVals = vr[1]?.values;
+        const electionVals = vr[2]?.values;
+        const announcementVals = vr[3]?.values;
 
-        try {
-          const batchTabNames = [
-            WEBSITE_INFO_SHEET,
-            OFFICERS_SHEET,
-            ELECTIONS_SHEET,
-            ANNOUNCEMENTS_ARCHIVE_SHEET_NAME,
-          ];
-          const batch = await fetchSheetBatchGetWithRetry(
-            MAIN_SPREADSHEET_ID,
-            batchTabNames,
-            GOOGLE_API_KEY
-          );
-          if (batch.error || !batch.valueRanges?.length) {
-            console.warn("Main spreadsheet batch:", batch.error);
-            return;
-          }
-          const vr = batch.valueRanges;
-          const clubVals = vr[0]?.values;
-          const officerVals = vr[1]?.values;
-          const electionVals = vr[2]?.values;
-          const announcementVals = vr[3]?.values;
-
-          if (clubVals?.length) {
-            setClubData(processSheetData(clubVals));
-            writeJsonCookie(clubCookieKey, clubVals);
-          } else {
-            console.warn("Website Info sheet: empty or missing");
-          }
-          if (officerVals?.length) {
-            setOfficerData(processSheetData(officerVals));
-            writeJsonCookie(officerCookieKey, officerVals);
-          } else {
-            console.warn("Officers sheet: empty or missing");
-          }
-          if (electionVals?.length) {
-            setElectionSheetValues(electionVals);
-            writeJsonCookie(electionCookieKey, electionVals);
-          } else {
-            console.warn("Elections sheet: empty or missing");
-          }
-          if (announcementVals?.length) {
-            const parsed = parseAnnouncementsSheet(announcementVals);
-            if (parsed.length) {
-              setNewsData(parsed);
-              writeJsonCookie(announcementsCookieKey, announcementVals);
-            } else {
-              console.warn("Announcements archive tab: no parsed rows");
-            }
-          } else {
-            console.warn("Announcements archive sheet: empty or missing");
-          }
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setNewsLoading(false);
+        if (clubVals?.length) {
+          setClubData(processSheetData(clubVals));
+          writeJsonCookie(clubCookieKey, clubVals);
+        } else {
+          console.warn("Website Info sheet: empty or missing");
         }
+        if (officerVals?.length) {
+          setOfficerData(processSheetData(officerVals));
+          writeJsonCookie(officerCookieKey, officerVals);
+        } else {
+          console.warn("Officers sheet: empty or missing");
+        }
+        if (electionVals?.length) {
+          setElectionSheetValues(electionVals);
+          writeJsonCookie(electionCookieKey, electionVals);
+        } else {
+          console.warn("Elections sheet: empty or missing");
+        }
+        if (announcementVals?.length) {
+          const parsed = parseAnnouncementsSheet(announcementVals);
+          if (parsed.length) {
+            setNewsData(parsed);
+            writeJsonCookie(announcementsCookieKey, announcementVals);
+          } else {
+            console.warn("Announcements archive tab: no parsed rows");
+          }
+        } else {
+          console.warn("Announcements archive sheet: empty or missing");
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setNewsLoading(false);
       }
-      fetchCoreSheetsAndAnnouncements();
-    }, [shouldCheckSheetsNow]);
+    }
+    fetchCoreSheetsAndAnnouncements();
+  }, [shouldCheckSheetsNow]);
 
-    const electionsConfigResolved = useMemo(
-      () => mergeElectionConfigWithSheet(site.elections, electionSheetValues),
-      [electionSheetValues]
+  const electionsConfigResolved = useMemo(
+    () => mergeElectionConfigWithSheet(site.elections, electionSheetValues),
+    [electionSheetValues],
+  );
+
+  const {
+    showScoresAndScoreboard,
+    showScoreBreakdown,
+    showWinningChances,
+    showEvents,
+    showHomeEventsSignupNow,
+    displayMode: cardinalympicsDisplayMode,
+  } = cardinalympicsConfig;
+  const needsCardinalympicsEventsData = showEvents || showHomeEventsSignupNow;
+
+  useEffect(() => {
+    if (!showScoresAndScoreboard) {
+      setCardinalympicsData([0, 0, 0, 0]);
+      setScoreboardRows([]);
+    }
+    if (!needsCardinalympicsEventsData) {
+      setCardinalympicsEvents([]);
+    }
+
+    if (!showScoresAndScoreboard && !needsCardinalympicsEventsData) {
+      return undefined;
+    }
+
+    function applyCardinalympicsValues(values) {
+      if (!Array.isArray(values) || values.length === 0) return;
+      const scoreFromCell = (cell) => {
+        const n = parseInt(String(cell ?? "").replace(/[^0-9-]/g, ""), 10);
+        return Number.isNaN(n) ? null : n;
+      };
+      const spiritTotalsRow = [...values].reverse().find((row) =>
+        String(row?.[0] ?? "")
+          .toUpperCase()
+          .includes("SPIRIT WEEK TOTALS"),
+      );
+      let classTotals = [];
+      if (spiritTotalsRow) {
+        classTotals = [4, 5, 6, 7]
+          .map((idx) => scoreFromCell(spiritTotalsRow[idx]))
+          .filter((n) => n != null);
+      }
+      if (classTotals.length !== 4) {
+        const totals = arrayCleanUp(values[0]);
+        classTotals =
+          totals.length >= 5 ? totals.slice(-4) : totals.slice(0, 4);
+      }
+      setCardinalympicsData(classTotals);
+      setScoreboardRows(
+        values.map((row) => (Array.isArray(row) ? [...row] : row)),
+      );
+    }
+
+    function applyCardinalympicsEventsValues(values) {
+      if (!Array.isArray(values) || values.length === 0) return;
+      setCardinalympicsEvents(parseCardinalympicsEventsSheet(values));
+    }
+
+    const cardinalympicsRouteActive = routeWantsCardinalympicsLiveFetch(
+      location.pathname,
     );
+    if (!cardinalympicsRouteActive) {
+      const cardinalympicsCookieKey = "lsa_sheet_cardinalympics_v1";
+      const eventsCookieKey = "lsa_sheet_cardinalympics_events_v1";
+      const cachedValues = readJsonCookie(cardinalympicsCookieKey);
+      const cachedEventsValues = readJsonCookie(eventsCookieKey);
+      if (showScoresAndScoreboard && cachedValues?.length)
+        applyCardinalympicsValues(cachedValues);
+      if (needsCardinalympicsEventsData && cachedEventsValues?.length)
+        applyCardinalympicsEventsValues(cachedEventsValues);
+      return undefined;
+    }
 
-    const {
-      showScoresAndScoreboard,
-      showScoreBreakdown,
-      showWinningChances,
-      showEvents,
-      showHomeEventsSignupNow,
-      displayMode: cardinalympicsDisplayMode,
-    } = cardinalympicsConfig;
-    const needsCardinalympicsEventsData = showEvents || showHomeEventsSignupNow;
+    async function fetchCardinalympicsData() {
+      const cardinalympicsCookieKey = "lsa_sheet_cardinalympics_v1";
+      const eventsCookieKey = "lsa_sheet_cardinalympics_events_v1";
+      const cachedValues = readJsonCookie(cardinalympicsCookieKey);
+      const cachedEventsValues = readJsonCookie(eventsCookieKey);
 
-    useEffect(() => {
-      if (!showScoresAndScoreboard) {
-        setCardinalympicsData([0, 0, 0, 0]);
-        setScoreboardRows([]);
+      if (showScoresAndScoreboard && cachedValues?.length) {
+        applyCardinalympicsValues(cachedValues);
       }
-      if (!needsCardinalympicsEventsData) {
-        setCardinalympicsEvents([]);
-      }
-
-      if (!showScoresAndScoreboard && !needsCardinalympicsEventsData) {
-        return undefined;
-      }
-
-      function applyCardinalympicsValues(values) {
-        if (!Array.isArray(values) || values.length === 0) return;
-        const scoreFromCell = (cell) => {
-          const n = parseInt(String(cell ?? "").replace(/[^0-9-]/g, ""), 10);
-          return Number.isNaN(n) ? null : n;
-        };
-        const spiritTotalsRow = [...values].reverse().find((row) =>
-          String(row?.[0] ?? "").toUpperCase().includes("SPIRIT WEEK TOTALS")
-        );
-        let classTotals = [];
-        if (spiritTotalsRow) {
-          classTotals = [4, 5, 6, 7]
-            .map((idx) => scoreFromCell(spiritTotalsRow[idx]))
-            .filter((n) => n != null);
-        }
-        if (classTotals.length !== 4) {
-          const totals = arrayCleanUp(values[0]);
-          classTotals = totals.length >= 5 ? totals.slice(-4) : totals.slice(0, 4);
-        }
-        setCardinalympicsData(classTotals);
-        setScoreboardRows(values.map((row) => (Array.isArray(row) ? [...row] : row)));
+      if (needsCardinalympicsEventsData && cachedEventsValues?.length) {
+        applyCardinalympicsEventsValues(cachedEventsValues);
       }
 
-      function applyCardinalympicsEventsValues(values) {
-        if (!Array.isArray(values) || values.length === 0) return;
-        setCardinalympicsEvents(parseCardinalympicsEventsSheet(values));
-      }
+      const skipNetwork =
+        !reserveSheetsRefreshWindow() &&
+        (!showScoresAndScoreboard || cachedValues?.length) &&
+        (!needsCardinalympicsEventsData || cachedEventsValues?.length);
+      if (skipNetwork) return;
 
-      const cardinalympicsRouteActive = routeWantsCardinalympicsLiveFetch(location.pathname);
-      if (!cardinalympicsRouteActive) {
-        const cardinalympicsCookieKey = "lsa_sheet_cardinalympics_v1";
-        const eventsCookieKey = "lsa_sheet_cardinalympics_events_v1";
-        const cachedValues = readJsonCookie(cardinalympicsCookieKey);
-        const cachedEventsValues = readJsonCookie(eventsCookieKey);
-        if (showScoresAndScoreboard && cachedValues?.length) applyCardinalympicsValues(cachedValues);
-        if (needsCardinalympicsEventsData && cachedEventsValues?.length) applyCardinalympicsEventsValues(cachedEventsValues);
-        return undefined;
-      }
-
-      async function fetchCardinalympicsData() {
-        const cardinalympicsCookieKey = "lsa_sheet_cardinalympics_v1";
-        const eventsCookieKey = "lsa_sheet_cardinalympics_events_v1";
-        const cachedValues = readJsonCookie(cardinalympicsCookieKey);
-        const cachedEventsValues = readJsonCookie(eventsCookieKey);
-
-        if (showScoresAndScoreboard && cachedValues?.length) {
-          applyCardinalympicsValues(cachedValues);
-        }
-        if (needsCardinalympicsEventsData && cachedEventsValues?.length) {
-          applyCardinalympicsEventsValues(cachedEventsValues);
-        }
-
-        const skipNetwork =
-          !reserveSheetsRefreshWindow() &&
-          (!showScoresAndScoreboard || cachedValues?.length) &&
-          (!needsCardinalympicsEventsData || cachedEventsValues?.length);
-        if (skipNetwork) return;
-
-        try {
-          const fetchOpts = { fetchOptions: { cache: "no-store" } };
-          const tasks = [];
-          if (showScoresAndScoreboard) {
-            tasks.push(
-              fetchSheetByGidWithRetry(
+      try {
+        const fetchOpts = { fetchOptions: { cache: "no-store" } };
+        const tasks = [];
+        if (showScoresAndScoreboard) {
+          tasks.push(
+            fetchSheetByGidWithRetry(
+              CARDINALYMPICS_SPREADSHEET_ID,
+              CARDINALYMPICS_SCOREBOARD_GID,
+              GOOGLE_API_KEY,
+              fetchOpts,
+            ).then((gidResult) => {
+              if (gidResult.values?.length) {
+                return {
+                  kind: "scores",
+                  batch: {
+                    valueRanges: [{ values: gidResult.values }],
+                    error: null,
+                  },
+                };
+              }
+              return fetchSheetBatchGetWithRetry(
                 CARDINALYMPICS_SPREADSHEET_ID,
-                CARDINALYMPICS_SCOREBOARD_GID,
+                [CARDINALYMPICS_SCORE_SHEET],
                 GOOGLE_API_KEY,
-                fetchOpts
-              )
-                .then((gidResult) => {
-                  if (gidResult.values?.length) {
-                    return {
-                      kind: "scores",
-                      batch: { valueRanges: [{ values: gidResult.values }], error: null },
-                    };
-                  }
-                  return fetchSheetBatchGetWithRetry(
-                    CARDINALYMPICS_SPREADSHEET_ID,
-                    [CARDINALYMPICS_SCORE_SHEET],
-                    GOOGLE_API_KEY,
-                    fetchOpts
-                  ).then((batch) => ({ kind: "scores", batch }));
-                })
-            );
-          }
-          if (needsCardinalympicsEventsData) {
-            tasks.push(
-              fetchSheetBatchGetWithRetry(
-                MAIN_SPREADSHEET_ID,
-                [CARDINALYMPICS_EVENTS_SHEET],
-                GOOGLE_API_KEY,
-                fetchOpts
-              ).then(
-                (batch) => ({ kind: "events", batch })
-              )
-            );
-          }
-          const results = await Promise.all(tasks);
-          for (const { kind, batch } of results) {
-            if (kind === "scores") {
-              const scoreVals = batch.valueRanges?.[0]?.values;
-              if (scoreVals?.length) {
-                applyCardinalympicsValues(scoreVals);
-                writeJsonCookie(cardinalympicsCookieKey, scoreVals);
-              } else {
-                console.warn(
-                  "Cardinalympics scoreboard sheet:",
-                  batch.error || "empty or missing"
-                );
-              }
+                fetchOpts,
+              ).then((batch) => ({ kind: "scores", batch }));
+            }),
+          );
+        }
+        if (needsCardinalympicsEventsData) {
+          tasks.push(
+            fetchSheetBatchGetWithRetry(
+              MAIN_SPREADSHEET_ID,
+              [CARDINALYMPICS_EVENTS_SHEET],
+              GOOGLE_API_KEY,
+              fetchOpts,
+            ).then((batch) => ({ kind: "events", batch })),
+          );
+        }
+        const results = await Promise.all(tasks);
+        for (const { kind, batch } of results) {
+          if (kind === "scores") {
+            const scoreVals = batch.valueRanges?.[0]?.values;
+            if (scoreVals?.length) {
+              applyCardinalympicsValues(scoreVals);
+              writeJsonCookie(cardinalympicsCookieKey, scoreVals);
             } else {
-              const eventVals = batch.valueRanges?.[0]?.values;
-              if (eventVals?.length) {
-                applyCardinalympicsEventsValues(eventVals);
-                writeJsonCookie(eventsCookieKey, eventVals);
-              } else {
-                console.warn(
-                  "Cardinalympics Events sheet:",
-                  batch.error || "empty or missing"
-                );
-              }
+              console.warn(
+                "Cardinalympics scoreboard sheet:",
+                batch.error || "empty or missing",
+              );
+            }
+          } else {
+            const eventVals = batch.valueRanges?.[0]?.values;
+            if (eventVals?.length) {
+              applyCardinalympicsEventsValues(eventVals);
+              writeJsonCookie(eventsCookieKey, eventVals);
+            } else {
+              console.warn(
+                "Cardinalympics Events sheet:",
+                batch.error || "empty or missing",
+              );
             }
           }
-        } catch (error) {
-          console.log(error);
         }
+      } catch (error) {
+        console.log(error);
       }
+    }
 
-      const hasCachedCardinalympics = Boolean(readJsonCookie("lsa_sheet_cardinalympics_v1")?.length);
-      const hasCachedEvents = Boolean(readJsonCookie("lsa_sheet_cardinalympics_events_v1")?.length);
-      const shouldInitialFetch =
-        shouldCheckSheetsNow ||
-        (showScoresAndScoreboard && !hasCachedCardinalympics) ||
-        (needsCardinalympicsEventsData && !hasCachedEvents);
+    const hasCachedCardinalympics = Boolean(
+      readJsonCookie("lsa_sheet_cardinalympics_v1")?.length,
+    );
+    const hasCachedEvents = Boolean(
+      readJsonCookie("lsa_sheet_cardinalympics_events_v1")?.length,
+    );
+    const shouldInitialFetch =
+      shouldCheckSheetsNow ||
+      (showScoresAndScoreboard && !hasCachedCardinalympics) ||
+      (needsCardinalympicsEventsData && !hasCachedEvents);
 
-      if (shouldInitialFetch) {
-        fetchCardinalympicsData();
-      } else {
-        const cachedValues = readJsonCookie("lsa_sheet_cardinalympics_v1");
-        const cachedEventsValues = readJsonCookie("lsa_sheet_cardinalympics_events_v1");
-        if (showScoresAndScoreboard && cachedValues?.length) applyCardinalympicsValues(cachedValues);
-        if (needsCardinalympicsEventsData && cachedEventsValues?.length) applyCardinalympicsEventsValues(cachedEventsValues);
+    if (shouldInitialFetch) {
+      fetchCardinalympicsData();
+    } else {
+      const cachedValues = readJsonCookie("lsa_sheet_cardinalympics_v1");
+      const cachedEventsValues = readJsonCookie(
+        "lsa_sheet_cardinalympics_events_v1",
+      );
+      if (showScoresAndScoreboard && cachedValues?.length)
+        applyCardinalympicsValues(cachedValues);
+      if (needsCardinalympicsEventsData && cachedEventsValues?.length)
+        applyCardinalympicsEventsValues(cachedEventsValues);
+    }
+
+    let pollId = null;
+    const armPolling = () => {
+      if (pollId != null) {
+        clearInterval(pollId);
+        pollId = null;
       }
+      pollId = window.setInterval(
+        fetchCardinalympicsData,
+        CARDINALYMPICS_POLL_MS,
+      );
+    };
 
-      let pollId = null;
-      const armPolling = () => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
         if (pollId != null) {
           clearInterval(pollId);
           pollId = null;
         }
-        pollId = window.setInterval(fetchCardinalympicsData, CARDINALYMPICS_POLL_MS);
-      };
+      } else {
+        void fetchCardinalympicsData();
+        armPolling();
+      }
+    };
 
-      const onVisibilityChange = () => {
-        if (document.visibilityState === "hidden") {
-          if (pollId != null) {
-            clearInterval(pollId);
-            pollId = null;
-          }
-        } else {
-          void fetchCardinalympicsData();
-          armPolling();
-        }
-      };
+    if (typeof document !== "undefined") {
+      if (!document.hidden) {
+        armPolling();
+      }
+      document.addEventListener("visibilitychange", onVisibilityChange);
+    }
 
+    return () => {
       if (typeof document !== "undefined") {
-        if (!document.hidden) {
-          armPolling();
-        }
-        document.addEventListener("visibilitychange", onVisibilityChange);
+        document.removeEventListener("visibilitychange", onVisibilityChange);
+      }
+      if (pollId != null) {
+        clearInterval(pollId);
+      }
+    };
+  }, [
+    shouldCheckSheetsNow,
+    showScoresAndScoreboard,
+    showEvents,
+    showHomeEventsSignupNow,
+    needsCardinalympicsEventsData,
+    location.pathname,
+  ]);
+
+  useEffect(() => {
+    async function fetchApplicationsData() {
+      setApplicationsError(null);
+      setApplicationsLoading(true);
+      const configuredSpreadsheetId = String(
+        applicationsSheetConfig?.spreadsheetId ?? "",
+      ).trim();
+      if (!configuredSpreadsheetId) {
+        // Explicitly treat blank config as "feature off": no API calls, no error state.
+        setApplicationsData([]);
+        setApplicationsLoading(false);
+        return;
+      }
+      const appsCookieKey = "lsa_sheet_applications_v1";
+      const cachedApplicationsValues = readJsonCookie(appsCookieKey);
+      if (cachedApplicationsValues?.length) {
+        setApplicationsData(
+          processApplicationsSheetData(cachedApplicationsValues),
+        );
+      }
+      if (!routeWantsApplicationsLiveFetch(location.pathname)) {
+        setApplicationsLoading(false);
+        return;
+      }
+      if (!shouldCheckSheetsNow && cachedApplicationsValues?.length) {
+        setApplicationsLoading(false);
+        return;
       }
 
-      return () => {
-        if (typeof document !== "undefined") {
-          document.removeEventListener("visibilitychange", onVisibilityChange);
-        }
-        if (pollId != null) {
-          clearInterval(pollId);
-        }
-      };
-    }, [
-      shouldCheckSheetsNow,
-      showScoresAndScoreboard,
-      showEvents,
-      showHomeEventsSignupNow,
-      needsCardinalympicsEventsData,
-      location.pathname,
-    ]);
+      try {
+        const { spreadsheetId, sheetName, sheetNames } =
+          applicationsSheetConfig;
+        const names = sheetNames?.length
+          ? sheetNames
+          : [sheetName].filter(Boolean);
 
-    useEffect(() => {
-      async function fetchApplicationsData() {
-        setApplicationsError(null);
-        setApplicationsLoading(true);
-        const configuredSpreadsheetId = String(applicationsSheetConfig?.spreadsheetId ?? "").trim();
-        if (!configuredSpreadsheetId) {
-          // Explicitly treat blank config as "feature off": no API calls, no error state.
-          setApplicationsData([]);
-          setApplicationsLoading(false);
-          return;
+        let lastError = null;
+        const batch = await fetchSheetBatchGetWithRetry(
+          spreadsheetId,
+          names,
+          GOOGLE_API_KEY,
+        );
+        if (!batch.error && batch.valueRanges?.length) {
+          for (let i = 0; i < names.length; i++) {
+            const vals = batch.valueRanges[i]?.values;
+            if (!vals?.length) continue;
+            setApplicationsData(processApplicationsSheetData(vals));
+            writeJsonCookie(appsCookieKey, vals);
+            return;
+          }
+          lastError = "No non-empty applications tab";
+        } else {
+          lastError = batch.error || "Unknown API error";
+          console.warn("Applications sheet batch:", lastError);
         }
-        const appsCookieKey = "lsa_sheet_applications_v1";
-        const cachedApplicationsValues = readJsonCookie(appsCookieKey);
+
         if (cachedApplicationsValues?.length) {
-          setApplicationsData(processApplicationsSheetData(cachedApplicationsValues));
-        }
-        if (!routeWantsApplicationsLiveFetch(location.pathname)) {
-          setApplicationsLoading(false);
-          return;
-        }
-        if (!shouldCheckSheetsNow && cachedApplicationsValues?.length) {
-          setApplicationsLoading(false);
-          return;
-        }
-
-        try {
-          const { spreadsheetId, sheetName, sheetNames } = applicationsSheetConfig;
-          const names = sheetNames?.length
-            ? sheetNames
-            : [sheetName].filter(Boolean);
-
-          let lastError = null;
-          const batch = await fetchSheetBatchGetWithRetry(
-            spreadsheetId,
-            names,
-            GOOGLE_API_KEY
+          setApplicationsError(
+            `Live applications data unavailable (${lastError || "Could not load applications tab"}). Showing last saved data.`,
           );
-          if (!batch.error && batch.valueRanges?.length) {
-            for (let i = 0; i < names.length; i++) {
-              const vals = batch.valueRanges[i]?.values;
-              if (!vals?.length) continue;
-              setApplicationsData(processApplicationsSheetData(vals));
-              writeJsonCookie(appsCookieKey, vals);
-              return;
-            }
-            lastError = "No non-empty applications tab";
-          } else {
-            lastError = batch.error || "Unknown API error";
-            console.warn("Applications sheet batch:", lastError);
-          }
-
-          if (cachedApplicationsValues?.length) {
-            setApplicationsError(
-              `Live applications data unavailable (${lastError || "Could not load applications tab"}). Showing last saved data.`
-            );
-          } else {
-            setApplicationsData([]);
-            setApplicationsError(
-              lastError || "Could not load the applications spreadsheet tab."
-            );
-          }
-        } catch (error) {
-          console.warn(error);
-          if (cachedApplicationsValues?.length) {
-            setApplicationsError(
-              `Network error loading applications (${error?.message || "Unknown error"}). Showing last saved data.`
-            );
-          } else {
-            setApplicationsData([]);
-            setApplicationsError(error?.message || "Network error loading applications.");
-          }
-        } finally {
-          setApplicationsLoading(false);
+        } else {
+          setApplicationsData([]);
+          setApplicationsError(
+            lastError || "Could not load the applications spreadsheet tab.",
+          );
         }
+      } catch (error) {
+        console.warn(error);
+        if (cachedApplicationsValues?.length) {
+          setApplicationsError(
+            `Network error loading applications (${error?.message || "Unknown error"}). Showing last saved data.`,
+          );
+        } else {
+          setApplicationsData([]);
+          setApplicationsError(
+            error?.message || "Network error loading applications.",
+          );
+        }
+      } finally {
+        setApplicationsLoading(false);
       }
-      fetchApplicationsData();
-    }, [shouldCheckSheetsNow, location.pathname]);
-
+    }
+    fetchApplicationsData();
+  }, [shouldCheckSheetsNow, location.pathname]);
 
   return (
     <>
-        <ScrollToTop />
-        <Routes>
+      <ScrollToTop />
+      <Routes>
+        <Route
+          element={
+            <ElectionTimingProvider config={electionsConfigResolved}>
+              <Layout
+                clubData={clubData}
+                electionsEnabled={site.electionsEnabled}
+                electionsConfig={electionsConfigResolved}
+              />
+            </ElectionTimingProvider>
+          }
+        >
           <Route
+            path="/"
             element={
-              <ElectionTimingProvider config={electionsConfigResolved}>
-                <Layout
-                  clubData={clubData}
+              <Home
+                cardinalympicsData={cardinalympicsData}
+                cardinalympicsEvents={cardinalympicsEvents}
+                newsData={newsData}
+                clubData={clubData}
+                applicationsData={applicationsData}
+                showCardinalympicsScores={
+                  cardinalympicsConfig.showScoresAndScoreboard
+                }
+                showCardinalympicsSignupNow={
+                  cardinalympicsConfig.showHomeEventsSignupNow
+                }
+                cardinalympicsDisplayMode={cardinalympicsDisplayMode}
+                electionsConfig={electionsConfigResolved}
+              />
+            }
+          />
+          <Route path="Elections" element={<Outlet />}>
+            <Route
+              index
+              element={
+                <Elections
                   electionsEnabled={site.electionsEnabled}
                   electionsConfig={electionsConfigResolved}
-                />
-              </ElectionTimingProvider>
-            }
-          >
-            <Route path="/" element={<Home cardinalympicsData={cardinalympicsData} cardinalympicsEvents={cardinalympicsEvents} newsData={newsData} clubData={clubData} applicationsData={applicationsData} showCardinalympicsScores={cardinalympicsConfig.showScoresAndScoreboard} showCardinalympicsSignupNow={cardinalympicsConfig.showHomeEventsSignupNow} cardinalympicsDisplayMode={cardinalympicsDisplayMode} electionsConfig={electionsConfigResolved} />} />
-            <Route path="Elections" element={<Outlet />}>
-              <Route index element={<Elections electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />} />
-              <Route path=":boardSlug" element={<ElectionBoard electionsConfig={electionsConfigResolved} />} />
-              <Route path="Results" element={<ElectionResults electionsEnabled={site.electionsEnabled} electionsConfig={electionsConfigResolved} />} />
-            </Route>
-            
-            <Route path="LSA" element={<Outlet />}>
-              <Route index element={<AboutLSA/>} />
-              <Route path="SBC" element={<SBC officerData={officerData}/>} />
-              <Route path="DSA" element={<DSA />} />
-              <Route path="Charter" element={<Charter />}/>
-              <Route path="Commitees" element={<Committees />} />
-              <Route path="Spirit Committee" element={<SpiritCommittee />} />
-              <Route path=":BoardName" element={<LsaTeamPage officerData={officerData} />} />
-              
-            </Route>
-
-            <Route path="Organizations" element = {<Outlet />}>
-              <Route index element={<Organization />} />
-              <Route path="MockTrial" element={<MockTrial />} />
-              <Route path="ShieldAndScroll" element={<ShieldAndScroll />} />
-              <Route path="Forensic" element={<Forensic />} />
-              <Route path="VideoLowell" element={<VideoLowell />} />
-            </Route>
-
-            <Route path="Clubs" element={<Outlet />}>
-              <Route index element={<Clubs clubData={clubData}/>} />
-              <Route path="ClubResources" element={<ClubResources />} />
-              <Route path=":ClubName" element={<Club clubData={clubData}/>}/>
-              <Route path="NewClub" element={<NewClub />} />
-              <Route path="EventPlanning" element={<EventPlanning />} />
-              <Route path="Fundraising" element={<Fundraising />} />
-            </Route>
-
-            <Route
-              path="ApplicationsOpen"
-              element={
-                <ApplicationsOpen
-                  applicationsData={applicationsData}
-                  applicationsLoading={applicationsLoading}
-                  applicationsError={applicationsError}
                 />
               }
             />
             <Route
-              path="Announcements"
-              element={<Announcements announcements={newsData} loading={newsLoading} />}
+              path=":boardSlug"
+              element={
+                <ElectionBoard electionsConfig={electionsConfigResolved} />
+              }
             />
-            <Route path="Resources" element={<Outlet />}>
-              <Route index element={<Resources />} />
-              <Route
-                path="ApplicationsOpen"
-                element={<Navigate to="/ApplicationsOpen" replace />}
-              />
-              <Route path="Wellness" element={<Wellness />} />
-              <Route path="TitleIX" element={<TitleIX />} />
-            </Route>
-            <Route path="LSA-EXPLORE" element={<LSAExplore />} />
-            <Route path="Wellness" element={<Navigate to="/Resources/Wellness" replace />} />
-            <Route path="TitleIX" element={<Navigate to="/Resources/TitleIX" replace />} />
-            
-            <Route path="FreshmenCorner" element= {<FreshMenCorner />} />
-            <Route path="Registry" element={<Registry />} />
-            <Route path="Events" element={<Events />} />
-            <Route path="AboutSite" element={<Site />} />
-            <Route path="Archives" element={<Archives />} />
-            <Route path="Cardinalympics" element={<Cardinalympics cardinalympicsData={cardinalympicsData} scoreboardRows={scoreboardRows} cardinalympicsEvents={cardinalympicsEvents} showScoresAndScoreboard={showScoresAndScoreboard} showScoreBreakdown={showScoreBreakdown} showWinningChances={showWinningChances} showEvents={showEvents} cardinalympicsDisplayMode={cardinalympicsDisplayMode} />} />  
-            <Route path="More" element={<More />} />
-            <Route path="*" element={<NotFound />} />
+            <Route
+              path="Results"
+              element={
+                <ElectionResults
+                  electionsEnabled={site.electionsEnabled}
+                  electionsConfig={electionsConfigResolved}
+                />
+              }
+            />
           </Route>
-        </Routes>
+
+          <Route path="LSA" element={<Outlet />}>
+            <Route index element={<AboutLSA />} />
+            <Route path="SBC" element={<SBC officerData={officerData} />} />
+            <Route path="DSA" element={<DSA />} />
+            <Route path="Charter" element={<Charter />} />
+            <Route path="Commitees" element={<Committees />} />
+            <Route path="Spirit Committee" element={<SpiritCommittee />} />
+            <Route
+              path=":BoardName"
+              element={<LsaTeamPage officerData={officerData} />}
+            />
+          </Route>
+
+          <Route path="Organizations" element={<Outlet />}>
+            <Route index element={<Organization />} />
+            <Route path="MockTrial" element={<MockTrial />} />
+            <Route path="ShieldAndScroll" element={<ShieldAndScroll />} />
+            <Route path="Forensic" element={<Forensic />} />
+            <Route path="VideoLowell" element={<VideoLowell />} />
+          </Route>
+
+          <Route path="Clubs" element={<Outlet />}>
+            <Route index element={<Clubs clubData={clubData} />} />
+            <Route path="ClubResources" element={<ClubResources />} />
+            <Route path=":ClubName" element={<Club clubData={clubData} />} />
+            <Route path="NewClub" element={<NewClub />} />
+            <Route path="EventPlanning" element={<EventPlanning />} />
+            <Route path="Fundraising" element={<Fundraising />} />
+          </Route>
+
+          <Route
+            path="ApplicationsOpen"
+            element={
+              <ApplicationsOpen
+                applicationsData={applicationsData}
+                applicationsLoading={applicationsLoading}
+                applicationsError={applicationsError}
+              />
+            }
+          />
+          <Route
+            path="Announcements"
+            element={
+              <Announcements announcements={newsData} loading={newsLoading} />
+            }
+          />
+          <Route path="Resources" element={<Outlet />}>
+            <Route index element={<Resources />} />
+            <Route
+              path="ApplicationsOpen"
+              element={<Navigate to="/ApplicationsOpen" replace />}
+            />
+            <Route path="Wellness" element={<Wellness />} />
+            <Route path="TitleIX" element={<TitleIX />} />
+          </Route>
+          <Route path="LSA-EXPLORE" element={<LSAExplore />} />
+          <Route
+            path="Wellness"
+            element={<Navigate to="/Resources/Wellness" replace />}
+          />
+          <Route
+            path="TitleIX"
+            element={<Navigate to="/Resources/TitleIX" replace />}
+          />
+
+          <Route path="FreshmenCorner" element={<FreshMenCorner />} />
+          <Route path="Registry" element={<Registry />} />
+          <Route path="Events" element={<Events />} />
+          <Route path="AboutSite" element={<Site />} />
+          <Route path="Archives" element={<Archives />} />
+          <Route
+            path="Cardinalympics"
+            element={
+              <Cardinalympics
+                cardinalympicsData={cardinalympicsData}
+                scoreboardRows={scoreboardRows}
+                cardinalympicsEvents={cardinalympicsEvents}
+                showScoresAndScoreboard={showScoresAndScoreboard}
+                showScoreBreakdown={showScoreBreakdown}
+                showWinningChances={showWinningChances}
+                showEvents={showEvents}
+                cardinalympicsDisplayMode={cardinalympicsDisplayMode}
+              />
+            }
+          />
+          <Route path="More" element={<More />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

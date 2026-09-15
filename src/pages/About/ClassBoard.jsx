@@ -69,7 +69,9 @@ export default function ClassBoard({ officerData: officerDataProp }) {
             Next board &rarr;
           </Link>
         ) : (
-          <span className="board-nav__btn board-nav__btn--disabled">Next board &rarr;</span>
+          <span className="board-nav__btn board-nav__btn--disabled">
+            Next board &rarr;
+          </span>
         )}
       </nav>
 
@@ -77,7 +79,10 @@ export default function ClassBoard({ officerData: officerDataProp }) {
         <h2 className="board-officers-heading">Meet the board</h2>
         <div className="board-officers-grid">
           {officerData.map((officer) => (
-            <article key={`${officer.Name}-${officer.Role}`} className="board-officer-card">
+            <article
+              key={`${officer.Name}-${officer.Role}`}
+              className="board-officer-card"
+            >
               <div className="board-officer-card-photo-wrap">
                 <SafeImage
                   src={driveThumbnailCandidates(officer.Photo, "w600")}
@@ -86,17 +91,23 @@ export default function ClassBoard({ officerData: officerDataProp }) {
                   variant="user"
                 />
               </div>
-              
+
               {/* same deal - bar that turns into full popup on hover */}
               <div className="board-officer-card-frame">
                 <div className="board-officer-card-frame-header">
-                  <span className="board-officer-card-role">{officer.Role}</span>
+                  <span className="board-officer-card-role">
+                    {officer.Role}
+                  </span>
                   <h3 className="board-officer-card-name">{officer.Name}</h3>
                 </div>
                 {officer.Description && (
                   <div className="board-officer-card-frame-body">
-                    <p className="board-officer-card-preview">{officer.Description}</p>
-                    <p className="board-officer-card-description">{officer.Description}</p>
+                    <p className="board-officer-card-preview">
+                      {officer.Description}
+                    </p>
+                    <p className="board-officer-card-description">
+                      {officer.Description}
+                    </p>
                   </div>
                 )}
               </div>
@@ -105,7 +116,10 @@ export default function ClassBoard({ officerData: officerDataProp }) {
         </div>
       </section>
 
-      <nav className="board-nav board-nav--bottom" aria-label="Board navigation bottom">
+      <nav
+        className="board-nav board-nav--bottom"
+        aria-label="Board navigation bottom"
+      >
         <Link to={prevBoard.path} className="board-nav__btn">
           &larr; Previous board
         </Link>
@@ -117,7 +131,9 @@ export default function ClassBoard({ officerData: officerDataProp }) {
             Next board &rarr;
           </Link>
         ) : (
-          <span className="board-nav__btn board-nav__btn--disabled">Next board &rarr;</span>
+          <span className="board-nav__btn board-nav__btn--disabled">
+            Next board &rarr;
+          </span>
         )}
       </nav>
     </div>
@@ -132,6 +148,6 @@ ClassBoard.propTypes = {
       Role: PropTypes.string.isRequired,
       Photo: PropTypes.string,
       Description: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };

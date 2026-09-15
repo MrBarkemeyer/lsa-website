@@ -25,7 +25,9 @@ export default function ApplicationsOpen({
     return (applicationsData || [])
       .map(normalizeApplicationRow)
       .filter((r) => r && isLikelyDataRow(r) && isApplicationOpen(r))
-      .sort((a, b) => parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded));
+      .sort(
+        (a, b) => parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded),
+      );
   }, [applicationsData]);
 
   return (
@@ -33,8 +35,8 @@ export default function ApplicationsOpen({
       <header className="applications-open__hero">
         <h1>Applications open</h1>
         <p>
-          Clubs and student organizations currently accepting applications. Use each
-          card to open the official form or link when provided.
+          Clubs and student organizations currently accepting applications. Use
+          each card to open the official form or link when provided.
         </p>
         {!applicationsLoading && openRows.length > 0 && (
           <div className="applications-open__badge" aria-live="polite">
@@ -45,7 +47,10 @@ export default function ApplicationsOpen({
 
       <div className="applications-open__content">
         <div className="applications-open__actions">
-          <Link className="applications-open__link applications-open__link--primary" to="/Clubs">
+          <Link
+            className="applications-open__link applications-open__link--primary"
+            to="/Clubs"
+          >
             <FontAwesomeIcon icon={faClipboardList} aria-hidden />
             Browse all clubs
           </Link>
@@ -58,8 +63,16 @@ export default function ApplicationsOpen({
         </div>
 
         {applicationsLoading && (
-          <div className="applications-open__loading" role="status" aria-live="polite">
-            <FontAwesomeIcon icon={faSpinner} spin className="applications-open__loading-icon" />
+          <div
+            className="applications-open__loading"
+            role="status"
+            aria-live="polite"
+          >
+            <FontAwesomeIcon
+              icon={faSpinner}
+              spin
+              className="applications-open__loading-icon"
+            />
             <p>Loading applications…</p>
           </div>
         )}
@@ -67,28 +80,36 @@ export default function ApplicationsOpen({
         {!applicationsLoading && applicationsError && (
           <div className="applications-open__error" role="alert">
             <p>Could not load listings.</p>
-            <Link to="/Clubs" className="applications-open__link applications-open__link--primary">
+            <Link
+              to="/Clubs"
+              className="applications-open__link applications-open__link--primary"
+            >
               Browse clubs instead
             </Link>
           </div>
         )}
 
-        {!applicationsLoading && !applicationsError && openRows.length === 0 && (
-          <div className="applications-open__empty">
-            <div className="applications-open__empty-icon" aria-hidden>
-              <FontAwesomeIcon icon={faInbox} />
+        {!applicationsLoading &&
+          !applicationsError &&
+          openRows.length === 0 && (
+            <div className="applications-open__empty">
+              <div className="applications-open__empty-icon" aria-hidden>
+                <FontAwesomeIcon icon={faInbox} />
+              </div>
+              <h2>No applications open right now</h2>
+              <p>
+                Check back soon, or explore{" "}
+                <Link to="/Clubs">all Lowell clubs and organizations</Link> to
+                find something you love.
+              </p>
             </div>
-            <h2>No applications open right now</h2>
-            <p>
-              Check back soon, or explore{" "}
-              <Link to="/Clubs">all Lowell clubs and organizations</Link> to find
-              something you love.
-            </p>
-          </div>
-        )}
+          )}
 
         {!applicationsLoading && !applicationsError && openRows.length > 0 && (
-          <ul className="applications-open__grid" aria-label="Organizations with applications open">
+          <ul
+            className="applications-open__grid"
+            aria-label="Organizations with applications open"
+          >
             {openRows.map((item, index) => (
               <li key={`${item.name}-${item.link || "nolink"}-${index}`}>
                 <article className="app-open-card">
@@ -99,7 +120,9 @@ export default function ApplicationsOpen({
                     <h2 className="app-open-card__title">{item.name}</h2>
                   </div>
                   {item.dateAdded && (
-                    <p className="app-open-card__meta">Added {item.dateAdded}</p>
+                    <p className="app-open-card__meta">
+                      Added {item.dateAdded}
+                    </p>
                   )}
                   {item.notes && (
                     <p className="app-open-card__notes">{item.notes}</p>

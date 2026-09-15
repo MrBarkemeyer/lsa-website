@@ -21,9 +21,24 @@ import { driveThumbnailCandidates } from "../utils/driveMedia.js";
 import { cardinalympicsLeaderBadgeLabel } from "../utils/cardinalympicsDisplayMode.js";
 import heroVideo from "../assets/student-life-video.mp4";
 
-const CARDINALYMPICS_CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
-const CARDINALYMPICS_CLASS_SLUGS = ["freshman", "sophomore", "junior", "senior"];
-const CARDINALYMPICS_COUNTER_COLORS = ["#2e7d32", "#6a1b9a", "#1565c0", "#9c1919"];
+const CARDINALYMPICS_CLASS_NAMES = [
+  "Freshman",
+  "Sophomore",
+  "Junior",
+  "Senior",
+];
+const CARDINALYMPICS_CLASS_SLUGS = [
+  "freshman",
+  "sophomore",
+  "junior",
+  "senior",
+];
+const CARDINALYMPICS_COUNTER_COLORS = [
+  "#2e7d32",
+  "#6a1b9a",
+  "#1565c0",
+  "#9c1919",
+];
 const EMPTY_ARRAY = [];
 
 function getWeekIndex() {
@@ -40,7 +55,9 @@ function HeroBackgroundVideo({ src, title, className }) {
   const videoRef = useRef(null);
   const [showTapToPlay, setShowTapToPlay] = useState(false);
   const [isMobileLayout, setIsMobileLayout] = useState(
-    () => typeof window !== "undefined" && window.matchMedia(`(max-width: ${HERO_MOBILE_MAX_PX}px)`).matches
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia(`(max-width: ${HERO_MOBILE_MAX_PX}px)`).matches,
   );
 
   useEffect(() => {
@@ -159,31 +176,43 @@ export default function Home({
   cardinalympicsDisplayMode = "activeGame",
   electionsConfig = site.elections,
 }) {
-  const spotlightPool = useMemo(() => getClubsInSheetOrder(clubData), [clubData]);
+  const spotlightPool = useMemo(
+    () => getClubsInSheetOrder(clubData),
+    [clubData],
+  );
   const weekIndex = getWeekIndex();
   const spotlightClub =
-    spotlightPool.length > 0 ? spotlightPool[weekIndex % spotlightPool.length] : null;
+    spotlightPool.length > 0
+      ? spotlightPool[weekIndex % spotlightPool.length]
+      : null;
 
   const applicationsOpenForNews = useMemo(
     () =>
       applicationsData
         .reduce((openRows, row) => {
           const normalized = normalizeApplicationRow(row);
-          if (normalized && isLikelyDataRow(normalized) && isApplicationOpen(normalized)) {
+          if (
+            normalized &&
+            isLikelyDataRow(normalized) &&
+            isApplicationOpen(normalized)
+          ) {
             openRows.push(normalized);
           }
           return openRows;
         }, [])
-        .sort((a, b) => parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded))
+        .sort(
+          (a, b) => parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded),
+        )
         .slice(0, 5),
-    [applicationsData]
+    [applicationsData],
   );
 
   const resultsReleased = useElectionResultsReleased(electionsConfig);
   const showElectionBanner =
     site.electionsEnabled &&
     electionsConfig?.banner?.enabled &&
-    (electionsConfig?.state === "polling" || electionsConfig?.state === "pending");
+    (electionsConfig?.state === "polling" ||
+      electionsConfig?.state === "pending");
   const showElectionResultsBanner =
     site.electionsEnabled &&
     electionsConfig?.state === "results" &&
@@ -208,19 +237,21 @@ export default function Home({
         const score = Number(cardinalympicsData?.[index]);
         return Number.isFinite(score) ? score : 0;
       }),
-    [cardinalympicsData]
+    [cardinalympicsData],
   );
   const cardinalympicsLeaderIndex =
     cardinalympicsScores.length === 4
       ? cardinalympicsScores.indexOf(Math.max(...cardinalympicsScores))
       : -1;
-  const cardinalympicsTopClassBadge = cardinalympicsLeaderBadgeLabel(cardinalympicsDisplayMode);
+  const cardinalympicsTopClassBadge = cardinalympicsLeaderBadgeLabel(
+    cardinalympicsDisplayMode,
+  );
   const homeSignupEvents = useMemo(
     () =>
       cardinalympicsEvents
         .filter((event) => event && (event.signUpLink || event.signUpClosed))
         .slice(0, 6),
-    [cardinalympicsEvents]
+    [cardinalympicsEvents],
   );
   const signupEventNamesTicker = useMemo(() => {
     const names = homeSignupEvents.reduce((result, event) => {
@@ -236,7 +267,11 @@ export default function Home({
     <main className="home-page">
       <section className="home-hero" aria-labelledby="home-hero-title">
         <div className="hero-video-wrapper">
-          <HeroBackgroundVideo src={heroVideo} title="LSA Hero" className="hero-video" />
+          <HeroBackgroundVideo
+            src={heroVideo}
+            title="LSA Hero"
+            className="hero-video"
+          />
           <div className="video-credit">Video by Video Lowell</div>
         </div>
         <div className="home-hero-card">
@@ -245,14 +280,23 @@ export default function Home({
             Lowell Student Association
           </h1>
           <p className="home-hero-card__lede">
-            Student government for every class — leadership, events, and voice for the Lowell community.
+            Student government for every class — leadership, events, and voice
+            for the Lowell community.
           </p>
           <Link to="/LSA" className="home-hero-card__cta">
             About LSA
-            <FontAwesomeIcon icon={faArrowRight} className="home-hero-card__cta-icon" aria-hidden />
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              className="home-hero-card__cta-icon"
+              aria-hidden
+            />
           </Link>
         </div>
-        <a href="#welcome-lsa" className="scroll-icon" aria-label="Continue to welcome section">
+        <a
+          href="#welcome-lsa"
+          className="scroll-icon"
+          aria-label="Continue to welcome section"
+        >
           <FontAwesomeIcon icon={faAnglesDown} aria-hidden />
         </a>
       </section>
@@ -260,24 +304,41 @@ export default function Home({
         <ElectionBanner config={electionsConfig} />
       )}
       {showCardinalympicsSignupNow && homeSignupEvents.length > 0 && (
-        <section className="home-cardinalympics-signup" aria-labelledby="home-cardinalympics-signup-heading">
+        <section
+          className="home-cardinalympics-signup"
+          aria-labelledby="home-cardinalympics-signup-heading"
+        >
           <div className="home-cardinalympics-signup__inner">
-            <div className="home-cardinalympics-signup__rings" aria-hidden="true">
+            <div
+              className="home-cardinalympics-signup__rings"
+              aria-hidden="true"
+            >
               <CardinalympicLogo variant="homeBackdrop" />
             </div>
             <div className="home-cardinalympics-signup__content">
-              <h2 id="home-cardinalympics-signup-heading">Cardinalympics events sign up now</h2>
+              <h2 id="home-cardinalympics-signup-heading">
+                Cardinalympics events sign up now
+              </h2>
               {signupEventNamesTicker ? (
-                <div className="home-cardinalympics-signup__ticker-wrap" aria-hidden="true">
+                <div
+                  className="home-cardinalympics-signup__ticker-wrap"
+                  aria-hidden="true"
+                >
                   <div className="home-cardinalympics-signup__ticker-track">
-                    <p className="home-cardinalympics-signup__ticker">{signupEventNamesTicker}</p>
+                    <p className="home-cardinalympics-signup__ticker">
+                      {signupEventNamesTicker}
+                    </p>
                   </div>
                 </div>
               ) : null}
               <p className="home-cardinalympics-signup__subtitle">
-                Spots are limited for many events. Check openings and sign up before they close.
+                Spots are limited for many events. Check openings and sign up
+                before they close.
               </p>
-              <Link to="/Cardinalympics" className="home-cardinalympics-signup__button">
+              <Link
+                to="/Cardinalympics"
+                className="home-cardinalympics-signup__button"
+              >
                 View events
               </Link>
             </div>
@@ -285,14 +346,21 @@ export default function Home({
         </section>
       )}
 
-      <section className="lsa-description" id="welcome-lsa" aria-labelledby="welcome-lsa-title">
+      <section
+        className="lsa-description"
+        id="welcome-lsa"
+        aria-labelledby="welcome-lsa-title"
+      >
         <div className="home-section-heading">
           <p className="home-section-heading__eyebrow">Who we are</p>
-          <h2 id="welcome-lsa-title">Welcome to the Lowell Student Association!</h2>
+          <h2 id="welcome-lsa-title">
+            Welcome to the Lowell Student Association!
+          </h2>
           <p>
             LSA is the umbrella term for Lowell&apos;s student government or all
-            the boards, which includes the Student Body Council, and class boards
-            representing the Senior, Junior, Sophomore, and Freshmen classes.
+            the boards, which includes the Student Body Council, and class
+            boards representing the Senior, Junior, Sophomore, and Freshmen
+            classes.
           </p>
         </div>
         <div className="home-stats">
@@ -345,28 +413,41 @@ export default function Home({
           <News newsData={newsData} />
         </div>
         {spotlightClub && (
-          <aside className="club-spotlight-section" aria-labelledby="club-spotlight-heading">
+          <aside
+            className="club-spotlight-section"
+            aria-labelledby="club-spotlight-heading"
+          >
             <p className="home-section-heading__eyebrow">This week at Lowell</p>
             <h2 id="club-spotlight-heading">Club spotlight</h2>
             <div className="club-spotlight">
               <div className="club-spotlight__media">
                 {spotlightClub?.Picture ? (
                   <SafeImage
-                    src={driveThumbnailCandidates(spotlightClub.Picture, "w300")}
+                    src={driveThumbnailCandidates(
+                      spotlightClub.Picture,
+                      "w300",
+                    )}
                     alt={spotlightDisplayName}
                     className="club-spotlight__img"
                     variant="club"
                   />
                 ) : (
-                  <div className="club-spotlight__placeholder" aria-hidden="true">
+                  <div
+                    className="club-spotlight__placeholder"
+                    aria-hidden="true"
+                  >
                     {spotlightInitial}
                   </div>
                 )}
               </div>
               <div className="club-spotlight__content">
-                <h3 className="club-spotlight__title">{spotlightDisplayName}</h3>
+                <h3 className="club-spotlight__title">
+                  {spotlightDisplayName}
+                </h3>
                 {spotlightDisplayBlurb ? (
-                  <p className="club-spotlight__excerpt">{spotlightDisplayBlurb}</p>
+                  <p className="club-spotlight__excerpt">
+                    {spotlightDisplayBlurb}
+                  </p>
                 ) : null}
                 <Link to={spotlightHref} className="club-spotlight-link">
                   {spotlightCtaText}
@@ -377,19 +458,36 @@ export default function Home({
         )}
       </section>
       {applicationsOpenForNews.length > 0 && (
-        <section className="applications-news-section" aria-labelledby="applications-news-heading">
+        <section
+          className="applications-news-section"
+          aria-labelledby="applications-news-heading"
+        >
           <div className="home-section-heading">
             <p className="home-section-heading__eyebrow">Get involved</p>
             <h2 id="applications-news-heading">Applications now open</h2>
           </div>
           <div className="applications-news-container">
             {applicationsOpenForNews.map((item) => (
-              <article key={`${item.name}-${item.dateAdded}`} className="applications-news-item">
+              <article
+                key={`${item.name}-${item.dateAdded}`}
+                className="applications-news-item"
+              >
                 <h3>{item.name}</h3>
-                {item.dateAdded && <p className="applications-news-date">Added: {item.dateAdded}</p>}
-                {item.notes && <p className="applications-news-content">{item.notes}</p>}
+                {item.dateAdded && (
+                  <p className="applications-news-date">
+                    Added: {item.dateAdded}
+                  </p>
+                )}
+                {item.notes && (
+                  <p className="applications-news-content">{item.notes}</p>
+                )}
                 {item.link && (
-                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="applications-news-link">
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="applications-news-link"
+                  >
                     Go to application &rarr;
                   </a>
                 )}
@@ -397,7 +495,10 @@ export default function Home({
             ))}
           </div>
           <p className="applications-news-view-all">
-            <Link to="/ApplicationsOpen" className="applications-news-view-all__button">
+            <Link
+              to="/ApplicationsOpen"
+              className="applications-news-view-all__button"
+            >
               View all applications open
             </Link>
           </p>
@@ -414,7 +515,10 @@ export default function Home({
               <div className="home-cardinalympics__head-wrap">
                 <div className="home-cardinalympics__intro">
                   <div className="home-cardinalympics__title-line">
-                    <h2 id="home-cardinalympics-heading" className="home-cardinalympics__title">
+                    <h2
+                      id="home-cardinalympics-heading"
+                      className="home-cardinalympics__title"
+                    >
                       Cardinalympics
                     </h2>
                     <span
@@ -422,15 +526,23 @@ export default function Home({
                       role="status"
                       aria-label="Scores from the live scoreboard"
                     >
-                      <span className="home-cardinalympics__live-dot" aria-hidden="true" />
+                      <span
+                        className="home-cardinalympics__live-dot"
+                        aria-hidden="true"
+                      />
                       Live
                     </span>
                   </div>
-                  <p className="home-cardinalympics__subtitle">Spirit Week class totals!</p>
+                  <p className="home-cardinalympics__subtitle">
+                    Spirit Week class totals!
+                  </p>
                 </div>
               </div>
               <div className="home-cardinalympics__scores-wrap">
-                <div className="home-cardinalympics__rings-bg" aria-hidden="true">
+                <div
+                  className="home-cardinalympics__rings-bg"
+                  aria-hidden="true"
+                >
                   <CardinalympicLogo variant="homeBackdrop" />
                 </div>
                 <div className="home-cardinalympics__grid" role="list">
@@ -438,7 +550,9 @@ export default function Home({
                     <div
                       key={CARDINALYMPICS_CLASS_SLUGS[i]}
                       className={`home-cardinalympics__class home-cardinalympics__class--${CARDINALYMPICS_CLASS_SLUGS[i]}${
-                        cardinalympicsLeaderIndex === i ? " home-cardinalympics__class--leader" : ""
+                        cardinalympicsLeaderIndex === i
+                          ? " home-cardinalympics__class--leader"
+                          : ""
                       }`}
                       role="listitem"
                     >
@@ -458,7 +572,9 @@ export default function Home({
                           className="home-cardinalympics__counter"
                           color={CARDINALYMPICS_COUNTER_COLORS[i]}
                         />
-                        <span className="home-cardinalympics__pts-label">pts</span>
+                        <span className="home-cardinalympics__pts-label">
+                          pts
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -472,10 +588,15 @@ export default function Home({
         </section>
       )}
 
-      <section className="life-at-lowell" aria-labelledby="life-at-lowell-heading">
+      <section
+        className="life-at-lowell"
+        aria-labelledby="life-at-lowell-heading"
+      >
         <div className="life-at-lowell__heading">
           <p className="home-section-heading__eyebrow">Campus life</p>
-          <h2 id="life-at-lowell-heading">WATCH: Student Life at Lowell High School</h2>
+          <h2 id="life-at-lowell-heading">
+            WATCH: Student Life at Lowell High School
+          </h2>
         </div>
         <div className="responsive-video-wrapper">
           <iframe
@@ -517,14 +638,14 @@ Home.propTypes = {
       title: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
-    })
+    }),
   ),
   clubData: PropTypes.arrayOf(
     PropTypes.shape({
       Name: PropTypes.string,
       Picture: PropTypes.string,
       ClubDescription: PropTypes.string,
-    })
+    }),
   ),
   applicationsData: PropTypes.arrayOf(PropTypes.object),
   electionsConfig: PropTypes.object,

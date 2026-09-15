@@ -16,8 +16,8 @@ export default function ShieldAndScroll() {
           <h2>Who we are</h2>
           <p>
             Shield and Scroll is an honor and service society made up of Lowell
-            students committed to supporting the school community with consistency
-            and care.
+            students committed to supporting the school community with
+            consistency and care.
           </p>
           <p>
             Our goal is to help Lowell run effectively and efficiently while
@@ -31,15 +31,15 @@ export default function ShieldAndScroll() {
             <div className="shield-scroll-task">
               <h3>School-wide events</h3>
               <p>
-                We organize and support key events like Freshman Orientation, Eighth
-                Grade Night, Arena, and Graduation.
+                We organize and support key events like Freshman Orientation,
+                Eighth Grade Night, Arena, and Graduation.
               </p>
             </div>
             <div className="shield-scroll-task">
               <h3>Faculty support</h3>
               <p>
-                We assist teachers and staff with logistics, setup, and administrative
-                tasks when support is needed.
+                We assist teachers and staff with logistics, setup, and
+                administrative tasks when support is needed.
               </p>
             </div>
             <div className="shield-scroll-task">
@@ -54,10 +54,11 @@ export default function ShieldAndScroll() {
 
         <article className="shield-scroll-card shield-scroll-card--contact">
           <h2>Contact</h2>
-          <p>
-            Questions, comments, or requests? Reach out anytime:
-          </p>
-          <a href="mailto:shieldscroll@gmail.com" className="shield-scroll-email">
+          <p>Questions, comments, or requests? Reach out anytime:</p>
+          <a
+            href="mailto:shieldscroll@gmail.com"
+            className="shield-scroll-email"
+          >
             shieldscroll@gmail.com
           </a>
         </article>

@@ -90,10 +90,22 @@ export function buildNavLinks(clubData) {
           to: "Commitees",
           subLinks2: [
             { name: "Spirit Committees", to: "Spirit Committee" },
-            { name: "2027 Senior Prom Committee", to: "2027 Senior Prom Committee" },
-            { name: "2028 Junior Prom Committee", to: "2028 Junior Prom Committee" },
-            { name: "2027 Senior Boat Committee", to: "2027 Senior Boat Committee" },
-            { name: "2028 Junior Escape Committee", to: "2028 Junior Escape Committee" },
+            {
+              name: "2027 Senior Prom Committee",
+              to: "2027 Senior Prom Committee",
+            },
+            {
+              name: "2028 Junior Prom Committee",
+              to: "2028 Junior Prom Committee",
+            },
+            {
+              name: "2027 Senior Boat Committee",
+              to: "2027 Senior Boat Committee",
+            },
+            {
+              name: "2028 Junior Escape Committee",
+              to: "2028 Junior Escape Committee",
+            },
           ],
         },
         { name: "Charter of the LSA", to: "Charter" },

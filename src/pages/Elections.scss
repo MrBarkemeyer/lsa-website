@@ -108,7 +108,10 @@
   background: var(--lowell-red);
   border-radius: 999px;
   box-shadow: 0 4px 14px rgba(134, 18, 18, 0.35);
-  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 
   &:hover {
     filter: brightness(1.08);
@@ -166,7 +169,10 @@
     0 8px 24px rgba(0, 0, 0, 0.09),
     0 2px 6px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease,
+    border-color 0.25s ease;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -191,7 +197,8 @@
   height: 0.68rem;
   border-radius: 50%;
   background: var(--board-accent, var(--title-color));
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--board-accent, #2d5a87) 18%, transparent);
+  box-shadow: 0 0 0 5px
+    color-mix(in srgb, var(--board-accent, #2d5a87) 18%, transparent);
 }
 
 .election-board-card-header {
@@ -397,7 +404,9 @@
   border-radius: 999px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  transition: filter 0.15s ease, transform 0.15s ease;
+  transition:
+    filter 0.15s ease,
+    transform 0.15s ease;
 }
 
 .election-results-rounds-button:hover {

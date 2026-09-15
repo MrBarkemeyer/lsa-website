@@ -48,28 +48,38 @@ function parsePointsPossibleCell(raw) {
 export function parseCardinalympicsEventsSheet(values) {
   if (!Array.isArray(values) || values.length < 2) return [];
 
-  const headers = values[0].map((h) => String(h || "").trim().toLowerCase());
+  const headers = values[0].map((h) =>
+    String(h || "")
+      .trim()
+      .toLowerCase(),
+  );
 
   const nameIdx = headers.findIndex((h) => h === "name");
-  let categoryIdx = headers.findIndex((h) => h === "category" || h.startsWith("category"));
+  let categoryIdx = headers.findIndex(
+    (h) => h === "category" || h.startsWith("category"),
+  );
   if (categoryIdx < 0) {
     categoryIdx = headers.findIndex((h) => h.includes("category"));
   }
   let dateIdx = headers.findIndex(
-    (h) => h === "date (mm/dd/yy)" || h.includes("mm/dd/yy")
+    (h) => h === "date (mm/dd/yy)" || h.includes("mm/dd/yy"),
   );
   if (dateIdx < 0) {
     dateIdx = headers.findIndex((h) => h === "date");
   }
   const descIdx = headers.findIndex((h) => h === "description");
   let signIdx = headers.findIndex(
-    (h) => (h.includes("sign") && h.includes("link")) || h === "sign up link"
+    (h) => (h.includes("sign") && h.includes("link")) || h === "sign up link",
   );
   if (signIdx < 0) {
-    signIdx = headers.findIndex((h) => h.includes("signup") || h.includes("sign-up"));
+    signIdx = headers.findIndex(
+      (h) => h.includes("signup") || h.includes("sign-up"),
+    );
   }
   let pointsPossibleIdx = headers.findIndex(
-    (h) => h === "points possible" || (h.includes("points") && h.includes("possible"))
+    (h) =>
+      h === "points possible" ||
+      (h.includes("points") && h.includes("possible")),
   );
   if (pointsPossibleIdx < 0) {
     pointsPossibleIdx = headers.findIndex((h) => h.includes("pts poss"));
@@ -90,9 +100,13 @@ export function parseCardinalympicsEventsSheet(values) {
       categoryIdx >= 0 ? String(row?.[categoryIdx] ?? "").trim() : "";
     const dateRaw = dateIdx >= 0 ? String(row?.[dateIdx] ?? "").trim() : "";
     const { signUpLink, signUpClosed } =
-      signIdx >= 0 ? parseSignUpCell(row?.[signIdx]) : { signUpLink: "", signUpClosed: false };
+      signIdx >= 0
+        ? parseSignUpCell(row?.[signIdx])
+        : { signUpLink: "", signUpClosed: false };
     const pointsPossible =
-      pointsPossibleIdx >= 0 ? parsePointsPossibleCell(row?.[pointsPossibleIdx]) : "";
+      pointsPossibleIdx >= 0
+        ? parsePointsPossibleCell(row?.[pointsPossibleIdx])
+        : "";
 
     const sortDate = parseMMDDYY(dateRaw);
     const { headline, body } = splitDescription(description);
@@ -160,7 +174,11 @@ export function groupCardinalympicsEventsByCategory(events) {
 }
 
 function startOfDay(date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+  ).getTime();
 }
 
 /**
@@ -215,7 +233,9 @@ export function groupCardinalympicsEventsByWeekAndDay(events) {
       ? Math.floor((startOfDay(ev.sortDate) - earliestMs) / oneWeekMs) + 1
       : 1;
     const weekLabel = `Week ${weekIndex}`;
-    const dayLabel = ev.sortDate ? dayFormatter.format(ev.sortDate) : "Unscheduled";
+    const dayLabel = ev.sortDate
+      ? dayFormatter.format(ev.sortDate)
+      : "Unscheduled";
 
     if (!weekMap.has(weekLabel)) weekMap.set(weekLabel, new Map());
     const dayMap = weekMap.get(weekLabel);

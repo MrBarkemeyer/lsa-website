@@ -5,7 +5,11 @@
 }
 
 .club-guide-page__hero {
-  background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--title-color) 0%,
+    var(--lowell-red) 100%
+  );
   color: white;
   padding: 3rem 1.5rem 3.25rem;
   text-align: center;
@@ -46,7 +50,9 @@
   color: var(--lowell-red);
   text-decoration: none;
   font-family: var(--primary-font);
-  transition: gap 0.2s ease, color 0.2s ease;
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
     color: var(--title-color);
@@ -181,7 +187,9 @@
   background: var(--lowell-red);
   color: white;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
 
   &:hover {
     background: var(--title-color);
@@ -217,7 +225,10 @@
 .club-guide-page__resource-card--link {
   background: #fafbfc;
   text-decoration: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 
   &:hover {
     border-color: color-mix(in srgb, var(--lowell-red) 40%, transparent);

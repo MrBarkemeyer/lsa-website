@@ -13,7 +13,11 @@
 
 .clubs-page__hero {
   background:
-    radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.14), transparent 28%),
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(255, 255, 255, 0.14),
+      transparent 28%
+    ),
     linear-gradient(130deg, #681015 0%, var(--lowell-red) 58%, #aa232e 100%);
   color: white;
   padding: clamp(3rem, 7vw, 5.5rem) max(1rem, calc((100vw - 1100px) / 2));
@@ -87,7 +91,10 @@
   font-family: inherit;
   background: #fff;
   color: #222;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 
   &::placeholder {
     color: #aaa;
@@ -123,7 +130,10 @@
   background: white;
   color: #333;
   cursor: pointer;
-  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 
   &:focus-visible {
     outline: 3px solid rgba(134, 18, 18, 0.25);
@@ -219,7 +229,9 @@
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(31, 37, 48, 0.08);
   border: 1px solid #e5e7ea;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 
   &:focus-visible {
     outline: 3px solid var(--club-color);
@@ -291,7 +303,9 @@
   background: var(--lowell-red);
   color: white;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
 
   &:hover {
     background: var(--title-color);
@@ -540,7 +554,12 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.18) 64%, transparent 100%),
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.18) 64%,
+      transparent 100%
+    ),
     linear-gradient(90deg, rgba(0, 0, 0, 0.25), transparent 55%);
 }
 
@@ -690,7 +709,9 @@
   font-weight: 600;
   border-radius: 8px;
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
@@ -715,7 +736,14 @@
 }
 
 .club-connect__btn--instagram {
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  background: linear-gradient(
+    45deg,
+    #f09433,
+    #e6683c,
+    #dc2743,
+    #cc2366,
+    #bc1888
+  );
   color: white;
   border: none;
 }

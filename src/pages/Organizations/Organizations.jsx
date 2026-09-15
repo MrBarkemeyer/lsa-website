@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faExternalLinkAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Organizations.scss";
 import organizationsConfig from "../../config/organizations.config.js";
 
 function isExternalLink(link) {
-  return typeof link === "string" && (link.startsWith("http://") || link.startsWith("https://"));
+  return (
+    typeof link === "string" &&
+    (link.startsWith("http://") || link.startsWith("https://"))
+  );
 }
 
 export default function Organization() {
@@ -16,7 +22,8 @@ export default function Organization() {
       <div className="organizations-page__hero">
         <h1>Organizations at Lowell</h1>
         <p className="organizations-page__tagline">
-          Honor societies, publications, and programs that shape student life beyond the classroom.
+          Honor societies, publications, and programs that shape student life
+          beyond the classroom.
         </p>
       </div>
       <div className="organizations-page__list">
@@ -24,7 +31,9 @@ export default function Organization() {
           <article className="org-card" key={organization.name}>
             <div className="org-card__body">
               <h2 className="org-card__title">{organization.name}</h2>
-              <p className="org-card__description">{organization.description}</p>
+              <p className="org-card__description">
+                {organization.description}
+              </p>
               {isExternalLink(organization.link) ? (
                 <a
                   href={organization.link}
@@ -33,12 +42,18 @@ export default function Organization() {
                   className="org-card__link"
                 >
                   <span>Learn more</span>
-                  <FontAwesomeIcon icon={faExternalLinkAlt} className="org-card__icon" />
+                  <FontAwesomeIcon
+                    icon={faExternalLinkAlt}
+                    className="org-card__icon"
+                  />
                 </a>
               ) : (
                 <Link to={organization.link} className="org-card__link">
                   <span>Learn more</span>
-                  <FontAwesomeIcon icon={faArrowRight} className="org-card__icon" />
+                  <FontAwesomeIcon
+                    icon={faArrowRight}
+                    className="org-card__icon"
+                  />
                 </Link>
               )}
             </div>

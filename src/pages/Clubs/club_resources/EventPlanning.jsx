@@ -27,7 +27,8 @@ const EVENT_FORMS = [
 const AFTER_APPROVAL = [
   {
     title: "Flier request form",
-    description: "Request approval to post paper fliers around school after your event is cleared.",
+    description:
+      "Request approval to post paper fliers around school after your event is cleared.",
   },
 ];
 
@@ -37,8 +38,8 @@ export default function EventPlanning() {
       <header className="club-guide-page__hero">
         <h1>Event planning resources</h1>
         <p className="club-guide-page__tagline">
-          Forms and contacts for club events. Fundraisers use a separate
-          process see fundraising resources.
+          Forms and contacts for club events. Fundraisers use a separate process
+          see fundraising resources.
         </p>
       </header>
 
@@ -53,12 +54,13 @@ export default function EventPlanning() {
           different rules. Use this page for performances, meetings, and other
           non-fundraising activities. For sales and donation drives, go to{" "}
           <Link to="/Clubs/Fundraising">Fundraising resources</Link>. Starting a
-          new club? See{" "}
-          <Link to="/Clubs/NewClub">How to start a club</Link>.
+          new club? See <Link to="/Clubs/NewClub">How to start a club</Link>.
         </p>
 
         <div className="club-guide-page__contact">
-          <span className="club-guide-page__contact-label">Events coordinator</span>
+          <span className="club-guide-page__contact-label">
+            Events coordinator
+          </span>
           <span>Brandon Ho (SBC)</span>
           <span aria-hidden>·</span>
           <a
@@ -75,14 +77,16 @@ export default function EventPlanning() {
           <h2 className="club-guide-page__section-title">Planning forms</h2>
           <p className="club-guide-page__section-intro">
             Use these in order when your advisor and SBC expect them. If a link
-            is not listed here yet, open the Activities Classroom below the
-            live file usually lives there first.
+            is not listed here yet, open the Activities Classroom below the live
+            file usually lives there first.
           </p>
           <GuideResourceGrid items={EVENT_FORMS} />
         </div>
 
         <div className="club-guide-page__next">
-          <h2 className="club-guide-page__next-title">After your event is approved</h2>
+          <h2 className="club-guide-page__next-title">
+            After your event is approved
+          </h2>
           <p className="club-guide-page__next-body">
             You can promote on social media according to school guidelines. For
             printed fliers in hallways, submit the flier request form.

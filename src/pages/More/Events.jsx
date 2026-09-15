@@ -87,7 +87,7 @@ export default function Events() {
     }
 
     setActiveIndex((prev) =>
-      Math.min(prev, Math.max(0, displayedEvents.length - 1))
+      Math.min(prev, Math.max(0, displayedEvents.length - 1)),
     );
 
     /**
@@ -116,7 +116,10 @@ export default function Events() {
 
     el.addEventListener("scroll", onScroll, { passive: true });
 
-    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => onScroll()) : null;
+    const ro =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => onScroll())
+        : null;
     ro?.observe(el);
 
     return () => {
@@ -177,8 +180,8 @@ export default function Events() {
       <header className="events-hero">
         <h1>Events Timeline</h1>
         <p>
-          Browse upcoming Lowell events in a horizontal timeline. Scroll to explore
-          what is happening throughout the year.
+          Browse upcoming Lowell events in a horizontal timeline. Scroll to
+          explore what is happening throughout the year.
         </p>
       </header>
 
@@ -239,7 +242,9 @@ export default function Events() {
                 <div className="events-card">
                   <h2 className="events-card__title">{event.title}</h2>
                   <p className="events-card__category">{event.category}</p>
-                  <p className="events-card__description">{event.description}</p>
+                  <p className="events-card__description">
+                    {event.description}
+                  </p>
                   <p className="events-card__location">
                     <strong>Location:</strong> {event.location}
                   </p>
@@ -247,7 +252,11 @@ export default function Events() {
               </article>
             ))}
             {displayedEvents.length === 0 && (
-              <article className="events-empty" role="status" aria-live="polite">
+              <article
+                className="events-empty"
+                role="status"
+                aria-live="polite"
+              >
                 <h2>No events found</h2>
                 <p>Try a different search query or category filter.</p>
               </article>
@@ -273,14 +282,16 @@ export default function Events() {
                 const event = displayedEvents[startIndex];
 
                 return (
-                <button
-                  key={`${event?.id ?? "event"}-dot-${dotIndex}`}
-                  type="button"
-                  className={`events-dot-scrollbar__dot ${activeDotIndex === dotIndex ? "events-dot-scrollbar__dot--active" : ""}`}
-                  onClick={() => scrollToIndex(startIndex)}
-                  aria-label={`Go to ${event?.title ?? "event"}`}
-                  aria-current={activeDotIndex === dotIndex ? "true" : undefined}
-                />
+                  <button
+                    key={`${event?.id ?? "event"}-dot-${dotIndex}`}
+                    type="button"
+                    className={`events-dot-scrollbar__dot ${activeDotIndex === dotIndex ? "events-dot-scrollbar__dot--active" : ""}`}
+                    onClick={() => scrollToIndex(startIndex)}
+                    aria-label={`Go to ${event?.title ?? "event"}`}
+                    aria-current={
+                      activeDotIndex === dotIndex ? "true" : undefined
+                    }
+                  />
                 );
               })}
             </div>
@@ -290,4 +301,3 @@ export default function Events() {
     </section>
   );
 }
-

@@ -40,7 +40,7 @@ export default function Announcements({
           if (!b.sortDate) return -1;
           return b.sortDate.getTime() - a.sortDate.getTime();
         }),
-    [announcements]
+    [announcements],
   );
 
   const filteredAnnouncements = useMemo(() => {
@@ -138,7 +138,8 @@ export default function Announcements({
       </div>
 
       <p className="announcements-count">
-        Showing {visibleAnnouncements.length} of {filteredAnnouncements.length} announcements
+        Showing {visibleAnnouncements.length} of {filteredAnnouncements.length}{" "}
+        announcements
       </p>
 
       <div className="announcements-grid">
@@ -155,7 +156,9 @@ export default function Announcements({
             >
               <h3>{item.title}</h3>
               <p className="announcement-card-date">{item.date}</p>
-              <p className="announcement-card-preview">{trimPreview(item.content)}</p>
+              <p className="announcement-card-preview">
+                {trimPreview(item.content)}
+              </p>
               <p className="announcement-card-cta">View details</p>
             </button>
           </div>
@@ -183,7 +186,10 @@ export default function Announcements({
             >
               ×
             </button>
-            <h2 id="announcement-modal-title" className="announcement-modal-title">
+            <h2
+              id="announcement-modal-title"
+              className="announcement-modal-title"
+            >
               {modalItem.title}
             </h2>
             <p className="announcement-modal-date">{modalItem.date}</p>
@@ -214,7 +220,7 @@ Announcements.propTypes = {
       title: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
-    })
+    }),
   ),
   loading: PropTypes.bool,
 };

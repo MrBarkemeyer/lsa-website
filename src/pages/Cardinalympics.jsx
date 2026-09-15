@@ -41,7 +41,8 @@ function sumPointsPossibleFromEventRows(rows) {
 }
 
 function getPointsPossibleFromRows(rows) {
-  if (!Array.isArray(rows) || rows.length === 0) return POINTS_POSSIBLE_FALLBACK;
+  if (!Array.isArray(rows) || rows.length === 0)
+    return POINTS_POSSIBLE_FALLBACK;
 
   const fromEvents = sumPointsPossibleFromEventRows(rows);
   if (fromEvents > 0) return fromEvents;
@@ -52,12 +53,22 @@ function getPointsPossibleFromRows(rows) {
 // is this row the header row? (Date, Points Poss., etc.)
 function isHeaderRow(row) {
   if (!row) return false;
-  const first = String(row[0] ?? "").toLowerCase().trim();
-  const second = String(row[1] ?? "").toLowerCase().trim();
-  const third = String(row[2] ?? "").toLowerCase().trim();
-  const classCols = [4, 5, 6, 7].map((i) => String(row[i] ?? "").toLowerCase().trim());
+  const first = String(row[0] ?? "")
+    .toLowerCase()
+    .trim();
+  const second = String(row[1] ?? "")
+    .toLowerCase()
+    .trim();
+  const third = String(row[2] ?? "")
+    .toLowerCase()
+    .trim();
+  const classCols = [4, 5, 6, 7].map((i) =>
+    String(row[i] ?? "")
+      .toLowerCase()
+      .trim(),
+  );
   const looksLikeClassHeader = classCols.some(
-    (v) => v === "29" || v === "28" || v === "27" || v === "26"
+    (v) => v === "29" || v === "28" || v === "27" || v === "26",
   );
   return (
     first.includes("date") ||
@@ -85,17 +96,21 @@ const IDX_WINNER = 8;
 // section headers like "Shorter Daily Events" - no scores, just a label
 function isSectionRow(row) {
   if (!row || row.length < 8) return true;
-  const hasScores = [row[IDX_FR], row[IDX_SO], row[IDX_JR], row[IDX_SR]].some((c) => parseScore(c) !== "");
+  const hasScores = [row[IDX_FR], row[IDX_SO], row[IDX_JR], row[IDX_SR]].some(
+    (c) => parseScore(c) !== "",
+  );
   return !hasScores && String(row[0] ?? "").trim().length > 0;
 }
 
 // real event row = has at least one class score
 function isEventRow(row) {
   if (!row || row.length < 8) return false;
-  return [row[IDX_FR], row[IDX_SO], row[IDX_JR], row[IDX_SR]].some((c) => parseScore(c) !== "");
+  return [row[IDX_FR], row[IDX_SO], row[IDX_JR], row[IDX_SR]].some(
+    (c) => parseScore(c) !== "",
+  );
 }
 
-// winner text might be in col 8 or 9 depending on who edited the sheet last 
+// winner text might be in col 8 or 9 depending on who edited the sheet last
 function getWinner(row) {
   for (let c = IDX_WINNER; c <= IDX_WINNER + 2; c++) {
     const val = row[c] != null ? String(row[c]).trim() : "";
@@ -105,13 +120,17 @@ function getWinner(row) {
 }
 
 function isCancelledStatus(value) {
-  const s = String(value ?? "").trim().toLowerCase();
+  const s = String(value ?? "")
+    .trim()
+    .toLowerCase();
   return s === "cancelled" || s === "canceled";
 }
 
 function isSpiritTotalRow(row) {
   return (
-    String(row[0] ?? "").toUpperCase().includes("SPIRIT WEEK TOTALS") &&
+    String(row[0] ?? "")
+      .toUpperCase()
+      .includes("SPIRIT WEEK TOTALS") &&
     row[1] != null &&
     !Number.isNaN(parseInt(String(row[1]), 10))
   );
@@ -126,11 +145,13 @@ function getRowViewModel(row) {
   const jr = parseScore(row[IDX_JR]);
   const sr = parseScore(row[IDX_SR]);
   const winner = getWinner(row);
-  if (!label && !date && fr === "" && so === "" && jr === "" && sr === "") return null;
+  if (!label && !date && fr === "" && so === "" && jr === "" && sr === "")
+    return null;
   if (isHeaderRow(row)) return null;
 
   const totalClass = isTotalRow(row) ? "scoreboard-row-total" : "";
-  const sectionClass = isSectionRow(row) && !totalClass ? "scoreboard-row-section" : "";
+  const sectionClass =
+    isSectionRow(row) && !totalClass ? "scoreboard-row-section" : "";
   return {
     key: `${label}-${date}-${ptsPoss}`,
     label,
@@ -182,7 +203,9 @@ function ScoreboardTable({ rows }) {
     const withoutSpiritTotal = rows.filter((row) => !isSpiritTotalRow(row));
     const headerIndex = withoutSpiritTotal.findIndex(isHeaderRow);
     const effectiveRows =
-      headerIndex >= 0 ? withoutSpiritTotal.slice(headerIndex + 1) : withoutSpiritTotal;
+      headerIndex >= 0
+        ? withoutSpiritTotal.slice(headerIndex + 1)
+        : withoutSpiritTotal;
     const visibleRows = showAllRows
       ? effectiveRows
       : effectiveRows.slice(0, INITIAL_VISIBLE_ROWS);
@@ -201,7 +224,10 @@ function ScoreboardTable({ rows }) {
 
   const renderRow = (view) => {
     return (
-      <tr key={view.key} className={`${view.totalClass} ${view.sectionClass}`.trim()}>
+      <tr
+        key={view.key}
+        className={`${view.totalClass} ${view.sectionClass}`.trim()}
+      >
         <td>{view.label}</td>
         <td>{view.date}</td>
         <td>{view.ptsPoss}</td>
@@ -216,7 +242,9 @@ function ScoreboardTable({ rows }) {
             <button
               type="button"
               className="scoreboard-arrow-btn"
-              onClick={() => setSidebar({ eventName: view.label, winner: view.winner })}
+              onClick={() =>
+                setSidebar({ eventName: view.label, winner: view.winner })
+              }
               title="View winner(s)"
               aria-label={`View winner for ${view.label}`}
             >
@@ -245,9 +273,7 @@ function ScoreboardTable({ rows }) {
             <th className="scoreboard-arrow-header"></th>
           </tr>
         </thead>
-        <tbody>
-          {visibleRowModels.map(renderRow)}
-        </tbody>
+        <tbody>{visibleRowModels.map(renderRow)}</tbody>
       </table>
       <div className="cardinalympics-scoreboard-mobile-list">
         {visibleRowModels.map((view) => {
@@ -256,10 +282,16 @@ function ScoreboardTable({ rows }) {
               key={view.key}
               className={`scoreboard-mobile-card ${view.totalClass} ${view.sectionClass}`.trim()}
             >
-              <h4 className="scoreboard-mobile-card__title">{view.label || "Event"}</h4>
+              <h4 className="scoreboard-mobile-card__title">
+                {view.label || "Event"}
+              </h4>
               <div className="scoreboard-mobile-card__meta">
-                <span><strong>Date:</strong> {view.date || "-"}</span>
-                <span><strong>Pts poss.:</strong> {view.ptsPoss || "-"}</span>
+                <span>
+                  <strong>Date:</strong> {view.date || "-"}
+                </span>
+                <span>
+                  <strong>Pts poss.:</strong> {view.ptsPoss || "-"}
+                </span>
               </div>
               <div className="scoreboard-mobile-card__scores">
                 <span className="scoreboard-mobile-card__score-pill">
@@ -282,13 +314,17 @@ function ScoreboardTable({ rows }) {
                   <button
                     type="button"
                     className="scoreboard-mobile-card__winner-btn"
-                    onClick={() => setSidebar({ eventName: view.label, winner: view.winner })}
+                    onClick={() =>
+                      setSidebar({ eventName: view.label, winner: view.winner })
+                    }
                     aria-label={`View winner for ${view.label}`}
                   >
                     View winner(s)
                   </button>
                 ) : (
-                  <span><strong>Winner:</strong> -</span>
+                  <span>
+                    <strong>Winner:</strong> -
+                  </span>
                 )}
               </div>
             </article>
@@ -314,7 +350,10 @@ function ScoreboardTable({ rows }) {
             tabIndex={-1}
             aria-label="Close sidebar"
           />
-          <aside className="cardinalympics-winner-sidebar" aria-label="Winner details">
+          <aside
+            className="cardinalympics-winner-sidebar"
+            aria-label="Winner details"
+          >
             <div className="cardinalympics-winner-sidebar-header">
               <h3>Winner(s)</h3>
               <button
@@ -326,8 +365,12 @@ function ScoreboardTable({ rows }) {
                 x
               </button>
             </div>
-            <p className="cardinalympics-winner-sidebar-event">{sidebar.eventName}</p>
-            <p className="cardinalympics-winner-sidebar-winner">{sidebar.winner || "-"}</p>
+            <p className="cardinalympics-winner-sidebar-event">
+              {sidebar.eventName}
+            </p>
+            <p className="cardinalympics-winner-sidebar-winner">
+              {sidebar.winner || "-"}
+            </p>
           </aside>
         </>
       )}
@@ -342,23 +385,33 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
   });
   if (!rows?.length) {
     const max = Math.max(...baseTotals);
-    const leaders = baseTotals.map((v, i) => ({ v, i })).filter((x) => x.v === max);
+    const leaders = baseTotals
+      .map((v, i) => ({ v, i }))
+      .filter((x) => x.v === max);
     const share = leaders.length ? 1 / leaders.length : 0;
-    const raw = [0, 1, 2, 3].map((i) => (leaders.some((l) => l.i === i) ? share : 0));
+    const raw = [0, 1, 2, 3].map((i) =>
+      leaders.some((l) => l.i === i) ? share : 0,
+    );
     const denom = 1 + CHANCE_SMOOTHING_ALPHA * 4;
     return raw.map((p) => ((p + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
   }
 
   const pendingEvents = [];
   for (const row of rows) {
-    if (!row || isHeaderRow(row) || isTotalRow(row) || isSectionRow(row)) continue;
+    if (!row || isHeaderRow(row) || isTotalRow(row) || isSectionRow(row))
+      continue;
     const winner = getWinner(row);
     if (isCancelledStatus(winner)) continue;
 
     const ptsPossible = parseScore(row[2]);
     if (ptsPossible === "" || ptsPossible <= 0) continue;
 
-    const scores = [parseScore(row[IDX_FR]), parseScore(row[IDX_SO]), parseScore(row[IDX_JR]), parseScore(row[IDX_SR])];
+    const scores = [
+      parseScore(row[IDX_FR]),
+      parseScore(row[IDX_SO]),
+      parseScore(row[IDX_JR]),
+      parseScore(row[IDX_SR]),
+    ];
     const missingClassIndexes = scores
       .map((s, i) => ({ s, i }))
       .filter((x) => x.s === "")
@@ -371,9 +424,13 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
 
   if (!pendingEvents.length) {
     const max = Math.max(...baseTotals);
-    const leaders = baseTotals.map((v, i) => ({ v, i })).filter((x) => x.v === max);
+    const leaders = baseTotals
+      .map((v, i) => ({ v, i }))
+      .filter((x) => x.v === max);
     const share = leaders.length ? 1 / leaders.length : 0;
-    const raw = [0, 1, 2, 3].map((i) => (leaders.some((l) => l.i === i) ? share : 0));
+    const raw = [0, 1, 2, 3].map((i) =>
+      leaders.some((l) => l.i === i) ? share : 0,
+    );
     const denom = 1 + CHANCE_SMOOTHING_ALPHA * 4;
     return raw.map((p) => ((p + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
   }
@@ -403,17 +460,31 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
 
 function WinningChancesBar({ chances }) {
   return (
-    <section className="cardinalympics-winning-chances" aria-labelledby="cardinalympics-winning-chances-heading">
-      <h3 id="cardinalympics-winning-chances-heading">Projected winning chances</h3>
+    <section
+      className="cardinalympics-winning-chances"
+      aria-labelledby="cardinalympics-winning-chances-heading"
+    >
+      <h3 id="cardinalympics-winning-chances-heading">
+        Projected winning chances
+      </h3>
       <div className="cardinalympics-winning-chances__rows">
         {CLASS_NAMES.map((name, i) => (
           <div className="cardinalympics-winning-chances__row" key={name}>
             <div className="cardinalympics-winning-chances__label-wrap">
-              <span className={`cardinalympics-winning-chances__dot cardinalympics-winning-chances__dot--${CLASS_SLUGS[i]}`} />
-              <span className="cardinalympics-winning-chances__label">{name}</span>
-              <span className="cardinalympics-winning-chances__value">{chances[i].toFixed(1)}%</span>
+              <span
+                className={`cardinalympics-winning-chances__dot cardinalympics-winning-chances__dot--${CLASS_SLUGS[i]}`}
+              />
+              <span className="cardinalympics-winning-chances__label">
+                {name}
+              </span>
+              <span className="cardinalympics-winning-chances__value">
+                {chances[i].toFixed(1)}%
+              </span>
             </div>
-            <div className="cardinalympics-winning-chances__track" aria-hidden="true">
+            <div
+              className="cardinalympics-winning-chances__track"
+              aria-hidden="true"
+            >
               <div
                 className={`cardinalympics-winning-chances__fill cardinalympics-winning-chances__fill--${CLASS_SLUGS[i]}`}
                 style={{ width: `${Math.max(0, Math.min(100, chances[i]))}%` }}
@@ -427,12 +498,16 @@ function WinningChancesBar({ chances }) {
 }
 
 function CardinalympicsEventsSchedule({ events }) {
-  const weekGroups = useMemo(() => groupCardinalympicsEventsByWeekAndDay(events || []), [events]);
+  const weekGroups = useMemo(
+    () => groupCardinalympicsEventsByWeekAndDay(events || []),
+    [events],
+  );
 
   if (!events || events.length === 0) {
     return (
       <p className="cardinalympics-events-empty">
-        Event listings will appear here when the &quot;Cardinalympics Events&quot; sheet is available.
+        Event listings will appear here when the &quot;Cardinalympics
+        Events&quot; sheet is available.
       </p>
     );
   }
@@ -440,10 +515,16 @@ function CardinalympicsEventsSchedule({ events }) {
   return (
     <>
       {weekGroups.map((weekGroup, weekIndex) => (
-        <section className="cardinalympics-week" key={`${weekGroup.weekLabel}-${weekIndex}`}>
+        <section
+          className="cardinalympics-week"
+          key={`${weekGroup.weekLabel}-${weekIndex}`}
+        >
           <h3 className="cardinalympics-week__title">{weekGroup.weekLabel}</h3>
           {weekGroup.days.map((dayGroup, dayIndex) => (
-            <div className="cardinalympics-day" key={`${weekGroup.weekLabel}-${dayGroup.dayLabel}-${dayIndex}`}>
+            <div
+              className="cardinalympics-day"
+              key={`${weekGroup.weekLabel}-${dayGroup.dayLabel}-${dayIndex}`}
+            >
               <h4 className="cardinalympics-day__title">{dayGroup.dayLabel}</h4>
               <div className="cardinalympics-day__events">
                 {dayGroup.events.map((ev) => (
@@ -462,9 +543,12 @@ function CardinalympicsEventsSchedule({ events }) {
                       </p>
                     ) : null}
                     {ev.bodyText ? (
-                      <div className="event-description cardinalympics-event__body">{ev.bodyText}</div>
+                      <div className="event-description cardinalympics-event__body">
+                        {ev.bodyText}
+                      </div>
                     ) : null}
-                    {ev.signUpClosed || isCardinalympicsSignupPastEventDay(ev) ? (
+                    {ev.signUpClosed ||
+                    isCardinalympicsSignupPastEventDay(ev) ? (
                       <button
                         type="button"
                         className="event-description cardinalympics-event-closed"
@@ -510,17 +594,19 @@ export default function Cardinalympics({
         const score = Number(cardinalympicsData?.[index]);
         return Number.isFinite(score) ? score : 0;
       }),
-    [cardinalympicsData]
+    [cardinalympicsData],
   );
   const leaderIndex =
     spiritTotals.length === 4
       ? spiritTotals.indexOf(Math.max(...spiritTotals))
       : -1;
-  const topClassBadge = cardinalympicsLeaderBadgeLabel(cardinalympicsDisplayMode);
+  const topClassBadge = cardinalympicsLeaderBadgeLabel(
+    cardinalympicsDisplayMode,
+  );
   const resultsMode = cardinalympicsIsResultsMode(cardinalympicsDisplayMode);
   const pointsPossible = useMemo(
     () => getPointsPossibleFromRows(scoreboardRows),
-    [scoreboardRows]
+    [scoreboardRows],
   );
   const scoreUpdateKey = useMemo(() => {
     const totalsKey = spiritTotals.join("|");
@@ -528,7 +614,7 @@ export default function Cardinalympics({
       .map((row) =>
         [0, 2, IDX_FR, IDX_SO, IDX_JR, IDX_SR, IDX_WINNER]
           .map((i) => String(row?.[i] ?? "").trim())
-          .join("~")
+          .join("~"),
       )
       .join("||");
     return `${totalsKey}###${rowsKey}`;
@@ -538,7 +624,13 @@ export default function Cardinalympics({
       showScoresAndScoreboard && !resultsMode
         ? calculateWinningChances(spiritTotals, scoreboardRows, scoreUpdateKey)
         : [0, 0, 0, 0],
-    [showScoresAndScoreboard, resultsMode, spiritTotals, scoreboardRows, scoreUpdateKey]
+    [
+      showScoresAndScoreboard,
+      resultsMode,
+      spiritTotals,
+      scoreboardRows,
+      scoreUpdateKey,
+    ],
   );
   const [showProjectedBars, setShowProjectedBars] = useState(false);
 
@@ -551,78 +643,95 @@ export default function Cardinalympics({
         <h1 className="cardinalympics-page-header__title">Cardinalympics</h1>
       </header>
       {showScoresAndScoreboard && (
-      <section
-        className="home-cardinalympics cardinalympics-spirit-scores-only"
-        aria-labelledby="cardinalympics-points-cap"
-      >
-        <div className="home-cardinalympics__inner">
-          <div className="cardinalympics-spirit-card">
-            <div className="cardinalympics-spirit-card__cap" id="cardinalympics-points-cap">
-              <span className="cardinalympics-spirit-card__cap-number">
-                {pointsPossible.toLocaleString()}
-              </span>
-              <span className="cardinalympics-spirit-card__cap-label">points possible</span>
-            </div>
-            <div className="home-cardinalympics__grid" role="list">
-              {[0, 1, 2, 3].map((i) => (
-                <div
-                  key={CLASS_SLUGS[i]}
-                  className={`home-cardinalympics__class home-cardinalympics__class--${CLASS_SLUGS[i]}${
-                    leaderIndex === i ? " home-cardinalympics__class--leader" : ""
-                  }`}
-                  role="listitem"
-                >
-                  {leaderIndex === i && (
-                    <span className="home-cardinalympics__leader-badge">{topClassBadge}</span>
-                  )}
-                  <span className="home-cardinalympics__class-name">{CLASS_NAMES[i]}</span>
-                  <div className="home-cardinalympics__points">
-                    <Counter
-                      start={0}
-                      end={spiritTotals[i]}
-                      duration={2000}
-                      className="home-cardinalympics__counter"
-                      color={COUNTER_COLORS[i]}
-                    />
-                    <span className="home-cardinalympics__pts-label">pts</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-      )}
-      {showScoresAndScoreboard && showScoreBreakdown && scoreboardRows.length > 0 && (
-        <div className="cardinalympics-scoreboard" id="detailed-scoreboard">
-          <h2>Detailed scoreboard</h2>
-          <div className="cardinalympics-scoreboard-table-wrap">
-            <ScoreboardTable rows={scoreboardRows} />
-          </div>
-          {showWinningChances && !resultsMode && (
-            <div className="cardinalympics-winning-chances-toggle-wrap">
-              <button
-                type="button"
-                className="cardinalympics-winning-chances-toggle"
-                onClick={() => setShowProjectedBars((v) => !v)}
-                aria-expanded={showProjectedBars}
-                aria-controls="cardinalympics-winning-chances"
+        <section
+          className="home-cardinalympics cardinalympics-spirit-scores-only"
+          aria-labelledby="cardinalympics-points-cap"
+        >
+          <div className="home-cardinalympics__inner">
+            <div className="cardinalympics-spirit-card">
+              <div
+                className="cardinalympics-spirit-card__cap"
+                id="cardinalympics-points-cap"
               >
-                {showProjectedBars ? "Hide projected winning chances" : "Show projected winning chances"}
-              </button>
+                <span className="cardinalympics-spirit-card__cap-number">
+                  {pointsPossible.toLocaleString()}
+                </span>
+                <span className="cardinalympics-spirit-card__cap-label">
+                  points possible
+                </span>
+              </div>
+              <div className="home-cardinalympics__grid" role="list">
+                {[0, 1, 2, 3].map((i) => (
+                  <div
+                    key={CLASS_SLUGS[i]}
+                    className={`home-cardinalympics__class home-cardinalympics__class--${CLASS_SLUGS[i]}${
+                      leaderIndex === i
+                        ? " home-cardinalympics__class--leader"
+                        : ""
+                    }`}
+                    role="listitem"
+                  >
+                    {leaderIndex === i && (
+                      <span className="home-cardinalympics__leader-badge">
+                        {topClassBadge}
+                      </span>
+                    )}
+                    <span className="home-cardinalympics__class-name">
+                      {CLASS_NAMES[i]}
+                    </span>
+                    <div className="home-cardinalympics__points">
+                      <Counter
+                        start={0}
+                        end={spiritTotals[i]}
+                        duration={2000}
+                        className="home-cardinalympics__counter"
+                        color={COUNTER_COLORS[i]}
+                      />
+                      <span className="home-cardinalympics__pts-label">
+                        pts
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          )}
-          {showWinningChances && !resultsMode && showProjectedBars && (
-            <div id="cardinalympics-winning-chances">
-              <WinningChancesBar chances={winningChances} />
-            </div>
-          )}
-        </div>
+          </div>
+        </section>
       )}
+      {showScoresAndScoreboard &&
+        showScoreBreakdown &&
+        scoreboardRows.length > 0 && (
+          <div className="cardinalympics-scoreboard" id="detailed-scoreboard">
+            <h2>Detailed scoreboard</h2>
+            <div className="cardinalympics-scoreboard-table-wrap">
+              <ScoreboardTable rows={scoreboardRows} />
+            </div>
+            {showWinningChances && !resultsMode && (
+              <div className="cardinalympics-winning-chances-toggle-wrap">
+                <button
+                  type="button"
+                  className="cardinalympics-winning-chances-toggle"
+                  onClick={() => setShowProjectedBars((v) => !v)}
+                  aria-expanded={showProjectedBars}
+                  aria-controls="cardinalympics-winning-chances"
+                >
+                  {showProjectedBars
+                    ? "Hide projected winning chances"
+                    : "Show projected winning chances"}
+                </button>
+              </div>
+            )}
+            {showWinningChances && !resultsMode && showProjectedBars && (
+              <div id="cardinalympics-winning-chances">
+                <WinningChancesBar chances={winningChances} />
+              </div>
+            )}
+          </div>
+        )}
       {showEvents && (
-      <section className="cardinalympics-content info-page">
+        <section className="cardinalympics-content info-page">
           <CardinalympicsEventsSchedule events={cardinalympicsEvents} />
-      </section>
+        </section>
       )}
     </div>
   );

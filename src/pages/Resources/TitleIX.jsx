@@ -16,23 +16,23 @@ export default function TitleIX() {
             Title IX of the Education Amendments of 1972 prohibits sex
             discrimination in education, including K-12 schools. Title IX is a
             federal law that has been used to promote equity in education by
-            ensuring that girls and women receive equal resources and treatment in
-            the classroom and provides protections for students who are sexually
-            harassed and discriminated against and/or bullied based on their
-            gender.
+            ensuring that girls and women receive equal resources and treatment
+            in the classroom and provides protections for students who are
+            sexually harassed and discriminated against and/or bullied based on
+            their gender.
           </p>
           <p>
             In addition to this federal law, the California Education code
-            similarly prohibits schools discriminating against its students on the
-            basis of sex (Education Codes 220-221.1).
+            similarly prohibits schools discriminating against its students on
+            the basis of sex (Education Codes 220-221.1).
           </p>
           <p>
-            Sexual harassment is also in violation of San Francisco Unified School
-            District Board and Administrative policies. These policies extend to
-            the San Francisco County Office of Education, including community
-            school programs and activities. All forms of sexual harassment,
-            whether student to student, staff to student, or student to staff, are
-            unlawful at SFUSD schools.
+            Sexual harassment is also in violation of San Francisco Unified
+            School District Board and Administrative policies. These policies
+            extend to the San Francisco County Office of Education, including
+            community school programs and activities. All forms of sexual
+            harassment, whether student to student, staff to student, or student
+            to staff, are unlawful at SFUSD schools.
           </p>
           <a
             className="resource-link-btn"
@@ -47,7 +47,9 @@ export default function TitleIX() {
         <section className="resource-grid" aria-label="Title IX quick links">
           <article className="resource-tile">
             <h2>Office of Equity</h2>
-            <p>SFUSD guidance, processes, and district-level contact information.</p>
+            <p>
+              SFUSD guidance, processes, and district-level contact information.
+            </p>
             <a
               className="resource-link-btn resource-link-btn--ghost"
               target="_blank"
@@ -156,7 +158,8 @@ export default function TitleIX() {
           </div>
 
           <p className="resource-note">
-            <strong>Title IX Coordinators:</strong> Ms. Liverpool (liverpoolk@sfusd.edu), Ms. Fong (fongc3@sfusd.edu)
+            <strong>Title IX Coordinators:</strong> Ms. Liverpool
+            (liverpoolk@sfusd.edu), Ms. Fong (fongc3@sfusd.edu)
           </p>
         </section>
 
