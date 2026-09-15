@@ -251,7 +251,10 @@
     text-decoration: none;
     border-radius: 999px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    transition:
+      background 0.2s ease,
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
 
     &:hover {
       background: var(--title-color);
@@ -312,7 +315,8 @@
   font-size: 0.9rem;
   background: #fff;
 
-  th, td {
+  th,
+  td {
     padding: 0.6rem 0.75rem;
     text-align: left;
     border-bottom: 1px solid #eee;
@@ -338,7 +342,9 @@
   .scoreboard-row-section {
     font-weight: 700;
     background: #f8f9fa;
-    td { color: #1a1a1a; }
+    td {
+      color: #1a1a1a;
+    }
   }
 
   .scoreboard-row-section td:first-child {
@@ -441,7 +447,10 @@
   font-weight: 600;
   box-shadow: 0 2px 8px rgba(156, 25, 25, 0.2);
   cursor: pointer;
-  transition: transform 0.16s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
 
   &:hover {
     transform: translateY(-1px);
@@ -462,7 +471,9 @@
   border: 2px solid var(--lowell-red);
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
     background: var(--lowell-red);
@@ -482,7 +493,9 @@
   border: 2px solid var(--lowell-red);
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
     background: var(--lowell-red);
@@ -523,10 +536,18 @@
   border-radius: 999px;
 }
 
-.cardinalympics-winning-chances__dot--freshman { background: #2e7d32; }
-.cardinalympics-winning-chances__dot--sophomore { background: #6a1b9a; }
-.cardinalympics-winning-chances__dot--junior { background: #1565c0; }
-.cardinalympics-winning-chances__dot--senior { background: #9c1919; }
+.cardinalympics-winning-chances__dot--freshman {
+  background: #2e7d32;
+}
+.cardinalympics-winning-chances__dot--sophomore {
+  background: #6a1b9a;
+}
+.cardinalympics-winning-chances__dot--junior {
+  background: #1565c0;
+}
+.cardinalympics-winning-chances__dot--senior {
+  background: #9c1919;
+}
 
 .cardinalympics-winning-chances__label {
   font-weight: 600;
@@ -551,10 +572,18 @@
   border-radius: 999px;
 }
 
-.cardinalympics-winning-chances__fill--freshman { background: #2e7d32; }
-.cardinalympics-winning-chances__fill--sophomore { background: #6a1b9a; }
-.cardinalympics-winning-chances__fill--junior { background: #1565c0; }
-.cardinalympics-winning-chances__fill--senior { background: #9c1919; }
+.cardinalympics-winning-chances__fill--freshman {
+  background: #2e7d32;
+}
+.cardinalympics-winning-chances__fill--sophomore {
+  background: #6a1b9a;
+}
+.cardinalympics-winning-chances__fill--junior {
+  background: #1565c0;
+}
+.cardinalympics-winning-chances__fill--senior {
+  background: #9c1919;
+}
 
 .cardinalympics-winning-chances-toggle-wrap {
   margin-top: 0.85rem;
@@ -572,7 +601,11 @@
   border: 1px solid rgba(156, 25, 25, 0.35);
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.16s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.16s ease;
 
   &:hover {
     background: var(--lowell-red);
@@ -636,7 +669,9 @@
     border: none;
     cursor: pointer;
     border-radius: 6px;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
 
     &:hover {
       background: #f0f0f0;

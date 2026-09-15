@@ -7,7 +7,10 @@ function ElectionBoardCard({ board, color, rows, interactive = false }) {
   const accent = color || "var(--title-color)";
 
   return (
-    <article className="election-board-card" style={{ "--board-accent": accent }}>
+    <article
+      className="election-board-card"
+      style={{ "--board-accent": accent }}
+    >
       <span className="election-board-card-accent-dot" aria-hidden="true" />
       <div className="election-board-card-header">
         <h3 className="election-board-card-title">{board}</h3>
@@ -29,7 +32,9 @@ function ElectionBoardCard({ board, color, rows, interactive = false }) {
         </div>
       ) : (
         <div className="election-board-card-footer">
-          <span className="election-board-card-cta election-board-card-cta--static">Election results</span>
+          <span className="election-board-card-cta election-board-card-cta--static">
+            Election results
+          </span>
         </div>
       )}
       {!rows.length ? (
@@ -45,7 +50,10 @@ ElectionBoardCard.propTypes = {
   board: PropTypes.string.isRequired,
   color: PropTypes.string,
   rows: PropTypes.arrayOf(
-    PropTypes.shape({ role: PropTypes.string.isRequired, value: PropTypes.string.isRequired })
+    PropTypes.shape({
+      role: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    }),
   ).isRequired,
   interactive: PropTypes.bool,
 };
@@ -61,7 +69,9 @@ export default function ElectionsCandidateBoardsView({
 }) {
   const contenders = config?.contenders ?? [];
   const livePollingTitle = String(config?.votingLivePollingTitle ?? "").trim();
-  const livePollingSubtitle = String(config?.votingLivePollingSubtitle ?? "").trim();
+  const livePollingSubtitle = String(
+    config?.votingLivePollingSubtitle ?? "",
+  ).trim();
   const pollingTitle =
     messagingLive && livePollingTitle
       ? livePollingTitle
@@ -86,14 +96,20 @@ export default function ElectionsCandidateBoardsView({
           <h1>{pollingTitle}</h1>
           {pollingSubtitle ? <p>{pollingSubtitle}</p> : null}
           {opensAtLabel ? (
-            <p className="elections-voting-opens-hint">Voting opens {opensAtLabel}.</p>
+            <p className="elections-voting-opens-hint">
+              Voting opens {opensAtLabel}.
+            </p>
           ) : null}
         </div>
         {resultsEmbargo ? (
           <div className="elections-results-embargo-note">
-            <p className="elections-results-embargo-subtitle">{resultsEmbargo.subtitle}</p>
+            <p className="elections-results-embargo-subtitle">
+              {resultsEmbargo.subtitle}
+            </p>
             {resultsEmbargo.detail ? (
-              <p className="elections-results-embargo-detail">{resultsEmbargo.detail}</p>
+              <p className="elections-results-embargo-detail">
+                {resultsEmbargo.detail}
+              </p>
             ) : null}
           </div>
         ) : null}
@@ -103,12 +119,16 @@ export default function ElectionsCandidateBoardsView({
           </div>
         ) : (
           <>
-            <p className="elections-scroll-hint">Swipe left/right to see all boards</p>
+            <p className="elections-scroll-hint">
+              Swipe left/right to see all boards
+            </p>
             <div className="elections-board-cards">
               {contenders.map((group) => {
                 const rows = (group.roles ?? []).map((r) => {
                   const cands = Array.isArray(r.candidates) ? r.candidates : [];
-                  const names = cands.map((c) => (typeof c === "string" ? c : c?.name ?? "")).filter(Boolean);
+                  const names = cands
+                    .map((c) => (typeof c === "string" ? c : (c?.name ?? "")))
+                    .filter(Boolean);
                   return { role: r.role, value: names.join(", ") };
                 });
                 const slug = group.slug;
@@ -122,13 +142,20 @@ export default function ElectionsCandidateBoardsView({
                 );
                 if (!slug) {
                   return (
-                    <div key={group.board} className="elections-board-card-cell">
+                    <div
+                      key={group.board}
+                      className="elections-board-card-cell"
+                    >
                       {card}
                     </div>
                   );
                 }
                 return (
-                  <Link key={slug} to={`/Elections/${slug}`} className="elections-board-card-link">
+                  <Link
+                    key={slug}
+                    to={`/Elections/${slug}`}
+                    className="elections-board-card-link"
+                  >
                     {card}
                   </Link>
                 );

@@ -16,8 +16,8 @@ export default function Resources() {
           <article className="resource-tile">
             <h2>Wellness Center</h2>
             <p>
-              Mental health and emotional support resources from the Lowell wellness
-              team.
+              Mental health and emotional support resources from the Lowell
+              wellness team.
             </p>
             <Link to="/Resources/Wellness" className="resource-link-btn">
               Open wellness resources
@@ -27,7 +27,8 @@ export default function Resources() {
           <article className="resource-tile">
             <h2>Title IX Support</h2>
             <p>
-              Learn your rights, reporting options, and contact information for help.
+              Learn your rights, reporting options, and contact information for
+              help.
             </p>
             <Link to="/Resources/TitleIX" className="resource-link-btn">
               Open Title IX resources
@@ -38,13 +39,22 @@ export default function Resources() {
         <section className="resource-section">
           <h2 className="resource-section__heading">More helpful pages</h2>
           <div className="resource-links" aria-label="Other pages links">
-            <Link to="/ApplicationsOpen" className="resource-link-btn resource-link-btn--ghost">
+            <Link
+              to="/ApplicationsOpen"
+              className="resource-link-btn resource-link-btn--ghost"
+            >
               Applications open
             </Link>
-            <Link to="/Clubs" className="resource-link-btn resource-link-btn--ghost">
+            <Link
+              to="/Clubs"
+              className="resource-link-btn resource-link-btn--ghost"
+            >
               Browse clubs
             </Link>
-            <Link to="/Announcements" className="resource-link-btn resource-link-btn--ghost">
+            <Link
+              to="/Announcements"
+              className="resource-link-btn resource-link-btn--ghost"
+            >
               Announcements
             </Link>
           </div>
@@ -53,4 +63,3 @@ export default function Resources() {
     </main>
   );
 }
-

@@ -1,4 +1,4 @@
-// Parse the "Elections" tab (columns A–G): Name, Grade, Board, Position, WrittenPetition, MediaPetition, VideoPetition.
+// Parse the "Elections" tab (columns A-G): Name, Grade, Board, Position, WrittenPetition, MediaPetition, VideoPetition.
 // Build `contenders` for polling when `enabledElectionBoards` is set in elections.config.js.
 
 const FIELD_KEYS = [
@@ -35,7 +35,7 @@ function cellStr(row, index) {
   return v != null ? String(v).trim() : "";
 }
 
-/** Map header row to field -> column index; fall back to A–G order when headers don't match. */
+/** Map header row to field -> column index; fall back to A-G order when headers don't match. */
 function buildColumnIndexMap(headerRow) {
   const map = {};
   if (!headerRow || headerRow.length === 0) {
@@ -60,7 +60,9 @@ function buildColumnIndexMap(headerRow) {
     if (idx >= 0) map[fieldKey] = idx;
   }
 
-  const mapped = ["name", "grade", "board", "position"].every((k) => map[k] != null);
+  const mapped = ["name", "grade", "board", "position"].every(
+    (k) => map[k] != null,
+  );
   if (!mapped && headerRow.length >= 5) {
     FIELD_KEYS.forEach((key, i) => {
       if (map[key] == null) map[key] = i;
@@ -158,7 +160,9 @@ function metaForBoard(meta, ...boardCandidates) {
   if (!meta || typeof meta !== "object") return {};
   const keys = Object.keys(meta);
   for (const candidate of boardCandidates) {
-    const lower = String(candidate ?? "").trim().toLowerCase();
+    const lower = String(candidate ?? "")
+      .trim()
+      .toLowerCase();
     if (!lower) continue;
     const key = keys.find((k) => k.trim().toLowerCase() === lower);
     if (key != null) return meta[key] || {};
@@ -188,16 +192,27 @@ export function mergeElectionConfigWithSheet(config, values) {
 
   for (const enabledKey of enabled) {
     const rows = candidates.filter((r) =>
-      boardEnabled(normalizeBoardKey(r.board, r.grade), [enabledKey])
+      boardEnabled(normalizeBoardKey(r.board, r.grade), [enabledKey]),
     );
     if (rows.length === 0) continue;
 
     const sampleBoard = rows[0].board;
     const normalizedBoard = normalizeBoardKey(rows[0].board, rows[0].grade);
     const sampleGrade = String(rows[0].grade ?? "").trim();
-    const meta = metaForBoard(metaRoot, enabledKey, normalizedBoard, sampleBoard, sampleGrade);
-    const slug = (meta.slug && String(meta.slug).trim()) || slugifyBoard(normalizedBoard) || slugifyBoard(enabledKey);
-    const title = (meta.title && String(meta.title).trim()) || `${String(normalizedBoard).trim()} Elections`;
+    const meta = metaForBoard(
+      metaRoot,
+      enabledKey,
+      normalizedBoard,
+      sampleBoard,
+      sampleGrade,
+    );
+    const slug =
+      (meta.slug && String(meta.slug).trim()) ||
+      slugifyBoard(normalizedBoard) ||
+      slugifyBoard(enabledKey);
+    const title =
+      (meta.title && String(meta.title).trim()) ||
+      `${String(normalizedBoard).trim()} Elections`;
     const color = meta.color;
 
     const positionOrder = [];

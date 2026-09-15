@@ -10,7 +10,10 @@ export default function Site() {
       </header>
       <div className="resource-content">
         <section className="resource-section">
-          <p>This site is maintained by the Lowell Student Association (LSA). For questions or updates, contact lowellhssbc@gmail.com.</p>
+          <p>
+            This site is maintained by the Lowell Student Association (LSA). For
+            questions or updates, contact lowellhssbc@gmail.com.
+          </p>
         </section>
       </div>
     </div>

@@ -4,9 +4,9 @@ LSA Website is a Vite + React project.
 
 ## TODO
 
-* [x] Implement elections data and stuff maybe make it update to a google sheet
-* [x] Make cardinalympics events update to a google sheet
-* [ ] Make a posts page to show all instgram posts
+- [x] Implement elections data and stuff maybe make it update to a google sheet
+- [x] Make cardinalympics events update to a google sheet
+- [ ] Make a posts page to show all instgram posts
 
 ## Notes
 

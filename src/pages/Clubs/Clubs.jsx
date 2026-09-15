@@ -17,33 +17,31 @@ export default function Clubs({ clubData }) {
     setVisibleClubs((prev) => prev + 9);
   }
 
-  function getCategoryColor(category, useBackground = true) {
-    const color = colorMap[category] || "gray";
-    return useBackground
-      ? { color: "white", background: color }
-      : { color: "white", backgroundColor: color };
-  }
-
   function renderClub(club) {
     const { Name, Category, Picture } = club;
-    const clubColor = getCategoryColor(Category);
+    const clubColor = colorMap[Category] || "var(--lowell-red)";
 
     return (
-      <Link className="club-card" key={Name} to={Name}>
+      <Link
+        className="club-card"
+        key={Name}
+        to={Name}
+        style={{ "--club-color": clubColor }}
+      >
         <div className="club-card__image-wrap">
           {Picture ? (
             <SafeImage
               className="club-card__image"
               src={driveThumbnailCandidates(Picture, "w300")}
-              alt={Name}
+              alt={`${Name} club`}
               variant="club"
+              loading="lazy"
+              decoding="async"
             />
           ) : (
-            <div className="club-card__placeholder" style={{ background: clubColor.background || "var(--lowell-red)" }} />
+            <div className="club-card__placeholder" aria-hidden="true" />
           )}
-          <span className="club-card__category" style={clubColor}>
-            {Category}
-          </span>
+          <span className="club-card__category">{Category}</span>
         </div>
         <h3 className="club-card__name">{Name}</h3>
       </Link>
@@ -77,12 +75,12 @@ export default function Clubs({ clubData }) {
     .map(renderClub);
 
   const uniqueCategories = useMemo(() => {
-    const categories = clubData.map((club) => club.Category);
+    const categories = clubData.map((club) => club.Category).filter(Boolean);
     return [...new Set(categories)];
   }, [clubData]);
 
   const filterButtons = uniqueCategories.map((category) => {
-    const clubColor = getCategoryColor(category, false);
+    const clubColor = colorMap[category] || "var(--lowell-red)";
     const isActive = categoryFilter === category;
 
     return (
@@ -90,7 +88,8 @@ export default function Clubs({ clubData }) {
         type="button"
         key={category}
         className={`clubs-page__filter-btn ${isActive ? "clubs-page__filter-btn--active" : ""}`}
-        style={isActive ? clubColor : {}}
+        style={{ "--club-color": clubColor }}
+        aria-pressed={isActive}
         onClick={() =>
           setSearchParams((prev) => {
             const current = Object.fromEntries(prev.entries());
@@ -113,7 +112,8 @@ export default function Clubs({ clubData }) {
       <div className="clubs-page__hero">
         <h1>Clubs &amp; Sports</h1>
         <p className="clubs-page__tagline">
-          Browse all registered clubs and sports at Lowell. Use filters or search to find a specific club.
+          Browse all registered clubs and sports at Lowell. Use filters or
+          search to find a specific club.
         </p>
       </div>
       <div className="clubs-page__filters">
@@ -124,7 +124,7 @@ export default function Clubs({ clubData }) {
             </label>
             <input
               id="club-search"
-              type="text"
+              type="search"
               className="clubs-page__search-input"
               placeholder="Search by name or description..."
               value={searchParams.get("q") || ""}
@@ -145,12 +145,19 @@ export default function Clubs({ clubData }) {
           </div>
           <p className="clubs-page__filter-scroll-hint">
             Swipe or scroll sideways{" "}
-            <span className="clubs-page__filter-scroll-hint-arrows" aria-hidden="true">
+            <span
+              className="clubs-page__filter-scroll-hint-arrows"
+              aria-hidden="true"
+            >
               ← →
             </span>{" "}
             for all categories
           </p>
-          <div className="clubs-page__filter-list">
+          <div
+            className="clubs-page__filter-list"
+            role="group"
+            aria-label="Filter clubs by category"
+          >
             {filterButtons}
             {(categoryFilter || searchQuery) && (
               <button
@@ -167,26 +174,37 @@ export default function Clubs({ clubData }) {
           </div>
         </div>
       </div>
+      <p className="clubs-page__result-count" aria-live="polite">
+        Showing {displayClubs.length} of {filteredClubs.length}{" "}
+        {filteredClubs.length === 1 ? "club" : "clubs"}
+      </p>
       <div className="clubs-page__grid">
         {filteredClubs.length === 0 ? (
           <div className="clubs-page__empty">
             <h2 className="clubs-page__empty-title">No clubs found</h2>
             <p className="clubs-page__empty-text">
-              Try checking your spelling or adjusting the filters. If you are looking for a team or activity that is not a club,
-              please also check the Organizations tab.
+              Try checking your spelling or adjusting the filters. If you are
+              looking for a team or activity that is not a club, please also
+              check the Organizations tab.
             </p>
           </div>
         ) : (
           displayClubs
         )}
       </div>
-      {!categoryFilter && filteredClubs.length > 0 && visibleClubs < filteredClubs.length && (
-        <div className="clubs-page__load-wrap">
-          <button type="button" className="clubs-page__load" onClick={loadMore}>
-            Load more clubs
-          </button>
-        </div>
-      )}
+      {!categoryFilter &&
+        filteredClubs.length > 0 &&
+        visibleClubs < filteredClubs.length && (
+          <div className="clubs-page__load-wrap">
+            <button
+              type="button"
+              className="clubs-page__load"
+              onClick={loadMore}
+            >
+              Load more clubs
+            </button>
+          </div>
+        )}
     </section>
   );
 }
@@ -206,6 +224,6 @@ Clubs.propTypes = {
       OtherOfficers: PropTypes.string,
       Instagram: PropTypes.string,
       Banner: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };

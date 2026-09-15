@@ -75,7 +75,7 @@
   }
 }
 
-.preamble>p:nth-child(1) {
+.preamble > p:nth-child(1) {
   border-left: 4px solid var(--title-color);
   padding-left: 1.5rem;
   margin-left: 0;
@@ -316,7 +316,10 @@
     color: #fff;
     font-weight: 600;
     text-decoration: none;
-    transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+    transition:
+      background-color 0.18s ease,
+      transform 0.12s ease,
+      box-shadow 0.18s ease;
 
     &:hover {
       background: #6f0f0f;
@@ -425,7 +428,10 @@
   color: #fff;
   font-weight: 700;
   text-decoration: none;
-  transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+  transition:
+    background-color 0.18s ease,
+    transform 0.12s ease,
+    box-shadow 0.18s ease;
 
   &:hover {
     background: #6f0f0f;
@@ -486,7 +492,9 @@
     border-radius: 10px;
     box-shadow: none;
     border-left: 4px solid var(--lowell-red);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-1px);
@@ -538,7 +546,9 @@
     background: #fff;
     border: 2px solid var(--lowell-red);
     border-radius: 8px;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
 
     &:hover {
       background: var(--lowell-red);
@@ -623,7 +633,9 @@
     background: #f8f9fa;
     text-align: left;
     cursor: pointer;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
 
     &:hover {
       transform: translateY(-1px);
@@ -746,7 +758,9 @@
     border: 2px solid var(--lowell-red);
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
 
     &:hover {
       background: var(--lowell-red);
@@ -846,7 +860,7 @@
 }
 
 .nav-links:hover,
-.first-dropdowns>a:hover .nav-links {
+.first-dropdowns > a:hover .nav-links {
   background: white;
 }
 
@@ -876,7 +890,6 @@
 }
 
 @keyframes bounce {
-
   0%,
   20%,
   50%,
@@ -982,7 +995,12 @@
     right: 1.25rem;
     height: 3px;
     border-radius: 0 0 4px 4px;
-    background: linear-gradient(90deg, transparent, var(--lowell-red, #861212), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--lowell-red, #861212),
+      transparent
+    );
     opacity: 0.85;
   }
 }
@@ -1025,7 +1043,10 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 4px 14px rgba(134, 18, 18, 0.45);
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     background: #9e1a1a;
@@ -1137,7 +1158,9 @@
     0 1px 1px rgba(255, 255, 255, 0.95) inset,
     0 8px 32px rgba(0, 0, 0, 0.06);
 
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  @supports not (
+    (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+  ) {
     background: linear-gradient(165deg, #ffffff 0%, #f3f4f6 100%);
   }
 }
@@ -1234,7 +1257,12 @@
   height: 3px;
   margin: 0 auto 0.65rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent, var(--lowell-red, #861212), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--lowell-red, #861212),
+    transparent
+  );
 }
 
 .home-cardinalympics__grid {
@@ -1252,7 +1280,9 @@
   border-radius: 14px;
   padding: 1rem 0.65rem 0.75rem;
   border: 2px solid transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1349,7 +1379,9 @@
   color: var(--lowell-red, #861212);
   text-decoration: none;
   border-bottom: 2px solid transparent;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
     border-bottom-color: var(--lowell-red, #861212);
@@ -1391,7 +1423,11 @@
 }
 
 .cardinalympics-intro-container {
-  background: linear-gradient(135deg, rgba(134, 18, 18, 0.9), rgba(200, 50, 50, 0.8));
+  background: linear-gradient(
+    135deg,
+    rgba(134, 18, 18, 0.9),
+    rgba(200, 50, 50, 0.8)
+  );
   width: 90vw;
   height: auto;
   padding: 2rem;
@@ -1457,7 +1493,6 @@
   .event-description {
     margin-left: 1vw;
   }
-
 }
 
 .lsa-boards {
@@ -1543,7 +1578,7 @@
   border-bottom-right-radius: 28px;
 }
 
-.dropdown>.link {
+.dropdown > .link {
   color: white;
   display: flex;
   width: 100%;
@@ -1551,7 +1586,7 @@
   padding: 10px;
 }
 
-.big-dropdown>.link {
+.big-dropdown > .link {
   color: white;
   display: flex;
   width: 100%;
@@ -1566,7 +1601,7 @@
   align-items: center;
 }
 
-.first-dropdowns>a {
+.first-dropdowns > a {
   display: block;
   color: var(--lowell-red);
   text-decoration: none;
@@ -1576,15 +1611,15 @@
   gap: 5px;
 }
 
-.first-dropdowns>a::after {
-  content: '';
+.first-dropdowns > a::after {
+  content: "";
   position: absolute;
   height: 5px;
   left: 0;
   bottom: 35px;
   width: 0;
   background: var(--lowell-red);
-  transition: width .2s;
+  transition: width 0.2s;
 }
 
 .first-dropdowns:hover a:after {
@@ -1612,10 +1647,9 @@
   border: 3px solid var(--lowell-red);
   width: 100%;
   display: none;
-
 }
 
-.big-dropdowns>.big-dropdown {
+.big-dropdowns > .big-dropdown {
   width: 300px;
 }
 
@@ -1641,7 +1675,6 @@
   gap: 10px;
   justify-content: center;
 }
-
 
 .big-dropdowns:hover a:last-child {
   border-radius: 0px !important;
@@ -1765,14 +1798,14 @@
   border-left: 6px solid green;
 }
 
-.election-inner-container>h3 {
+.election-inner-container > h3 {
   height: auto;
   margin-bottom: 1rem;
   font-size: 1.8rem;
   font-weight: 600;
 }
 
-.election-inner-container>p {
+.election-inner-container > p {
   height: auto;
   margin-bottom: 0.8rem;
   font-size: 1rem;
@@ -1842,7 +1875,11 @@
 }
 
 .election-banner {
-  background: linear-gradient(135deg, var(--lowell-red, #861212) 0%, #a01818 100%);
+  background: linear-gradient(
+    135deg,
+    var(--lowell-red, #861212) 0%,
+    #a01818 100%
+  );
   color: white;
   padding: 0.9rem 1.5rem;
   text-align: center;
@@ -1891,7 +1928,9 @@
   border-radius: 6px;
   font-weight: 600;
   text-decoration: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 
   &:hover {
     transform: translateY(-1px);
@@ -1917,29 +1956,26 @@
   display: none;
 }
 
-
 .dropdown:hover .second-dropdowns {
   display: block;
 }
 
-
-.second-dropdowns>a,
-.big-second-dropdowns>a {
+.second-dropdowns > a,
+.big-second-dropdowns > a {
   color: white !important;
   display: block;
   padding: 10px 15px;
   text-decoration: none;
 }
 
-
-.second-dropdowns>a:hover,
-.big-second-dropdowns>a:hover {
+.second-dropdowns > a:hover,
+.big-second-dropdowns > a:hover {
   background: white;
   color: black !important;
 }
 
-.dropdown:hover>.link,
-.big-dropdown:hover>.link {
+.dropdown:hover > .link,
+.big-dropdown:hover > .link {
   color: black;
 }
 
@@ -1952,7 +1988,11 @@
   max-width: none;
   margin: 100px auto 3rem auto;
   padding: 2.5rem 2.75rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.92) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.92) 100%
+  );
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -1967,7 +2007,11 @@
     left: 0;
     width: 6px;
     border-radius: 16px 0 0 16px;
-    background: linear-gradient(180deg, var(--lowell-red, #861212) 0%, rgba(156, 25, 25, 0.55) 100%);
+    background: linear-gradient(
+      180deg,
+      var(--lowell-red, #861212) 0%,
+      rgba(156, 25, 25, 0.55) 100%
+    );
   }
 
   h1 {
@@ -2012,7 +2056,10 @@
     padding: 1.25rem 1rem 1.1rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     border: 1px solid rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
     height: 100%;
 
     &:hover {
@@ -2214,8 +2261,8 @@
   padding: 2rem;
 }
 
-.title-ix>p,
-.title-ix>a {
+.title-ix > p,
+.title-ix > a {
   width: 100%;
   font-size: 1.3rem;
 }
@@ -2266,7 +2313,7 @@
 
   a {
     color: inherit !important;
-    font-size: 1.0rem !important;
+    font-size: 1rem !important;
   }
 }
 
@@ -2626,5 +2673,893 @@
   .ham-offset {
     height: 100px;
   }
+}
 
+// Homepage editorial layout. Keep every override under .home-page so shared
+// navigation, announcements, and interior-page components retain their styles.
+.home-page {
+  --home-ink: #191716;
+  --home-muted: #625d58;
+  --home-paper: #f5f1ea;
+  --home-card: #fffdf9;
+  --home-line: rgba(42, 32, 27, 0.15);
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--home-ink);
+  background: var(--home-paper);
+
+  > section {
+    min-height: unset;
+  }
+
+  a,
+  button {
+    &:focus-visible {
+      outline: 3px solid #f0b429;
+      outline-offset: 3px;
+    }
+  }
+
+  .home-section-heading {
+    max-width: 44rem;
+  }
+
+  .home-section-heading__eyebrow {
+    margin: 0 0 0.65rem;
+    color: var(--lowell-red);
+    font-family: var(--primary-font);
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .home-hero {
+    position: relative;
+    min-height: clamp(42rem, 100svh, 58rem);
+    padding: 0;
+    isolation: isolate;
+    overflow: hidden;
+    background: #161313;
+
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(12, 9, 8, 0.8) 0%,
+          rgba(12, 9, 8, 0.35) 48%,
+          rgba(12, 9, 8, 0.08) 75%
+        ),
+        linear-gradient(0deg, rgba(12, 9, 8, 0.62) 0%, transparent 42%);
+    }
+  }
+
+  .hero-video-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-video-wrapper .hero-video {
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-video-wrapper .video-credit {
+    right: clamp(1rem, 3vw, 2.75rem);
+    bottom: clamp(1rem, 2.5vw, 2.25rem);
+    z-index: 3;
+    padding: 0.3rem 0.55rem;
+    border-radius: 2px;
+    color: rgba(255, 255, 255, 0.82);
+    background: rgba(18, 14, 13, 0.55);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .home-hero-card {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    bottom: clamp(5.5rem, 12vh, 8rem);
+    left: max(5vw, 1.25rem);
+    width: min(40rem, calc(100% - 2.5rem));
+    max-width: none;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    color: #fff;
+    background: transparent;
+    backdrop-filter: none;
+
+    &::before {
+      top: -1.25rem;
+      left: 0;
+      right: auto;
+      width: 4.5rem;
+      height: 0.3rem;
+      border-radius: 0;
+      background: #d7a62f;
+      opacity: 1;
+    }
+  }
+
+  .home-hero-card__eyebrow {
+    margin: 0 0 0.75rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+  }
+
+  .home-hero-card__title {
+    max-width: 11ch;
+    margin: 0 0 1rem;
+    color: #fff;
+    font-size: clamp(3rem, 7vw, 6.6rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+
+  .home-hero-card__lede {
+    max-width: 39rem;
+    margin: 0 0 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    line-height: 1.45;
+  }
+
+  .home-hero-card__cta,
+  .home-cardinalympics-signup__button,
+  .applications-news-view-all__button {
+    min-height: var(--tap-target);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.7rem 1.15rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    box-shadow: none;
+    color: #fff;
+    background: var(--lowell-red);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .home-hero-card__cta:hover,
+  .home-cardinalympics-signup__button:hover,
+  .applications-news-view-all__button:hover {
+    color: #fff;
+    background: #681010;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .scroll-icon {
+    right: auto;
+    bottom: 1.25rem;
+    left: 50%;
+    z-index: 3;
+    width: var(--tap-target);
+    height: var(--tap-target);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.4rem;
+  }
+
+  > .election-banner {
+    position: relative;
+    z-index: 4;
+    padding: 1rem clamp(1rem, 5vw, 4rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+    background: #6f1010;
+  }
+
+  .election-banner-inner {
+    max-width: 1180px;
+    min-height: var(--tap-target);
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .election-banner-title {
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+  }
+
+  .election-banner-cta {
+    min-height: var(--tap-target);
+    display: inline-flex;
+    align-items: center;
+    padding-inline: 1rem;
+    border-radius: 2px;
+  }
+
+  .home-cardinalympics-signup {
+    padding: clamp(1.25rem, 3vw, 2.25rem) max(1rem, 5vw);
+    background: #efe6d9;
+  }
+
+  .home-cardinalympics-signup__inner {
+    max-width: 1180px;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid var(--home-line);
+    border-radius: 3px;
+    box-shadow: none;
+    background: var(--home-card);
+  }
+
+  .home-cardinalympics-signup__rings {
+    justify-content: flex-end;
+    opacity: 0.16;
+    transform: translateX(25%);
+  }
+
+  .home-cardinalympics-signup__content {
+    max-width: 48rem;
+    text-align: left;
+
+    h2 {
+      max-width: 16ch;
+      margin-bottom: 0.9rem;
+      color: var(--home-ink);
+      font-size: clamp(1.8rem, 4vw, 3.3rem);
+      line-height: 1;
+    }
+  }
+
+  .home-cardinalympics-signup__ticker-wrap {
+    margin: 0 0 0.9rem;
+  }
+
+  .home-cardinalympics-signup__subtitle {
+    margin: 0 0 1.25rem;
+    color: var(--home-muted);
+  }
+
+  .lsa-description {
+    width: min(1180px, calc(100% - max(2rem, 10vw)));
+    max-width: none;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 8rem) 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(19rem, 0.85fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    text-align: left;
+
+    &::before {
+      display: none;
+    }
+
+    h2 {
+      margin: 0 0 1.25rem;
+      padding: 0;
+      color: var(--home-ink);
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      text-wrap: balance;
+    }
+
+    .home-section-heading > p:last-child {
+      max-width: 42rem;
+      margin: 0;
+      color: var(--home-muted);
+      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+      line-height: 1.65;
+    }
+  }
+
+  .home-stats {
+    padding-top: 1rem;
+    border-top: 5px solid var(--lowell-red);
+
+    > h3 {
+      margin: 0 0 1.5rem;
+      color: var(--home-ink);
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+  }
+
+  .stats {
+    max-width: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+
+    .stat-card {
+      min-height: 6.25rem;
+      padding: 1.15rem 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border: 0;
+      border-top: 1px solid var(--home-line);
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      text-align: left;
+
+      &:hover {
+        border-color: var(--home-line);
+        box-shadow: none;
+        transform: none;
+      }
+    }
+
+    .stat-card__value {
+      justify-content: flex-start;
+    }
+
+    .counter {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: -0.055em;
+    }
+
+    .stat-card__plus {
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+    }
+
+    .stat-card__label {
+      margin: 0;
+      color: var(--home-muted);
+      font-size: 1rem;
+    }
+  }
+
+  .home-updates {
+    width: 100%;
+    padding: clamp(4rem, 7vw, 7rem) max(1rem, 5vw);
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.75fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+    background: #fffdf9;
+    border-block: 1px solid var(--home-line);
+  }
+
+  .home-updates__news:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .news-section {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+
+    h2 {
+      margin: 0 0 1.5rem;
+      padding: 0 0 1rem;
+      border-bottom: 5px solid var(--lowell-red);
+      color: var(--home-ink);
+      font-size: clamp(2rem, 4vw, 3.75rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .news-container {
+      gap: 0;
+    }
+
+    .news-item {
+      min-height: var(--tap-target);
+      padding: 1.4rem 0;
+      border: 0;
+      border-bottom: 1px solid var(--home-line);
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+
+      &:hover,
+      &.expanded {
+        box-shadow: none;
+        transform: none;
+      }
+
+      h3 {
+        margin-bottom: 0.45rem;
+        color: var(--home-ink);
+        font-size: clamp(1.1rem, 2vw, 1.35rem);
+      }
+
+      .news-date {
+        margin-bottom: 0.55rem;
+        color: var(--home-muted);
+        font-size: 0.78rem;
+        font-style: normal;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .news-content {
+        color: var(--home-muted);
+        font-size: 0.98rem;
+        line-height: 1.55;
+      }
+    }
+
+    .news-load-more {
+      min-height: var(--tap-target);
+      margin-top: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      width: auto;
+      padding: 0.65rem 0;
+      border: 0;
+      border-bottom: 2px solid var(--lowell-red);
+      border-radius: 0;
+      color: var(--lowell-red);
+      background: transparent;
+
+      &:hover {
+        color: #681010;
+        background: transparent;
+      }
+    }
+  }
+
+  .club-spotlight-section {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    text-align: left;
+
+    > h2 {
+      margin: 0 0 1.25rem;
+      color: var(--home-ink);
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      line-height: 1;
+    }
+  }
+
+  .club-spotlight {
+    padding: 0;
+    gap: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .club-spotlight__media {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 1.25rem;
+    border-radius: 2px;
+    background: #e8e0d5;
+  }
+
+  .club-spotlight__title {
+    margin: 0 0 0.65rem;
+    color: var(--home-ink);
+    font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+    text-align: left;
+  }
+
+  .club-spotlight__excerpt {
+    margin-bottom: 1rem;
+    color: var(--home-muted);
+    font-size: 0.98rem;
+    line-height: 1.55;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+  }
+
+  .club-spotlight-link,
+  .applications-news-link,
+  .home-cardinalympics__link {
+    min-height: var(--tap-target);
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    color: var(--lowell-red);
+    font-weight: 800;
+    text-align: left;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+  }
+
+  .applications-news-section {
+    margin: 0;
+    padding: clamp(4rem, 7vw, 7rem) max(1rem, 5vw);
+    background: #e9e0d4;
+    text-align: left;
+
+    > .home-section-heading {
+      width: min(1180px, 100%);
+      max-width: 1180px;
+      margin: 0 auto 2rem;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--home-ink);
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+
+    .applications-news-container {
+      max-width: 1180px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      border: 1px solid rgba(42, 32, 27, 0.22);
+      background: rgba(42, 32, 27, 0.22);
+    }
+
+    .applications-news-item {
+      min-width: 0;
+      padding: clamp(1.25rem, 3vw, 2rem);
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: var(--home-card);
+
+      h3 {
+        margin-bottom: 0.5rem;
+        color: var(--home-ink);
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+      }
+
+      .applications-news-date {
+        color: var(--home-muted);
+        font-size: 0.78rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .applications-news-content {
+        color: var(--home-muted);
+      }
+    }
+
+    .applications-news-view-all {
+      max-width: 1180px;
+      margin: 1.5rem auto 0;
+    }
+  }
+
+  .home-cardinalympics {
+    padding: clamp(4rem, 8vw, 7rem) max(1rem, 5vw);
+    color: #fff;
+    background: #231d1b;
+  }
+
+  .home-cardinalympics__inner {
+    max-width: 1180px;
+  }
+
+  .home-cardinalympics__head-wrap {
+    margin-bottom: 2rem;
+    padding: 0;
+  }
+
+  .home-cardinalympics__intro {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    backdrop-filter: none;
+    text-align: left;
+  }
+
+  .home-cardinalympics__title-line {
+    justify-content: flex-start;
+    margin-bottom: 0.65rem;
+  }
+
+  .home-cardinalympics__title {
+    color: #fff;
+    font-size: clamp(2.5rem, 6vw, 5.25rem);
+    text-shadow: none;
+  }
+
+  .home-cardinalympics__subtitle {
+    padding: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 500;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .home-cardinalympics__rings-bg {
+    opacity: 0.13;
+  }
+
+  .home-cardinalympics__grid {
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .home-cardinalympics__class {
+    min-width: 0;
+    min-height: 9.5rem;
+    padding: 1.4rem 0.75rem 1rem;
+    border-width: 1px;
+    border-radius: 2px;
+    box-shadow: none;
+
+    &:hover {
+      box-shadow: none;
+      transform: none;
+    }
+
+    &--leader {
+      border-width: 3px;
+    }
+  }
+
+  .home-cardinalympics__link {
+    color: #fff;
+
+    &:hover {
+      color: #fff;
+      border-bottom-color: transparent;
+    }
+  }
+
+  .life-at-lowell {
+    margin: 0;
+    padding: clamp(4rem, 8vw, 8rem) max(1rem, 5vw);
+    display: grid;
+    grid-template-columns: minmax(15rem, 0.55fr) minmax(0, 1.45fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: end;
+    color: var(--home-ink);
+    background: var(--home-card);
+    text-align: left;
+
+    h2 {
+      margin: 0;
+      color: var(--home-ink);
+      font-size: clamp(2rem, 4.5vw, 4rem);
+      line-height: 1;
+      letter-spacing: -0.045em;
+      text-wrap: balance;
+    }
+
+    .responsive-video-wrapper {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      border: 1px solid var(--home-line);
+      border-radius: 2px;
+      box-shadow: 1.1rem 1.1rem 0 #e4d8c8;
+    }
+  }
+
+  .preamble {
+    width: min(1180px, calc(100% - max(2rem, 10vw)));
+    max-width: none;
+    margin: 0 auto;
+    padding: clamp(4rem, 9vw, 9rem) 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+
+    blockquote {
+      max-width: 950px;
+      margin: 0 0 2rem;
+      padding-left: clamp(1.25rem, 3vw, 2.5rem);
+      border-left: 6px solid var(--lowell-red);
+      color: var(--home-ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.5rem, 3.2vw, 2.7rem);
+      font-style: italic;
+      line-height: 1.35;
+    }
+
+    .bold {
+      max-width: 950px;
+      margin: 0;
+      color: var(--lowell-red);
+      font-family: var(--primary-font);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .home-page {
+    .home-hero {
+      min-height: max(36rem, calc(100svh - 164px));
+    }
+
+    .home-hero-card {
+      bottom: 5.5rem;
+    }
+
+    .lsa-description,
+    .home-updates,
+    .life-at-lowell {
+      grid-template-columns: 1fr;
+    }
+
+    .lsa-description {
+      width: min(calc(100% - 2rem), 46rem);
+      gap: 3rem;
+    }
+
+    .home-updates {
+      gap: 3.5rem;
+    }
+
+    .club-spotlight-section {
+      max-width: 38rem;
+    }
+
+    .club-spotlight {
+      display: grid;
+      grid-template-columns: minmax(10rem, 0.8fr) minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .club-spotlight__media {
+      margin: 0;
+    }
+
+    .life-at-lowell {
+      align-items: start;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .home-page {
+    .home-hero {
+      min-height: max(34rem, calc(100svh - 100px));
+
+      &::after {
+        background:
+          linear-gradient(
+            0deg,
+            rgba(12, 9, 8, 0.84) 0%,
+            rgba(12, 9, 8, 0.28) 72%
+          ),
+          linear-gradient(90deg, rgba(12, 9, 8, 0.35), transparent);
+      }
+    }
+
+    .home-hero-card {
+      bottom: 5rem;
+      left: 1rem;
+      width: calc(100% - 2rem);
+    }
+
+    .home-hero-card__title {
+      font-size: clamp(2.6rem, 14vw, 4.25rem);
+    }
+
+    .home-hero-card__lede {
+      font-size: 1rem;
+    }
+
+    .hero-video-wrapper .video-credit {
+      top: 0.75rem;
+      right: 0.75rem;
+      bottom: auto;
+    }
+
+    .election-banner-inner {
+      align-items: flex-start;
+    }
+
+    .home-cardinalympics-signup__content {
+      text-align: center;
+    }
+
+    .home-cardinalympics-signup__ticker-wrap {
+      margin-inline: auto;
+    }
+
+    .home-cardinalympics-signup__subtitle {
+      margin-inline: auto;
+    }
+
+    .lsa-description h2 {
+      font-size: clamp(2.25rem, 12vw, 3.5rem);
+    }
+
+    .stats .stat-card {
+      min-height: 5.25rem;
+    }
+
+    .club-spotlight {
+      display: block;
+    }
+
+    .club-spotlight__media {
+      margin-bottom: 1.25rem;
+    }
+
+    .applications-news-section .applications-news-container {
+      grid-template-columns: 1fr;
+    }
+
+    .home-cardinalympics__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-cardinalympics__class {
+      min-height: 8rem;
+    }
+
+    .home-cardinalympics__leader-badge {
+      max-width: calc(100% - 0.5rem);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .life-at-lowell .responsive-video-wrapper {
+      box-shadow: 0.6rem 0.6rem 0 #e4d8c8;
+    }
+
+    .preamble {
+      width: calc(100% - 2rem);
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .home-page .home-cardinalympics__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page {
+    scroll-behavior: auto;
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    .home-cardinalympics-signup__ticker-track {
+      width: 100%;
+    }
+  }
 }

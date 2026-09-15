@@ -1,5 +1,12 @@
 import { useParams, Link, Navigate } from "react-router-dom";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import electionsConfig from "../../config/elections.config.js";
@@ -107,7 +114,6 @@ async function getAverageColorWithFallback(url) {
 
 const ELECTION_CANDIDATE_MEDIA_COLUMN_HEIGHT_PX = (300 * 4) / 3;
 
-
 function postYoutubeIframeCommand(iframe, func, args = []) {
   if (!iframe?.contentWindow) return;
   try {
@@ -117,7 +123,7 @@ function postYoutubeIframeCommand(iframe, func, args = []) {
         func,
         args: Array.isArray(args) ? args : [],
       }),
-      "*"
+      "*",
     );
   } catch {
     // ignore
@@ -156,7 +162,10 @@ function ElectionCandidateCard({
     return buildYouTubeElectionCardEmbedSrc(youtubeVideoId, origin);
   }, [youtubeVideoId]);
   const flyerSources = useMemo(() => imageSourceCandidates(pfp), [pfp]);
-  const playableVideoSources = useMemo(() => videoSourceCandidates(video), [video]);
+  const playableVideoSources = useMemo(
+    () => videoSourceCandidates(video),
+    [video],
+  );
   const hasVideo = Boolean(video);
   const [isHoverPreviewVisible, setIsHoverPreviewVisible] = useState(false);
   const [cardGlowColor, setCardGlowColor] = useState("transparent");
@@ -169,7 +178,8 @@ function ElectionCandidateCard({
   const videoSrc = playableVideoSources[videoSourceIndex] || video || "";
   const myMediaKey = electionCandidateMediaKey(candidate);
   const isThisModalOpen =
-    Boolean(activeMedia) && electionCandidateMediaKey(activeMedia) === myMediaKey;
+    Boolean(activeMedia) &&
+    electionCandidateMediaKey(activeMedia) === myMediaKey;
 
   const [youtubeSlotEl, setYoutubeSlotEl] = useState(null);
   const [fileSlotEl, setFileSlotEl] = useState(null);
@@ -241,7 +251,7 @@ function ElectionCandidateCard({
       const src = String(frame.src || "");
       return !src || !src.includes(youtubeVideoId);
     },
-    [youtubeCardEmbedSrc, youtubeVideoId]
+    [youtubeCardEmbedSrc, youtubeVideoId],
   );
 
   useEffect(() => {
@@ -265,7 +275,7 @@ function ElectionCandidateCard({
           f.classList.remove("election-candidate-card-video--visible");
         }
       },
-      { root: null, rootMargin: "160px 0px 120px 0px", threshold: 0 }
+      { root: null, rootMargin: "160px 0px 120px 0px", threshold: 0 },
     );
     io.observe(root);
     return () => io.disconnect();
@@ -274,7 +284,10 @@ function ElectionCandidateCard({
   function setMediaPreviewVisible(container, visible) {
     const videoEl = fileVideoRef.current;
     if (videoEl && !isYouTubeVideo) {
-      videoEl.classList.toggle("election-candidate-card-video--visible", visible);
+      videoEl.classList.toggle(
+        "election-candidate-card-video--visible",
+        visible,
+      );
       if (typeof videoEl.play === "function") {
         if (visible) {
           videoEl.muted = false;
@@ -293,9 +306,13 @@ function ElectionCandidateCard({
     }
     const iframeEl = youtubeIframeRef.current;
     if (iframeEl && isYouTubeVideo) {
-      iframeEl.classList.toggle("election-candidate-card-video--visible", visible);
+      iframeEl.classList.toggle(
+        "election-candidate-card-video--visible",
+        visible,
+      );
       if (visible) {
-        if (youtubeCardEmbedSrc && youtubeIframeNeedsSrc(iframeEl)) iframeEl.src = youtubeCardEmbedSrc;
+        if (youtubeCardEmbedSrc && youtubeIframeNeedsSrc(iframeEl))
+          iframeEl.src = youtubeCardEmbedSrc;
         kickYoutubeAudible(iframeEl);
       } else {
         silenceYoutubePreview(iframeEl);
@@ -335,7 +352,10 @@ function ElectionCandidateCard({
         style={{ "--card-accent": accentColor || "var(--title-color)" }}
       >
         {hasVideo && (
-          <span className="election-candidate-card-video-tag" aria-label="Has campaign video">
+          <span
+            className="election-candidate-card-video-tag"
+            aria-label="Has campaign video"
+          >
             VIDEO
           </span>
         )}
@@ -347,7 +367,10 @@ function ElectionCandidateCard({
           variant="club"
         />
         {video && isYouTubeVideo && (
-          <div ref={youtubeIframeHomeRef} className="election-candidate-card-preview-player-slot">
+          <div
+            ref={youtubeIframeHomeRef}
+            className="election-candidate-card-preview-player-slot"
+          >
             {youtubeSlotEl &&
               createPortal(
                 <iframe
@@ -358,12 +381,15 @@ function ElectionCandidateCard({
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   onLoad={onYoutubePreviewIframeLoad}
                 />,
-                youtubeSlotEl
+                youtubeSlotEl,
               )}
           </div>
         )}
         {video && !isYouTubeVideo && (
-          <div ref={fileVideoHomeRef} className="election-candidate-card-preview-player-slot">
+          <div
+            ref={fileVideoHomeRef}
+            className="election-candidate-card-preview-player-slot"
+          >
             {fileSlotEl &&
               createPortal(
                 <video
@@ -377,28 +403,38 @@ function ElectionCandidateCard({
                   playsInline
                   preload="metadata"
                   onError={() => {
-                    setVideoSourceIndex((i) => (i < playableVideoSources.length - 1 ? i + 1 : i));
+                    setVideoSourceIndex((i) =>
+                      i < playableVideoSources.length - 1 ? i + 1 : i,
+                    );
                   }}
                 />,
-                fileSlotEl
+                fileSlotEl,
               )}
           </div>
         )}
         <div className="election-candidate-card-media-bar" aria-hidden>
           {video && (
             <span className="election-candidate-card-media-bar-text">
-              {isHoverPreviewVisible ? "PLAYING PREVIEW" : "HOVER TO PLAY VIDEO"}
+              {isHoverPreviewVisible
+                ? "PLAYING PREVIEW"
+                : "HOVER TO PLAY VIDEO"}
             </span>
           )}
           {!video && (
-            <span className="election-candidate-card-media-bar-text">CLICK TO OPEN FLYER</span>
+            <span className="election-candidate-card-media-bar-text">
+              CLICK TO OPEN FLYER
+            </span>
           )}
         </div>
       </div>
       <div className="election-candidate-card-body">
         <div className="election-candidate-card-name-wrap">
           <h3 className="election-candidate-card-name">{name}</h3>
-          <span className="election-candidate-card-name-underline" style={{ backgroundColor: accentColor || "var(--title-color)" }} aria-hidden />
+          <span
+            className="election-candidate-card-name-underline"
+            style={{ backgroundColor: accentColor || "var(--title-color)" }}
+            aria-hidden
+          />
         </div>
         {description && (
           <p className="election-candidate-card-description">{description}</p>
@@ -436,12 +472,19 @@ ElectionCandidateCard.propTypes = {
 // config sometimes gives us just a name string - turn it into a proper candidate object so we arent cooked
 function normalizeCandidate(c) {
   if (typeof c === "string") {
-    return { name: c, description: "", pfp: `https://i.pravatar.cc/400?u=${encodeURIComponent(c)}`, video: "" };
+    return {
+      name: c,
+      description: "",
+      pfp: `https://i.pravatar.cc/400?u=${encodeURIComponent(c)}`,
+      video: "",
+    };
   }
   return {
     name: c.name ?? "",
     description: c.description ?? "",
-    pfp: c.pfp ?? `https://i.pravatar.cc/400?u=${encodeURIComponent(c.name || "c")}`,
+    pfp:
+      c.pfp ??
+      `https://i.pravatar.cc/400?u=${encodeURIComponent(c.name || "c")}`,
     video: c.video ?? "",
   };
 }
@@ -465,7 +508,9 @@ function ElectionBoardCandidatesGrid({
   const [stacked, setStacked] = useState(false);
 
   const candidatesKey = `${showVoteButton ? "1" : "0"}|${votingFormUrl};;${candidates
-    .map((c) => `${c.name}|${c.description ?? ""}|${c.pfp ?? ""}|${c.video ?? ""}`)
+    .map(
+      (c) => `${c.name}|${c.description ?? ""}|${c.pfp ?? ""}|${c.video ?? ""}`,
+    )
     .join(";;")}`;
 
   useLayoutEffect(() => {
@@ -479,7 +524,10 @@ function ElectionBoardCandidatesGrid({
       if (stackedLatchRef.current) return;
       const cardEls = grid.querySelectorAll(".election-candidate-card");
       for (const el of cardEls) {
-        if (el.getBoundingClientRect().height > ELECTION_CANDIDATE_MEDIA_COLUMN_HEIGHT_PX + 0.5) {
+        if (
+          el.getBoundingClientRect().height >
+          ELECTION_CANDIDATE_MEDIA_COLUMN_HEIGHT_PX + 0.5
+        ) {
           stackedLatchRef.current = true;
           setStacked(true);
           return;
@@ -489,7 +537,9 @@ function ElectionBoardCandidatesGrid({
 
     const ro = new ResizeObserver(measure);
     ro.observe(grid);
-    grid.querySelectorAll(".election-candidate-card").forEach((el) => ro.observe(el));
+    grid
+      .querySelectorAll(".election-candidate-card")
+      .forEach((el) => ro.observe(el));
     measure();
 
     return () => ro.disconnect();
@@ -541,7 +591,9 @@ function extractYouTubeVideoId(urlRaw) {
   if (!raw) return "";
   const tryParse = (href) => {
     try {
-      return new URL(href.includes("://") ? href : `https://${href.replace(/^\/\//, "")}`);
+      return new URL(
+        href.includes("://") ? href : `https://${href.replace(/^\/\//, "")}`,
+      );
     } catch {
       return null;
     }
@@ -553,7 +605,11 @@ function extractYouTubeVideoId(urlRaw) {
     const id = u.pathname.replace(/^\//, "").split("/")[0]?.split("?")[0] ?? "";
     return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : "";
   }
-  if (host === "m.youtube.com" || host === "youtube.com" || host.endsWith(".youtube.com")) {
+  if (
+    host === "m.youtube.com" ||
+    host === "youtube.com" ||
+    host.endsWith(".youtube.com")
+  ) {
     const parts = u.pathname.split("/").filter(Boolean);
     const vParam = u.searchParams.get("v");
     if (vParam && /^[a-zA-Z0-9_-]{11}$/.test(vParam)) return vParam;
@@ -578,9 +634,9 @@ function buildYouTubeElectionCardEmbedSrc(videoId, pageOrigin) {
   if (!videoId) return "";
   const originQ = pageOrigin ? `&origin=${encodeURIComponent(pageOrigin)}` : "";
   return `https://www.youtube.com/embed/${encodeURIComponent(
-    videoId
+    videoId,
   )}?autoplay=1&mute=1&loop=1&playlist=${encodeURIComponent(
-    videoId
+    videoId,
   )}&controls=0&showinfo=0&rel=0&disablekb=1&fs=0&playsinline=1&enablejsapi=1${originQ}`;
 }
 
@@ -589,7 +645,7 @@ function buildYouTubeElectionModalEmbedSrc(videoId, pageOrigin) {
   if (!videoId) return "";
   const originQ = pageOrigin ? `&origin=${encodeURIComponent(pageOrigin)}` : "";
   return `https://www.youtube.com/embed/${encodeURIComponent(
-    videoId
+    videoId,
   )}?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0&playsinline=1&enablejsapi=1${originQ}`;
 }
 
@@ -616,17 +672,7 @@ function imageSourceCandidates(srcRaw) {
   const u2 = `https://drive.usercontent.google.com/uc?id=${id}&export=view`;
   const u3 = `https://lh3.googleusercontent.com/d/${id}=s1600`;
   const u4 = `https://drive.google.com/thumbnail?id=${id}&sz=w1600`;
-  return [
-    u1,
-    proxy(u1),
-    u2,
-    proxy(u2),
-    u3,
-    proxy(u3),
-    u4,
-    proxy(u4),
-    src,
-  ];
+  return [u1, proxy(u1), u2, proxy(u2), u3, proxy(u3), u4, proxy(u4), src];
 }
 
 function videoSourceCandidates(srcRaw) {
@@ -646,19 +692,32 @@ function videoSourceCandidates(srcRaw) {
 function ElectionMediaModal({ media, onClose }) {
   const videoRaw = media?.video;
   const hasVideo = Boolean(videoRaw);
-  const youtubeVideoId = useMemo(() => extractYouTubeVideoId(videoRaw), [videoRaw]);
-  const isYouTube = Boolean(youtubeVideoId);
-  const pageOrigin = typeof window !== "undefined" ? window.location.origin : "";
-  const modalYoutubeSrc = useMemo(
-    () => (youtubeVideoId ? buildYouTubeElectionModalEmbedSrc(youtubeVideoId, pageOrigin) : ""),
-    [youtubeVideoId, pageOrigin]
+  const youtubeVideoId = useMemo(
+    () => extractYouTubeVideoId(videoRaw),
+    [videoRaw],
   );
-  const playableVideoSources = useMemo(() => videoSourceCandidates(videoRaw), [videoRaw]);
+  const isYouTube = Boolean(youtubeVideoId);
+  const pageOrigin =
+    typeof window !== "undefined" ? window.location.origin : "";
+  const modalYoutubeSrc = useMemo(
+    () =>
+      youtubeVideoId
+        ? buildYouTubeElectionModalEmbedSrc(youtubeVideoId, pageOrigin)
+        : "",
+    [youtubeVideoId, pageOrigin],
+  );
+  const playableVideoSources = useMemo(
+    () => videoSourceCandidates(videoRaw),
+    [videoRaw],
+  );
   const [fileSourceIndex, setFileSourceIndex] = useState(0);
   const modalYoutubeRef = useRef(null);
   const fileVideoSrc = playableVideoSources[fileSourceIndex] || videoRaw || "";
 
-  const flyerSources = useMemo(() => imageSourceCandidates(media?.pfp), [media?.pfp]);
+  const flyerSources = useMemo(
+    () => imageSourceCandidates(media?.pfp),
+    [media?.pfp],
+  );
 
   useEffect(() => {
     setFileSourceIndex(0);
@@ -680,14 +739,26 @@ function ElectionMediaModal({ media, onClose }) {
   if (!media) return null;
 
   return (
-    <div className="election-media-modal-backdrop" role="dialog" aria-modal="true" onClick={onClose}>
+    <div
+      className="election-media-modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      onClick={onClose}
+    >
       <div
         className={`election-media-modal ${
-          hasVideo ? "election-media-modal--video" : "election-media-modal--image"
+          hasVideo
+            ? "election-media-modal--video"
+            : "election-media-modal--image"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        <button type="button" className="election-media-modal-close" onClick={onClose} aria-label="Close media">
+        <button
+          type="button"
+          className="election-media-modal-close"
+          onClick={onClose}
+          aria-label="Close media"
+        >
           x
         </button>
         <h3 className="election-media-modal-title">{media.name}</h3>
@@ -714,7 +785,9 @@ function ElectionMediaModal({ media, onClose }) {
                 playsInline
                 preload="auto"
                 onError={() => {
-                  setFileSourceIndex((i) => (i < playableVideoSources.length - 1 ? i + 1 : i));
+                  setFileSourceIndex((i) =>
+                    i < playableVideoSources.length - 1 ? i + 1 : i,
+                  );
                 }}
               />
             )
@@ -741,7 +814,9 @@ ElectionMediaModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function ElectionBoard({ electionsConfig: config = electionsConfig }) {
+export default function ElectionBoard({
+  electionsConfig: config = electionsConfig,
+}) {
   const { boardSlug } = useParams();
   const [activeMedia, setActiveMedia] = useState(null);
   const votingLive = useElectionVotingLive(config);
@@ -763,11 +838,15 @@ export default function ElectionBoard({ electionsConfig: config = electionsConfi
     return {
       board: boardData,
       prevSlug: index > 0 ? list[index - 1].slug : null,
-      nextSlug: index >= 0 && index < list.length - 1 ? list[index + 1].slug : null,
+      nextSlug:
+        index >= 0 && index < list.length - 1 ? list[index + 1].slug : null,
     };
   }, [config, boardSlug]);
 
-  const hasYoutubeOnBoard = useMemo(() => boardHasYouTubeCandidate(board), [board]);
+  const hasYoutubeOnBoard = useMemo(
+    () => boardHasYouTubeCandidate(board),
+    [board],
+  );
 
   useEffect(() => {
     if (!hasYoutubeOnBoard) return;
@@ -795,56 +874,90 @@ export default function ElectionBoard({ electionsConfig: config = electionsConfi
 
   const accentColor = board.color || "var(--title-color)";
   const votingFormUrl = String(config?.votingFormUrl ?? "").trim();
-  const voteButtonText = String(config?.voteButtonText ?? "Vote now").trim() || "Vote now";
-  const showVoteNowButtons = Boolean(votingFormUrl) && votingLive && !messagingLive;
+  const voteButtonText =
+    String(config?.voteButtonText ?? "Vote now").trim() || "Vote now";
+  const showVoteNowButtons =
+    Boolean(votingFormUrl) && votingLive && !messagingLive;
   const votingOpensHint =
     !messagingLive && String(config?.votingOpensAt ?? "").trim()
       ? formatElectionVotingOpensAt(config)
       : "";
-  const votingLiveReminder = String(config?.votingLivePollingSubtitle ?? "").trim();
+  const votingLiveReminder = String(
+    config?.votingLivePollingSubtitle ?? "",
+  ).trim();
   const boardNav = (
     <>
       {prevSlug ? (
-        <Link to={`/Elections/${prevSlug}`} className="election-board-nav-btn election-board-nav-btn--prev">
+        <Link
+          to={`/Elections/${prevSlug}`}
+          className="election-board-nav-btn election-board-nav-btn--prev"
+        >
           &larr; Last board
         </Link>
       ) : (
-        <span className="election-board-nav-btn election-board-nav-btn--disabled">&larr; Last board</span>
+        <span className="election-board-nav-btn election-board-nav-btn--disabled">
+          &larr; Last board
+        </span>
       )}
       <Link to="/Elections" className="election-board-nav-btn">
         All boards
       </Link>
       {nextSlug ? (
-        <Link to={`/Elections/${nextSlug}`} className="election-board-nav-btn election-board-nav-btn--next">
+        <Link
+          to={`/Elections/${nextSlug}`}
+          className="election-board-nav-btn election-board-nav-btn--next"
+        >
           Next board &rarr;
         </Link>
       ) : (
-        <span className="election-board-nav-btn election-board-nav-btn--disabled">Next board &rarr;</span>
+        <span className="election-board-nav-btn election-board-nav-btn--disabled">
+          Next board &rarr;
+        </span>
       )}
     </>
   );
 
   return (
-    <div className="election-board-page" style={{ "--board-accent": accentColor }}>
-      <ElectionMediaModal media={activeMedia} onClose={handleCloseElectionMedia} />
+    <div
+      className="election-board-page"
+      style={{ "--board-accent": accentColor }}
+    >
+      <ElectionMediaModal
+        media={activeMedia}
+        onClose={handleCloseElectionMedia}
+      />
       <header className="election-board-hero">
         <h1 className="election-board-hero-title">{board.board}</h1>
         <p className="election-board-hero-subtitle">Meet the candidates</p>
         {messagingLive && votingLiveReminder ? (
-          <p className="election-board-hero-voting-hint">{votingLiveReminder}</p>
+          <p className="election-board-hero-voting-hint">
+            {votingLiveReminder}
+          </p>
         ) : votingOpensHint ? (
-          <p className="election-board-hero-voting-hint">Voting opens {votingOpensHint}.</p>
+          <p className="election-board-hero-voting-hint">
+            Voting opens {votingOpensHint}.
+          </p>
         ) : null}
       </header>
-      <nav className="election-board-nav election-board-nav--top">{boardNav}</nav>
+      <nav className="election-board-nav election-board-nav--top">
+        {boardNav}
+      </nav>
 
       <main className="election-board-main">
         {(board.roles ?? []).map((roleGroup) => {
-          const candidates = (roleGroup.candidates ?? []).map(normalizeCandidate);
+          const candidates = (roleGroup.candidates ?? []).map(
+            normalizeCandidate,
+          );
           if (candidates.length === 0) return null;
           return (
-            <section key={roleGroup.role} className="election-board-role-section">
-              <h2 className="election-board-role-title" style={{ borderLeftColor: accentColor }}>
+            <section
+              key={roleGroup.role}
+              className="election-board-role-section"
+            >
+              <h2
+                className="election-board-role-title"
+                style={{ borderLeftColor: accentColor }}
+              >
                 {roleGroup.role}
               </h2>
               <ElectionBoardCandidatesGrid
@@ -883,9 +996,9 @@ ElectionBoard.propTypes = {
           PropTypes.shape({
             role: PropTypes.string,
             candidates: PropTypes.array,
-          })
+          }),
         ),
-      })
+      }),
     ),
   }),
 };

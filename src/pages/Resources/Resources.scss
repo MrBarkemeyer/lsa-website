@@ -10,7 +10,11 @@
 }
 
 .resource-hero {
-  background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--title-color) 0%,
+    var(--lowell-red) 100%
+  );
   color: white;
   padding: 2.4rem 1rem;
   text-align: center;
@@ -36,7 +40,6 @@
     line-height: 1.55;
     opacity: 0.94;
   }
-
 }
 
 // 404
@@ -47,7 +50,11 @@
   padding: 2.5rem 1.25rem 3.5rem;
   min-height: calc(100vh - 8rem);
   background:
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(255, 214, 214, 0.55) 0%, transparent 55%),
+    radial-gradient(
+      ellipse 90% 60% at 50% -10%,
+      rgba(255, 214, 214, 0.55) 0%,
+      transparent 55%
+    ),
     linear-gradient(180deg, #fffbfb 0%, #f7f4ff 42%, #f3f6fb 100%);
 
   .not-found__inner {
@@ -117,7 +124,11 @@
     font-size: 1rem;
     text-decoration: none;
     color: white;
-    background: linear-gradient(145deg, var(--secondary-color) 0%, var(--lowell-red) 100%);
+    background: linear-gradient(
+      145deg,
+      var(--secondary-color) 0%,
+      var(--lowell-red) 100%
+    );
     box-shadow:
       0 4px 14px rgba(134, 18, 18, 0.28),
       0 1px 0 rgba(255, 255, 255, 0.25) inset;
@@ -248,7 +259,9 @@
   font-weight: 600;
   text-decoration: none;
   font-size: 0.95rem;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
 
   &:hover {
     background: var(--title-color);
@@ -377,7 +390,10 @@
   align-items: stretch;
   gap: 0.7rem;
   box-shadow: 0 8px 20px rgba(13, 22, 38, 0.05);
-  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
 }
 
 .freshmen-corner__card:hover {

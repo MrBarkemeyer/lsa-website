@@ -13,12 +13,18 @@ export default function Registry() {
       <header className="resource-hero">
         <div className="title">
           <h1>Master registry list</h1>
-          <p>View the registry list with its original formatting and color-coding.</p>
+          <p>
+            View the registry list with its original formatting and
+            color-coding.
+          </p>
         </div>
       </header>
 
       <div className="resource-content">
-        <section className="registry-embed-section" aria-label="Registry list embed">
+        <section
+          className="registry-embed-section"
+          aria-label="Registry list embed"
+        >
           <div className="registry-embed">
             <iframe
               title="Master registry list"
@@ -28,8 +34,7 @@ export default function Registry() {
           </div>
 
           <p className="registry-open-note">
-            If the embed doesn’t load, open it directly in Google Sheets:
-            {" "}
+            If the embed doesn’t load, open it directly in Google Sheets:{" "}
             <a
               href={`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit?gid=${GID}`}
               target="_blank"
@@ -43,4 +48,3 @@ export default function Registry() {
     </main>
   );
 }
-

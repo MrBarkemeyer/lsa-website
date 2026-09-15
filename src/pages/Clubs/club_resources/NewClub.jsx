@@ -95,8 +95,8 @@ export default function NewClub() {
           logistics or fundraisers, use the{" "}
           <Link to="/Clubs/EventPlanning">event planning</Link> and{" "}
           <Link to="/Clubs/Fundraising">fundraising</Link> pages. Extra
-          announcements and forms also live in the Activities Google Classroom you
-          must join it to submit documents and get updates.
+          announcements and forms also live in the Activities Google Classroom
+          you must join it to submit documents and get updates.
         </p>
 
         <div className="new-club-page__contact">

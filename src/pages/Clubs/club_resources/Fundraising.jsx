@@ -12,7 +12,8 @@ const COORDINATOR_EMAIL = "lowellsbc.treasurer@gmail.com";
 const FUNDRAISING_RESOURCES = [
   {
     title: "Fundraising handbook",
-    description: "Policies, restrictions, and how advertising for fundraisers must work.",
+    description:
+      "Policies, restrictions, and how advertising for fundraisers must work.",
   },
   {
     title: "Pre-fundraising form",
@@ -20,11 +21,13 @@ const FUNDRAISING_RESOURCES = [
   },
   {
     title: "Before fundraising doc",
-    description: "Checklist and details to complete before you collect money or goods.",
+    description:
+      "Checklist and details to complete before you collect money or goods.",
   },
   {
     title: "Fundraising request form",
-    description: "Official request for SBC/treasurer approval of your fundraiser.",
+    description:
+      "Official request for SBC/treasurer approval of your fundraiser.",
   },
   {
     title: "Fundraising reconciliation doc",
@@ -52,14 +55,16 @@ const FUNDRAISING_RESOURCES = [
   },
   {
     title: "Club budget sheet",
-    description: "Same budget tool used across clubs; tie fundraising goals to your budget.",
+    description:
+      "Same budget tool used across clubs; tie fundraising goals to your budget.",
   },
 ];
 
 const PROMOTION = [
   {
     title: "Flier request form",
-    description: "Request permission to hang promotional fliers after approval.",
+    description:
+      "Request permission to hang promotional fliers after approval.",
   },
 ];
 

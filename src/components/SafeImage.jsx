@@ -92,10 +92,12 @@ export default function SafeImage({
 }
 
 SafeImage.propTypes = {
-  src: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+  src: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   alt: PropTypes.string,
   className: PropTypes.string,
   variant: PropTypes.oneOf(["user", "club"]),
   fallbackVariant: PropTypes.oneOf(["user", "club"]),
 };
-

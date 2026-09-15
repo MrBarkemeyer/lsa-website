@@ -45,7 +45,9 @@ export default function SBC({ officerData: officerDataProp }) {
       </div>
 
       <nav className="board-nav" aria-label="Board navigation">
-        <span className="board-nav__btn board-nav__btn--disabled">&larr; Previous board</span>
+        <span className="board-nav__btn board-nav__btn--disabled">
+          &larr; Previous board
+        </span>
         <Link to="/LSA-EXPLORE" className="board-nav__btn">
           All boards
         </Link>
@@ -58,7 +60,10 @@ export default function SBC({ officerData: officerDataProp }) {
         <h2 className="board-officers-heading">Meet the board</h2>
         <div className="board-officers-grid">
           {officerData.map((officer) => (
-            <article key={`${officer.Name}-${officer.Role}`} className="board-officer-card">
+            <article
+              key={`${officer.Name}-${officer.Role}`}
+              className="board-officer-card"
+            >
               <div className="board-officer-card-photo-wrap">
                 <SafeImage
                   src={driveThumbnailCandidates(officer.Photo, "w600")}
@@ -67,17 +72,23 @@ export default function SBC({ officerData: officerDataProp }) {
                   variant="user"
                 />
               </div>
-              
+
               {/* officer card: little bar by default, expands to full bio on hover */}
               <div className="board-officer-card-frame">
                 <div className="board-officer-card-frame-header">
-                  <span className="board-officer-card-role">{officer.Role}</span>
+                  <span className="board-officer-card-role">
+                    {officer.Role}
+                  </span>
                   <h3 className="board-officer-card-name">{officer.Name}</h3>
                 </div>
                 {officer.Description && (
                   <div className="board-officer-card-frame-body">
-                    <p className="board-officer-card-preview">{officer.Description}</p>
-                    <p className="board-officer-card-description">{officer.Description}</p>
+                    <p className="board-officer-card-preview">
+                      {officer.Description}
+                    </p>
+                    <p className="board-officer-card-description">
+                      {officer.Description}
+                    </p>
                   </div>
                 )}
               </div>
@@ -86,8 +97,13 @@ export default function SBC({ officerData: officerDataProp }) {
         </div>
       </section>
 
-      <nav className="board-nav board-nav--bottom" aria-label="Board navigation bottom">
-        <span className="board-nav__btn board-nav__btn--disabled">&larr; Previous board</span>
+      <nav
+        className="board-nav board-nav--bottom"
+        aria-label="Board navigation bottom"
+      >
+        <span className="board-nav__btn board-nav__btn--disabled">
+          &larr; Previous board
+        </span>
         <Link to="/LSA-EXPLORE" className="board-nav__btn">
           All boards
         </Link>
@@ -107,6 +123,6 @@ SBC.propTypes = {
       Role: PropTypes.string.isRequired,
       Photo: PropTypes.string,
       Description: PropTypes.string,
-    })
+    }),
   ),
 };

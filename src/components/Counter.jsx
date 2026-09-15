@@ -30,7 +30,7 @@ export default function Counter({
         const entry = entries[0];
         setStatState(entry.isIntersecting);
       },
-      { threshold: 0.3 } // Trigger when at least 30% of the element is visible
+      { threshold: 0.3 }, // Trigger when at least 30% of the element is visible
     );
 
     observer.observe(currentRef);
@@ -44,6 +44,11 @@ export default function Counter({
 
   useEffect(() => {
     if (!statState) return; // Only run the counter when visible
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      countRef.current = end;
+      setCount(end);
+      return;
+    }
 
     const increment = (end - start) / (duration / 50); // How much to increment each interval
     const timer = window.setInterval(() => {

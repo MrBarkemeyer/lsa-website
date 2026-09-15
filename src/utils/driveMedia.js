@@ -14,7 +14,9 @@ export function extractDriveFileId(urlRaw) {
   if (fromQuery?.[1]) return fromQuery[1];
 
   // "Open image in new tab" / some share flows use lh3 host (file id before = or end of path)
-  const fromLh3 = url.match(/lh3\.googleusercontent\.com\/d\/([a-zA-Z0-9_-]+)/i);
+  const fromLh3 = url.match(
+    /lh3\.googleusercontent\.com\/d\/([a-zA-Z0-9_-]+)/i,
+  );
   if (fromLh3?.[1]) return fromLh3[1];
 
   return "";
@@ -30,7 +32,7 @@ export function driveThumbnailCandidates(urlRaw, size = "w600") {
     candidates.push(
       `https://drive.google.com/thumbnail?id=${id}&sz=${size}`,
       `https://drive.google.com/uc?export=view&id=${id}`,
-      `https://lh3.googleusercontent.com/d/${id}=${size}`
+      `https://lh3.googleusercontent.com/d/${id}=${size}`,
     );
   }
 

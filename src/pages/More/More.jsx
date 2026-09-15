@@ -7,7 +7,9 @@ export default function More() {
       <header className="resource-hero">
         <div className="title">
           <h1>More from LSA</h1>
-          <p>Quick links to Events, Announcements, Archives, and Freshmen Corner.</p>
+          <p>
+            Quick links to Events, Announcements, Archives, and Freshmen Corner.
+          </p>
         </div>
       </header>
 
@@ -49,4 +51,3 @@ export default function More() {
     </main>
   );
 }
-

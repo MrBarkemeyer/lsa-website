@@ -1,5 +1,5 @@
 // Elections: polling UI reads candidates from the Google Sheet tab "Elections" (same spreadsheet as Website Info)
-// when `enabledElectionBoards` is non-empty. Columns A–G: Name, Grade, Board, Position, WrittenPetition,
+// when `enabledElectionBoards` is non-empty. Columns A-G: Name, Grade, Board, Position, WrittenPetition,
 // MediaPetition, VideoPetition. Leave `enabledElectionBoards` as [] to use only `contenders` below (manual / demo).
 
 export default {
@@ -9,7 +9,7 @@ export default {
   // Which Board values from the sheet to show (case-insensitive). Order = card order on /Elections.
   // Example sheet Board cell: "SBC". Add "2027" etc. when those rows exist in the sheet.
   enabledElectionBoards: ["LSA-2030"],
-  
+
   // Optional display + URL per Board value from the sheet (keys match the Board cell, case-insensitive).
   electionBoardMeta: {
     SBC: {
@@ -17,22 +17,22 @@ export default {
       title: "SBC Elections",
       color: "#9c1919",
     },
-    "2027": {
+    2027: {
       slug: "LSA-2027",
       title: "LSA-2027 Elections",
       color: "#9c1919",
     },
-    "2028": {
+    2028: {
       slug: "LSA-2028",
       title: "LSA-2028 Elections",
       color: "#1565c0",
     },
-    "2029": {
+    2029: {
       slug: "LSA-2029",
       title: "LSA-2029 Elections",
       color: "#6a1b9a",
     },
-    "2030": {
+    2030: {
       slug: "LSA-2030",
       title: "LSA-2030 Elections",
       color: "#2e7d32",
@@ -68,7 +68,8 @@ export default {
   },
 
   // when elections are off site-wide - message on the Elections page
-  notHappeningMessage: "Elections are not currently happening. Check back later for updates.",
+  notHappeningMessage:
+    "Elections are not currently happening. Check back later for updates.",
 
   // pending = before the election/campaign phase starts
   pendingTitle: "Freshman Board elections are coming soon",
@@ -78,7 +79,8 @@ export default {
 
   // polling = candidate boards; title + subtitle on /Elections before voting opens
   pollingTitle: "Elections",
-  pollingSubtitle: "Browse each board to learn about the candidates. Voting opens at the time below.",
+  pollingSubtitle:
+    "Browse each board to learn about the candidates. Voting opens at the time below.",
 
   // After voting opens: replaces polling title + subtitle on /Elections (and a line under board hero)
   votingLivePollingTitle: "Vote now",

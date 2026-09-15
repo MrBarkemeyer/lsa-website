@@ -12,7 +12,10 @@ function getPreview(text) {
 }
 
 export default function News({ newsData, previewMode = true }) {
-  const newsItems = useMemo(() => (newsData && newsData.length ? newsData : []), [newsData]);
+  const newsItems = useMemo(
+    () => (newsData && newsData.length ? newsData : []),
+    [newsData],
+  );
   const [expandedId, setExpandedId] = useState(null);
   const visibleNews = previewMode
     ? newsItems.slice(0, INITIAL_VISIBLE_COUNT)
@@ -29,24 +32,27 @@ export default function News({ newsData, previewMode = true }) {
         {visibleNews.map((news) => {
           const id = news.id ?? `${news.title}-${news.date}-${news.content}`;
           const isExpanded = expandedId === id;
-          const contentToRender = isExpanded ? news.content : getPreview(news.content);
+          const contentToRender = isExpanded
+            ? news.content
+            : getPreview(news.content);
 
           return (
-          <button
-            type="button"
-            key={id}
-            className={`news-item ${isExpanded ? "expanded" : ""}`}
-            onClick={() => setExpandedId(isExpanded ? null : id)}
-            aria-expanded={isExpanded}
-          >
-            <h3>{news.title}</h3>
-            <p className="news-date">{news.date}</p>
-            <p className="news-content">{contentToRender}</p>
-            <p className="news-item-hint">
-              {isExpanded ? "Click to collapse" : "Click to view more"}
-            </p>
-          </button>
-        )})}
+            <button
+              type="button"
+              key={id}
+              className={`news-item ${isExpanded ? "expanded" : ""}`}
+              onClick={() => setExpandedId(isExpanded ? null : id)}
+              aria-expanded={isExpanded}
+            >
+              <h3>{news.title}</h3>
+              <p className="news-date">{news.date}</p>
+              <p className="news-content">{contentToRender}</p>
+              <p className="news-item-hint">
+                {isExpanded ? "Click to collapse" : "Click to view more"}
+              </p>
+            </button>
+          );
+        })}
       </div>
       {hasMore && (
         <Link to="/Announcements" className="news-load-more">
@@ -64,7 +70,7 @@ News.propTypes = {
       title: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
-    })
+    }),
   ),
   previewMode: PropTypes.bool,
 };

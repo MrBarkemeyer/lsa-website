@@ -1,5 +1,6 @@
 import Barkemeyer from "../../assets/Barkemeyer.png";
 import { useEffect, useState } from "react";
+import "./About.scss";
 
 export default function DSA() {
   const [glowRGB, setGlowRGB] = useState("134 18 18"); // fallback Lowell red
@@ -83,11 +84,7 @@ export default function DSA() {
             aria-hidden
             style={{ "--dsa-glow": glowRGB }}
           >
-            <img
-              src={Barkemeyer}
-              alt="Mr. Barkemeyer"
-              className="dsa-image"
-            />
+            <img src={Barkemeyer} alt="Mr. Barkemeyer" className="dsa-image" />
           </div>
 
           <div className="dsa-info">

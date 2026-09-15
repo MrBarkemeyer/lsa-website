@@ -7,7 +7,11 @@
 }
 
 .events-hero {
-  background: linear-gradient(135deg, var(--title-color) 0%, var(--lowell-red) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--title-color) 0%,
+    var(--lowell-red) 100%
+  );
   color: white;
   padding: 3rem 1.5rem;
   text-align: center;
@@ -193,7 +197,9 @@
   height: 14px;
   border-radius: 50%;
   background: var(--lowell-red);
-  box-shadow: 0 0 0 4px #fff, 0 0 0 6px rgba(134, 18, 18, 0.2);
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 6px rgba(134, 18, 18, 0.2);
 }
 
 .events-card {
@@ -353,7 +359,10 @@
   background: #cad0db;
   cursor: pointer;
   padding: 0;
-  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
   position: relative;
 }
 
@@ -398,4 +407,3 @@
     min-height: 400px;
   }
 }
-

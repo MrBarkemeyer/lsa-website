@@ -1,81 +1,79 @@
 @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .linkButton {
-    width: 320px;
-    border-radius: 5px;
-    background: var(--lowell-red);
-    height: 50px;
-    color: white;
-    font-size: 1.4rem;
-    @include flex-center;
+  width: 320px;
+  border-radius: 5px;
+  background: var(--lowell-red);
+  height: 50px;
+  color: white;
+  font-size: 1.4rem;
+  @include flex-center;
 
-    &:active {
-        background: white;
-        color: black;
-        border: 3px solid var(--lowell-red);
-    }
+  &:active {
+    background: white;
+    color: black;
+    border: 3px solid var(--lowell-red);
+  }
 
-    &:hover {
-        cursor: pointer;
-        opacity: 0.5;
-    }
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
 }
 
 .logoContainer {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    margin-bottom: 3rem;
-    margin-top: 1rem;
-    grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  margin-bottom: 3rem;
+  margin-top: 1rem;
+  grid-template-rows: 1fr 1fr;
 
-    &>div {
-        @include flex-center;
-        background: transparent;
-        border-radius: 100%;
-        margin-bottom: -50px;
+  & > div {
+    @include flex-center;
+    background: transparent;
+    border-radius: 100%;
+    margin-bottom: -50px;
+  }
 
-    }
+  & > div > div {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    border: 5px solid black;
+  }
 
-    &>div>div {
-        width: 100px;
-        height: 100px;
-        border-radius: 100%;
-        border: 5px solid black;
-    }
+  .topMiddleLogo {
+    width: 115px;
+    height: 115px;
+    border: none;
+    background: white;
+    background-image: url("/src/assets/LSA-Logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+  }
 
-    .topMiddleLogo {
-        width: 115px;
-        height: 115px;
-        border: none;
-        background: white;
-        background-image: url('/src/assets/LSA-Logo.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        z-index: 1;
+  .topLeftLogo {
+    border: 8px solid var(--title-color);
+  }
 
-    }
+  .topRightLogo {
+    border: 8px solid rgb(83, 83, 246);
+  }
 
-    .topLeftLogo {
-        border: 8px solid var(--title-color);
-    }
+  .bottomLeftLogo {
+    border: 8px solid purple;
+  }
 
-    .topRightLogo {
-        border: 8px solid rgb(83, 83, 246);
-    }
-
-    .bottomLeftLogo {
-        border: 8px solid purple;
-    }
-
-    .bottomRightLogo {
-        border: 8px solid green;
-    }
+  .bottomRightLogo {
+    border: 8px solid green;
+  }
 }
 
 $home-ring: 80px;
@@ -86,74 +84,74 @@ $home-cy-top: 40px;
 $home-cy-bot: 92px;
 
 .logoContainerHome {
-    position: relative;
-    width: 260px;
-    height: 132px;
-    overflow: visible;
+  position: relative;
+  width: 260px;
+  height: 132px;
+  overflow: visible;
+  margin: 0 !important;
+  flex-shrink: 0;
+  box-sizing: content-box;
+
+  > div {
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 50%;
     margin: 0 !important;
-    flex-shrink: 0;
-    box-sizing: content-box;
+  }
 
-    >div {
-        position: absolute;
-        box-sizing: border-box;
-        border-radius: 50%;
-        margin: 0 !important;
-    }
+  .topLeftLogo,
+  .topMiddleLogo,
+  .topRightLogo {
+    z-index: 1;
+  }
 
-    .topLeftLogo,
-    .topMiddleLogo,
-    .topRightLogo {
-        z-index: 1;
-    }
+  .bottomLeftLogo,
+  .bottomRightLogo {
+    z-index: 2;
+  }
 
-    .bottomLeftLogo,
-    .bottomRightLogo {
-        z-index: 2;
-    }
+  .topLeftLogo {
+    left: $home-cx0 - $home-ring-r;
+    top: $home-cy-top - $home-ring-r;
+    width: $home-ring;
+    height: $home-ring;
+    border: 4px solid #1e88e5;
+    background: transparent;
+  }
 
-    .topLeftLogo {
-        left: $home-cx0 - $home-ring-r;
-        top: $home-cy-top - $home-ring-r;
-        width: $home-ring;
-        height: $home-ring;
-        border: 4px solid #1e88e5;
-        background: transparent;
-    }
+  .topMiddleLogo {
+    left: $home-cx0 + $home-step - $home-ring-r;
+    top: $home-cy-top - $home-ring-r;
+    width: $home-ring;
+    height: $home-ring;
+    border: 4px solid #6d1b2a;
+    background: transparent;
+  }
 
-    .topMiddleLogo {
-        left: $home-cx0 + $home-step - $home-ring-r;
-        top: $home-cy-top - $home-ring-r;
-        width: $home-ring;
-        height: $home-ring;
-        border: 4px solid #6d1b2a;
-        background: transparent;
-    }
+  .topRightLogo {
+    left: $home-cx0 + 2 * $home-step - $home-ring-r;
+    top: $home-cy-top - $home-ring-r;
+    width: $home-ring;
+    height: $home-ring;
+    border: 4px solid #e53935;
+    background: transparent;
+  }
 
-    .topRightLogo {
-        left: $home-cx0 + 2 * $home-step - $home-ring-r;
-        top: $home-cy-top - $home-ring-r;
-        width: $home-ring;
-        height: $home-ring;
-        border: 4px solid #e53935;
-        background: transparent;
-    }
+  .bottomLeftLogo {
+    left: $home-cx0 + 0.5 * $home-step - $home-ring-r;
+    top: $home-cy-bot - $home-ring-r;
+    width: $home-ring;
+    height: $home-ring;
+    border: 4px solid #8e24aa;
+    background: transparent;
+  }
 
-    .bottomLeftLogo {
-        left: $home-cx0 + 0.5 * $home-step - $home-ring-r;
-        top: $home-cy-bot - $home-ring-r;
-        width: $home-ring;
-        height: $home-ring;
-        border: 4px solid #8e24aa;
-        background: transparent;
-    }
-
-    .bottomRightLogo {
-        left: $home-cx0 + 1.5 * $home-step - $home-ring-r;
-        top: $home-cy-bot - $home-ring-r;
-        width: $home-ring;
-        height: $home-ring;
-        border: 4px solid #43a047;
-        background: transparent;
-    }
+  .bottomRightLogo {
+    left: $home-cx0 + 1.5 * $home-step - $home-ring-r;
+    top: $home-cy-bot - $home-ring-r;
+    width: $home-ring;
+    height: $home-ring;
+    border: 4px solid #43a047;
+    background: transparent;
+  }
 }
