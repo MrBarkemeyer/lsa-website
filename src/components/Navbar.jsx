@@ -19,6 +19,7 @@ import {
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { buildNavLinks } from "../config/navLinks.js";
 import { areElectionBoardsPublic } from "../utils/electionAccess.js";
+import SiteSearch from "./SiteSearch.jsx";
 
 function normalizeElectionNavKey(value) {
   return String(value || "")
@@ -376,6 +377,9 @@ HamburgerSection.propTypes = {
 
 export default function Navbar({
   clubData,
+  officerData = [],
+  newsData = [],
+  cardinalympicsEvents = [],
   electionsEnabled = true,
   electionsConfig = null,
 }) {
@@ -544,17 +548,37 @@ export default function Navbar({
         <ul className="nav-links" style={hasScrolled ? scrolledStyle : {}}>
           <NavLogo />
           {desktopItems}
+          <SiteSearch
+            placement="nav"
+            navLinks={navLinksFiltered}
+            clubData={clubData}
+            officerData={officerData}
+            newsData={newsData}
+            electionsConfig={electionsConfig}
+            cardinalympicsEvents={cardinalympicsEvents}
+          />
         </ul>
       </div>
 
       <div className="hamburger-menu">
         <NavLogo />
-        <FontAwesomeIcon
-          icon={hamburgerOpen ? faXmark : faBars}
-          className="hamburger-button"
-          onClick={() => setHamburgerOpen((o) => !o)}
-          style={{ display: hamburgerOpen ? "none" : "block" }}
-        />
+        <div className="hamburger-menu__end">
+          <SiteSearch
+            placement="bar"
+            navLinks={navLinksFiltered}
+            clubData={clubData}
+            officerData={officerData}
+            newsData={newsData}
+            electionsConfig={electionsConfig}
+            cardinalympicsEvents={cardinalympicsEvents}
+          />
+          <FontAwesomeIcon
+            icon={hamburgerOpen ? faXmark : faBars}
+            className="hamburger-button"
+            onClick={() => setHamburgerOpen((o) => !o)}
+            style={{ display: hamburgerOpen ? "none" : "block" }}
+          />
+        </div>
       </div>
       {hamburgerOpen && (
         <div
@@ -590,6 +614,9 @@ Navbar.propTypes = {
       Category: PropTypes.string.isRequired,
     }),
   ),
+  officerData: PropTypes.array,
+  newsData: PropTypes.array,
+  cardinalympicsEvents: PropTypes.array,
   electionsEnabled: PropTypes.bool,
   electionsConfig: PropTypes.object,
 };

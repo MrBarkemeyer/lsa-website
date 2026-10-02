@@ -40,12 +40,6 @@ export default function Resources() {
           <h2 className="resource-section__heading">More helpful pages</h2>
           <div className="resource-links" aria-label="Other pages links">
             <Link
-              to="/ApplicationsOpen"
-              className="resource-link-btn resource-link-btn--ghost"
-            >
-              Applications open
-            </Link>
-            <Link
               to="/Clubs"
               className="resource-link-btn resource-link-btn--ghost"
             >

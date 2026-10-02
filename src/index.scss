@@ -25,6 +25,17 @@ body {
   max-width: 100%;
 }
 
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+}
+
 body {
   overflow-x: hidden;
   text-rendering: optimizeLegibility;

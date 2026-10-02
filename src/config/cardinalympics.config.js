@@ -13,6 +13,6 @@ export default {
   showScoreBreakdown: true,
   showWinningChances: true,
   showEvents: true,
-  showHomeEventsSignupNow: false,
-  displayMode: "results",
+  showHomeEventsSignupNow: true,
+  displayMode: "activeGame",
 };

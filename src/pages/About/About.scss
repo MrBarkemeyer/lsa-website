@@ -462,6 +462,7 @@
   font-size: 0.88rem;
   color: #222;
   line-height: 1.5;
+  white-space: pre-line;
   position: absolute;
   top: 0;
   left: 0;
@@ -933,6 +934,7 @@
   line-height: 1.52;
   color: #4b5563;
   font-family: var(--primary-font);
+  white-space: pre-line;
 }
 
 section.committee-page__empty {

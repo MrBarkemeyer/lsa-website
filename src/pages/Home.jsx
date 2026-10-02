@@ -1,9 +1,10 @@
-import { useMemo, useRef, useEffect, useState, useCallback } from "react";
+import { useMemo, useRef, useEffect } from "react";
 import Counter from "../components/Counter";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import News from "./News";
+// import News from "./News";
+import Events from "./More/Events";
 import { site } from "../config/site.config.js";
 import { getClubsInSheetOrder } from "../utils/clubSpotlight.js";
 import ElectionBanner from "../components/ElectionBanner";
@@ -11,15 +12,8 @@ import { useElectionResultsReleased } from "../utils/electionVotingWindow.js";
 import CardinalympicLogo from "../components/CardinalympicLogo";
 import PropTypes from "prop-types";
 import SafeImage from "../components/SafeImage";
-import {
-  normalizeApplicationRow,
-  isApplicationOpen,
-  isLikelyDataRow,
-  parseDateAdded,
-} from "../utils/applicationsSheet.js";
 import { driveThumbnailCandidates } from "../utils/driveMedia.js";
 import { cardinalympicsLeaderBadgeLabel } from "../utils/cardinalympicsDisplayMode.js";
-import heroVideo from "../assets/student-life-video.mp4";
 
 const CARDINALYMPICS_CLASS_NAMES = [
   "Freshman",
@@ -41,6 +35,42 @@ const CARDINALYMPICS_COUNTER_COLORS = [
 ];
 const EMPTY_ARRAY = [];
 
+/** Same Student Life film as the homepage YouTube embed — served by YouTube, not Netlify. */
+const HERO_YOUTUBE_ID = "5TKdIrdcyJ4";
+
+function buildHeroYouTubeSrc() {
+  const origin =
+    typeof window !== "undefined"
+      ? encodeURIComponent(window.location.origin)
+      : "";
+  return [
+    `https://www.youtube-nocookie.com/embed/${HERO_YOUTUBE_ID}`,
+    "?autoplay=1",
+    "&mute=1",
+    "&controls=0",
+    "&disablekb=1",
+    "&fs=0",
+    "&modestbranding=1",
+    "&iv_load_policy=3",
+    "&cc_load_policy=0",
+    "&playsinline=1",
+    "&rel=0",
+    "&loop=1",
+    `&playlist=${HERO_YOUTUBE_ID}`,
+    "&showinfo=0",
+    "&autohide=1",
+    "&enablejsapi=1",
+    origin ? `&origin=${origin}` : "",
+  ].join("");
+}
+
+function postYouTubeCommand(iframe, func, args = []) {
+  iframe?.contentWindow?.postMessage(
+    JSON.stringify({ event: "command", func, args }),
+    "*",
+  );
+}
+
 function getWeekIndex() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
@@ -48,119 +78,52 @@ function getWeekIndex() {
   return Math.floor((now - start) / oneWeek);
 }
 
-const HERO_MOBILE_MAX_PX = 1000;
-
-/** Hero background video: mobile Safari often ignores autoplay until play() runs and data is ready. */
-function HeroBackgroundVideo({ src, title, className }) {
-  const videoRef = useRef(null);
-  const [showTapToPlay, setShowTapToPlay] = useState(false);
-  const [isMobileLayout, setIsMobileLayout] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia(`(max-width: ${HERO_MOBILE_MAX_PX}px)`).matches,
-  );
+/** Decorative hero background via YouTube so ~95MB MP4 is not billed as Netlify bandwidth. */
+function HeroBackgroundVideo({ title, className }) {
+  const iframeRef = useRef(null);
+  const src = useMemo(() => buildHeroYouTubeSrc(), []);
 
   useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${HERO_MOBILE_MAX_PX}px)`);
-    const sync = () => setIsMobileLayout(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
+    const iframe = iframeRef.current;
+    if (!iframe) return undefined;
 
-  useEffect(() => {
-    if (isMobileLayout) setShowTapToPlay(false);
-  }, [isMobileLayout]);
-
-  const tryPlay = useCallback(() => {
-    const el = videoRef.current;
-    if (!el) return;
-    el.muted = true;
-    el.defaultMuted = true;
-    const p = el.play();
-    if (p && typeof p.catch === "function") {
-      p.catch(() => {
-        if (!isMobileLayout) setShowTapToPlay(true);
-      });
-    }
-  }, [isMobileLayout]);
-
-  useEffect(() => {
-    const el = videoRef.current;
-    if (!el) return undefined;
-
-    el.setAttribute("playsinline", "");
-    el.setAttribute("webkit-playsinline", "");
-
-    const onReady = () => tryPlay();
-    el.addEventListener("loadeddata", onReady);
-    el.addEventListener("canplay", onReady);
-    el.addEventListener("loadedmetadata", onReady);
-
-    const onPlaying = () => setShowTapToPlay(false);
-    el.addEventListener("playing", onPlaying);
-
-    const onVisibility = () => {
-      if (document.visibilityState === "visible") tryPlay();
+    const killCaptions = () => {
+      postYouTubeCommand(iframe, "mute");
+      postYouTubeCommand(iframe, "playVideo");
+      postYouTubeCommand(iframe, "unloadModule", ["captions"]);
+      postYouTubeCommand(iframe, "setOption", ["captions", "track", {}]);
     };
-    document.addEventListener("visibilitychange", onVisibility);
 
-    tryPlay();
-    const raf = requestAnimationFrame(() => tryPlay());
-    const t1 = window.setTimeout(tryPlay, 150);
-    const t2 = window.setTimeout(tryPlay, 600);
-    const t3 = window.setTimeout(() => {
-      if (el.paused && !isMobileLayout) setShowTapToPlay(true);
-    }, 2800);
+    iframe.addEventListener("load", killCaptions);
+    const t1 = window.setTimeout(killCaptions, 800);
+    const t2 = window.setTimeout(killCaptions, 2000);
 
     return () => {
-      el.removeEventListener("loadeddata", onReady);
-      el.removeEventListener("canplay", onReady);
-      el.removeEventListener("loadedmetadata", onReady);
-      el.removeEventListener("playing", onPlaying);
-      document.removeEventListener("visibilitychange", onVisibility);
-      cancelAnimationFrame(raf);
+      iframe.removeEventListener("load", killCaptions);
       window.clearTimeout(t1);
       window.clearTimeout(t2);
-      window.clearTimeout(t3);
     };
-  }, [src, tryPlay, isMobileLayout]);
-
-  const onTapToPlay = useCallback(() => {
-    tryPlay();
-    setShowTapToPlay(false);
-  }, [tryPlay]);
+  }, []);
 
   return (
     <>
-      <video
-        ref={videoRef}
+      <iframe
+        ref={iframeRef}
         src={src}
         title={title}
         className={className}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        disablePictureInPicture
+        allow="autoplay; encrypted-media; picture-in-picture"
+        loading="eager"
+        tabIndex={-1}
+        referrerPolicy="strict-origin-when-cross-origin"
       />
-      {showTapToPlay && !isMobileLayout && (
-        <button
-          type="button"
-          className="hero-video-tap-play"
-          onClick={onTapToPlay}
-          aria-label="Play hero video"
-        >
-          Tap to play video
-        </button>
-      )}
+      {/* Blocks hover/focus so YouTube cannot show play/skip chrome */}
+      <div className="hero-video-shield" aria-hidden="true" />
     </>
   );
 }
 
 HeroBackgroundVideo.propTypes = {
-  src: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   className: PropTypes.string,
 };
@@ -168,9 +131,9 @@ HeroBackgroundVideo.propTypes = {
 export default function Home({
   cardinalympicsData,
   cardinalympicsEvents = EMPTY_ARRAY,
-  newsData,
+  // newsData stays on the props while News & Announcements is commented out.
+  newsData: _newsData,
   clubData = EMPTY_ARRAY,
-  applicationsData = EMPTY_ARRAY,
   showCardinalympicsScores = true,
   showCardinalympicsSignupNow = false,
   cardinalympicsDisplayMode = "activeGame",
@@ -185,27 +148,6 @@ export default function Home({
     spotlightPool.length > 0
       ? spotlightPool[weekIndex % spotlightPool.length]
       : null;
-
-  const applicationsOpenForNews = useMemo(
-    () =>
-      applicationsData
-        .reduce((openRows, row) => {
-          const normalized = normalizeApplicationRow(row);
-          if (
-            normalized &&
-            isLikelyDataRow(normalized) &&
-            isApplicationOpen(normalized)
-          ) {
-            openRows.push(normalized);
-          }
-          return openRows;
-        }, [])
-        .sort(
-          (a, b) => parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded),
-        )
-        .slice(0, 5),
-    [applicationsData],
-  );
 
   const resultsReleased = useElectionResultsReleased(electionsConfig);
   const showElectionBanner =
@@ -267,11 +209,7 @@ export default function Home({
     <main className="home-page">
       <section className="home-hero" aria-labelledby="home-hero-title">
         <div className="hero-video-wrapper">
-          <HeroBackgroundVideo
-            src={heroVideo}
-            title="LSA Hero"
-            className="hero-video"
-          />
+          <HeroBackgroundVideo title="LSA Hero" className="hero-video" />
           <div className="video-credit">Video by Video Lowell</div>
         </div>
         <div className="home-hero-card">
@@ -410,15 +348,18 @@ export default function Home({
       </section>
       <section className="home-updates" aria-label="Latest from Lowell">
         <div className="home-updates__news">
-          <News newsData={newsData} />
+          {/* <News newsData={newsData} /> */}
+          <Events preview />
         </div>
         {spotlightClub && (
           <aside
             className="club-spotlight-section"
             aria-labelledby="club-spotlight-heading"
           >
-            <p className="home-section-heading__eyebrow">This week at Lowell</p>
-            <h2 id="club-spotlight-heading">Club spotlight</h2>
+            <div className="club-spotlight-section__head">
+              <p className="home-section-heading__eyebrow">This week at Lowell</p>
+              <h2 id="club-spotlight-heading">Club spotlight</h2>
+            </div>
             <div className="club-spotlight">
               <div className="club-spotlight__media">
                 {spotlightClub?.Picture ? (
@@ -457,54 +398,6 @@ export default function Home({
           </aside>
         )}
       </section>
-      {applicationsOpenForNews.length > 0 && (
-        <section
-          className="applications-news-section"
-          aria-labelledby="applications-news-heading"
-        >
-          <div className="home-section-heading">
-            <p className="home-section-heading__eyebrow">Get involved</p>
-            <h2 id="applications-news-heading">Applications now open</h2>
-          </div>
-          <div className="applications-news-container">
-            {applicationsOpenForNews.map((item) => (
-              <article
-                key={`${item.name}-${item.dateAdded}`}
-                className="applications-news-item"
-              >
-                <h3>{item.name}</h3>
-                {item.dateAdded && (
-                  <p className="applications-news-date">
-                    Added: {item.dateAdded}
-                  </p>
-                )}
-                {item.notes && (
-                  <p className="applications-news-content">{item.notes}</p>
-                )}
-                {item.link && (
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="applications-news-link"
-                  >
-                    Go to application &rarr;
-                  </a>
-                )}
-              </article>
-            ))}
-          </div>
-          <p className="applications-news-view-all">
-            <Link
-              to="/ApplicationsOpen"
-              className="applications-news-view-all__button"
-            >
-              View all applications open
-            </Link>
-          </p>
-        </section>
-      )}
-
       {showCardinalympicsScores && (
         <section
           className="home-cardinalympics"
@@ -647,6 +540,5 @@ Home.propTypes = {
       ClubDescription: PropTypes.string,
     }),
   ),
-  applicationsData: PropTypes.arrayOf(PropTypes.object),
   electionsConfig: PropTypes.object,
 };

@@ -17,7 +17,7 @@ export default function More() {
         <section className="resource-grid" aria-label="More pages">
           <article className="resource-tile">
             <h2>Events</h2>
-            <p>Browse upcoming Lowell events on the timeline.</p>
+            <p>Browse Lowell events by month.</p>
             <Link to="/Events" className="resource-link-btn">
               Open events
             </Link>

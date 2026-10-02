@@ -37,6 +37,9 @@ export default function Layout(props) {
     <>
       <Navbar
         clubData={clubData}
+        officerData={props.officerData}
+        newsData={props.newsData}
+        cardinalympicsEvents={props.cardinalympicsEvents}
         electionsEnabled={electionsEnabled}
         electionsConfig={electionsConfig}
       />
