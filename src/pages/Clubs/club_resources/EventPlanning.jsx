@@ -4,8 +4,9 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import "./ClubResourceGuidePage.scss";
 import ClassroomCodeBlock from "./ClassroomCodeBlock.jsx";
 import GuideResourceGrid from "./GuideResourceGrid.jsx";
+import { sbcOfficerName } from "../../../utils/sbcOfficer.js";
 
-const CLASSROOM_CODE = "knmn6yuw";
+const CLASSROOM_CODE = "q4h5rk2j";
 const COORDINATOR_EMAIL = "lowelleventscoordinator@gmail.com";
 
 /** Set `href` when you have public URLs; cards without `href` show a Classroom hint. */
@@ -32,7 +33,8 @@ const AFTER_APPROVAL = [
   },
 ];
 
-export default function EventPlanning() {
+export default function EventPlanning({ officerData }) {
+  const eventsCoordinator = sbcOfficerName(officerData, "Events Coordinator");
   return (
     <section className="club-guide-page">
       <header className="club-guide-page__hero">
@@ -61,8 +63,12 @@ export default function EventPlanning() {
           <span className="club-guide-page__contact-label">
             Events coordinator
           </span>
-          <span>Brandon Ho (SBC)</span>
-          <span aria-hidden>·</span>
+          {eventsCoordinator ? (
+            <>
+              <span>{eventsCoordinator} (SBC)</span>
+              <span aria-hidden>·</span>
+            </>
+          ) : null}
           <a
             className="club-guide-page__contact-mail"
             href={`mailto:${COORDINATOR_EMAIL}`}

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const INITIAL_VISIBLE_COUNT = 2;
+const INITIAL_VISIBLE_COUNT = 4;
 const PREVIEW_LENGTH = 110;
 
 function getPreview(text) {

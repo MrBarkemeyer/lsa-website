@@ -9,7 +9,6 @@ import { mergeElectionConfigWithSheet } from "./utils/electionCandidatesFromShee
 import { parseCardinalympicsEventsSheet } from "./utils/cardinalympicsEventsFromSheet.js";
 import { parseAnnouncementsSheet } from "./utils/announcementsSheet.js";
 import { ElectionTimingProvider } from "./utils/electionVotingWindow.js";
-import applicationsSheetConfig from "./config/applications.config.js";
 import cardinalympicsConfig from "./config/cardinalympics.config.js";
 import NotFound from "./pages/NotFound";
 
@@ -51,7 +50,6 @@ const More = lazy(() => import("./pages/More/More"));
 const Forensic = lazy(() => import("./pages/Organizations/Forensic"));
 const VideoLowell = lazy(() => import("./pages/Organizations/VideoLowell"));
 const Cardinalympics = lazy(() => import("./pages/Cardinalympics"));
-const ApplicationsOpen = lazy(() => import("./pages/ApplicationsOpen"));
 const Announcements = lazy(() => import("./pages/Announcements"));
 
 const SHEETS_COOKIE_TTL_DAYS = 1;
@@ -78,13 +76,6 @@ function routeWantsCardinalympicsLiveFetch(pathname) {
   const p = pathname || "/";
   if (p === "/") return true;
   return p === "/Cardinalympics" || p.startsWith("/Cardinalympics/");
-}
-
-/** Home preview + ApplicationsOpen page need live applications sheet data. */
-function routeWantsApplicationsLiveFetch(pathname) {
-  const p = pathname || "/";
-  if (p === "/") return true;
-  return p === "/ApplicationsOpen";
 }
 
 function readCookie(name) {
@@ -282,36 +273,6 @@ function processSheetData(data) {
   );
 }
 
-function processApplicationsSheetData(data) {
-  if (!data?.length) return [];
-  let headerRowIndex = 0;
-  for (let i = 0; i < Math.min(data.length, 5); i++) {
-    const row = data[i];
-    if (
-      Array.isArray(row) &&
-      row.some((cell) => {
-        const value = String(cell || "").trim();
-        return value === "Status" || value === "Name of Org/Club";
-      })
-    ) {
-      headerRowIndex = i;
-      break;
-    }
-  }
-
-  const headers = data[headerRowIndex];
-  return data
-    .slice(headerRowIndex + 1)
-    .map((row) =>
-      Object.fromEntries(
-        headers.map((header, index) => [
-          String(header ?? "").trim() || `Column${index}`,
-          row[index] != null ? String(row[index]) : "",
-        ]),
-      ),
-    );
-}
-
 function App() {
   const location = useLocation();
   const [clubData, setClubData] = useState([]);
@@ -324,11 +285,6 @@ function App() {
   const [electionSheetValues, setElectionSheetValues] = useState(null);
   const [newsData, setNewsData] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
-
-  // which clubs/orgs have applications open right now
-  const [applicationsData, setApplicationsData] = useState([]);
-  const [applicationsLoading, setApplicationsLoading] = useState(true);
-  const [applicationsError, setApplicationsError] = useState(null);
   const shouldCheckSheetsNow = SHOULD_CHECK_SHEETS_NOW;
 
   // Website Info + Officers + Elections + announcements archive: one batchGet per refresh (4 tabs -> 1 API call).
@@ -665,91 +621,6 @@ function App() {
     location.pathname,
   ]);
 
-  useEffect(() => {
-    async function fetchApplicationsData() {
-      setApplicationsError(null);
-      setApplicationsLoading(true);
-      const configuredSpreadsheetId = String(
-        applicationsSheetConfig?.spreadsheetId ?? "",
-      ).trim();
-      if (!configuredSpreadsheetId) {
-        // Explicitly treat blank config as "feature off": no API calls, no error state.
-        setApplicationsData([]);
-        setApplicationsLoading(false);
-        return;
-      }
-      const appsCookieKey = "lsa_sheet_applications_v1";
-      const cachedApplicationsValues = readJsonCookie(appsCookieKey);
-      if (cachedApplicationsValues?.length) {
-        setApplicationsData(
-          processApplicationsSheetData(cachedApplicationsValues),
-        );
-      }
-      if (!routeWantsApplicationsLiveFetch(location.pathname)) {
-        setApplicationsLoading(false);
-        return;
-      }
-      if (!shouldCheckSheetsNow && cachedApplicationsValues?.length) {
-        setApplicationsLoading(false);
-        return;
-      }
-
-      try {
-        const { spreadsheetId, sheetName, sheetNames } =
-          applicationsSheetConfig;
-        const names = sheetNames?.length
-          ? sheetNames
-          : [sheetName].filter(Boolean);
-
-        let lastError = null;
-        const batch = await fetchSheetBatchGetWithRetry(
-          spreadsheetId,
-          names,
-          GOOGLE_API_KEY,
-        );
-        if (!batch.error && batch.valueRanges?.length) {
-          for (let i = 0; i < names.length; i++) {
-            const vals = batch.valueRanges[i]?.values;
-            if (!vals?.length) continue;
-            setApplicationsData(processApplicationsSheetData(vals));
-            writeJsonCookie(appsCookieKey, vals);
-            return;
-          }
-          lastError = "No non-empty applications tab";
-        } else {
-          lastError = batch.error || "Unknown API error";
-          console.warn("Applications sheet batch:", lastError);
-        }
-
-        if (cachedApplicationsValues?.length) {
-          setApplicationsError(
-            `Live applications data unavailable (${lastError || "Could not load applications tab"}). Showing last saved data.`,
-          );
-        } else {
-          setApplicationsData([]);
-          setApplicationsError(
-            lastError || "Could not load the applications spreadsheet tab.",
-          );
-        }
-      } catch (error) {
-        console.warn(error);
-        if (cachedApplicationsValues?.length) {
-          setApplicationsError(
-            `Network error loading applications (${error?.message || "Unknown error"}). Showing last saved data.`,
-          );
-        } else {
-          setApplicationsData([]);
-          setApplicationsError(
-            error?.message || "Network error loading applications.",
-          );
-        }
-      } finally {
-        setApplicationsLoading(false);
-      }
-    }
-    fetchApplicationsData();
-  }, [shouldCheckSheetsNow, location.pathname]);
-
   return (
     <>
       <ScrollToTop />
@@ -759,6 +630,9 @@ function App() {
             <ElectionTimingProvider config={electionsConfigResolved}>
               <Layout
                 clubData={clubData}
+                officerData={officerData}
+                newsData={newsData}
+                cardinalympicsEvents={cardinalympicsEvents}
                 electionsEnabled={site.electionsEnabled}
                 electionsConfig={electionsConfigResolved}
               />
@@ -773,7 +647,6 @@ function App() {
                 cardinalympicsEvents={cardinalympicsEvents}
                 newsData={newsData}
                 clubData={clubData}
-                applicationsData={applicationsData}
                 showCardinalympicsScores={
                   cardinalympicsConfig.showScoresAndScoreboard
                 }
@@ -835,23 +708,25 @@ function App() {
 
           <Route path="Clubs" element={<Outlet />}>
             <Route index element={<Clubs clubData={clubData} />} />
-            <Route path="ClubResources" element={<ClubResources />} />
+            <Route
+              path="ClubResources"
+              element={<ClubResources officerData={officerData} />}
+            />
             <Route path=":ClubName" element={<Club clubData={clubData} />} />
-            <Route path="NewClub" element={<NewClub />} />
-            <Route path="EventPlanning" element={<EventPlanning />} />
-            <Route path="Fundraising" element={<Fundraising />} />
+            <Route
+              path="NewClub"
+              element={<NewClub officerData={officerData} />}
+            />
+            <Route
+              path="EventPlanning"
+              element={<EventPlanning officerData={officerData} />}
+            />
+            <Route
+              path="Fundraising"
+              element={<Fundraising officerData={officerData} />}
+            />
           </Route>
 
-          <Route
-            path="ApplicationsOpen"
-            element={
-              <ApplicationsOpen
-                applicationsData={applicationsData}
-                applicationsLoading={applicationsLoading}
-                applicationsError={applicationsError}
-              />
-            }
-          />
           <Route
             path="Announcements"
             element={
@@ -860,10 +735,6 @@ function App() {
           />
           <Route path="Resources" element={<Outlet />}>
             <Route index element={<Resources />} />
-            <Route
-              path="ApplicationsOpen"
-              element={<Navigate to="/ApplicationsOpen" replace />}
-            />
             <Route path="Wellness" element={<Wellness />} />
             <Route path="TitleIX" element={<TitleIX />} />
           </Route>

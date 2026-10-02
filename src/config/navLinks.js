@@ -204,11 +204,6 @@ export function buildNavLinks(clubData) {
       icon: faThumbTack,
       hasDropDown: true,
       subLinks: [
-        {
-          name: "Applications open",
-          to: "/ApplicationsOpen",
-          directLink: true,
-        },
         { name: "Lowell Wellness Center", to: "Wellness" },
         { name: "Title IX Support", to: "TitleIX" },
       ],

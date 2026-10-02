@@ -1,303 +1,335 @@
-import { useMemo, useState } from "react";
-import { useEffect, useRef } from "react";
-import events from "../../config/events.config.js";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Link } from "react-router-dom";
+import posts from "../../config/instagramPosts.config.js";
+import Logo from "../../assets/LSA-Logo.png";
 import "./Events.scss";
 
-export default function Events() {
+const PREVIEW_COUNT = 4;
+
+const PROFILE = "https://www.instagram.com/lowellhs/";
+const HANDLE = "lowellhs";
+const CAPTION_TOKEN = /(https?:\/\/[^\s]+)|(@[\w.]+)|(#[\w]+)/g;
+
+export default function Events({ preview = false }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [activeIndex, setActiveIndex] = useState(0);
-  const timelineRef = useRef(null);
+  const [openId, setOpenId] = useState(null);
 
-  const categories = useMemo(() => {
-    const all = events.map((event) => event.category);
-    return ["all", ...new Set(all)];
-  }, []);
-
-  const filteredEvents = useMemo(() => {
+  const matched = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-
-    return events.filter((event) => {
-      const categoryMatch =
-        selectedCategory === "all" || event.category === selectedCategory;
-
-      if (!query) return categoryMatch;
-
-      const text = [
-        event.title,
-        event.date,
-        event.category,
-        event.description,
-        event.location,
-      ]
-        .join(" ")
-        .toLowerCase();
-
-      return categoryMatch && text.includes(query);
-    });
-  }, [searchQuery, selectedCategory]);
-
-  // Flip timeline so the newest event is on the left, older events on the right.
-  const displayedEvents = useMemo(() => {
-    return [...filteredEvents].reverse();
-  }, [filteredEvents]);
-
-  const extractYear = (dateStr) => {
-    const match = String(dateStr).match(/(19|20)\d{2}/);
-    return match ? match[0] : "";
-  };
-
-  const timelineEvents = useMemo(() => {
-    let prevYear = "";
-    return displayedEvents.map((event) => {
-      const year = extractYear(event.date);
-      const isYearStart = year && year !== prevYear;
-      prevYear = year;
-      return { ...event, year, isYearStart };
-    });
-  }, [displayedEvents]);
-
-  const DOT_SEGMENTS = 5;
-
-  const dotCount = useMemo(() => {
-    return Math.max(1, Math.min(DOT_SEGMENTS, displayedEvents.length));
-  }, [displayedEvents.length]);
-
-  // Active dot changes when activeIndex crosses 1/5, 2/5, etc boundaries.
-  const activeDotIndex = useMemo(() => {
-    if (displayedEvents.length <= 1) return 0;
-    const raw = Math.floor((activeIndex * dotCount) / displayedEvents.length);
-    return Math.min(dotCount - 1, Math.max(0, raw));
-  }, [activeIndex, displayedEvents.length, dotCount]);
-
-  // Dot size + gap based on the fixed number of segments.
-  const dotBarStyles = useMemo(() => {
-    const count = Math.max(1, dotCount);
-    return {
-      "--dot-gap": `${Math.min(0.55, Math.max(0.12, 2.2 / count))}rem`,
-      "--dot-size": `${Math.min(10, Math.max(5, Math.round(90 / count)))}px`,
-    };
-  }, [dotCount]);
-
-  useEffect(() => {
-    const el = timelineRef.current;
-    if (!el || displayedEvents.length === 0) {
-      setActiveIndex(0);
-      return;
-    }
-
-    setActiveIndex((prev) =>
-      Math.min(prev, Math.max(0, displayedEvents.length - 1)),
+    if (!query) return posts;
+    return posts.filter((post) =>
+      [post.caption, post.date].join(" ").toLowerCase().includes(query),
     );
+  }, [searchQuery]);
 
-    /**
-     * Active dot follows **equal scroll distance per event**: total horizontal scroll
-     * is split into (n − 1) steps from first to last dot (or one dot if n === 1).
-     * This adapts how far you scroll before the next dot highlights.
-     */
-    const getActiveIndexFromScroll = () => {
-      const children = Array.from(el.querySelectorAll(".events-item"));
-      const n = children.length;
-      if (n <= 1) return 0;
+  const openPost = posts.find((post) => post.id === openId) ?? null;
+  const visible = preview ? posts.slice(0, PREVIEW_COUNT) : matched;
+  const dialog = openPost && (
+    <PostDialog post={openPost} onClose={() => setOpenId(null)} />
+  );
+  const grid = (
+    <div className="events-grid">
+      {visible.map((post) => (
+        <PostCard key={post.id} post={post} onOpen={setOpenId} />
+      ))}
+    </div>
+  );
 
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (maxScroll <= 0) return 0;
-
-      const t = Math.min(1, Math.max(0, el.scrollLeft / maxScroll));
-      return Math.round(t * (n - 1));
-    };
-
-    const onScroll = () => {
-      setActiveIndex(getActiveIndexFromScroll());
-    };
-
-    onScroll();
-    const rafId = requestAnimationFrame(() => onScroll());
-
-    el.addEventListener("scroll", onScroll, { passive: true });
-
-    const ro =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(() => onScroll())
-        : null;
-    ro?.observe(el);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      el.removeEventListener("scroll", onScroll);
-      ro?.disconnect();
-    };
-  }, [displayedEvents]);
-
-  useEffect(() => {
-    const el = timelineRef.current;
-    if (!el) return;
-
-    const normalizeWheelDelta = (delta, deltaMode) => {
-      if (deltaMode === 1) return delta * 48; // line-based wheel (Windows mouse)
-      if (deltaMode === 2) return delta * el.clientWidth; // page-based
-      return delta; // pixel-based (trackpads)
-    };
-
-    const onWheel = (e) => {
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (maxScroll <= 0) return;
-
-      // Force wheel interaction over timeline to move horizontally.
-      e.preventDefault();
-      const deltaX = normalizeWheelDelta(e.deltaX, e.deltaMode);
-      const deltaY = normalizeWheelDelta(e.deltaY, e.deltaMode);
-
-      // Prefer the strongest wheel axis and amplify enough to move across snap points.
-      const axisDelta = Math.abs(deltaY) >= Math.abs(deltaX) ? deltaY : deltaX;
-      el.scrollBy({ left: axisDelta * 2, behavior: "auto" });
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => {
-      el.removeEventListener("wheel", onWheel);
-    };
-  }, []);
-
-  const scrollToIndex = (index) => {
-    const el = timelineRef.current;
-    if (!el) return;
-    const items = el.querySelectorAll(".events-item");
-    if (!items[index]) return;
-
-    const n = items.length;
-    if (n <= 1) return;
-
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    if (maxScroll <= 0) return;
-
-    const targetLeft = (index / (n - 1)) * maxScroll;
-    el.scrollTo({ left: targetLeft, behavior: "smooth" });
-  };
+  if (preview) {
+    return (
+      <div className="news-section">
+        <h2>Events</h2>
+        <div className="events-preview">
+          {visible.length === 0 ? (
+            <p className="events-empty" role="status">
+              No events posted yet.
+            </p>
+          ) : (
+            grid
+          )}
+          {posts.length > PREVIEW_COUNT && (
+            <Link to="/Events" className="news-load-more">
+              View all events
+            </Link>
+          )}
+          {dialog}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="events-page">
       <header className="events-hero">
-        <h1>Events Timeline</h1>
+        <h1>Events</h1>
         <p>
-          Browse upcoming Lowell events in a horizontal timeline. Scroll to
-          explore what is happening throughout the year.
+          Posts from{" "}
+          <a href={PROFILE} target="_blank" rel="noopener noreferrer">
+            @lowellhs
+          </a>{" "}
+          on Instagram.
         </p>
       </header>
 
-      <div className="events-controls" aria-label="Event filters">
-        <div className="events-controls__field">
-          <label htmlFor="events-search">Search events</label>
-          <input
-            id="events-search"
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by title, date, location..."
-          />
-        </div>
-        <div className="events-controls__field">
-          <label htmlFor="events-category">Filter by category</label>
-          <select
-            id="events-category"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category === "all" ? "All categories" : category}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="events-timeline-wrapper">
-        <div className="events-timeline-shell">
-          <div className="events-timeline-shell__upcoming" aria-hidden>
-            Upcoming
-          </div>
-          <div
-            className="events-timeline"
-            role="list"
-            aria-label="Lowell events timeline"
-            ref={timelineRef}
-          >
-            {timelineEvents.map((event) => (
-              <article
-                className={`events-item events-item--year-${event.year || "unknown"}`}
-                key={event.id}
-                role="listitem"
-              >
-                <div className="events-item__marker" aria-hidden>
-                  {event.isYearStart && (
-                    <span className="events-item__year-label">
-                      {event.year}
-                    </span>
-                  )}
-                  <span className="events-item__date">{event.date}</span>
-                  <span className="events-item__dot" />
-                </div>
-
-                <div className="events-card">
-                  <h2 className="events-card__title">{event.title}</h2>
-                  <p className="events-card__category">{event.category}</p>
-                  <p className="events-card__description">
-                    {event.description}
-                  </p>
-                  <p className="events-card__location">
-                    <strong>Location:</strong> {event.location}
-                  </p>
-                </div>
-              </article>
-            ))}
-            {displayedEvents.length === 0 && (
-              <article
-                className="events-empty"
-                role="status"
-                aria-live="polite"
-              >
-                <h2>No events found</h2>
-                <p>Try a different search query or category filter.</p>
-              </article>
-            )}
-          </div>
-        </div>
-
-        {displayedEvents.length > 0 && (
-          <div className="events-dot-scrollbar-wrap">
-            <div
-              className="events-dot-scrollbar"
-              style={dotBarStyles}
-              aria-label="Timeline position"
-            >
-              {Array.from({ length: dotCount }, (_, dotIndex) => {
-                const total = displayedEvents.length;
-                const startIndex =
-                  dotCount === 1
-                    ? 0
-                    : dotIndex === dotCount - 1
-                      ? total - 1
-                      : Math.floor((dotIndex * total) / dotCount);
-                const event = displayedEvents[startIndex];
-
-                return (
-                  <button
-                    key={`${event?.id ?? "event"}-dot-${dotIndex}`}
-                    type="button"
-                    className={`events-dot-scrollbar__dot ${activeDotIndex === dotIndex ? "events-dot-scrollbar__dot--active" : ""}`}
-                    onClick={() => scrollToIndex(startIndex)}
-                    aria-label={`Go to ${event?.title ?? "event"}`}
-                    aria-current={
-                      activeDotIndex === dotIndex ? "true" : undefined
-                    }
-                  />
-                );
-              })}
-            </div>
+      <div className="events-main">
+        {posts.length > 0 && (
+          <div className="events-controls">
+            <label className="events-search" htmlFor="events-search">
+              <span>Search</span>
+              <input
+                id="events-search"
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search captions"
+              />
+            </label>
           </div>
         )}
+
+        {posts.length === 0 ? (
+          <p className="events-empty" role="status">
+            No posts yet.{" "}
+            <a href={PROFILE} target="_blank" rel="noopener noreferrer">
+              See @lowellhs on Instagram
+            </a>
+            .
+          </p>
+        ) : matched.length === 0 ? (
+          <p className="events-empty" role="status">
+            No posts match that search.
+          </p>
+        ) : (
+          grid
+        )}
       </div>
+
+      {dialog}
     </section>
   );
+}
+
+function PostCard({ post, onOpen }) {
+  return (
+    <button
+      type="button"
+      className="events-card"
+      aria-haspopup="dialog"
+      onClick={() => onOpen(post.id)}
+    >
+      <img src={post.cover} alt="" />
+      <div className="events-card__body">
+        <p className="events-card__date">{post.date}</p>
+        <p className="events-card__caption">{post.caption}</p>
+      </div>
+    </button>
+  );
+}
+
+function captionNodes(text) {
+  const nodes = [];
+  let last = 0;
+  for (const match of text.matchAll(CAPTION_TOKEN)) {
+    const index = match.index ?? 0;
+    if (index > last) {
+      nodes.push(<span key={`t${index}`}>{text.slice(last, index)}</span>);
+    }
+    const token = match[0];
+    const href = token.startsWith("@")
+      ? `https://www.instagram.com/${token.slice(1)}/`
+      : token.startsWith("#")
+        ? `https://www.instagram.com/explore/tags/${token.slice(1)}/`
+        : token;
+    nodes.push(
+      <a key={`l${index}`} href={href} target="_blank" rel="noopener noreferrer">
+        {token}
+      </a>,
+    );
+    last = index + token.length;
+  }
+  if (last < text.length) nodes.push(<span key="tail">{text.slice(last)}</span>);
+  return nodes;
+}
+
+function igDate(value) {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return parsed.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+}
+
+function dotStates(count, active) {
+  const max = 5;
+  if (count <= 1) return [];
+  if (count <= max) {
+    return Array.from({ length: count }, (_, index) => ({ index, edge: false }));
+  }
+  const start = Math.min(Math.max(active - 2, 0), count - max);
+  return Array.from({ length: max }, (_, offset) => {
+    const index = start + offset;
+    const edge =
+      index !== active &&
+      ((offset === 0 && start > 0) || (offset === max - 1 && start + max < count));
+    return { index, edge };
+  });
+}
+
+function Chevron({ dir }) {
+  const points = dir === "left" ? "15 5 8 12 15 19" : "9 5 16 12 9 19";
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+      <polyline
+        points={points}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PostDialog({ post, onClose }) {
+  const slides = post.video
+    ? []
+    : post.slides?.length
+      ? post.slides
+      : post.cover
+        ? [post.cover]
+        : [];
+  const [slide, setSlide] = useState(0);
+  const closeRef = useRef(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+  const many = slides.length > 1;
+
+  useEffect(() => {
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+
+    function onKey(event) {
+      if (event.key === "Escape") onCloseRef.current();
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setSlide((index) => Math.max(0, index - 1));
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setSlide((index) => Math.min(slides.length - 1, index + 1));
+      }
+    }
+
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [slides.length]);
+
+  const dialog = (
+    <div className="ig-backdrop" role="presentation" onClick={onClose}>
+      <div
+        className="ig-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${HANDLE}, ${post.date}`}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button
+          ref={closeRef}
+          type="button"
+          className="ig-close"
+          aria-label="Close"
+          onClick={onClose}
+        >
+          <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+            <path
+              d="M18 6 6 18M6 6l12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+
+        <div className="ig-media">
+          {post.video ? (
+            <video controls playsInline poster={post.cover} src={post.video} />
+          ) : (
+            slides[slide] && <img src={slides[slide]} alt="" />
+          )}
+          {many && slide > 0 && (
+            <button
+              type="button"
+              className="ig-arrow ig-arrow--prev"
+              aria-label="Previous"
+              onClick={() => setSlide((index) => index - 1)}
+            >
+              <Chevron dir="left" />
+            </button>
+          )}
+          {many && slide < slides.length - 1 && (
+            <button
+              type="button"
+              className="ig-arrow ig-arrow--next"
+              aria-label="Next"
+              onClick={() => setSlide((index) => index + 1)}
+            >
+              <Chevron dir="right" />
+            </button>
+          )}
+          {many && (
+            <div className="ig-dots">
+              {dotStates(slides.length, slide).map(({ index, edge }) => (
+                <button
+                  key={index}
+                  type="button"
+                  className={`ig-dot${index === slide ? " is-active" : ""}${edge ? " is-edge" : ""}`}
+                  aria-label={`Slide ${index + 1} of ${slides.length}`}
+                  aria-current={index === slide ? "true" : undefined}
+                  onClick={() => setSlide(index)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <aside className="ig-side">
+          <header className="ig-head">
+            <a href={PROFILE} target="_blank" rel="noopener noreferrer">
+              <img className="ig-avatar" src={Logo} alt="" />
+            </a>
+            <a className="ig-user" href={PROFILE} target="_blank" rel="noopener noreferrer">
+              {HANDLE}
+            </a>
+          </header>
+          <div className="ig-scroll">
+            <div className="ig-comment">
+              <img className="ig-avatar" src={Logo} alt="" />
+              <div>
+                <div className="ig-copy">
+                  <a className="ig-user" href={PROFILE} target="_blank" rel="noopener noreferrer">
+                    {HANDLE}
+                  </a>{" "}
+                  {captionNodes(post.caption || "")}
+                </div>
+                {post.url ? (
+                  <a className="ig-time" href={post.url} target="_blank" rel="noopener noreferrer">
+                    {igDate(post.date)}
+                  </a>
+                ) : (
+                  <span className="ig-time">{igDate(post.date)}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+
+  return createPortal(dialog, document.body);
 }

@@ -10,13 +10,15 @@ import {
   faRocket,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { sbcOfficerName } from "../../utils/sbcOfficer.js";
 import "./ClubResources.scss";
 
-const CLASSROOM_CODE = "knmn6yuw";
+const CLASSROOM_CODE = "q4h5rk2j";
 const COORDINATOR_EMAIL = "lowellclubcoord25@gmail.com";
 
-export default function ClubResources() {
+export default function ClubResources({ officerData }) {
   const [copied, setCopied] = useState(false);
+  const clubCoordinator = sbcOfficerName(officerData, "Club Coordinator");
 
   async function copyJoinCode() {
     try {
@@ -89,8 +91,12 @@ export default function ClubResources() {
               </div>
             </div>
             <p className="club-resources-page__card-body">
-              <strong>Enkhiinkhuslen Tegshjargal</strong>
-              <br />
+              {clubCoordinator ? (
+                <>
+                  <strong>{clubCoordinator}</strong>
+                  <br />
+                </>
+              ) : null}
               SBC Club Coordinator
             </p>
             <a

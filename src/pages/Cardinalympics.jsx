@@ -519,7 +519,9 @@ function CardinalympicsEventsSchedule({ events }) {
           className="cardinalympics-week"
           key={`${weekGroup.weekLabel}-${weekIndex}`}
         >
-          <h3 className="cardinalympics-week__title">{weekGroup.weekLabel}</h3>
+          {weekGroup.weekLabel ? (
+            <h3 className="cardinalympics-week__title">{weekGroup.weekLabel}</h3>
+          ) : null}
           {weekGroup.days.map((dayGroup, dayIndex) => (
             <div
               className="cardinalympics-day"

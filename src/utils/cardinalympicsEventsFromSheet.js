@@ -2,8 +2,12 @@
  * Parse "Cardinalympics Events" tab: Name, Category, Date (MM/DD/YY), Description, Sign Up Link, Points Possible
  */
 
+function isAllWeekDate(value) {
+  return /^all\s+week$/i.test(String(value || "").trim());
+}
+
 function parseMMDDYY(str) {
-  if (!str) return null;
+  if (!str || isAllWeekDate(str)) return null;
   const s = String(str).trim();
   const mdy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/);
   if (!mdy) return null;
@@ -118,7 +122,7 @@ export function parseCardinalympicsEventsSheet(values) {
       id: `cymp-ev-${i}-${heading.slice(0, 24)}`,
       name,
       category: category || "Events",
-      dateDisplay: dateRaw || "",
+      dateDisplay: isAllWeekDate(dateRaw) ? "All Week" : dateRaw || "",
       sortDate,
       heading,
       bodyText,
@@ -211,15 +215,26 @@ function sortEventsByDate(a, b) {
 export function groupCardinalympicsEventsByWeekAndDay(events) {
   if (!events?.length) return [];
 
-  const sorted = [...events].sort(sortEventsByDate);
+  const allWeekEvents = [];
+  const scheduled = [];
+  for (const ev of events) {
+    if (isAllWeekDate(ev.dateDisplay)) allWeekEvents.push(ev);
+    else scheduled.push(ev);
+  }
+
+  const sorted = [...scheduled].sort(sortEventsByDate);
   const dated = sorted.filter((ev) => ev.sortDate);
   if (!dated.length) {
-    return [
-      {
-        weekLabel: "Week 1",
-        days: [{ dayLabel: "Unscheduled", events: sorted }],
-      },
-    ];
+    const days = [];
+    if (allWeekEvents.length) {
+      days.push({ dayLabel: "All Week", events: allWeekEvents });
+    }
+    if (sorted.length) {
+      days.push({ dayLabel: "Unscheduled", events: sorted });
+    }
+    return days.length
+      ? [{ weekLabel: sorted.length ? "Week 1" : "", days }]
+      : [];
   }
 
   const earliestMs = startOfDay(dated[0].sortDate);
@@ -243,11 +258,20 @@ export function groupCardinalympicsEventsByWeekAndDay(events) {
     dayMap.get(dayLabel).push(ev);
   }
 
-  return [...weekMap.entries()].map(([weekLabel, dayMap]) => ({
+  const weekGroups = [...weekMap.entries()].map(([weekLabel, dayMap]) => ({
     weekLabel,
     days: [...dayMap.entries()].map(([dayLabel, evs]) => ({
       dayLabel,
       events: evs.sort(sortEventsByDate),
     })),
   }));
+
+  if (allWeekEvents.length) {
+    weekGroups.unshift({
+      weekLabel: "",
+      days: [{ dayLabel: "All Week", events: allWeekEvents }],
+    });
+  }
+
+  return weekGroups;
 }

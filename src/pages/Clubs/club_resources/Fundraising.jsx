@@ -4,8 +4,9 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import "./ClubResourceGuidePage.scss";
 import ClassroomCodeBlock from "./ClassroomCodeBlock.jsx";
 import GuideResourceGrid from "./GuideResourceGrid.jsx";
+import { sbcOfficerName } from "../../../utils/sbcOfficer.js";
 
-const CLASSROOM_CODE = "knmn6yuw";
+const CLASSROOM_CODE = "q4h5rk2j";
 const COORDINATOR_EMAIL = "lowellsbc.treasurer@gmail.com";
 
 /** Set `href` for public URLs; cards without `href` show a Classroom hint. */
@@ -68,7 +69,8 @@ const PROMOTION = [
   },
 ];
 
-export default function Fundraising() {
+export default function Fundraising({ officerData }) {
+  const treasurer = sbcOfficerName(officerData, "Treasurer");
   return (
     <section className="club-guide-page">
       <header className="club-guide-page__hero">
@@ -96,8 +98,12 @@ export default function Fundraising() {
 
         <div className="club-guide-page__contact">
           <span className="club-guide-page__contact-label">SBC treasurer</span>
-          <span>Kaitlyn Huey</span>
-          <span aria-hidden>·</span>
+          {treasurer ? (
+            <>
+              <span>{treasurer} (SBC)</span>
+              <span aria-hidden>·</span>
+            </>
+          ) : null}
           <a
             className="club-guide-page__contact-mail"
             href={`mailto:${COORDINATOR_EMAIL}`}

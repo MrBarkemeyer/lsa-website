@@ -269,18 +269,7 @@
   background: #fafbfc;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  text-decoration: none;
   color: inherit;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
-
-  &:hover {
-    border-color: color-mix(in srgb, var(--lowell-red) 40%, transparent);
-    box-shadow: 0 6px 18px rgba(134, 18, 18, 0.1);
-    transform: translateY(-2px);
-  }
 }
 
 .new-club-page__form-icon {
