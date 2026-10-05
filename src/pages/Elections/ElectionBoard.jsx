@@ -1,4 +1,4 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate, useSearchParams } from "react-router-dom";
 import {
   useCallback,
   useEffect,
@@ -12,6 +12,8 @@ import PropTypes from "prop-types";
 import electionsConfig from "../../config/elections.config.js";
 import LoadingTruck from "../../components/LoadingTruck";
 import SafeImage from "../../components/SafeImage";
+import Logo from "../../assets/LSA-Logo.png";
+import "../More/Events.scss";
 import { areElectionBoardsPublic } from "../../utils/electionAccess.js";
 import {
   useElectionVotingLive,
@@ -112,8 +114,6 @@ async function getAverageColorWithFallback(url) {
   }
 }
 
-const ELECTION_CANDIDATE_MEDIA_COLUMN_HEIGHT_PX = (300 * 4) / 3;
-
 function postYoutubeIframeCommand(iframe, func, args = []) {
   if (!iframe?.contentWindow) return;
   try {
@@ -130,18 +130,44 @@ function postYoutubeIframeCommand(iframe, func, args = []) {
   }
 }
 
-function kickYoutubeAudible(iframe) {
-  postYoutubeIframeCommand(iframe, "unMute");
-  postYoutubeIframeCommand(iframe, "playVideo");
-  window.setTimeout(() => {
+function hideYoutubeCaptions(iframe) {
+  postYoutubeIframeCommand(iframe, "unloadModule", ["captions"]);
+  postYoutubeIframeCommand(iframe, "setOption", ["captions", "track", {}]);
+}
+
+function kickYoutubeAudible(iframe, hideCaptions = false) {
+  const kick = () => {
     postYoutubeIframeCommand(iframe, "unMute");
     postYoutubeIframeCommand(iframe, "playVideo");
-  }, 200);
+    if (hideCaptions) hideYoutubeCaptions(iframe);
+  };
+  kick();
+  window.setTimeout(kick, 200);
+  if (hideCaptions) window.setTimeout(() => hideYoutubeCaptions(iframe), 800);
 }
 
 function silenceYoutubePreview(iframe) {
   postYoutubeIframeCommand(iframe, "pauseVideo");
   postYoutubeIframeCommand(iframe, "mute");
+}
+
+let dialogVideoHost = null;
+const dialogVideoHostListeners = new Set();
+
+function setDialogVideoHost(node) {
+  dialogVideoHost = node;
+  dialogVideoHostListeners.forEach((fn) => fn());
+}
+
+function useDialogVideoHost() {
+  const [host, setHost] = useState(null);
+  useEffect(() => {
+    const sync = () => setHost(dialogVideoHost);
+    dialogVideoHostListeners.add(sync);
+    sync();
+    return () => dialogVideoHostListeners.delete(sync);
+  }, []);
+  return host;
 }
 
 // one candidate: photo (hover = video), name, bio, vote button
@@ -153,6 +179,7 @@ function ElectionCandidateCard({
   votingFormUrl = "",
   voteButtonText = "Vote now",
   activeMedia = null,
+  role = "",
 }) {
   const { name, description, pfp, video } = candidate;
   const youtubeVideoId = useMemo(() => extractYouTubeVideoId(video), [video]);
@@ -171,6 +198,7 @@ function ElectionCandidateCard({
   const [cardGlowColor, setCardGlowColor] = useState("transparent");
   const [videoSourceIndex, setVideoSourceIndex] = useState(0);
   const articleRef = useRef(null);
+  const loadedFlyerRef = useRef("");
   const youtubeIframeRef = useRef(null);
   const youtubeIframeHomeRef = useRef(null);
   const fileVideoRef = useRef(null);
@@ -183,9 +211,13 @@ function ElectionCandidateCard({
 
   const [youtubeSlotEl, setYoutubeSlotEl] = useState(null);
   const [fileSlotEl, setFileSlotEl] = useState(null);
+  const dialogHost = useDialogVideoHost();
+  const inDialog = Boolean(isThisModalOpen && dialogHost);
+  const youtubeTarget = inDialog ? dialogHost : youtubeSlotEl;
+  const fileTarget = inDialog ? dialogHost : fileSlotEl;
 
   useEffect(() => {
-    if (!isThisModalOpen) return undefined;
+    if (!isThisModalOpen || inDialog) return undefined;
     silenceYoutubePreview(youtubeIframeRef.current);
     const v = fileVideoRef.current;
     if (v) {
@@ -193,7 +225,39 @@ function ElectionCandidateCard({
       v.muted = true;
     }
     return undefined;
-  }, [isThisModalOpen]);
+  }, [isThisModalOpen, inDialog]);
+
+  useEffect(() => {
+    if (!inDialog) return undefined;
+    const iframe = youtubeIframeRef.current;
+    if (iframe && isYouTubeVideo) {
+      const src = String(iframe.getAttribute("src") || "");
+      if (!youtubeVideoId || !src.includes(youtubeVideoId))
+        iframe.src = youtubeCardEmbedSrc;
+      postYoutubeIframeCommand(iframe, "unMute");
+      postYoutubeIframeCommand(iframe, "playVideo");
+      hideYoutubeCaptions(iframe);
+    }
+    const file = fileVideoRef.current;
+    if (file && !isYouTubeVideo) {
+      for (const track of file.textTracks || []) track.mode = "disabled";
+      if (file.videoWidth) {
+        file.style.aspectRatio = `${file.videoWidth} / ${file.videoHeight}`;
+      }
+      file.muted = false;
+      file.play().catch(() => {
+        file.muted = true;
+        file.play().catch(() => {});
+      });
+    }
+    return undefined;
+  }, [
+    inDialog,
+    isYouTubeVideo,
+    dialogHost,
+    youtubeVideoId,
+    youtubeCardEmbedSrc,
+  ]);
 
   useLayoutEffect(() => {
     const el = youtubeIframeHomeRef.current;
@@ -241,7 +305,13 @@ function ElectionCandidateCard({
   const onYoutubePreviewIframeLoad = () => {
     const iframe = youtubeIframeRef.current;
     if (!iframe) return;
-    if (hoverPreviewRef.current) kickYoutubeAudible(iframe);
+    if (iframe.classList.contains("election-dialog-video")) {
+      postYoutubeIframeCommand(iframe, "unMute");
+      postYoutubeIframeCommand(iframe, "playVideo");
+      hideYoutubeCaptions(iframe);
+      return;
+    }
+    if (hoverPreviewRef.current) kickYoutubeAudible(iframe, true);
     else silenceYoutubePreview(iframe);
   };
 
@@ -290,6 +360,7 @@ function ElectionCandidateCard({
       );
       if (typeof videoEl.play === "function") {
         if (visible) {
+          for (const track of videoEl.textTracks || []) track.mode = "disabled";
           videoEl.muted = false;
           videoEl
             .play()
@@ -313,7 +384,7 @@ function ElectionCandidateCard({
       if (visible) {
         if (youtubeCardEmbedSrc && youtubeIframeNeedsSrc(iframeEl))
           iframeEl.src = youtubeCardEmbedSrc;
-        kickYoutubeAudible(iframeEl);
+        kickYoutubeAudible(iframeEl, true);
       } else {
         silenceYoutubePreview(iframeEl);
       }
@@ -334,9 +405,12 @@ function ElectionCandidateCard({
     setIsHoverPreviewVisible(false);
   };
 
-  const handleMediaClick = () => {
-    onOpenMedia(candidate);
-  };
+  const openCard = () =>
+    onOpenMedia({
+      ...candidate,
+      role,
+      resolvedPfp: loadedFlyerRef.current,
+    });
 
   return (
     <article
@@ -344,11 +418,21 @@ function ElectionCandidateCard({
       className="election-candidate-card"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={(event) => {
+        if (event.target.closest("a")) return;
+        openCard();
+      }}
+      onKeyDown={(event) => {
+        if (event.target !== event.currentTarget) return;
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        openCard();
+      }}
+      tabIndex={0}
       style={{ "--card-glow-color": cardGlowColor }}
     >
       <div
         className="election-candidate-card-media"
-        onClick={handleMediaClick}
         style={{ "--card-accent": accentColor || "var(--title-color)" }}
       >
         {hasVideo && (
@@ -365,23 +449,31 @@ function ElectionCandidateCard({
           className="election-candidate-card-pfp"
           loading="lazy"
           variant="club"
+          onLoad={(event) => {
+            const url = event.currentTarget.currentSrc || "";
+            if (url && !url.startsWith("data:")) loadedFlyerRef.current = url;
+          }}
         />
         {video && isYouTubeVideo && (
           <div
             ref={youtubeIframeHomeRef}
             className="election-candidate-card-preview-player-slot"
           >
-            {youtubeSlotEl &&
+            {youtubeTarget &&
               createPortal(
                 <iframe
                   key={youtubeCardEmbedSrc || youtubeVideoId || "yt"}
                   ref={youtubeIframeRef}
                   title={`${name} campaign video preview`}
-                  className="election-candidate-card-video election-candidate-card-youtube-preview election-candidate-card-video-preview"
+                  className={
+                    inDialog
+                      ? "election-dialog-video"
+                      : "election-candidate-card-video election-candidate-card-youtube-preview election-candidate-card-video-preview"
+                  }
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   onLoad={onYoutubePreviewIframeLoad}
                 />,
-                youtubeSlotEl,
+                youtubeTarget,
               )}
           </div>
         )}
@@ -390,15 +482,19 @@ function ElectionCandidateCard({
             ref={fileVideoHomeRef}
             className="election-candidate-card-preview-player-slot"
           >
-            {fileSlotEl &&
+            {fileTarget &&
               createPortal(
                 <video
                   key={videoSrc || video || "file"}
                   ref={fileVideoRef}
-                  className="election-candidate-card-video election-candidate-card-video-preview"
+                  className={
+                    inDialog
+                      ? "election-dialog-video"
+                      : "election-candidate-card-video election-candidate-card-video-preview"
+                  }
                   src={videoSrc || undefined}
-                  controls={false}
-                  muted={!isHoverPreviewVisible}
+                  controls={inDialog}
+                  muted={!inDialog && !isHoverPreviewVisible}
                   loop
                   playsInline
                   preload="metadata"
@@ -408,7 +504,7 @@ function ElectionCandidateCard({
                     );
                   }}
                 />,
-                fileSlotEl,
+                fileTarget,
               )}
           </div>
         )}
@@ -467,6 +563,7 @@ ElectionCandidateCard.propTypes = {
   votingFormUrl: PropTypes.string,
   voteButtonText: PropTypes.string,
   activeMedia: PropTypes.object,
+  role: PropTypes.string,
 };
 
 // config sometimes gives us just a name string - turn it into a proper candidate object so we arent cooked
@@ -502,54 +599,10 @@ function ElectionBoardCandidatesGrid({
   votingFormUrl,
   voteButtonText,
   activeMedia,
+  role,
 }) {
-  const gridRef = useRef(null);
-  const stackedLatchRef = useRef(false);
-  const [stacked, setStacked] = useState(false);
-
-  const candidatesKey = `${showVoteButton ? "1" : "0"}|${votingFormUrl};;${candidates
-    .map(
-      (c) => `${c.name}|${c.description ?? ""}|${c.pfp ?? ""}|${c.video ?? ""}`,
-    )
-    .join(";;")}`;
-
-  useLayoutEffect(() => {
-    stackedLatchRef.current = false;
-    setStacked(false);
-
-    const grid = gridRef.current;
-    if (!grid) return;
-
-    const measure = () => {
-      if (stackedLatchRef.current) return;
-      const cardEls = grid.querySelectorAll(".election-candidate-card");
-      for (const el of cardEls) {
-        if (
-          el.getBoundingClientRect().height >
-          ELECTION_CANDIDATE_MEDIA_COLUMN_HEIGHT_PX + 0.5
-        ) {
-          stackedLatchRef.current = true;
-          setStacked(true);
-          return;
-        }
-      }
-    };
-
-    const ro = new ResizeObserver(measure);
-    ro.observe(grid);
-    grid
-      .querySelectorAll(".election-candidate-card")
-      .forEach((el) => ro.observe(el));
-    measure();
-
-    return () => ro.disconnect();
-  }, [candidatesKey]);
-
   return (
-    <div
-      ref={gridRef}
-      className={`election-board-candidates-grid${stacked ? " election-board-candidates-grid--stacked" : ""}`}
-    >
+    <div className="election-board-candidates-grid">
       {candidates.map((c) => (
         <ElectionCandidateCard
           key={c.name}
@@ -560,6 +613,7 @@ function ElectionBoardCandidatesGrid({
           votingFormUrl={votingFormUrl}
           voteButtonText={voteButtonText}
           activeMedia={activeMedia}
+          role={role}
         />
       ))}
     </div>
@@ -574,6 +628,7 @@ ElectionBoardCandidatesGrid.propTypes = {
   votingFormUrl: PropTypes.string,
   voteButtonText: PropTypes.string,
   activeMedia: PropTypes.object,
+  role: PropTypes.string,
 };
 
 function extractDriveId(urlRaw) {
@@ -637,7 +692,7 @@ function buildYouTubeElectionCardEmbedSrc(videoId, pageOrigin) {
     videoId,
   )}?autoplay=1&mute=1&loop=1&playlist=${encodeURIComponent(
     videoId,
-  )}&controls=0&showinfo=0&rel=0&disablekb=1&fs=0&playsinline=1&enablejsapi=1${originQ}`;
+  )}&controls=0&showinfo=0&rel=0&disablekb=1&fs=0&playsinline=1&cc_load_policy=0&iv_load_policy=3&enablejsapi=1${originQ}`;
 }
 
 /** Modal: dedicated embed (not the card preview URL) so the iframe mounts with src immediately — no portal / ref delay. */
@@ -666,13 +721,11 @@ function imageSourceCandidates(srcRaw) {
   if (!src) return [];
   const id = extractDriveId(src);
   if (!id) return [src];
-  const proxy = (u) =>
-    `https://images.weserv.nl/?url=${encodeURIComponent(u.replace(/^https?:\/\//i, ""))}&w=1400&h=1400&fit=inside`;
-  const u1 = `https://drive.google.com/uc?export=view&id=${id}`;
-  const u2 = `https://drive.usercontent.google.com/uc?id=${id}&export=view`;
-  const u3 = `https://lh3.googleusercontent.com/d/${id}=s1600`;
-  const u4 = `https://drive.google.com/thumbnail?id=${id}&sz=w1600`;
-  return [u1, proxy(u1), u2, proxy(u2), u3, proxy(u3), u4, proxy(u4), src];
+  const thumb = `https://drive.google.com/thumbnail?id=${id}&sz=w1600`;
+  const loaded = `https://lh3.googleusercontent.com/d/${id}=s1600`;
+  const file = `https://drive.google.com/uc?export=view&id=${id}`;
+  const proxy = `https://images.weserv.nl/?url=${encodeURIComponent(file.replace(/^https?:\/\//i, ""))}&w=1400&h=1400&fit=inside`;
+  return [thumb, loaded, proxy, src];
 }
 
 function videoSourceCandidates(srcRaw) {
@@ -689,9 +742,29 @@ function videoSourceCandidates(srcRaw) {
   ];
 }
 
+function IgChevron({ dir }) {
+  const points = dir === "left" ? "15 5 8 12 15 19" : "9 5 16 12 9 19";
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+      <polyline
+        points={points}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function ElectionMediaModal({ media, onClose }) {
   const videoRaw = media?.video;
-  const hasVideo = Boolean(videoRaw);
+  const hasVideo = Boolean(String(videoRaw ?? "").trim());
+  const hasFlyer = Boolean(String(media?.pfp ?? "").trim());
+  const slideCount = (hasFlyer ? 1 : 0) + (hasVideo ? 1 : 0);
+  const [slide, setSlide] = useState(0);
+  const showingVideo = hasVideo && (!hasFlyer || slide === 1);
   const youtubeVideoId = useMemo(
     () => extractYouTubeVideoId(videoRaw),
     [videoRaw],
@@ -706,109 +779,228 @@ function ElectionMediaModal({ media, onClose }) {
         : "",
     [youtubeVideoId, pageOrigin],
   );
-  const playableVideoSources = useMemo(
-    () => videoSourceCandidates(videoRaw),
-    [videoRaw],
-  );
-  const [fileSourceIndex, setFileSourceIndex] = useState(0);
+  const [upgradeReady, setUpgradeReady] = useState(false);
+  const closeRef = useRef(null);
   const modalYoutubeRef = useRef(null);
-  const fileVideoSrc = playableVideoSources[fileSourceIndex] || videoRaw || "";
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
-  const flyerSources = useMemo(
-    () => imageSourceCandidates(media?.pfp),
-    [media?.pfp],
-  );
+  const flyerSources = useMemo(() => {
+    const ready = String(media?.resolvedPfp ?? "").trim();
+    if (ready) return [ready];
+    return imageSourceCandidates(media?.pfp);
+  }, [media?.resolvedPfp, media?.pfp]);
 
   useEffect(() => {
-    setFileSourceIndex(0);
-  }, [videoRaw]);
+    setUpgradeReady(false);
+    setSlide(0);
+  }, [videoRaw, media?.pfp, media?.name]);
 
   useEffect(() => {
     if (!media) return undefined;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+
+    function onKey(event) {
+      if (event.key === "Escape") onCloseRef.current();
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setSlide((index) => Math.max(0, index - 1));
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setSlide((index) => Math.min(slideCount - 1, index + 1));
+      }
+    }
+
+    document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
     };
-  }, [media]);
+  }, [media, slideCount]);
+
+  const revealUpgrade = useCallback(() => {
+    setUpgradeReady((ready) => {
+      if (ready) return ready;
+      const warm = dialogVideoHost?.querySelector("iframe, video");
+      if (warm?.tagName === "IFRAME") silenceYoutubePreview(warm);
+      else if (warm) {
+        warm.pause();
+        warm.muted = true;
+      }
+      kickYoutubeAudible(modalYoutubeRef.current);
+      return true;
+    });
+  }, []);
 
   const onModalYoutubeLoad = useCallback(() => {
-    kickYoutubeAudible(modalYoutubeRef.current);
+    modalYoutubeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: "listening", id: "election-dialog", channel: "widget" }),
+      "*",
+    );
   }, []);
+
+  useEffect(() => {
+    if (!showingVideo || !isYouTube) return undefined;
+    function onMessage(event) {
+      if (event.source !== modalYoutubeRef.current?.contentWindow) return;
+      let data = event.data;
+      if (typeof data === "string") {
+        try {
+          data = JSON.parse(data);
+        } catch {
+          return;
+        }
+      }
+      if (data?.event === "onStateChange" && Number(data.info) === 1) revealUpgrade();
+    }
+    window.addEventListener("message", onMessage);
+    const fallback = window.setTimeout(revealUpgrade, 2500);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.clearTimeout(fallback);
+    };
+  }, [showingVideo, isYouTube, revealUpgrade]);
 
   if (!media) return null;
 
-  return (
-    <div
-      className="election-media-modal-backdrop"
-      role="dialog"
-      aria-modal="true"
-      onClick={onClose}
-    >
+  const dialog = (
+    <div className="ig-backdrop" role="presentation" onClick={onClose}>
       <div
-        className={`election-media-modal ${
-          hasVideo
-            ? "election-media-modal--video"
-            : "election-media-modal--image"
-        }`}
-        onClick={(e) => e.stopPropagation()}
+        className="ig-dialog ig-dialog--election"
+        role="dialog"
+        aria-modal="true"
+        aria-label={media.name}
+        onClick={(event) => event.stopPropagation()}
       >
         <button
+          ref={closeRef}
           type="button"
-          className="election-media-modal-close"
+          className="ig-close"
+          aria-label="Close"
           onClick={onClose}
-          aria-label="Close media"
         >
-          x
+          <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+            <path
+              d="M18 6 6 18M6 6l12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
         </button>
-        <h3 className="election-media-modal-title">{media.name}</h3>
-        <div className="election-media-modal-content">
-          {hasVideo ? (
-            isYouTube ? (
-              <iframe
-                ref={modalYoutubeRef}
-                key={youtubeVideoId}
-                src={modalYoutubeSrc}
-                title={`${media.name} campaign video`}
-                className="election-media-modal-video election-media-modal-frame"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                fetchPriority="high"
-                onLoad={onModalYoutubeLoad}
+
+        <div className="ig-media">
+          {showingVideo ? (
+            <>
+              <div
+                ref={setDialogVideoHost}
+                className="election-dialog-video-host"
               />
-            ) : (
-              <video
-                key={`${fileVideoSrc}-modal`}
-                className="election-media-modal-video"
-                src={fileVideoSrc || undefined}
-                controls
-                playsInline
-                preload="auto"
-                onError={() => {
-                  setFileSourceIndex((i) =>
-                    i < playableVideoSources.length - 1 ? i + 1 : i,
-                  );
-                }}
-              />
-            )
+              {isYouTube && (
+                <iframe
+                  ref={modalYoutubeRef}
+                  key={youtubeVideoId}
+                  src={modalYoutubeSrc}
+                  title={`${media.name} campaign video`}
+                  className={`election-dialog-video-upgrade${upgradeReady ? " is-ready" : ""}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  onLoad={onModalYoutubeLoad}
+                />
+              )}
+            </>
           ) : (
             <SafeImage
               src={flyerSources}
               alt={`${media.name} flyer`}
-              className="election-media-modal-image"
               variant="club"
+              decoding="sync"
             />
           )}
+          {slideCount > 1 && slide > 0 && (
+            <button
+              type="button"
+              className="ig-arrow ig-arrow--prev"
+              aria-label="Previous"
+              onClick={() => setSlide((index) => index - 1)}
+            >
+              <IgChevron dir="left" />
+            </button>
+          )}
+          {slideCount > 1 && slide < slideCount - 1 && (
+            <button
+              type="button"
+              className="ig-arrow ig-arrow--next"
+              aria-label="Next"
+              onClick={() => setSlide((index) => index + 1)}
+            >
+              <IgChevron dir="right" />
+            </button>
+          )}
+          {slideCount > 1 && (
+            <div className="ig-dots">
+              {Array.from({ length: slideCount }, (_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className={`ig-dot${index === slide ? " is-active" : ""}`}
+                  aria-label={`Slide ${index + 1} of ${slideCount}`}
+                  aria-current={index === slide ? "true" : undefined}
+                  onClick={() => setSlide(index)}
+                />
+              ))}
+            </div>
+          )}
         </div>
+
+        <aside className="ig-side">
+          <header className="ig-head">
+            <SafeImage
+              className="ig-avatar"
+              src={flyerSources.length ? flyerSources : Logo}
+              alt=""
+              variant="user"
+            />
+            <span className="ig-user">{media.name}</span>
+          </header>
+          <div className="ig-scroll">
+            <div className="ig-comment">
+              <SafeImage
+                className="ig-avatar"
+                src={flyerSources.length ? flyerSources : Logo}
+                alt=""
+                variant="user"
+              />
+              <div>
+                <div className="ig-copy">
+                  <span className="ig-user">{media.name}</span>
+                  {media.description ? ` ${media.description}` : ""}
+                </div>
+                {media.role ? (
+                  <span className="ig-time">{media.role}</span>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   );
+
+  return createPortal(dialog, document.body);
 }
 
 ElectionMediaModal.propTypes = {
   media: PropTypes.shape({
     name: PropTypes.string,
+    description: PropTypes.string,
+    role: PropTypes.string,
     pfp: PropTypes.string,
+    resolvedPfp: PropTypes.string,
     video: PropTypes.string,
   }),
   onClose: PropTypes.func.isRequired,
@@ -818,6 +1010,7 @@ export default function ElectionBoard({
   electionsConfig: config = electionsConfig,
 }) {
   const { boardSlug } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [activeMedia, setActiveMedia] = useState(null);
   const votingLive = useElectionVotingLive(config);
   const messagingLive = useElectionVotingMessagingLive(config);
@@ -873,6 +1066,26 @@ export default function ElectionBoard({
   }
 
   const accentColor = board.color || "var(--title-color)";
+  const roleQuery = searchParams.get("role") || "";
+  const nameQuery = (searchParams.get("q") || "").trim().toLowerCase();
+  const roles = (board.roles ?? []).map((group) => group.role).filter(Boolean);
+  const sections = (board.roles ?? []).flatMap((roleGroup) => {
+    if (roleQuery && roleGroup.role !== roleQuery) return [];
+    const candidates = (roleGroup.candidates ?? [])
+      .map(normalizeCandidate)
+      .filter(
+        (candidate) =>
+          !nameQuery || candidate.name.toLowerCase().includes(nameQuery),
+      );
+    if (candidates.length === 0) return [];
+    return [{ role: roleGroup.role, candidates }];
+  });
+  const setElectionQuery = (key, value) => {
+    const params = new URLSearchParams(searchParams);
+    if (value) params.set(key, value);
+    else params.delete(key);
+    setSearchParams(params, { replace: true });
+  };
   const votingFormUrl = String(config?.votingFormUrl ?? "").trim();
   const voteButtonText =
     String(config?.voteButtonText ?? "Vote now").trim() || "Vote now";
@@ -885,6 +1098,7 @@ export default function ElectionBoard({
   const votingLiveReminder = String(
     config?.votingLivePollingSubtitle ?? "",
   ).trim();
+  const boardCount = (config?.contenders ?? []).filter((b) => b?.slug).length;
   const boardNav = (
     <>
       {prevSlug ? (
@@ -939,31 +1153,65 @@ export default function ElectionBoard({
           </p>
         ) : null}
       </header>
-      <nav className="election-board-nav election-board-nav--top">
-        {boardNav}
-      </nav>
+      {boardCount > 1 ? (
+        <nav className="election-board-nav election-board-nav--top">
+          {boardNav}
+        </nav>
+      ) : null}
 
       <main className="election-board-main">
-        {(board.roles ?? []).map((roleGroup) => {
-          const candidates = (roleGroup.candidates ?? []).map(
-            normalizeCandidate,
-          );
-          if (candidates.length === 0) return null;
-          return (
+        <div className="election-board-tools">
+          <input
+            type="search"
+            className="election-board-search"
+            placeholder="Search candidates"
+            aria-label="Search candidates"
+            value={searchParams.get("q") || ""}
+            onChange={(event) => setElectionQuery("q", event.target.value)}
+          />
+          <div className="election-board-roles" role="group" aria-label="Filter by role">
+            <button
+              type="button"
+              className={`election-board-role-btn${roleQuery ? "" : " election-board-role-btn--active"}`}
+              aria-pressed={!roleQuery}
+              onClick={() => setElectionQuery("role", "")}
+            >
+              All
+            </button>
+            {roles.map((role) => (
+              <button
+                key={role}
+                type="button"
+                className={`election-board-role-btn${roleQuery === role ? " election-board-role-btn--active" : ""}`}
+                aria-pressed={roleQuery === role}
+                onClick={() =>
+                  setElectionQuery("role", roleQuery === role ? "" : role)
+                }
+              >
+                {role}
+              </button>
+            ))}
+          </div>
+        </div>
+        {sections.length === 0 ? (
+          <p className="election-board-empty">No candidates match.</p>
+        ) : (
+          sections.map((section) => (
             <section
-              key={roleGroup.role}
+              key={section.role}
               className="election-board-role-section"
             >
               <h2
                 className="election-board-role-title"
                 style={{ borderLeftColor: accentColor }}
               >
-                {roleGroup.role}
+                {section.role}
               </h2>
               <ElectionBoardCandidatesGrid
-                key={`${boardSlug}-${roleGroup.role}`}
-                candidates={candidates}
+                key={`${boardSlug}-${section.role}`}
+                candidates={section.candidates}
                 accentColor={accentColor}
+                role={section.role}
                 onOpenMedia={handleOpenElectionMedia}
                 showVoteButton={showVoteNowButtons}
                 votingFormUrl={votingFormUrl}
@@ -971,11 +1219,13 @@ export default function ElectionBoard({
                 activeMedia={activeMedia}
               />
             </section>
-          );
-        })}
+          ))
+        )}
       </main>
 
-      <nav className="election-board-nav">{boardNav}</nav>
+      {boardCount > 1 ? (
+        <nav className="election-board-nav">{boardNav}</nav>
+      ) : null}
     </div>
   );
 }

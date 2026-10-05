@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
+import { extractDriveFileId } from "../utils/driveMedia.js";
+
+// A photo that already painted, keyed by its URL and its Drive file id.
+const loadedSrc = new Map();
 
 function svgToDataUri(svg) {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
@@ -35,39 +39,87 @@ function getFallbackDataUri(variant) {
   return svgToDataUri(svg);
 }
 
+function sourceListOf(src) {
+  if (Array.isArray(src)) {
+    return src
+      .filter((item) => typeof item === "string" && item.trim())
+      .map((item) => item.trim());
+  }
+  const one = typeof src === "string" ? src.trim() : "";
+  return one ? [one] : [];
+}
+
+function remember(list, url) {
+  if (!url || url.startsWith("data:")) return;
+  loadedSrc.set(url, url);
+  for (const item of [url, ...list]) {
+    const id = extractDriveFileId(item);
+    if (id) loadedSrc.set(id, url);
+  }
+}
+
+function remembered(list) {
+  for (const url of list) {
+    const id = extractDriveFileId(url);
+    const known = (id && loadedSrc.get(id)) || loadedSrc.get(url);
+    if (known) return known;
+  }
+  return "";
+}
+
 export default function SafeImage({
   src,
   alt = "",
   className,
   variant = "user",
   fallbackVariant,
+  onLoad,
+  decoding,
   ...rest
 }) {
   const fallbackSrc = useMemo(() => {
     return getFallbackDataUri(fallbackVariant || variant);
   }, [variant, fallbackVariant]);
 
-  const [currentSrc, setCurrentSrc] = useState(src);
-  const [sourceIndex, setSourceIndex] = useState(0);
+  const sourceKey = Array.isArray(src) ? src.join("\0") : String(src ?? "");
+  const sourceList = useMemo(() => sourceListOf(src), [sourceKey]);
+  const warmSrc = remembered(sourceList);
 
-  const sourceList = useMemo(() => {
-    if (Array.isArray(src)) {
-      return src.filter((s) => typeof s === "string" && s.trim() !== "");
-    }
-    return typeof src === "string" && src.trim() !== "" ? [src] : [];
-  }, [src]);
+  const [currentSrc, setCurrentSrc] = useState(
+    () => warmSrc || sourceList[0] || "",
+  );
+  const [sourceIndex, setSourceIndex] = useState(() => {
+    const start = warmSrc || sourceList[0] || "";
+    const index = sourceList.indexOf(start);
+    return index === -1 ? 0 : index;
+  });
 
   useEffect(() => {
-    setSourceIndex(0);
-    const first = sourceList[0];
-    if (first) {
-      setCurrentSrc(first);
-    } else if (typeof src === "string" && src.trim()) {
-      setCurrentSrc(src.trim());
-    } else {
-      setCurrentSrc(fallbackSrc);
+    const start = remembered(sourceList) || sourceList[0] || fallbackSrc;
+    const index = sourceList.indexOf(start);
+    setSourceIndex(index === -1 ? 0 : index);
+    setCurrentSrc(start);
+  }, [sourceKey, fallbackSrc, sourceList]);
+
+  useEffect(() => {
+    const preferred = sourceList[0];
+    if (!preferred || preferred === currentSrc || currentSrc === fallbackSrc) {
+      return undefined;
     }
-  }, [src, sourceList, fallbackSrc]);
+    let cancelled = false;
+    const pre = new Image();
+    pre.referrerPolicy = "no-referrer";
+    pre.onload = () => {
+      if (cancelled || pre.naturalWidth === 0) return;
+      remember(sourceList, preferred);
+      setSourceIndex(0);
+      setCurrentSrc(preferred);
+    };
+    pre.src = preferred;
+    return () => {
+      cancelled = true;
+    };
+  }, [sourceKey, currentSrc, fallbackSrc, sourceList]);
 
   const handleError = () => {
     if (sourceIndex < sourceList.length - 1) {
@@ -80,13 +132,27 @@ export default function SafeImage({
     setCurrentSrc((prev) => (prev === fallbackSrc ? prev : fallbackSrc));
   };
 
+  // A cached Drive hit can "load" as an empty bitmap. That is not the photo.
+  const handleLoad = (event) => {
+    const img = event.currentTarget;
+    if (img.currentSrc && img.naturalWidth === 0 && currentSrc !== fallbackSrc) {
+      handleError();
+      return;
+    }
+    remember(sourceList, img.currentSrc || currentSrc);
+    onLoad?.(event);
+  };
+
   return (
     <img
+      {...rest}
       src={currentSrc || fallbackSrc}
       alt={alt}
       className={className}
+      decoding={warmSrc ? "sync" : decoding || "async"}
+      referrerPolicy="no-referrer"
       onError={handleError}
-      {...rest}
+      onLoad={handleLoad}
     />
   );
 }
@@ -100,4 +166,6 @@ SafeImage.propTypes = {
   className: PropTypes.string,
   variant: PropTypes.oneOf(["user", "club"]),
   fallbackVariant: PropTypes.oneOf(["user", "club"]),
+  onLoad: PropTypes.func,
+  decoding: PropTypes.string,
 };

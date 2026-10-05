@@ -45,12 +45,6 @@ export default function Resources() {
             >
               Browse clubs
             </Link>
-            <Link
-              to="/Announcements"
-              className="resource-link-btn resource-link-btn--ghost"
-            >
-              Announcements
-            </Link>
           </div>
         </section>
       </div>

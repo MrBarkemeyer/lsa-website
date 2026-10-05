@@ -7,7 +7,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import { site } from "./config/site.config.js";
 import { mergeElectionConfigWithSheet } from "./utils/electionCandidatesFromSheet.js";
 import { parseCardinalympicsEventsSheet } from "./utils/cardinalympicsEventsFromSheet.js";
-import { parseAnnouncementsSheet } from "./utils/announcementsSheet.js";
 import { ElectionTimingProvider } from "./utils/electionVotingWindow.js";
 import cardinalympicsConfig from "./config/cardinalympics.config.js";
 import NotFound from "./pages/NotFound";
@@ -50,20 +49,16 @@ const More = lazy(() => import("./pages/More/More"));
 const Forensic = lazy(() => import("./pages/Organizations/Forensic"));
 const VideoLowell = lazy(() => import("./pages/Organizations/VideoLowell"));
 const Cardinalympics = lazy(() => import("./pages/Cardinalympics"));
-const Announcements = lazy(() => import("./pages/Announcements"));
-
 const SHEETS_COOKIE_TTL_DAYS = 1;
 const SHEETS_CHECK_WINDOW_MS = 60 * 1000;
 const SHEETS_LAST_CHECK_COOKIE = "lsa_sheets_last_check_ms_v1";
 const SHEETS_RETRY_ATTEMPTS = 3;
 const SHEETS_RETRY_DELAY_MS = 700;
-/** Tab title in the spreadsheet is misspelled "Annoucements" (one n). */
-const ANNOUNCEMENTS_ARCHIVE_SHEET_NAME = "Annoucements Archive";
 const GOOGLE_API_KEY = "AIzaSyAgshc5Aqd8B149h5RpsenMh_SQAeb4AXc";
 const MAIN_SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
 const WEBSITE_INFO_SHEET = "Website Info";
 const OFFICERS_SHEET = "Officers";
-const ELECTIONS_SHEET = "Elections";
+const ELECTIONS_SHEET = site.elections.sheet || "Elections";
 const CARDINALYMPICS_SPREADSHEET_ID =
   "1Q4BWb9A2S9qRvn4HZhMpRnDseSmnlp36T4N7SGF-JF4";
 const CARDINALYMPICS_SCORE_SHEET = "Sp, 25";
@@ -283,22 +278,18 @@ function App() {
   const [cardinalympicsEvents, setCardinalympicsEvents] = useState([]);
 
   const [electionSheetValues, setElectionSheetValues] = useState(null);
-  const [newsData, setNewsData] = useState([]);
-  const [newsLoading, setNewsLoading] = useState(true);
   const shouldCheckSheetsNow = SHOULD_CHECK_SHEETS_NOW;
 
-  // Website Info + Officers + Elections + announcements archive: one batchGet per refresh (4 tabs -> 1 API call).
+  // Website Info + Officers + Elections: one batchGet per refresh.
   // Elections tab loads on every route because Layout/Navbar/banner use electionsConfigResolved (sheet merge), not only /Elections.
   useEffect(() => {
-    async function fetchCoreSheetsAndAnnouncements() {
+    async function fetchCoreSheets() {
       const clubCookieKey = "lsa_sheet_website_info_v1";
       const officerCookieKey = "lsa_sheet_officers_v1";
-      const electionCookieKey = "lsa_sheet_elections_v1";
-      const announcementsCookieKey = "lsa_sheet_home_announcements_v1";
+      const electionCookieKey = `lsa_sheet_elections_${site.elections.mode || "normal"}`;
       const cachedClubValues = readJsonCookie(clubCookieKey);
       const cachedOfficerValues = readJsonCookie(officerCookieKey);
       const cachedElectionValues = readJsonCookie(electionCookieKey);
-      const cachedAnnouncementsValues = readJsonCookie(announcementsCookieKey);
 
       if (cachedClubValues?.length) {
         setClubData(processSheetData(cachedClubValues));
@@ -309,27 +300,19 @@ function App() {
       if (cachedElectionValues?.length) {
         setElectionSheetValues(cachedElectionValues);
       }
-      if (cachedAnnouncementsValues?.length) {
-        setNewsData(parseAnnouncementsSheet(cachedAnnouncementsValues));
-      }
 
       const skipNetwork =
         !shouldCheckSheetsNow &&
         cachedClubValues?.length &&
         cachedOfficerValues?.length &&
-        cachedElectionValues?.length &&
-        cachedAnnouncementsValues?.length;
-      if (skipNetwork) {
-        setNewsLoading(false);
-        return;
-      }
+        cachedElectionValues?.length;
+      if (skipNetwork) return;
 
       try {
         const batchTabNames = [
           WEBSITE_INFO_SHEET,
           OFFICERS_SHEET,
           ELECTIONS_SHEET,
-          ANNOUNCEMENTS_ARCHIVE_SHEET_NAME,
         ];
         const batch = await fetchSheetBatchGetWithRetry(
           MAIN_SPREADSHEET_ID,
@@ -344,7 +327,6 @@ function App() {
         const clubVals = vr[0]?.values;
         const officerVals = vr[1]?.values;
         const electionVals = vr[2]?.values;
-        const announcementVals = vr[3]?.values;
 
         if (clubVals?.length) {
           setClubData(processSheetData(clubVals));
@@ -364,24 +346,11 @@ function App() {
         } else {
           console.warn("Elections sheet: empty or missing");
         }
-        if (announcementVals?.length) {
-          const parsed = parseAnnouncementsSheet(announcementVals);
-          if (parsed.length) {
-            setNewsData(parsed);
-            writeJsonCookie(announcementsCookieKey, announcementVals);
-          } else {
-            console.warn("Announcements archive tab: no parsed rows");
-          }
-        } else {
-          console.warn("Announcements archive sheet: empty or missing");
-        }
       } catch (error) {
         console.log(error);
-      } finally {
-        setNewsLoading(false);
       }
     }
-    fetchCoreSheetsAndAnnouncements();
+    fetchCoreSheets();
   }, [shouldCheckSheetsNow]);
 
   const electionsConfigResolved = useMemo(
@@ -631,7 +600,6 @@ function App() {
               <Layout
                 clubData={clubData}
                 officerData={officerData}
-                newsData={newsData}
                 cardinalympicsEvents={cardinalympicsEvents}
                 electionsEnabled={site.electionsEnabled}
                 electionsConfig={electionsConfigResolved}
@@ -645,7 +613,6 @@ function App() {
               <Home
                 cardinalympicsData={cardinalympicsData}
                 cardinalympicsEvents={cardinalympicsEvents}
-                newsData={newsData}
                 clubData={clubData}
                 showCardinalympicsScores={
                   cardinalympicsConfig.showScoresAndScoreboard
@@ -727,12 +694,6 @@ function App() {
             />
           </Route>
 
-          <Route
-            path="Announcements"
-            element={
-              <Announcements announcements={newsData} loading={newsLoading} />
-            }
-          />
           <Route path="Resources" element={<Outlet />}>
             <Route index element={<Resources />} />
             <Route path="Wellness" element={<Wellness />} />

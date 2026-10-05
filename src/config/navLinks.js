@@ -220,7 +220,6 @@ export function buildNavLinks(clubData) {
       hasDropDown: true,
       subLinks: [
         { name: "Events", to: "/Events", directLink: true },
-        { name: "Announcements", to: "/Announcements", directLink: true },
         { name: "Archives", to: "/Archives", directLink: true },
         { name: "Freshmen Corner", to: "/FreshmenCorner", directLink: true },
       ],

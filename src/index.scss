@@ -107,81 +107,68 @@ h3 {
   font-size: clamp(1.1rem, 2.4vw, 1.8rem);
 }
 
-footer {
-  height: 100px;
-  color: white;
-  background: var(--lowell-red);
+.site-footer {
+  background: #191716;
+  color: #f5f1ea;
+  padding: 2rem 1.5rem 2.25rem;
 }
 
-footer div {
-  width: 400px;
+.site-footer__inner {
+  max-width: 1100px;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  text-align: center;
 }
 
-footer a {
-  color: white;
+.site-footer__name {
+  margin: 0;
+  font-family: Kanit, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.site-footer__place {
+  margin: 0 0 0.85rem;
+  font-family: var(--primary-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: rgba(245, 241, 234, 0.68);
+}
+
+.site-footer__links {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.site-footer a {
+  color: #f5f1ea;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 2.75rem;
   height: 2.75rem;
-}
+  border-radius: 999px;
 
-footer a:nth-child(1):hover {
-  border-radius: 15px;
-  background:
-    radial-gradient(
-      circle farthest-corner at 35% 90%,
-      #fec564,
-      transparent 50%
-    ),
-    radial-gradient(circle farthest-corner at 0 140%, #fec564, transparent 50%),
-    radial-gradient(
-      ellipse farthest-corner at 0 -25%,
-      #5258cf,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse farthest-corner at 20% -50%,
-      #5258cf,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse farthest-corner at 100% 0,
-      #893dc2,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse farthest-corner at 60% -20%,
-      #893dc2,
-      transparent 50%
-    ),
-    radial-gradient(ellipse farthest-corner at 100% 100%, #d9317a, transparent),
-    linear-gradient(
-      #6559ca,
-      #bc318f 30%,
-      #e33f5f 50%,
-      #f77638 70%,
-      #fec66d 100%
-    );
-  background-size: 100% 85%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
 
-footer a:nth-child(2):hover {
-  border-radius: 100%;
-  color: #1877f2;
-}
-
-footer a:nth-child(3):hover {
-  color: black;
+  &:focus-visible {
+    outline: 3px solid #f0b429;
+    outline-offset: 3px;
+  }
 }
 
 .footer-icon {
-  font-size: 2.5rem;
-  cursor: pointer;
+  font-size: 1.35rem;
   width: 1em;
   height: 1em;
   display: inline-block;

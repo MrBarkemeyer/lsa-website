@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { formatElectionVotingOpensAt } from "../../utils/electionVotingWindow.js";
 import "../Elections.scss";
@@ -62,11 +62,26 @@ ElectionBoardCard.propTypes = {
  * Candidate board grid (same as polling). Optional `resultsEmbargo` shows a quiet notice above the cards
  * (e.g. “Results go live soon” + optional detail line).
  */
+function onlyBoardPath(config) {
+  const listed = (config?.contenders ?? []).filter((b) => b?.slug);
+  if (listed.length > 1) return null;
+  if (listed.length === 1) return `/Elections/${listed[0].slug}`;
+  const enabled = config?.enabledElectionBoards;
+  if (Array.isArray(enabled) && enabled.length === 1) {
+    const slug = String(enabled[0] ?? "").trim();
+    if (slug) return `/Elections/${slug}`;
+  }
+  return null;
+}
+
 export default function ElectionsCandidateBoardsView({
   config,
   messagingLive,
   resultsEmbargo = null,
 }) {
+  const soloPath = onlyBoardPath(config);
+  if (soloPath) return <Navigate to={soloPath} replace />;
+
   const contenders = config?.contenders ?? [];
   const livePollingTitle = String(config?.votingLivePollingTitle ?? "").trim();
   const livePollingSubtitle = String(

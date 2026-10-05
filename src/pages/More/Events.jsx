@@ -259,7 +259,22 @@ function PostDialog({ post, onClose }) {
           {post.video ? (
             <video controls playsInline poster={post.cover} src={post.video} />
           ) : (
-            slides[slide] && <img src={slides[slide]} alt="" />
+            slides[slide] && (
+              <img
+                src={slides[slide]}
+                alt=""
+                decoding={
+                  [...document.images].some(
+                    (img) =>
+                      img.currentSrc === slides[slide] &&
+                      img.complete &&
+                      img.naturalWidth > 0,
+                  )
+                    ? "sync"
+                    : "async"
+                }
+              />
+            )
           )}
           {many && slide > 0 && (
             <button
