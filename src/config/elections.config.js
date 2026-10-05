@@ -1,14 +1,32 @@
-// Elections: polling UI reads candidates from the Google Sheet tab "Elections" (same spreadsheet as Website Info)
-// when `enabledElectionBoards` is non-empty. Columns A-G: Name, Grade, Board, Position, WrittenPetition,
-// MediaPetition, VideoPetition. Leave `enabledElectionBoards` as [] to use only `contenders` below (manual / demo).
+// Elections: polling UI reads candidates from the sheet for `mode` (same spreadsheet as Website Info).
+// Columns A-G: Name, Grade, Board, Position, WrittenPetition, MediaPetition, VideoPetition.
+// "freshman" = Freshman Elections tab, Class of 2030. "normal" = Elections tab (SBC + class boards).
+// Banner copy below is shared — edit it when you switch modes.
+
+const mode = "freshman";
+
+const electionModes = {
+  freshman: {
+    sheet: "Freshman Elections",
+    enabledElectionBoards: ["LSA-2030"],
+  },
+  normal: {
+    sheet: "Elections",
+    enabledElectionBoards: ["SBC", "LSA-2027", "LSA-2028", "LSA-2029"],
+  },
+};
+
+const activeMode = electionModes[mode] ?? electionModes.freshman;
 
 export default {
-  // "pending" | "polling" | "results" — see src/utils/electionAccess.js for URL rules
-  state: "pending",
+  mode,
+  sheet: activeMode.sheet,
 
-  // Which Board values from the sheet to show (case-insensitive). Order = card order on /Elections.
-  // Example sheet Board cell: "SBC". Add "2027" etc. when those rows exist in the sheet.
-  enabledElectionBoards: ["LSA-2030"],
+  // "pending" | "polling" | "results" — see src/utils/electionAccess.js for URL rules
+  state: "polling",
+
+  // Board values to show for the active mode. Order = card order on /Elections.
+  enabledElectionBoards: activeMode.enabledElectionBoards,
 
   // Optional display + URL per Board value from the sheet (keys match the Board cell, case-insensitive).
   electionBoardMeta: {
@@ -42,10 +60,10 @@ export default {
   // Site-wide banner during pending or polling — before votingOpensAt (if set)
   banner: {
     enabled: true,
-    title: "Freshman Board elections coming soon",
-    message: "This election is for the Class of 2030 freshman board.",
-    ctaText: "Learn more",
-    ctaPath: "/LSA",
+    title: "Freshman Board elections",
+    message: "Meet the Class of 2030 freshman board candidates.",
+    ctaText: "View candidates",
+    ctaPath: "/Elections",
   },
 
   // After voting opens (votingOpensAt passed, or form live with no schedule): home banner copy
@@ -79,8 +97,7 @@ export default {
 
   // polling = candidate boards; title + subtitle on /Elections before voting opens
   pollingTitle: "Elections",
-  pollingSubtitle:
-    "Browse each board to learn about the candidates. Voting opens at the time below.",
+  pollingSubtitle: "Browse each board to learn about the candidates.",
 
   // After voting opens: replaces polling title + subtitle on /Elections (and a line under board hero)
   votingLivePollingTitle: "Vote now",
@@ -102,7 +119,7 @@ export default {
 
   // When set (ISO 8601), vote links stay disabled until this local instant. Empty = active whenever votingFormUrl is set.
   // Example: "2026-04-27T10:20:00-07:00"
-  votingOpensAt: "2026-04-27T10:20:00-07:00", // 10:20 AM PDT
+  votingOpensAt: "",
 
   // Unused for vote links; presence of votingFormUrl controls vote CTAs. Kept for older references.
   showVoteNowButtons: false,

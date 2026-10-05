@@ -95,7 +95,6 @@ export function buildSearchDocuments({
   navLinks = [],
   clubData = [],
   officerData = [],
-  newsData = [],
   electionsConfig = null,
   cardinalympicsEvents = [],
 }) {
@@ -173,18 +172,6 @@ export function buildSearchDocuments({
         source: "officer",
       }),
     );
-  }
-
-  for (const item of newsData || []) {
-    if (!item?.title && !item?.content) continue;
-    docs.push({
-      id: `news:${item.id || item.title}`,
-      title: item.title || "Announcement",
-      to: "/Announcements",
-      section: item.date ? `Announcements · ${item.date}` : "Announcements",
-      text: [item.title, item.date, item.content].filter(Boolean).join(" "),
-      external: false,
-    });
   }
 
   for (const post of posts) {

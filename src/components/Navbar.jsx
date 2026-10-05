@@ -378,7 +378,6 @@ HamburgerSection.propTypes = {
 export default function Navbar({
   clubData,
   officerData = [],
-  newsData = [],
   cardinalympicsEvents = [],
   electionsEnabled = true,
   electionsConfig = null,
@@ -553,7 +552,6 @@ export default function Navbar({
             navLinks={navLinksFiltered}
             clubData={clubData}
             officerData={officerData}
-            newsData={newsData}
             electionsConfig={electionsConfig}
             cardinalympicsEvents={cardinalympicsEvents}
           />
@@ -568,7 +566,6 @@ export default function Navbar({
             navLinks={navLinksFiltered}
             clubData={clubData}
             officerData={officerData}
-            newsData={newsData}
             electionsConfig={electionsConfig}
             cardinalympicsEvents={cardinalympicsEvents}
           />
@@ -615,7 +612,6 @@ Navbar.propTypes = {
     }),
   ),
   officerData: PropTypes.array,
-  newsData: PropTypes.array,
   cardinalympicsEvents: PropTypes.array,
   electionsEnabled: PropTypes.bool,
   electionsConfig: PropTypes.object,

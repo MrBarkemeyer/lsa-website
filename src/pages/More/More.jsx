@@ -8,7 +8,7 @@ export default function More() {
         <div className="title">
           <h1>More from LSA</h1>
           <p>
-            Quick links to Events, Announcements, Archives, and Freshmen Corner.
+            Quick links to Events, Archives, and Freshmen Corner.
           </p>
         </div>
       </header>
@@ -20,14 +20,6 @@ export default function More() {
             <p>Browse Lowell events by month.</p>
             <Link to="/Events" className="resource-link-btn">
               Open events
-            </Link>
-          </article>
-
-          <article className="resource-tile">
-            <h2>Announcements</h2>
-            <p>Recent updates and posts across LSA.</p>
-            <Link to="/Announcements" className="resource-link-btn">
-              Open announcements
             </Link>
           </article>
 

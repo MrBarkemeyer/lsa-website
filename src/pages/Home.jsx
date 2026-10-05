@@ -3,7 +3,6 @@ import Counter from "../components/Counter";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-// import News from "./News";
 import Events from "./More/Events";
 import { site } from "../config/site.config.js";
 import { getClubsInSheetOrder } from "../utils/clubSpotlight.js";
@@ -131,8 +130,6 @@ HeroBackgroundVideo.propTypes = {
 export default function Home({
   cardinalympicsData,
   cardinalympicsEvents = EMPTY_ARRAY,
-  // newsData stays on the props while News & Announcements is commented out.
-  newsData: _newsData,
   clubData = EMPTY_ARRAY,
   showCardinalympicsScores = true,
   showCardinalympicsSignupNow = false,
@@ -348,7 +345,6 @@ export default function Home({
       </section>
       <section className="home-updates" aria-label="Latest from Lowell">
         <div className="home-updates__news">
-          {/* <News newsData={newsData} /> */}
           <Events preview />
         </div>
         {spotlightClub && (
@@ -526,13 +522,6 @@ Home.propTypes = {
   showCardinalympicsScores: PropTypes.bool,
   cardinalympicsDisplayMode: PropTypes.string,
   cardinalympicsData: PropTypes.arrayOf(PropTypes.number),
-  newsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
-    }),
-  ),
   clubData: PropTypes.arrayOf(
     PropTypes.shape({
       Name: PropTypes.string,

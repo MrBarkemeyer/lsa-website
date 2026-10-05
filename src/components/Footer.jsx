@@ -1,27 +1,42 @@
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGithub,
   faInstagram,
   faFacebook,
 } from "@fortawesome/free-brands-svg-icons";
+
+const LINKS = [
+  {
+    href: "https://www.instagram.com/lowellhs/",
+    label: "Instagram",
+    icon: faInstagram,
+  },
+  {
+    href: "https://www.facebook.com/groups/2204571332/",
+    label: "Facebook",
+    icon: faFacebook,
+  },
+  {
+    href: "https://github.com/MrBarkemeyer/lsa-website",
+    label: "GitHub",
+    icon: faGithub,
+  },
+];
+
 export default function Footer() {
-  // just the footer with social links
   return (
-    <>
-      <footer className="flex-center">
-        <div>
-          <Link to="https://www.instagram.com/lowellhs/">
-            <FontAwesomeIcon icon={faInstagram} className="footer-icon" />
-          </Link>
-          <Link to="https://www.facebook.com/groups/2204571332/">
-            <FontAwesomeIcon icon={faFacebook} className="footer-icon" />
-          </Link>
-          <Link to="https://github.com/Sheng232/lsa-website">
-            <FontAwesomeIcon icon={faGithub} className="footer-icon" />
-          </Link>
+    <footer className="site-footer">
+      <div className="site-footer__inner">
+        <p className="site-footer__name">Lowell Student Association</p>
+        <p className="site-footer__place">Lowell High School</p>
+        <div className="site-footer__links">
+          {LINKS.map(({ href, label, icon }) => (
+            <a key={label} href={href} aria-label={label}>
+              <FontAwesomeIcon icon={icon} className="footer-icon" />
+            </a>
+          ))}
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 }

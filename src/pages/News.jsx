@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
 const INITIAL_VISIBLE_COUNT = 4;
 const PREVIEW_LENGTH = 110;
@@ -20,7 +19,6 @@ export default function News({ newsData, previewMode = true }) {
   const visibleNews = previewMode
     ? newsItems.slice(0, INITIAL_VISIBLE_COUNT)
     : newsItems;
-  const hasMore = previewMode && newsItems.length > INITIAL_VISIBLE_COUNT;
 
   return (
     <div className="news-section center">
@@ -54,11 +52,6 @@ export default function News({ newsData, previewMode = true }) {
           );
         })}
       </div>
-      {hasMore && (
-        <Link to="/Announcements" className="news-load-more">
-          View more announcements
-        </Link>
-      )}
     </div>
   );
 }

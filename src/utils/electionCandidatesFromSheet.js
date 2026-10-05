@@ -1,5 +1,26 @@
-// Parse the "Elections" tab (columns A-G): Name, Grade, Board, Position, WrittenPetition, MediaPetition, VideoPetition.
+// Parse the elections sheet tab (columns A-G): Name, Grade, Board, Position, WrittenPetition, MediaPetition, VideoPetition.
 // Build `contenders` for polling when `enabledElectionBoards` is set in elections.config.js.
+
+// Class board order from the charter. Unknown roles stay in sheet order after these.
+const CLASS_ROLE_ORDER = [
+  "president",
+  "vice president",
+  "secretary",
+  "treasurer",
+  "public relations",
+  "historian",
+];
+
+function roleSortKey(role) {
+  const key = String(role ?? "")
+    .toLowerCase()
+    .replace(/-/g, " ")
+    .replace(/\bofficer\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const rank = CLASS_ROLE_ORDER.indexOf(key);
+  return rank === -1 ? CLASS_ROLE_ORDER.length : rank;
+}
 
 const FIELD_KEYS = [
   "name",
@@ -234,6 +255,8 @@ export function mergeElectionConfigWithSheet(config, values) {
         video,
       });
     }
+
+    positionOrder.sort((a, b) => roleSortKey(a) - roleSortKey(b));
 
     const roles = positionOrder.map((role) => ({
       role,

@@ -21,7 +21,6 @@ const PAGE_ROUTES = {
   "NewClub.jsx": { to: "/Clubs/NewClub", title: "How to start a club", section: "Clubs" },
   "EventPlanning.jsx": { to: "/Clubs/EventPlanning", title: "Event planning", section: "Clubs" },
   "Fundraising.jsx": { to: "/Clubs/Fundraising", title: "Fundraising", section: "Clubs" },
-  "Announcements.jsx": { to: "/Announcements", title: "Announcements", section: "Announcements" },
   "Resources.jsx": { to: "/Resources", title: "Resources", section: "Resources" },
   "Wellness.jsx": { to: "/Resources/Wellness", title: "Lowell Wellness Center", section: "Resources" },
   "TitleIX.jsx": { to: "/Resources/TitleIX", title: "Title IX Support", section: "Resources" },

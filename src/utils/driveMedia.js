@@ -29,9 +29,10 @@ export function driveThumbnailCandidates(urlRaw, size = "w600") {
   const id = extractDriveFileId(url);
   const candidates = [];
   if (id) {
+    // Thumbnail is Google's cached preview. lh3 is the generated file.
+    // uc?export=view does not load in an <img>, so it is not a candidate.
     candidates.push(
       `https://drive.google.com/thumbnail?id=${id}&sz=${size}`,
-      `https://drive.google.com/uc?export=view&id=${id}`,
       `https://lh3.googleusercontent.com/d/${id}=${size}`,
     );
   }
