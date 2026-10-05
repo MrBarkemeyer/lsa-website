@@ -7,11 +7,13 @@ import {
   faCalendarDays,
   faUserGroup,
   faLink,
+  faChalkboardUser,
 } from "@fortawesome/free-solid-svg-icons";
 import LoadingTruck from "../../components/LoadingTruck";
 import SafeImage from "../../components/SafeImage";
 import { getCategoryColorMap } from "../../config/clubs/index.js";
 import { driveThumbnailCandidates } from "../../utils/driveMedia.js";
+import { splitPeople } from "../../utils/splitPeople.js";
 import "../Clubs/Club.scss";
 
 function removeLeadingAt(value) {
@@ -112,12 +114,16 @@ export default function Club({ clubData: clubDataProp }) {
   const hasMeetingInfo = Boolean(
     meetingCadence || showMeetingDays || meetingPlace,
   );
+  const clubSponsorRaw = String(clubData["Club Sponsor"] || "").trim();
+  const otherOfficersRaw = String(clubData.OtherOfficers || "").trim();
+  const sponsors = splitPeople(clubSponsorRaw, "Club Sponsor");
+  const otherOfficers = splitPeople(otherOfficersRaw, "Officer");
   const hasLeadership = Boolean(
-    clubData.President || clubData.VP || clubData.OtherOfficers,
+    clubData.President || clubData.VP || otherOfficersRaw,
   );
   const hasMainContent = Boolean(clubData.ClubDescription || hasLeadership);
   const hasAsideContent = Boolean(
-    hasMeetingInfo || websiteUrl || clubData.Instagram,
+    hasMeetingInfo || websiteUrl || clubData.Instagram || clubSponsorRaw,
   );
 
   function sampleBanner(event) {
@@ -206,16 +212,30 @@ export default function Club({ clubData: clubDataProp }) {
                       </span>
                     </div>
                   )}
-                  {clubData.OtherOfficers && (
-                    <div className="club-leadership__item club-leadership__item--wide">
-                      <span className="club-leadership__role">
-                        Other Officers
-                      </span>
-                      <span className="club-leadership__name">
-                        {clubData.OtherOfficers}
-                      </span>
-                    </div>
-                  )}
+                  {otherOfficers.length > 0
+                    ? otherOfficers.map((person) => (
+                        <div
+                          key={`officer-${person.role}-${person.name}`}
+                          className="club-leadership__item"
+                        >
+                          <span className="club-leadership__role">
+                            {person.role}
+                          </span>
+                          <span className="club-leadership__name">
+                            {person.name}
+                          </span>
+                        </div>
+                      ))
+                    : otherOfficersRaw && (
+                        <div className="club-leadership__item club-leadership__item--wide">
+                          <span className="club-leadership__role">
+                            Other Officers
+                          </span>
+                          <span className="club-leadership__name">
+                            {otherOfficersRaw}
+                          </span>
+                        </div>
+                      )}
                 </div>
               </section>
             )}
@@ -291,6 +311,27 @@ export default function Club({ clubData: clubDataProp }) {
                 </div>
               </section>
             )}
+
+            {clubSponsorRaw && (
+              <section className="club-section club-sponsor">
+                <h2 className="club-section__heading">
+                  <FontAwesomeIcon
+                    icon={faChalkboardUser}
+                    className="club-section__icon"
+                  />
+                  Club Sponsor
+                </h2>
+                {sponsors.length > 0 ? (
+                  <ul className="club-sponsor__list">
+                    {sponsors.map((person) => (
+                      <li key={`sponsor-${person.name}`}>{person.name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="club-sponsor__name">{clubSponsorRaw}</p>
+                )}
+              </section>
+            )}
           </aside>
         )}
       </div>
@@ -311,6 +352,7 @@ Club.propTypes = {
       MeetingPlaceTime: PropTypes.string,
       President: PropTypes.string,
       VP: PropTypes.string,
+      "Club Sponsor": PropTypes.string,
       OtherOfficers: PropTypes.string,
       Instagram: PropTypes.string,
       Website: PropTypes.string,

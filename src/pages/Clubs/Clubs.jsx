@@ -221,6 +221,7 @@ Clubs.propTypes = {
       MeetingPlaceTime: PropTypes.string,
       President: PropTypes.string,
       VP: PropTypes.string,
+      "Club Sponsor": PropTypes.string,
       OtherOfficers: PropTypes.string,
       Instagram: PropTypes.string,
       Banner: PropTypes.string,

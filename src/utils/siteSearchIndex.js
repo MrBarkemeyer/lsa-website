@@ -1,5 +1,6 @@
 import posts from "../config/instagramPosts.config.js";
 import { staticPageText } from "virtual:page-text";
+import { splitPeople } from "./splitPeople.js";
 
 function isExternal(to) {
   return /^https?:\/\//i.test(to || "");
@@ -29,24 +30,6 @@ function clubText(club) {
 function officerPath(team) {
   if (!team || team === "SBC") return "/LSA/SBC";
   return `/LSA/${team}`;
-}
-
-function splitPeople(value, fallbackRole) {
-  return String(value || "")
-    .split(/\s*(?:,|;|\n|\band\b)\s*/i)
-    .map((part) => {
-      const trimmed = part.trim();
-      const paren = trimmed.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
-      const name = (paren ? paren[1] : trimmed).trim();
-      const role = (paren ? paren[2] : fallbackRole).trim();
-      return { name, role };
-    })
-    .filter((person) => {
-      const words = person.name.split(/\s+/).filter(Boolean);
-      if (words.length === 0 || words.length > 5) return false;
-      if (/^(n\/?a|none|tbd|unknown|-+)$/i.test(person.name)) return false;
-      return /[a-z]/i.test(person.name);
-    });
 }
 
 function cleanBlurb(value) {

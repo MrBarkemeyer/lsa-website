@@ -749,6 +749,23 @@
   border: none;
 }
 
+.club-sponsor__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.club-sponsor__list li,
+.club-sponsor__name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #1a1a1a;
+}
+
 @media (max-width: 640px) {
   .club-hero {
     min-height: 210px;
