@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Events from "./More/Events";
 import { site } from "../config/site.config.js";
-import { getClubsInSheetOrder } from "../utils/clubSpotlight.js";
+import { getSpotlightClubForDay } from "../utils/clubSpotlight.js";
 import ElectionBanner from "../components/ElectionBanner";
 import { useElectionResultsReleased } from "../utils/electionVotingWindow.js";
 import CardinalympicLogo from "../components/CardinalympicLogo";
@@ -70,11 +70,11 @@ function postYouTubeCommand(iframe, func, args = []) {
   );
 }
 
-function getWeekIndex() {
+function getDayIndex() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
-  const oneWeek = 7 * 24 * 60 * 60 * 1000;
-  return Math.floor((now - start) / oneWeek);
+  const oneDay = 24 * 60 * 60 * 1000;
+  return Math.floor((now - start) / oneDay);
 }
 
 /** Decorative hero background via YouTube so ~95MB MP4 is not billed as Netlify bandwidth. */
@@ -136,15 +136,10 @@ export default function Home({
   cardinalympicsDisplayMode = "activeGame",
   electionsConfig = site.elections,
 }) {
-  const spotlightPool = useMemo(
-    () => getClubsInSheetOrder(clubData),
+  const spotlightClub = useMemo(
+    () => getSpotlightClubForDay(clubData, getDayIndex()),
     [clubData],
   );
-  const weekIndex = getWeekIndex();
-  const spotlightClub =
-    spotlightPool.length > 0
-      ? spotlightPool[weekIndex % spotlightPool.length]
-      : null;
 
   const resultsReleased = useElectionResultsReleased(electionsConfig);
   const showElectionBanner =
@@ -353,7 +348,7 @@ export default function Home({
             aria-labelledby="club-spotlight-heading"
           >
             <div className="club-spotlight-section__head">
-              <p className="home-section-heading__eyebrow">This week at Lowell</p>
+              <p className="home-section-heading__eyebrow">Today at Lowell</p>
               <h2 id="club-spotlight-heading">Club spotlight</h2>
             </div>
             <div className="club-spotlight">

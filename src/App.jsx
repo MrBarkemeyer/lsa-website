@@ -284,7 +284,7 @@ function App() {
   // Elections tab loads on every route because Layout/Navbar/banner use electionsConfigResolved (sheet merge), not only /Elections.
   useEffect(() => {
     async function fetchCoreSheets() {
-      const clubCookieKey = "lsa_sheet_website_info_v1";
+      const clubCookieKey = "lsa_sheet_website_info_v2";
       const officerCookieKey = "lsa_sheet_officers_v1";
       const electionCookieKey = `lsa_sheet_elections_${site.elections.mode || "normal"}`;
       const cachedClubValues = readJsonCookie(clubCookieKey);
