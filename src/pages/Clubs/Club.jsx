@@ -1,13 +1,14 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import {
+  faArrowLeft,
   faCalendarDays,
-  faUserGroup,
-  faLink,
-  faChalkboardUser,
+  faLocationDot,
+  faClock,
+  faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
 import LoadingTruck from "../../components/LoadingTruck";
 import SafeImage from "../../components/SafeImage";
@@ -30,9 +31,9 @@ function meetingCadenceLabel(frequency) {
     .replace(/[-_]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-  if (value === "weekly") return "every week";
-  if (value === "biweekly" || value === "bi weekly") return "biweekly";
-  return "";
+  if (value === "weekly") return "Every week";
+  if (value === "biweekly" || value === "bi weekly") return "Biweekly";
+  return frequency || "";
 }
 
 function getImageAccent(image) {
@@ -121,10 +122,12 @@ export default function Club({ clubData: clubDataProp }) {
   const hasLeadership = Boolean(
     clubData.President || clubData.VP || otherOfficersRaw,
   );
+  const hasConnect = Boolean(websiteUrl || clubData.Instagram);
   const hasMainContent = Boolean(clubData.ClubDescription || hasLeadership);
-  const hasAsideContent = Boolean(
-    hasMeetingInfo || websiteUrl || clubData.Instagram || clubSponsorRaw,
-  );
+  const hasAsideContent = Boolean(hasConnect || clubSponsorRaw);
+  const backHref = clubData.Category
+    ? `/Clubs?category=${encodeURIComponent(clubData.Category)}`
+    : "/Clubs";
 
   function sampleBanner(event) {
     const source = event.currentTarget.currentSrc || event.currentTarget.src;
@@ -143,6 +146,19 @@ export default function Club({ clubData: clubDataProp }) {
     image.src = source;
   }
 
+  const officerRows = [];
+  if (clubData.President) {
+    officerRows.push({ role: "President", name: clubData.President });
+  }
+  if (clubData.VP) {
+    officerRows.push({ role: "Vice President", name: clubData.VP });
+  }
+  if (otherOfficers.length > 0) {
+    otherOfficers.forEach((person) => officerRows.push(person));
+  } else if (otherOfficersRaw) {
+    officerRows.push({ role: "Other Officers", name: otherOfficersRaw });
+  }
+
   return (
     <main className="club-page" style={{ "--club-accent": accent }}>
       <header
@@ -152,7 +168,7 @@ export default function Club({ clubData: clubDataProp }) {
           <div className="club-hero__media">
             <SafeImage
               src={bannerCandidates}
-              alt={`${params} banner`}
+              alt=""
               className="club-hero__banner"
               variant="club"
               decoding="async"
@@ -163,6 +179,10 @@ export default function Club({ clubData: clubDataProp }) {
           </div>
         )}
         <div className="club-hero__content">
+          <Link to={backHref} className="club-hero__back">
+            <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" />
+            All clubs
+          </Link>
           {clubData.Category && (
             <p className="club-hero__category">{clubData.Category}</p>
           )}
@@ -170,171 +190,146 @@ export default function Club({ clubData: clubDataProp }) {
         </div>
       </header>
 
-      <div
-        className={`club-content ${
-          hasMainContent && hasAsideContent ? "" : "club-content--single"
-        }`}
-      >
-        {hasMainContent && (
-          <div className="club-content__main">
-            {clubData.ClubDescription && (
-              <section className="club-section club-about">
-                <h2 className="club-section__heading">About</h2>
-                <p className="club-about__text">{clubData.ClubDescription}</p>
-              </section>
-            )}
-
-            {hasLeadership && (
-              <section className="club-section club-leadership">
-                <h2 className="club-section__heading">
-                  <FontAwesomeIcon
-                    icon={faUserGroup}
-                    className="club-section__icon"
-                  />
-                  Club Officers
-                </h2>
-                <div className="club-leadership__grid">
-                  {clubData.President && (
-                    <div className="club-leadership__item">
-                      <span className="club-leadership__role">President</span>
-                      <span className="club-leadership__name">
-                        {clubData.President}
-                      </span>
-                    </div>
-                  )}
-                  {clubData.VP && (
-                    <div className="club-leadership__item">
-                      <span className="club-leadership__role">
-                        Vice President
-                      </span>
-                      <span className="club-leadership__name">
-                        {clubData.VP}
-                      </span>
-                    </div>
-                  )}
-                  {otherOfficers.length > 0
-                    ? otherOfficers.map((person) => (
-                        <div
-                          key={`officer-${person.role}-${person.name}`}
-                          className="club-leadership__item"
-                        >
-                          <span className="club-leadership__role">
-                            {person.role}
-                          </span>
-                          <span className="club-leadership__name">
-                            {person.name}
-                          </span>
-                        </div>
-                      ))
-                    : otherOfficersRaw && (
-                        <div className="club-leadership__item club-leadership__item--wide">
-                          <span className="club-leadership__role">
-                            Other Officers
-                          </span>
-                          <span className="club-leadership__name">
-                            {otherOfficersRaw}
-                          </span>
-                        </div>
-                      )}
+      {hasMeetingInfo && (
+        <div className="club-glance" aria-label="Meeting information">
+          <div className="club-glance__inner">
+            {meetingCadence && (
+              <div className="club-glance__item">
+                <FontAwesomeIcon
+                  icon={faClock}
+                  className="club-glance__icon"
+                  aria-hidden="true"
+                />
+                <div>
+                  <span className="club-glance__label">Cadence</span>
+                  <span className="club-glance__value">{meetingCadence}</span>
                 </div>
-              </section>
+              </div>
+            )}
+            {showMeetingDays && (
+              <div className="club-glance__item">
+                <FontAwesomeIcon
+                  icon={faCalendarDays}
+                  className="club-glance__icon"
+                  aria-hidden="true"
+                />
+                <div>
+                  <span className="club-glance__label">When</span>
+                  <span className="club-glance__value">{meetingDays}</span>
+                </div>
+              </div>
+            )}
+            {meetingPlace && (
+              <div className="club-glance__item">
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  className="club-glance__icon"
+                  aria-hidden="true"
+                />
+                <div>
+                  <span className="club-glance__label">Where</span>
+                  <span className="club-glance__value">{meetingPlace}</span>
+                </div>
+              </div>
             )}
           </div>
-        )}
+        </div>
+      )}
 
-        {hasAsideContent && (
-          <aside
-            className="club-content__aside"
-            aria-label={`${params} details`}
-          >
-            {hasMeetingInfo && (
-              <section className="club-section club-meetings">
-                <h2 className="club-section__heading">
-                  <FontAwesomeIcon
-                    icon={faCalendarDays}
-                    className="club-section__icon"
-                  />
-                  Meetings
-                </h2>
-                <p className="club-meetings__text">
-                  Meets
-                  {meetingCadence ? ` ${meetingCadence}` : null}
-                  {showMeetingDays && (
-                    <>
-                      {" "}
-                      on <strong>{meetingDays}</strong>
-                    </>
-                  )}
-                  {meetingPlace && (
-                    <>
-                      {" "}
-                      at <strong>{meetingPlace}</strong>
-                    </>
-                  )}
-                </p>
-              </section>
-            )}
+      {(hasMainContent || hasAsideContent) && (
+        <div
+          className={`club-content ${hasAsideContent ? "" : "club-content--single"}`}
+        >
+          {hasMainContent && (
+            <div className="club-content__main">
+              {clubData.ClubDescription && (
+                <section className="club-block club-about">
+                  <h2 className="club-block__heading">About</h2>
+                  <p className="club-about__text">{clubData.ClubDescription}</p>
+                </section>
+              )}
 
-            {(websiteUrl || clubData.Instagram) && (
-              <section className="club-section club-connect">
-                <h2 className="club-section__heading">
-                  <FontAwesomeIcon
-                    icon={faLink}
-                    className="club-section__icon"
-                  />
-                  Connect
-                </h2>
-                <div className="club-connect__links">
-                  {websiteUrl && (
-                    <a
-                      href={websiteUrl}
-                      className="club-connect__btn club-connect__btn--primary"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Visit ${params} website (opens in a new tab)`}
-                    >
-                      Visit our website
-                    </a>
-                  )}
-                  {clubData.Instagram && (
-                    <a
-                      href={`https://www.instagram.com/${removeLeadingAt(clubData.Instagram)}`}
-                      className="club-connect__btn club-connect__btn--instagram"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Visit ${params} on Instagram (opens in a new tab)`}
-                    >
-                      <FontAwesomeIcon icon={faInstagram} />
-                      Instagram
-                    </a>
-                  )}
-                </div>
-              </section>
-            )}
-
-            {clubSponsorRaw && (
-              <section className="club-section club-sponsor">
-                <h2 className="club-section__heading">
-                  <FontAwesomeIcon
-                    icon={faChalkboardUser}
-                    className="club-section__icon"
-                  />
-                  Club Sponsor
-                </h2>
-                {sponsors.length > 0 ? (
-                  <ul className="club-sponsor__list">
-                    {sponsors.map((person) => (
-                      <li key={`sponsor-${person.name}`}>{person.name}</li>
+              {hasLeadership && (
+                <section className="club-block club-leadership">
+                  <h2 className="club-block__heading">Club officers</h2>
+                  <ul className="club-leadership__list">
+                    {officerRows.map((person) => (
+                      <li
+                        key={`officer-${person.role}-${person.name}`}
+                        className="club-leadership__row"
+                      >
+                        <span className="club-leadership__role">
+                          {person.role}
+                        </span>
+                        <span className="club-leadership__name">
+                          {person.name}
+                        </span>
+                      </li>
                     ))}
                   </ul>
-                ) : (
-                  <p className="club-sponsor__name">{clubSponsorRaw}</p>
-                )}
-              </section>
-            )}
-          </aside>
-        )}
-      </div>
+                </section>
+              )}
+            </div>
+          )}
+
+          {hasAsideContent && (
+            <aside
+              className="club-content__aside"
+              aria-label={`${params} details`}
+            >
+              {hasConnect && (
+                <section className="club-block club-connect">
+                  <h2 className="club-block__heading">Get involved</h2>
+                  <div className="club-connect__links">
+                    {websiteUrl && (
+                      <a
+                        href={websiteUrl}
+                        className="club-connect__btn club-connect__btn--primary"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit ${params} website (opens in a new tab)`}
+                      >
+                        <FontAwesomeIcon icon={faGlobe} aria-hidden="true" />
+                        Website
+                      </a>
+                    )}
+                    {clubData.Instagram && (
+                      <a
+                        href={`https://www.instagram.com/${removeLeadingAt(clubData.Instagram)}`}
+                        className="club-connect__btn club-connect__btn--instagram"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit ${params} on Instagram (opens in a new tab)`}
+                      >
+                        <FontAwesomeIcon
+                          icon={faInstagram}
+                          aria-hidden="true"
+                        />
+                        @{removeLeadingAt(clubData.Instagram)}
+                      </a>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {clubSponsorRaw && (
+                <section className="club-block club-sponsor">
+                  <h2 className="club-block__heading">Club sponsor</h2>
+                  {sponsors.length > 0 ? (
+                    <ul className="club-sponsor__list">
+                      {sponsors.map((person) => (
+                        <li key={`sponsor-${person.name}`}>{person.name}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="club-sponsor__name">{clubSponsorRaw}</p>
+                  )}
+                </section>
+              )}
+            </aside>
+          )}
+        </div>
+      )}
     </main>
   );
 }

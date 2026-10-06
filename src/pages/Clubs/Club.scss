@@ -121,31 +121,34 @@
 }
 
 .clubs-page__filter-btn {
+  --club-color: #5c616a;
   min-height: var(--tap-target, 44px);
   padding: 0.55rem 0.9rem;
   font-size: 0.9rem;
   font-weight: 650;
-  border: 1px solid #d8dadd;
+  border: 1.5px solid color-mix(in srgb, var(--club-color) 45%, #d0d3d8);
   border-radius: 999px;
-  background: white;
-  color: #333;
+  background: color-mix(in srgb, var(--club-color) 10%, white);
+  color: color-mix(in srgb, var(--club-color) 72%, #1a1a1a);
   cursor: pointer;
   transition:
     border-color 0.18s ease,
     transform 0.18s ease,
-    box-shadow 0.18s ease;
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    color 0.18s ease;
 
   &:focus-visible {
-    outline: 3px solid rgba(134, 18, 18, 0.25);
+    outline: 3px solid color-mix(in srgb, var(--club-color) 35%, transparent);
     outline-offset: 2px;
   }
 }
 
 .clubs-page__filter-btn--active {
   border-color: transparent;
-  background: color-mix(in srgb, var(--club-color) 82%, #111);
+  background: color-mix(in srgb, var(--club-color) 88%, #111);
   color: white;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--club-color) 35%, transparent);
 }
 
 .clubs-page__clear {
@@ -184,10 +187,10 @@
 .clubs-page__grid {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0.75rem 1.5rem 2rem;
+  padding: 0.75rem 1.5rem 2.5rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.25rem;
+  gap: 1.35rem;
   min-height: 55vh;
   align-content: start;
 }
@@ -218,20 +221,36 @@
   color: #555;
 }
 
+@keyframes club-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .club-card {
-  --club-color: var(--lowell-red);
+  --club-color: #5c616a;
+  --club-delay: 0ms;
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: inherit;
   background: white;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 6px 18px rgba(31, 37, 48, 0.08);
-  border: 1px solid #e5e7ea;
+  border: 1px solid #e6e8ec;
+  box-shadow: 0 4px 16px rgba(31, 37, 48, 0.05);
+  animation: club-card-in 0.45s ease both;
+  animation-delay: var(--club-delay);
   transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    box-shadow 0.22s ease,
+    transform 0.22s ease,
+    border-color 0.22s ease;
 
   &:focus-visible {
     outline: 3px solid var(--club-color);
@@ -239,10 +258,10 @@
   }
 }
 
-.club-card__image-wrap {
+.club-card__media {
   position: relative;
-  aspect-ratio: 4 / 3;
-  background: #f0f0f0;
+  aspect-ratio: 16 / 10;
+  background: #eceef1;
   overflow: hidden;
 }
 
@@ -251,40 +270,95 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.45s ease;
 }
 
 .club-card__placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--club-color) 24%, white),
-    #f2f3f5
-  );
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      color-mix(in srgb, var(--club-color) 28%, white),
+      transparent 55%
+    ),
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--club-color) 18%, #f4f5f7),
+      #e8eaee
+    );
+}
+
+.club-card__placeholder-mark {
+  font-family: Kanit, sans-serif;
+  font-size: clamp(2.4rem, 6vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1;
+  color: color-mix(in srgb, var(--club-color) 55%, #222);
+  opacity: 0.75;
+  user-select: none;
+}
+
+.club-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem 1.15rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .club-card__category {
-  position: absolute;
-  bottom: 0.5rem;
-  left: 0.5rem;
-  padding: 0.35rem 0.65rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: 6px;
+  display: block;
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: white;
-  background: color-mix(in srgb, var(--club-color) 82%, #111);
+  color: color-mix(in srgb, var(--club-color) 78%, #222);
+  line-height: 1.2;
 }
 
 .club-card__name {
   margin: 0;
-  padding: 1rem 1.1rem 1.15rem;
-  font-size: 1.15rem;
+  padding: 0;
+  font-size: 1.2rem;
   font-weight: 750;
-  color: #1a1a1a;
-  line-height: 1.3;
+  color: #16181d;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   text-align: left;
+}
+
+.club-card__meta {
+  margin: 0.1rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #5c616a;
+  font-family: var(--primary-font);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.club-card__cta {
+  margin-top: auto;
+  padding-top: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--club-color) 82%, #111);
+  letter-spacing: 0.01em;
+}
+
+.club-card__cta-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
 }
 
 .clubs-page__load-wrap {
@@ -320,8 +394,17 @@
 
 @media (hover: hover) {
   .club-card:hover {
-    box-shadow: 0 14px 30px rgba(31, 37, 48, 0.14);
-    transform: translateY(-4px);
+    box-shadow: 0 16px 34px rgba(31, 37, 48, 0.12);
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--club-color) 35%, #e6e8ec);
+  }
+
+  .club-card:hover .club-card__image {
+    transform: scale(1.05);
+  }
+
+  .club-card:hover .club-card__cta-arrow {
+    transform: translateX(4px);
   }
 
   .clubs-page__filter-btn:hover {
@@ -501,9 +584,9 @@
   margin: 0 auto;
 }
 
-// single club page - banner, description, leaders, etc.
-// kill the default section min-height or we get giant gaps
+// single club page - banner, glance strip, open content
 .club-page section,
+.club-page .club-block,
 .club-page .club-section {
   min-height: unset;
   padding: 0;
@@ -512,29 +595,36 @@
 .club-page {
   --club-accent: var(--lowell-red);
   min-height: 0;
-  padding-bottom: 3rem;
-  background: #f5f6f8;
+  padding-bottom: 4rem;
+  background:
+    linear-gradient(180deg, #f3f4f6 0%, #fafbfc 28%, #fff 100%);
 }
 
 .club-hero {
   position: relative;
   z-index: 0;
-  min-height: 260px;
+  min-height: 280px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 2rem 1.5rem;
+  padding: 2.25rem 1.5rem 2.5rem;
   overflow: hidden;
-  background: linear-gradient(
-    130deg,
-    color-mix(in srgb, var(--club-accent) 72%, #111),
-    var(--club-accent)
-  );
+  background:
+    radial-gradient(
+      circle at 88% 18%,
+      rgba(255, 255, 255, 0.14),
+      transparent 32%
+    ),
+    linear-gradient(
+      130deg,
+      color-mix(in srgb, var(--club-accent) 72%, #111),
+      var(--club-accent)
+    );
   color: white;
 }
 
 .club-hero--with-banner {
-  min-height: clamp(300px, 42vw, 470px);
+  min-height: clamp(320px, 44vw, 480px);
 }
 
 .club-hero__media {
@@ -548,6 +638,17 @@
   border: none;
   display: block;
   object-fit: cover;
+  animation: club-hero-zoom 12s ease-out both;
+}
+
+@keyframes club-hero-zoom {
+  from {
+    transform: scale(1.06);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 
 .club-hero__overlay {
@@ -556,11 +657,11 @@
   background:
     linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.78) 0%,
-      rgba(0, 0, 0, 0.18) 64%,
-      transparent 100%
+      rgba(0, 0, 0, 0.82) 0%,
+      rgba(0, 0, 0, 0.28) 52%,
+      rgba(0, 0, 0, 0.12) 100%
     ),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.25), transparent 55%);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 58%);
 }
 
 .club-hero__content {
@@ -569,154 +670,199 @@
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+  animation: club-card-in 0.55s ease both;
+}
+
+.club-hero__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 1rem;
+  padding: 0.35rem 0;
+  min-height: var(--tap-target, 44px);
+  color: rgba(255, 255, 255, 0.88);
+  font-family: var(--primary-font);
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: color 0.18s ease, gap 0.18s ease;
+
+  &:hover {
+    color: white;
+    gap: 0.6rem;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
 }
 
 .club-hero__category {
-  display: inline-block;
-  margin: 0 0 0.55rem;
-  padding: 0.35rem 0.65rem;
-  border-radius: 999px;
-  color: white;
-  background: color-mix(in srgb, var(--club-accent) 78%, #111);
+  display: block;
+  margin: 0 0 0.5rem;
+  color: rgba(255, 255, 255, 0.82);
   font-family: var(--primary-font);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 750;
   line-height: 1.2;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .club-hero__title {
   margin: 0;
-  max-width: 850px;
-  font-size: clamp(2rem, 5vw, 4rem);
+  max-width: 18ch;
+  font-size: clamp(2.15rem, 5.4vw, 4.1rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.02;
   letter-spacing: -0.04em;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+
+.club-glance {
+  background: white;
+  border-bottom: 1px solid #e6e8ec;
+  box-shadow: 0 10px 28px rgba(31, 37, 48, 0.04);
+}
+
+.club-glance__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.15rem 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.club-glance__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.club-glance__icon {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--club-accent) 78%, #222);
+  font-size: 1rem;
+}
+
+.club-glance__label {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a8089;
+}
+
+.club-glance__value {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 650;
+  line-height: 1.35;
+  color: #1a1d23;
+  word-break: break-word;
 }
 
 .club-content {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 0;
+  padding: 2.25rem 1.5rem 0;
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
-  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.85fr);
+  gap: 2.5rem 3rem;
   align-items: start;
+}
+
+.club-content--single {
+  grid-template-columns: minmax(0, 760px);
 }
 
 .club-content__main,
 .club-content__aside {
   display: grid;
-  gap: 1.25rem;
+  gap: 2rem;
 }
 
-.club-content--single {
-  grid-template-columns: minmax(0, 800px);
-}
-
-.club-page .club-section {
-  margin: 0;
-  padding: 1.4rem;
-  border: 1px solid #e1e4e8;
-  border-top: 4px solid var(--club-accent);
-  border-radius: 14px;
-  background: white;
-  box-shadow: 0 8px 24px rgba(31, 37, 48, 0.06);
-}
-
-.club-section__heading {
-  margin: 0 0 0.75rem;
-  font-size: 1.25rem;
+.club-block__heading {
+  margin: 0 0 0.85rem;
+  font-size: 0.78rem;
   font-weight: 750;
-  color: color-mix(in srgb, var(--club-accent) 82%, #111);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.club-section__icon {
-  font-size: 1rem;
-  opacity: 0.9;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--club-accent) 72%, #333);
 }
 
 .club-about__text {
   margin: 0;
-  font-size: 1.08rem;
-  line-height: 1.7;
-  color: #333;
+  font-size: clamp(1.05rem, 1.5vw, 1.18rem);
+  line-height: 1.75;
+  color: #2c3038;
   white-space: pre-line;
+  font-family: var(--primary-font);
 }
 
-.club-meetings__text {
+.club-leadership__list {
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.5;
-  color: #444;
-
-  strong {
-    color: #1a1a1a;
-  }
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #e4e6ea;
 }
 
-.club-leadership__grid {
+.club-leadership__row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.75rem;
-}
-
-.club-leadership__item {
-  background: color-mix(in srgb, var(--club-accent) 6%, white);
-  border-radius: 10px;
-  padding: 0.85rem 1rem;
-  border-left: 4px solid var(--club-accent);
-
-  &--wide {
-    grid-column: 1 / -1;
-  }
+  grid-template-columns: minmax(7rem, 0.4fr) minmax(0, 1fr);
+  gap: 0.75rem 1.25rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid #e4e6ea;
+  align-items: baseline;
 }
 
 .club-leadership__role {
-  display: block;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: color-mix(in srgb, var(--club-accent) 82%, #111);
-  text-transform: uppercase;
   letter-spacing: 0.04em;
-  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--club-accent) 70%, #444);
 }
 
 .club-leadership__name {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #16181d;
+  line-height: 1.4;
 }
 
 .club-connect__links {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .club-connect__btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   justify-content: center;
   min-height: var(--tap-target, 44px);
   padding: 0.7rem 1.1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
+  font-size: 0.98rem;
+  font-weight: 650;
+  border-radius: 10px;
   text-decoration: none;
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
   }
 
   &:focus-visible {
@@ -726,7 +872,7 @@
 }
 
 .club-connect__btn--primary {
-  background: color-mix(in srgb, var(--club-accent) 82%, #111);
+  background: color-mix(in srgb, var(--club-accent) 86%, #111);
   color: white;
   border: none;
 
@@ -737,16 +883,14 @@
 }
 
 .club-connect__btn--instagram {
-  background: linear-gradient(
-    45deg,
-    #f09433,
-    #e6683c,
-    #dc2743,
-    #cc2366,
-    #bc1888
-  );
+  background: #111;
   color: white;
   border: none;
+
+  &:hover {
+    background: #222;
+    color: white;
+  }
 }
 
 .club-sponsor__list {
@@ -754,7 +898,7 @@
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.45rem;
 }
 
 .club-sponsor__list li,
@@ -762,42 +906,51 @@
   margin: 0;
   font-size: 1.05rem;
   font-weight: 600;
-  line-height: 1.4;
-  color: #1a1a1a;
+  line-height: 1.45;
+  color: #1a1d23;
+}
+
+@media (max-width: 900px) {
+  .club-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 }
 
 @media (max-width: 640px) {
   .club-hero {
-    min-height: 210px;
-    padding: 1.25rem 1rem;
+    min-height: 230px;
+    padding: 1.35rem 1rem 1.75rem;
   }
 
   .club-hero--with-banner {
-    min-height: 270px;
+    min-height: 280px;
+  }
+
+  .club-glance__inner {
+    padding: 1rem;
+    gap: 0.9rem;
   }
 
   .club-content {
-    grid-template-columns: 1fr;
-    padding: 1rem 0.75rem 0;
-    gap: 0.85rem;
+    padding: 1.5rem 1rem 0;
+    gap: 1.75rem;
   }
 
   .club-content__main,
   .club-content__aside {
-    gap: 0.85rem;
+    gap: 1.5rem;
   }
 
-  .club-page .club-section {
-    padding: 1.1rem;
-  }
-
-  .club-leadership__grid {
+  .club-leadership__row {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+    gap: 0.25rem;
+    padding: 0.8rem 0;
   }
 
   .club-hero__title {
-    font-size: clamp(2rem, 10vw, 3rem);
+    max-width: none;
+    font-size: clamp(2rem, 9vw, 3rem);
   }
 }
 
@@ -900,7 +1053,7 @@
 @media (max-width: 700px) {
   .clubs-page__grid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.85rem;
     padding: 0.75rem 1rem 1.5rem;
   }
 
@@ -914,38 +1067,41 @@
   }
 
   .club-card {
-    min-height: 112px;
+    min-height: 0;
     flex-direction: row;
-    border-top: 1px solid #e5e7ea;
-    border-left: 4px solid var(--club-color);
+    border-radius: 10px;
+    border: 1px solid #e6e8ec;
+    animation: none;
   }
 
-  .club-card__image-wrap {
-    width: 112px;
-    min-width: 112px;
+  .club-card__media {
+    width: 108px;
+    min-width: 108px;
     aspect-ratio: 1;
+    align-self: stretch;
   }
 
-  .club-card__category {
-    right: 0.35rem;
-    bottom: 0.35rem;
-    left: 0.35rem;
-    padding: 0.3rem 0.4rem;
-    overflow: hidden;
-    font-size: 0.62rem;
-    line-height: 1.2;
-    text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .club-card__body {
+    padding: 0.85rem 0.95rem;
+    gap: 0.25rem;
+    justify-content: center;
   }
 
   .club-card__name {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    min-width: 0;
     font-size: 1.05rem;
-    padding: 1rem;
+  }
+
+  .club-card__meta {
+    -webkit-line-clamp: 1;
+    font-size: 0.82rem;
+  }
+
+  .club-card__cta {
+    display: none;
+  }
+
+  .club-card__placeholder-mark {
+    font-size: 2rem;
   }
 
   .filter-button {
@@ -978,14 +1134,23 @@
   .clubs-page__filter-btn,
   .clubs-page__search-input,
   .clubs-page__load,
-  .club-connect__btn {
+  .club-connect__btn,
+  .club-card__image,
+  .club-card__cta-arrow,
+  .club-hero__banner,
+  .club-hero__content {
     transition: none;
+    animation: none;
   }
 
   .club-card:hover,
   .clubs-page__filter-btn:hover,
   .clubs-page__load:hover,
   .club-connect__btn:hover {
+    transform: none;
+  }
+
+  .club-card:hover .club-card__image {
     transform: none;
   }
 }

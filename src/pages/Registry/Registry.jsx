@@ -34,7 +34,7 @@ export default function Registry() {
           </div>
 
           <p className="registry-open-note">
-            If the embed doesn’t load, open it directly in Google Sheets:{" "}
+            If the embed doesn't load, open it directly in Google Sheets:{" "}
             <a
               href={`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit?gid=${GID}`}
               target="_blank"

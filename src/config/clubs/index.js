@@ -1,1 +1,5 @@
-export { clubCategories, getCategoryColorMap } from "./categories.config.js";
+export {
+  clubCategories,
+  getCategoryColorMap,
+  buildCategoryColorMap,
+} from "./categories.config.js";

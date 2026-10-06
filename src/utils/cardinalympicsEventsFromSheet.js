@@ -19,6 +19,67 @@ function parseMMDDYY(str) {
   return Number.isNaN(d.getTime()) ? null : d;
 }
 
+const WEEKDAY_LONG = new Intl.DateTimeFormat("en-US", { weekday: "long" });
+
+/**
+ * Parse a single date or a range like "10/5/26 - 10/8/26" / "10/5/26-10/8/26".
+ * Range events get weekday labels (e.g. "Monday - Thursday") and an endDate for signup close.
+ */
+function parseEventDateField(dateRaw) {
+  const raw = String(dateRaw || "").trim();
+  if (!raw) {
+    return {
+      sortDate: null,
+      endDate: null,
+      dateDisplay: "",
+      isAllWeek: false,
+      isDateRange: false,
+      dayRangeLabel: null,
+    };
+  }
+
+  if (isAllWeekDate(raw)) {
+    return {
+      sortDate: null,
+      endDate: null,
+      dateDisplay: "All Week",
+      isAllWeek: true,
+      isDateRange: false,
+      dayRangeLabel: null,
+    };
+  }
+
+  const rangeMatch = raw.match(
+    /^(\d{1,2}\/\d{1,2}\/(?:\d{2}|\d{4}))\s*[-–—]\s*(\d{1,2}\/\d{1,2}\/(?:\d{2}|\d{4}))$/,
+  );
+  if (rangeMatch) {
+    const start = parseMMDDYY(rangeMatch[1]);
+    const end = parseMMDDYY(rangeMatch[2]);
+    if (start && end) {
+      const [from, to] =
+        start.getTime() <= end.getTime() ? [start, end] : [end, start];
+      return {
+        sortDate: from,
+        endDate: to,
+        dateDisplay: `${rangeMatch[1]} – ${rangeMatch[2]}`,
+        isAllWeek: false,
+        isDateRange: true,
+        dayRangeLabel: `${WEEKDAY_LONG.format(from)} - ${WEEKDAY_LONG.format(to)}`,
+      };
+    }
+  }
+
+  const single = parseMMDDYY(raw);
+  return {
+    sortDate: single,
+    endDate: single,
+    dateDisplay: raw,
+    isAllWeek: false,
+    isDateRange: false,
+    dayRangeLabel: null,
+  };
+}
+
 function splitDescription(description) {
   const lines = String(description || "").split(/\r?\n/);
   const first = lines[0]?.trim() || "";
@@ -112,7 +173,7 @@ export function parseCardinalympicsEventsSheet(values) {
         ? parsePointsPossibleCell(row?.[pointsPossibleIdx])
         : "";
 
-    const sortDate = parseMMDDYY(dateRaw);
+    const dateInfo = parseEventDateField(dateRaw);
     const { headline, body } = splitDescription(description);
     const useName = !isGenericName(name);
     const heading = useName ? name : headline || "Event";
@@ -122,8 +183,12 @@ export function parseCardinalympicsEventsSheet(values) {
       id: `cymp-ev-${i}-${heading.slice(0, 24)}`,
       name,
       category: category || "Events",
-      dateDisplay: isAllWeekDate(dateRaw) ? "All Week" : dateRaw || "",
-      sortDate,
+      dateDisplay: dateInfo.dateDisplay,
+      sortDate: dateInfo.sortDate,
+      endDate: dateInfo.endDate,
+      isAllWeek: dateInfo.isAllWeek,
+      isDateRange: dateInfo.isDateRange,
+      dayRangeLabel: dateInfo.dayRangeLabel,
       heading,
       bodyText,
       descriptionFull: description,
@@ -186,16 +251,16 @@ function startOfDay(date) {
 }
 
 /**
- * True when the sheet has a sign-up URL but the event calendar day (MM/DD/YY → sortDate)
- * is strictly before today (local). Used to show "Closed" instead of the link after that day.
+ * True when the sheet has a sign-up URL but the event day has passed.
+ * Single-day events close after that calendar day; date-range events stay open
+ * through endDate (e.g. 10/5–10/8 stays open until after 10/8).
  */
 export function isCardinalympicsSignupPastEventDay(ev) {
   if (!ev?.signUpLink || ev.signUpClosed) return false;
-  if (!ev.sortDate) return false;
-  const now = new Date();
-  const todayStart = startOfDay(now);
-  const eventDayStart = startOfDay(ev.sortDate);
-  return eventDayStart < todayStart;
+  const closeDate = ev.endDate || ev.sortDate;
+  if (!closeDate) return false;
+  const todayStart = startOfDay(new Date());
+  return startOfDay(closeDate) < todayStart;
 }
 
 function sortEventsByDate(a, b) {
@@ -209,37 +274,62 @@ function sortEventsByDate(a, b) {
 
 /**
  * Group events by week number (relative to first dated event), then day of week.
- * Example output:
- * [{ weekLabel: "Week 1", days: [{ dayLabel: "Monday", events: [...] }] }]
+ * Date-range events (e.g. 10/5/26 – 10/8/26) get a top section labeled
+ * "Monday - Thursday" (weekday span), placed near the top after All Week.
  */
 export function groupCardinalympicsEventsByWeekAndDay(events) {
   if (!events?.length) return [];
 
   const allWeekEvents = [];
+  const rangeEvents = [];
   const scheduled = [];
   for (const ev of events) {
-    if (isAllWeekDate(ev.dateDisplay)) allWeekEvents.push(ev);
+    if (ev.isAllWeek || isAllWeekDate(ev.dateDisplay)) allWeekEvents.push(ev);
+    else if (ev.isDateRange) rangeEvents.push(ev);
     else scheduled.push(ev);
   }
 
   const sorted = [...scheduled].sort(sortEventsByDate);
-  const dated = sorted.filter((ev) => ev.sortDate);
+  const dated = [
+    ...sorted.filter((ev) => ev.sortDate),
+    ...rangeEvents.filter((ev) => ev.sortDate),
+  ].sort(sortEventsByDate);
+
+  const buildRangeDayGroups = () => {
+    if (!rangeEvents.length) return [];
+    const byLabel = new Map();
+    for (const ev of [...rangeEvents].sort(sortEventsByDate)) {
+      const label = ev.dayRangeLabel || "Multi-day";
+      if (!byLabel.has(label)) byLabel.set(label, []);
+      byLabel.get(label).push(ev);
+    }
+    return [...byLabel.entries()].map(([dayLabel, evs]) => ({
+      dayLabel,
+      events: evs,
+    }));
+  };
+
   if (!dated.length) {
     const days = [];
     if (allWeekEvents.length) {
       days.push({ dayLabel: "All Week", events: allWeekEvents });
     }
+    days.push(...buildRangeDayGroups());
     if (sorted.length) {
       days.push({ dayLabel: "Unscheduled", events: sorted });
     }
     return days.length
-      ? [{ weekLabel: sorted.length ? "Week 1" : "", days }]
+      ? [
+          {
+            weekLabel: sorted.length || rangeEvents.length ? "Week 1" : "",
+            days,
+          },
+        ]
       : [];
   }
 
   const earliestMs = startOfDay(dated[0].sortDate);
   const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
-  const dayFormatter = new Intl.DateTimeFormat("en-US", { weekday: "long" });
 
   const weekMap = new Map();
 
@@ -249,7 +339,7 @@ export function groupCardinalympicsEventsByWeekAndDay(events) {
       : 1;
     const weekLabel = `Week ${weekIndex}`;
     const dayLabel = ev.sortDate
-      ? dayFormatter.format(ev.sortDate)
+      ? WEEKDAY_LONG.format(ev.sortDate)
       : "Unscheduled";
 
     if (!weekMap.has(weekLabel)) weekMap.set(weekLabel, new Map());
@@ -265,6 +355,14 @@ export function groupCardinalympicsEventsByWeekAndDay(events) {
       events: evs.sort(sortEventsByDate),
     })),
   }));
+
+  const rangeDays = buildRangeDayGroups();
+  if (rangeDays.length) {
+    weekGroups.unshift({
+      weekLabel: "",
+      days: rangeDays,
+    });
+  }
 
   if (allWeekEvents.length) {
     weekGroups.unshift({

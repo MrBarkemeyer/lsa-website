@@ -1,0 +1,26 @@
+.page-transition {
+  min-height: 50vh;
+  animation: page-enter 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-transition--hold {
+  animation: none;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0.92;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
+}
