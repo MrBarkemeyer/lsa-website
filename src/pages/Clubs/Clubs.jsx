@@ -1,49 +1,103 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { getCategoryColorMap } from "../../config/clubs/index.js";
+import { buildCategoryColorMap } from "../../config/clubs/index.js";
 import SafeImage from "../../components/SafeImage";
 import { driveThumbnailCandidates } from "../../utils/driveMedia.js";
 import "./Club.scss";
+
+function getClubFrequency(club) {
+  return String(club?.["Bi Weekly or Weekly?"] || club?.Weekly || "").trim();
+}
+
+function clubMeetingTeaser(club) {
+  const days = String(club.MeetingDays || "").trim();
+  const place = String(club.MeetingPlaceTime || "").trim();
+  const frequency = getClubFrequency(club).toLowerCase();
+  const showDays = days && days.toLowerCase() !== "always";
+
+  if (showDays && place) return `${days} · ${place}`;
+  if (showDays) return days;
+  if (place) return place;
+  if (frequency === "weekly") return "Meets weekly";
+  if (frequency.includes("bi")) return "Meets biweekly";
+  return "";
+}
+
+function clubDescriptionTeaser(description) {
+  const text = String(description || "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!text) return "";
+  if (text.length <= 90) return text;
+  return `${text.slice(0, 87).trim()}…`;
+}
 
 export default function Clubs({ clubData }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [visibleClubs, setVisibleClubs] = useState(9);
   const categoryFilter = searchParams.get("category");
   const searchQuery = (searchParams.get("q") || "").toLowerCase();
-  const colorMap = useMemo(() => getCategoryColorMap(), []);
+
+  const uniqueCategories = useMemo(() => {
+    const categories = clubData.map((club) => club.Category).filter(Boolean);
+    return [...new Set(categories)];
+  }, [clubData]);
+
+  const colorMap = useMemo(
+    () => buildCategoryColorMap(uniqueCategories),
+    [uniqueCategories],
+  );
 
   function loadMore() {
     setVisibleClubs((prev) => prev + 9);
   }
 
-  function renderClub(club) {
-    const { Name, Category, Picture } = club;
-    const clubColor = colorMap[Category] || "var(--lowell-red)";
+  function renderClub(club, index) {
+    const { Name, Category, Picture, ClubDescription } = club;
+    const clubColor = colorMap[Category] || "#5c616a";
+    const meeting = clubMeetingTeaser(club);
+    const excerpt = meeting || clubDescriptionTeaser(ClubDescription);
 
     return (
       <Link
         className="club-card"
         key={Name}
         to={Name}
-        style={{ "--club-color": clubColor }}
+        style={{
+          "--club-color": clubColor,
+          "--club-delay": `${Math.min(index, 11) * 40}ms`,
+        }}
       >
-        <div className="club-card__image-wrap">
+        <div className="club-card__media">
           {Picture ? (
             <SafeImage
               className="club-card__image"
-              src={driveThumbnailCandidates(Picture, "w300")}
-              alt={`${Name} club`}
+              src={driveThumbnailCandidates(Picture, "w400")}
+              alt=""
               variant="club"
               loading="lazy"
               decoding="async"
             />
           ) : (
-            <div className="club-card__placeholder" aria-hidden="true" />
+            <div className="club-card__placeholder" aria-hidden="true">
+              <span className="club-card__placeholder-mark">
+                {(Name || "?").charAt(0)}
+              </span>
+            </div>
           )}
-          <span className="club-card__category">{Category}</span>
         </div>
-        <h3 className="club-card__name">{Name}</h3>
+        <div className="club-card__body">
+          {Category && (
+            <span className="club-card__category">{Category}</span>
+          )}
+          <h3 className="club-card__name">{Name}</h3>
+          {excerpt && <p className="club-card__meta">{excerpt}</p>}
+          <span className="club-card__cta" aria-hidden="true">
+            View club
+            <span className="club-card__cta-arrow">→</span>
+          </span>
+        </div>
       </Link>
     );
   }
@@ -70,17 +124,14 @@ export default function Clubs({ clubData }) {
     return result;
   }, [clubData, categoryFilter, searchQuery]);
 
-  const displayClubs = filteredClubs
-    .slice(0, categoryFilter ? filteredClubs.length : visibleClubs)
-    .map(renderClub);
-
-  const uniqueCategories = useMemo(() => {
-    const categories = clubData.map((club) => club.Category).filter(Boolean);
-    return [...new Set(categories)];
-  }, [clubData]);
+  const visibleSlice = filteredClubs.slice(
+    0,
+    categoryFilter ? filteredClubs.length : visibleClubs,
+  );
+  const displayClubs = visibleSlice.map(renderClub);
 
   const filterButtons = uniqueCategories.map((category) => {
-    const clubColor = colorMap[category] || "var(--lowell-red)";
+    const clubColor = colorMap[category];
     const isActive = categoryFilter === category;
 
     return (
@@ -218,6 +269,7 @@ Clubs.propTypes = {
       ClubDescription: PropTypes.string,
       MeetingDays: PropTypes.string,
       Weekly: PropTypes.string,
+      "Bi Weekly or Weekly?": PropTypes.string,
       MeetingPlaceTime: PropTypes.string,
       President: PropTypes.string,
       VP: PropTypes.string,

@@ -191,18 +191,32 @@ function Chevron({ dir }) {
 }
 
 function PostDialog({ post, onClose }) {
-  const slides = post.video
-    ? []
-    : post.slides?.length
-      ? post.slides
-      : post.cover
-        ? [post.cover]
-        : [];
+  const slides = useMemo(
+    () =>
+      post.video
+        ? []
+        : post.slides?.length
+          ? post.slides
+          : post.cover
+            ? [post.cover]
+            : [],
+    [post.video, post.slides, post.cover],
+  );
   const [slide, setSlide] = useState(0);
   const closeRef = useRef(null);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
   const many = slides.length > 1;
+
+  useEffect(() => {
+    // Warm every slide up front so Next/Prev never waits on a cold CDN fetch.
+    slides.forEach((src) => {
+      if (!src) return;
+      const image = new Image();
+      image.decoding = "async";
+      image.src = src;
+    });
+  }, [slides]);
 
   useEffect(() => {
     const previous = document.body.style.overflow;
@@ -259,22 +273,34 @@ function PostDialog({ post, onClose }) {
           {post.video ? (
             <video controls playsInline poster={post.cover} src={post.video} />
           ) : (
-            slides[slide] && (
-              <img
-                src={slides[slide]}
-                alt=""
-                decoding={
-                  [...document.images].some(
-                    (img) =>
-                      img.currentSrc === slides[slide] &&
-                      img.complete &&
-                      img.naturalWidth > 0,
-                  )
-                    ? "sync"
-                    : "async"
-                }
-              />
-            )
+            <>
+              {/* Active slide stays in-flow so the dialog sizes to the flyer. */}
+              {slides[slide] && (
+                <img
+                  key={slides[slide]}
+                  src={slides[slide]}
+                  alt=""
+                  draggable={false}
+                  decoding="sync"
+                  fetchPriority="high"
+                />
+              )}
+              {/* Keep neighbors decoded/cached without affecting layout. */}
+              {slides.map((src, index) =>
+                index === slide || !src ? null : (
+                  <img
+                    key={`preload-${src}-${index}`}
+                    className="ig-slide-preload"
+                    src={src}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                    decoding="async"
+                    fetchPriority="low"
+                  />
+                ),
+              )}
+            </>
           )}
           {many && slide > 0 && (
             <button

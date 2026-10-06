@@ -232,7 +232,7 @@ const STOP = new Set(["the", "a", "an", "our", "of", "for", "on", "at", "to", "a
 function whoPhrase(query) {
   const normalized = String(query || "")
     .toLowerCase()
-    .replace(/['’]/g, "");
+    .replace(/['']/g, "");
   const match = normalized.match(/^who(?:s| is| are)?\s+(.+)$/);
   if (!match) return "";
   return match[1].replace(/\s+/g, " ").trim();

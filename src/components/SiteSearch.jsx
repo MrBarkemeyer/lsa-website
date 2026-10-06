@@ -4,7 +4,10 @@ import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { siteAnswers } from "../config/siteAnswers.config.js";
+import {
+  allSiteAnswers,
+  siteAnswers,
+} from "../config/siteAnswers.config.js";
 import { buildSearchDocuments, pageQuery, whoAnswers } from "../utils/siteSearchIndex.js";
 import "./SiteSearch.scss";
 
@@ -16,7 +19,7 @@ const PAGE_LIMIT = 12;
 function normalize(value) {
   return String(value || "")
     .toLowerCase()
-    .replace(/['’]/g, "");
+    .replace(/['']/g, "");
 }
 
 function queryTokens(query) {
@@ -120,7 +123,7 @@ export default function SiteSearch({
   const answers = useMemo(() => {
     if (tokens.length === 0 || people.length > 0) return [];
     return rank(
-      siteAnswers,
+      allSiteAnswers,
       tokens,
       (item) => ({
         title: item.question,

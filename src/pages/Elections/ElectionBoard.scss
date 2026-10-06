@@ -281,13 +281,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: top center;
   display: block;
   transition:
     opacity 0.3s ease,
     transform 0.25s ease;
   border-radius: 14px 0 0 0;
-  background: #fff;
+  background: #f0f0f0;
 }
 
 // the little bar under the photo that says "HOVER TO VIEW VIDEO" - board color
@@ -375,7 +376,7 @@ iframe.election-candidate-card-youtube-preview {
     border: 0;
   }
 
-  &:has(.election-dialog-video-host) {
+  &.is-showing-video {
     position: relative;
     align-self: stretch;
     width: min(100%, calc((100vh - 2.5rem) * 16 / 9));
@@ -402,6 +403,16 @@ iframe.election-candidate-card-youtube-preview {
     background: #000;
   }
 
+  .election-dialog-video-host.is-parked {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+    transform: none;
+  }
+
   .election-dialog-video {
     opacity: 1;
   }
@@ -415,13 +426,14 @@ iframe.election-candidate-card-youtube-preview {
     }
   }
 
-  &:has(.election-dialog-video-upgrade.is-ready) .election-dialog-video-host {
+  &.is-showing-video:has(.election-dialog-video-upgrade.is-ready)
+    .election-dialog-video-host {
     visibility: hidden;
   }
 }
 
 @media (min-width: 760px) {
-  .ig-dialog--election .ig-media:has(.election-dialog-video-host) {
+  .ig-dialog--election .ig-media.is-showing-video {
     flex: 0 0 auto;
     align-self: stretch;
     width: min(
@@ -460,16 +472,13 @@ iframe.election-candidate-card-youtube-preview {
     border-radius: 14px 14px 0 0;
   }
 
-  .election-candidate-card-pfp {
-    object-fit: contain;
-    object-position: center;
-  }
-
   .election-candidate-card-body {
     max-height: 14rem;
   }
 
   .election-candidate-card-pfp {
+    object-fit: cover;
+    object-position: top center;
     border-radius: 14px 14px 0 0;
   }
 

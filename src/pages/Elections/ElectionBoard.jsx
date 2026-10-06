@@ -152,22 +152,38 @@ function silenceYoutubePreview(iframe) {
 }
 
 let dialogVideoHost = null;
+let dialogVideoActive = false;
 const dialogVideoHostListeners = new Set();
+
+function notifyDialogVideoListeners() {
+  dialogVideoHostListeners.forEach((fn) => fn());
+}
 
 function setDialogVideoHost(node) {
   dialogVideoHost = node;
-  dialogVideoHostListeners.forEach((fn) => fn());
+  notifyDialogVideoListeners();
+}
+
+function setDialogVideoActive(active) {
+  const next = Boolean(active);
+  if (dialogVideoActive === next) return;
+  dialogVideoActive = next;
+  notifyDialogVideoListeners();
 }
 
 function useDialogVideoHost() {
   const [host, setHost] = useState(null);
-  useEffect(() => {
-    const sync = () => setHost(dialogVideoHost);
+  const [active, setActive] = useState(false);
+  useLayoutEffect(() => {
+    const sync = () => {
+      setHost(dialogVideoHost);
+      setActive(dialogVideoActive);
+    };
     dialogVideoHostListeners.add(sync);
     sync();
     return () => dialogVideoHostListeners.delete(sync);
   }, []);
-  return host;
+  return active ? host : null;
 }
 
 // one candidate: photo (hover = video), name, bio, vote button
@@ -796,6 +812,19 @@ function ElectionMediaModal({ media, onClose }) {
     setSlide(0);
   }, [videoRaw, media?.pfp, media?.name]);
 
+  useLayoutEffect(() => {
+    // Publish before paint so the card can portal the warm preview into the
+    // dialog on the same frame as Next — no empty black gap.
+    setDialogVideoActive(Boolean(media && hasVideo && showingVideo));
+  }, [media, hasVideo, showingVideo]);
+
+  useLayoutEffect(() => {
+    return () => {
+      setDialogVideoActive(false);
+      setDialogVideoHost(null);
+    };
+  }, []);
+
   useEffect(() => {
     if (!media) return undefined;
     const prevOverflow = document.body.style.overflow;
@@ -857,7 +886,7 @@ function ElectionMediaModal({ media, onClose }) {
       if (data?.event === "onStateChange" && Number(data.info) === 1) revealUpgrade();
     }
     window.addEventListener("message", onMessage);
-    const fallback = window.setTimeout(revealUpgrade, 2500);
+    const fallback = window.setTimeout(revealUpgrade, 400);
     return () => {
       window.removeEventListener("message", onMessage);
       window.clearTimeout(fallback);
@@ -893,14 +922,27 @@ function ElectionMediaModal({ media, onClose }) {
           </svg>
         </button>
 
-        <div className="ig-media">
-          {showingVideo ? (
+        <div
+          className={`ig-media${showingVideo ? " is-showing-video" : " is-showing-flyer"}`}
+        >
+          {hasFlyer && !showingVideo && (
+            <SafeImage
+              src={flyerSources}
+              alt={`${media.name} flyer`}
+              variant="club"
+              decoding="sync"
+            />
+          )}
+          {hasVideo && (
             <>
+              {/* Host stays mounted (parked under the flyer) so Next can portal
+                  the warm preview immediately without a mount delay. */}
               <div
                 ref={setDialogVideoHost}
-                className="election-dialog-video-host"
+                className={`election-dialog-video-host${showingVideo ? "" : " is-parked"}`}
+                aria-hidden={!showingVideo}
               />
-              {isYouTube && (
+              {isYouTube && showingVideo && (
                 <iframe
                   ref={modalYoutubeRef}
                   key={youtubeVideoId}
@@ -913,13 +955,6 @@ function ElectionMediaModal({ media, onClose }) {
                 />
               )}
             </>
-          ) : (
-            <SafeImage
-              src={flyerSources}
-              alt={`${media.name} flyer`}
-              variant="club"
-              decoding="sync"
-            />
           )}
           {slideCount > 1 && slide > 0 && (
             <button

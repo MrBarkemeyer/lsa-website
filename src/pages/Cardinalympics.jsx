@@ -44,7 +44,9 @@ function getPointsPossibleFromRows(rows) {
   if (!Array.isArray(rows) || rows.length === 0)
     return POINTS_POSSIBLE_FALLBACK;
 
-  const fromEvents = sumPointsPossibleFromEventRows(rows);
+  const fromEvents = sumPointsPossibleFromEventRows(
+    filterDisplayScoreboardRows(rows),
+  );
   if (fromEvents > 0) return fromEvents;
 
   return POINTS_POSSIBLE_FALLBACK;
@@ -86,6 +88,65 @@ function isTotalRow(row) {
   return label.includes("TOTAL") && !label.includes("EVENTS TOTAL");
 }
 
+function rowLabelUpper(row) {
+  return String(row?.[0] ?? "")
+    .toUpperCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isEnableLiveCountRow(row) {
+  return rowLabelUpper(row).includes("ENABLE LIVE COUNT");
+}
+
+function isPointCompensationRow(row) {
+  return rowLabelUpper(row).includes("POINT COMPENSATION");
+}
+
+function isFridayRallyTotalsRow(row) {
+  return rowLabelUpper(row).includes("FRIDAY RALLY COMPETITIONS TOTALS");
+}
+
+function isSpiritWeekTotalsRow(row) {
+  return rowLabelUpper(row) === "SPIRIT WEEK TOTALS";
+}
+
+/**
+ * Public scoreboard: everything through Friday Rally Competitions Totals,
+ * then only the final SPIRIT WEEK TOTALS row (hide Point Compensation, etc.).
+ */
+function filterDisplayScoreboardRows(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return [];
+
+  const headerIndex = rows.findIndex(isHeaderRow);
+  const start = headerIndex >= 0 ? headerIndex + 1 : 0;
+
+  let fridayIdx = -1;
+  let spiritIdx = -1;
+  for (let i = start; i < rows.length; i++) {
+    if (isFridayRallyTotalsRow(rows[i])) fridayIdx = i;
+    if (isSpiritWeekTotalsRow(rows[i])) spiritIdx = i;
+  }
+
+  const keepRow = (row) => {
+    if (!row) return false;
+    if (isEnableLiveCountRow(row) || isPointCompensationRow(row)) return false;
+    const label = rowLabelUpper(row);
+    if (!label && !(row[1] || row[2] || row[IDX_FR])) return false;
+    return true;
+  };
+
+  if (fridayIdx < 0) {
+    return rows.slice(start).filter(keepRow);
+  }
+
+  const main = rows.slice(start, fridayIdx + 1).filter(keepRow);
+  if (spiritIdx > fridayIdx) {
+    main.push(rows[spiritIdx]);
+  }
+  return main;
+}
+
 // sheet columns: Freshman Soph Junior Senior scores then winner. layout is kinda weird but here we are
 const IDX_FR = 4;
 const IDX_SO = 5;
@@ -93,13 +154,53 @@ const IDX_JR = 6;
 const IDX_SR = 7;
 const IDX_WINNER = 8;
 
+// Historical strength: seniors have always won, then juniors, sophomores, freshmen.
+// Kept mild so a full week of remaining points can still reshuffle the race.
+const HISTORICAL_STRENGTH = [1, 1.2, 1.45, 1.75];
+const DEFAULT_DAILY_EVENT_PTS = 300;
+const DEFAULT_WEEKLONG_EVENT_PTS = 400;
+const DEFAULT_FRIDAY_RALLY_EVENT_PTS = 400;
+const CHANCE_SMOOTHING_ALPHA = 12;
+
+// Place payout from "pts possible" (matches typical 300 / 200 / 100 / 0 events).
+function placePointsFromPossible(ptsPossible) {
+  const pts = Math.max(0, Number(ptsPossible) || 0);
+  return [pts, Math.round((pts * 2) / 3), Math.round(pts / 3), 0];
+}
+
+function isSectionHeaderLabel(label) {
+  const u = String(label ?? "")
+    .toUpperCase()
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!u || u.includes("TOTAL")) return false;
+  if (u.startsWith("SHORTER DAILY EVENTS")) return true;
+  if (u.startsWith("WEEK-LONG")) return true;
+  if (u === "FRIDAY RALLY COMPETITIONS") return true;
+  return false;
+}
+
+function sectionContextFromLabel(label) {
+  const u = String(label ?? "")
+    .toUpperCase()
+    .replace(/\s+/g, " ")
+    .trim();
+  if (u.startsWith("WEEK-LONG")) return "weeklong";
+  if (u.startsWith("FRIDAY RALLY")) return "friday";
+  return "daily";
+}
+
+function estimateEventPointsPossible(row, sectionContext) {
+  const explicit = parseScore(row?.[2]);
+  if (explicit !== "" && explicit > 0) return explicit;
+  if (sectionContext === "weeklong") return DEFAULT_WEEKLONG_EVENT_PTS;
+  if (sectionContext === "friday") return DEFAULT_FRIDAY_RALLY_EVENT_PTS;
+  return DEFAULT_DAILY_EVENT_PTS;
+}
+
 // section headers like "Shorter Daily Events" - no scores, just a label
 function isSectionRow(row) {
-  if (!row || row.length < 8) return true;
-  const hasScores = [row[IDX_FR], row[IDX_SO], row[IDX_JR], row[IDX_SR]].some(
-    (c) => parseScore(c) !== "",
-  );
-  return !hasScores && String(row[0] ?? "").trim().length > 0;
+  return isSectionHeaderLabel(String(row?.[0] ?? "").trim());
 }
 
 // real event row = has at least one class score
@@ -124,16 +225,6 @@ function isCancelledStatus(value) {
     .trim()
     .toLowerCase();
   return s === "cancelled" || s === "canceled";
-}
-
-function isSpiritTotalRow(row) {
-  return (
-    String(row[0] ?? "")
-      .toUpperCase()
-      .includes("SPIRIT WEEK TOTALS") &&
-    row[1] != null &&
-    !Number.isNaN(parseInt(String(row[1]), 10))
-  );
 }
 
 function getRowViewModel(row) {
@@ -172,7 +263,6 @@ function getRowViewModel(row) {
 
 const INITIAL_VISIBLE_ROWS = 12;
 const CHANCE_SIMULATION_RUNS = 5000;
-const CHANCE_SMOOTHING_ALPHA = 1;
 
 function hashStringSeed(input) {
   let h = 2166136261;
@@ -200,12 +290,7 @@ function ScoreboardTable({ rows }) {
     if (!rows?.length) {
       return { visibleRowModels: [], hasMore: false, hiddenRowCount: 0 };
     }
-    const withoutSpiritTotal = rows.filter((row) => !isSpiritTotalRow(row));
-    const headerIndex = withoutSpiritTotal.findIndex(isHeaderRow);
-    const effectiveRows =
-      headerIndex >= 0
-        ? withoutSpiritTotal.slice(headerIndex + 1)
-        : withoutSpiritTotal;
+    const effectiveRows = filterDisplayScoreboardRows(rows);
     const visibleRows = showAllRows
       ? effectiveRows
       : effectiveRows.slice(0, INITIAL_VISIBLE_ROWS);
@@ -378,33 +463,77 @@ function ScoreboardTable({ rows }) {
   );
 }
 
-function calculateWinningChances(spiritTotals, rows, seedInput = "") {
-  const baseTotals = [0, 1, 2, 3].map((i) => {
-    const n = Number(spiritTotals?.[i]);
-    return Number.isFinite(n) ? n : 0;
-  });
-  if (!rows?.length) {
-    const max = Math.max(...baseTotals);
-    const leaders = baseTotals
-      .map((v, i) => ({ v, i }))
-      .filter((x) => x.v === max);
-    const share = leaders.length ? 1 / leaders.length : 0;
-    const raw = [0, 1, 2, 3].map((i) =>
-      leaders.some((l) => l.i === i) ? share : 0,
-    );
-    const denom = 1 + CHANCE_SMOOTHING_ALPHA * 4;
-    return raw.map((p) => ((p + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
+function effectiveHistoricalStrength(baseTotals, pendingEvents) {
+  const remainingFirst = pendingEvents.reduce(
+    (sum, ev) => sum + (ev.places[0] || 0),
+    0,
+  );
+  const lead = Math.max(...baseTotals) - Math.min(...baseTotals);
+  // When lots of points remain vs the current gap, flatten class priors.
+  const uncertainty =
+    remainingFirst <= 0
+      ? 0
+      : Math.min(1, remainingFirst / (remainingFirst + Math.max(lead, 1)));
+  return HISTORICAL_STRENGTH.map(
+    (weight) => 1 + (weight - 1) * (1 - uncertainty * 0.9),
+  );
+}
+
+function weightedFinishOrder(classIndexes, rand, strengths) {
+  const remaining = classIndexes.map((i) => ({
+    i,
+    weight: strengths[i] ?? 1,
+  }));
+  const order = [];
+  while (remaining.length) {
+    const total = remaining.reduce((sum, item) => sum + item.weight, 0);
+    let pick = rand() * total;
+    let chosen = remaining.length - 1;
+    for (let r = 0; r < remaining.length; r++) {
+      pick -= remaining[r].weight;
+      if (pick <= 0) {
+        chosen = r;
+        break;
+      }
+    }
+    order.push(remaining[chosen].i);
+    remaining.splice(chosen, 1);
   }
+  return order;
+}
 
-  const pendingEvents = [];
-  for (const row of rows) {
-    if (!row || isHeaderRow(row) || isTotalRow(row) || isSectionRow(row))
+function nearestOpenPlace(score, places, taken) {
+  let best = -1;
+  let bestDiff = Infinity;
+  for (let p = 0; p < places.length; p++) {
+    if (taken.has(p)) continue;
+    const diff = Math.abs(places[p] - score);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      best = p;
+    }
+  }
+  return best;
+}
+
+function collectPendingEvents(rows) {
+  const pending = [];
+  const displayRows = filterDisplayScoreboardRows(rows);
+  let sectionContext = "daily";
+
+  for (const row of displayRows) {
+    if (!row || isHeaderRow(row)) continue;
+    const label = String(row[0] ?? "").trim();
+    if (!label) continue;
+
+    if (isSectionHeaderLabel(label)) {
+      sectionContext = sectionContextFromLabel(label);
       continue;
-    const winner = getWinner(row);
-    if (isCancelledStatus(winner)) continue;
-
-    const ptsPossible = parseScore(row[2]);
-    if (ptsPossible === "" || ptsPossible <= 0) continue;
+    }
+    if (isTotalRow(row) || isSpiritWeekTotalsRow(row) || isFridayRallyTotalsRow(row))
+      continue;
+    if (isEnableLiveCountRow(row) || isPointCompensationRow(row)) continue;
+    if (isCancelledStatus(getWinner(row))) continue;
 
     const scores = [
       parseScore(row[IDX_FR]),
@@ -416,34 +545,86 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
       .map((s, i) => ({ s, i }))
       .filter((x) => x.s === "")
       .map((x) => x.i);
+    if (!missingClassIndexes.length) continue;
 
-    if (missingClassIndexes.length) {
-      pendingEvents.push({ ptsPossible, missingClassIndexes });
+    // Sheet often leaves pts blank until scored — still count the event using
+    // typical payouts so early-week projections stay uncertain.
+    const ptsPossible = estimateEventPointsPossible(row, sectionContext);
+    if (ptsPossible <= 0) continue;
+
+    pending.push({
+      ptsPossible,
+      scores,
+      missingClassIndexes,
+      places: placePointsFromPossible(ptsPossible),
+    });
+  }
+  return pending;
+}
+
+function simulatePendingOntoTotals(baseTotals, pendingEvents, rand, strengths) {
+  const simulated = [...baseTotals];
+  for (const ev of pendingEvents) {
+    const takenPlaces = new Set();
+    for (let i = 0; i < 4; i++) {
+      if (ev.scores[i] === "") continue;
+      const place = nearestOpenPlace(ev.scores[i], ev.places, takenPlaces);
+      if (place >= 0) takenPlaces.add(place);
+    }
+
+    const openPlaces = ev.places
+      .map((pts, place) => ({ pts, place }))
+      .filter((item) => !takenPlaces.has(item.place))
+      .map((item) => item.pts);
+
+    const order = weightedFinishOrder(
+      ev.missingClassIndexes,
+      rand,
+      strengths,
+    );
+    for (let rank = 0; rank < order.length; rank++) {
+      simulated[order[rank]] += openPlaces[rank] ?? 0;
     }
   }
+  return simulated;
+}
+
+function chancesFromWinCounts(wins, runs) {
+  const denom = runs + CHANCE_SMOOTHING_ALPHA * 4;
+  return wins.map((w) => ((w + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
+}
+
+function calculateWinningChances(spiritTotals, rows, seedInput = "") {
+  const baseTotals = [0, 1, 2, 3].map((i) => {
+    const n = Number(spiritTotals?.[i]);
+    return Number.isFinite(n) ? n : 0;
+  });
+
+  const pendingEvents = collectPendingEvents(rows);
+  const strengths = effectiveHistoricalStrength(baseTotals, pendingEvents);
+  const rand = makeSeededRandom(hashStringSeed(seedInput));
+  const wins = [0, 0, 0, 0];
 
   if (!pendingEvents.length) {
+    // Truly finished: share among current leaders (no fake 99% from prior).
     const max = Math.max(...baseTotals);
     const leaders = baseTotals
       .map((v, i) => ({ v, i }))
       .filter((x) => x.v === max);
     const share = leaders.length ? 1 / leaders.length : 0;
-    const raw = [0, 1, 2, 3].map((i) =>
-      leaders.some((l) => l.i === i) ? share : 0,
+    const rawWins = [0, 1, 2, 3].map((i) =>
+      leaders.some((l) => l.i === i) ? share * CHANCE_SIMULATION_RUNS : 0,
     );
-    const denom = 1 + CHANCE_SMOOTHING_ALPHA * 4;
-    return raw.map((p) => ((p + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
+    return chancesFromWinCounts(rawWins, CHANCE_SIMULATION_RUNS);
   }
 
-  const wins = [0, 0, 0, 0];
-  const rand = makeSeededRandom(hashStringSeed(seedInput));
   for (let run = 0; run < CHANCE_SIMULATION_RUNS; run++) {
-    const simulated = [...baseTotals];
-    for (const ev of pendingEvents) {
-      for (const idx of ev.missingClassIndexes) {
-        simulated[idx] += rand() * ev.ptsPossible;
-      }
-    }
+    const simulated = simulatePendingOntoTotals(
+      baseTotals,
+      pendingEvents,
+      rand,
+      strengths,
+    );
     const maxScore = Math.max(...simulated);
     const winners = simulated
       .map((score, i) => ({ score, i }))
@@ -453,9 +634,7 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
     for (const i of winners) wins[i] += split;
   }
 
-  // Laplace-style smoothing keeps outputs away from exact 0%/100%.
-  const denom = CHANCE_SIMULATION_RUNS + CHANCE_SMOOTHING_ALPHA * 4;
-  return wins.map((w) => ((w + CHANCE_SMOOTHING_ALPHA) / denom) * 100);
+  return chancesFromWinCounts(wins, CHANCE_SIMULATION_RUNS);
 }
 
 function WinningChancesBar({ chances }) {

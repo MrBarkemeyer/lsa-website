@@ -205,6 +205,20 @@
   }
 }
 
+.ig-slide-preload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .ig-arrow {
   position: absolute;
   top: 50%;
@@ -364,6 +378,12 @@
       height: 100%;
       max-width: calc(100vw - 2.5rem - var(--side));
       object-fit: cover;
+    }
+
+    img.ig-slide-preload {
+      width: 1px;
+      height: 1px;
+      max-width: none;
     }
   }
 

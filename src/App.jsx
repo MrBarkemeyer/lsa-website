@@ -65,6 +65,36 @@ const CARDINALYMPICS_SCORE_SHEET = "Sp, 25";
 const CARDINALYMPICS_SCOREBOARD_GID = 525997941;
 const CARDINALYMPICS_EVENTS_SHEET = "Cardinalympics Events";
 const CARDINALYMPICS_POLL_MS = 30_000;
+const CARDINALYMPICS_SCORES_COOKIE = "lsa_sheet_cardinalympics_v1";
+const CARDINALYMPICS_EVENTS_COOKIE = "lsa_sheet_cardinalympics_events_v1";
+const CARDINALYMPICS_LIVE_FLAG_COOKIE = "lsa_sheet_cardinalympics_live_v1";
+
+function parseCardinalympicsEnableLiveCount(values) {
+  if (!Array.isArray(values)) return true;
+  const row = values.find((entry) =>
+    String(entry?.[0] ?? "")
+      .toUpperCase()
+      .includes("ENABLE LIVE COUNT"),
+  );
+  if (!row) return true;
+  const raw = String(row[2] ?? row[1] ?? "")
+    .trim()
+    .toUpperCase();
+  return raw === "TRUE" || raw === "YES" || raw === "1";
+}
+
+function readCardinalympicsLiveFlag() {
+  const raw = String(readCookie(CARDINALYMPICS_LIVE_FLAG_COOKIE) || "")
+    .trim()
+    .toLowerCase();
+  if (raw === "true" || raw === "1") return true;
+  if (raw === "false" || raw === "0") return false;
+  return null;
+}
+
+function writeCardinalympicsLiveFlag(enabled) {
+  writeCookie(CARDINALYMPICS_LIVE_FLAG_COOKIE, enabled ? "true" : "false");
+}
 
 /** Live Cardinalympics sheet fetch + polling only on routes that show scores or events from the sheet. */
 function routeWantsCardinalympicsLiveFetch(pathname) {
@@ -382,7 +412,7 @@ function App() {
     }
 
     function applyCardinalympicsValues(values) {
-      if (!Array.isArray(values) || values.length === 0) return;
+      if (!Array.isArray(values) || values.length === 0) return true;
       const scoreFromCell = (cell) => {
         const n = parseInt(String(cell ?? "").replace(/[^0-9-]/g, ""), 10);
         return Number.isNaN(n) ? null : n;
@@ -407,6 +437,7 @@ function App() {
       setScoreboardRows(
         values.map((row) => (Array.isArray(row) ? [...row] : row)),
       );
+      return parseCardinalympicsEnableLiveCount(values);
     }
 
     function applyCardinalympicsEventsValues(values) {
@@ -417,11 +448,10 @@ function App() {
     const cardinalympicsRouteActive = routeWantsCardinalympicsLiveFetch(
       location.pathname,
     );
+
     if (!cardinalympicsRouteActive) {
-      const cardinalympicsCookieKey = "lsa_sheet_cardinalympics_v1";
-      const eventsCookieKey = "lsa_sheet_cardinalympics_events_v1";
-      const cachedValues = readJsonCookie(cardinalympicsCookieKey);
-      const cachedEventsValues = readJsonCookie(eventsCookieKey);
+      const cachedValues = readJsonCookie(CARDINALYMPICS_SCORES_COOKIE);
+      const cachedEventsValues = readJsonCookie(CARDINALYMPICS_EVENTS_COOKIE);
       if (showScoresAndScoreboard && cachedValues?.length)
         applyCardinalympicsValues(cachedValues);
       if (needsCardinalympicsEventsData && cachedEventsValues?.length)
@@ -429,11 +459,40 @@ function App() {
       return undefined;
     }
 
-    async function fetchCardinalympicsData() {
-      const cardinalympicsCookieKey = "lsa_sheet_cardinalympics_v1";
-      const eventsCookieKey = "lsa_sheet_cardinalympics_events_v1";
-      const cachedValues = readJsonCookie(cardinalympicsCookieKey);
-      const cachedEventsValues = readJsonCookie(eventsCookieKey);
+    let liveCountEnabled = readCardinalympicsLiveFlag();
+    if (liveCountEnabled == null) {
+      const cachedForFlag = readJsonCookie(CARDINALYMPICS_SCORES_COOKIE);
+      liveCountEnabled = cachedForFlag?.length
+        ? parseCardinalympicsEnableLiveCount(cachedForFlag)
+        : true;
+    }
+
+    async function fetchScoreSheetValues() {
+      const fetchOpts = { fetchOptions: { cache: "no-store" } };
+      const gidResult = await fetchSheetByGidWithRetry(
+        CARDINALYMPICS_SPREADSHEET_ID,
+        CARDINALYMPICS_SCOREBOARD_GID,
+        GOOGLE_API_KEY,
+        fetchOpts,
+      );
+      if (gidResult.values?.length) return gidResult.values;
+      const batch = await fetchSheetBatchGetWithRetry(
+        CARDINALYMPICS_SPREADSHEET_ID,
+        [CARDINALYMPICS_SCORE_SHEET],
+        GOOGLE_API_KEY,
+        fetchOpts,
+      );
+      return batch.valueRanges?.[0]?.values || null;
+    }
+
+    /**
+     * @param {"check"|"poll"} mode
+     * check = page load/refresh/visibility: always re-read Enable Live Count
+     * poll = background refresh: only when live is already on
+     */
+    async function fetchCardinalympicsData(mode = "check") {
+      const cachedValues = readJsonCookie(CARDINALYMPICS_SCORES_COOKIE);
+      const cachedEventsValues = readJsonCookie(CARDINALYMPICS_EVENTS_COOKIE);
 
       if (showScoresAndScoreboard && cachedValues?.length) {
         applyCardinalympicsValues(cachedValues);
@@ -442,147 +501,113 @@ function App() {
         applyCardinalympicsEventsValues(cachedEventsValues);
       }
 
-      const skipNetwork =
-        !reserveSheetsRefreshWindow() &&
-        (!showScoresAndScoreboard || cachedValues?.length) &&
-        (!needsCardinalympicsEventsData || cachedEventsValues?.length);
-      if (skipNetwork) return;
+      // Background polls never run while live count is off.
+      if (mode === "poll" && !liveCountEnabled) {
+        return false;
+      }
+
+      if (mode === "poll" && !reserveSheetsRefreshWindow()) {
+        return liveCountEnabled;
+      }
 
       try {
-        const fetchOpts = { fetchOptions: { cache: "no-store" } };
-        const tasks = [];
         if (showScoresAndScoreboard) {
-          tasks.push(
-            fetchSheetByGidWithRetry(
-              CARDINALYMPICS_SPREADSHEET_ID,
-              CARDINALYMPICS_SCOREBOARD_GID,
-              GOOGLE_API_KEY,
-              fetchOpts,
-            ).then((gidResult) => {
-              if (gidResult.values?.length) {
-                return {
-                  kind: "scores",
-                  batch: {
-                    valueRanges: [{ values: gidResult.values }],
-                    error: null,
-                  },
-                };
-              }
-              return fetchSheetBatchGetWithRetry(
-                CARDINALYMPICS_SPREADSHEET_ID,
-                [CARDINALYMPICS_SCORE_SHEET],
-                GOOGLE_API_KEY,
-                fetchOpts,
-              ).then((batch) => ({ kind: "scores", batch }));
-            }),
-          );
+          const scoreVals = await fetchScoreSheetValues();
+          if (scoreVals?.length) {
+            const sheetLive = parseCardinalympicsEnableLiveCount(scoreVals);
+            writeCardinalympicsLiveFlag(sheetLive);
+            liveCountEnabled = sheetLive;
+
+            if (sheetLive) {
+              // Live on: accept the latest scores.
+              applyCardinalympicsValues(scoreVals);
+              writeJsonCookie(CARDINALYMPICS_SCORES_COOKIE, scoreVals);
+            } else if (!cachedValues?.length) {
+              // Live off and no prior snapshot: seed one frozen copy.
+              applyCardinalympicsValues(scoreVals);
+              writeJsonCookie(CARDINALYMPICS_SCORES_COOKIE, scoreVals);
+            }
+            // Live off + existing cache: keep the frozen scores on screen.
+          } else {
+            console.warn("Cardinalympics scoreboard sheet: empty or missing");
+          }
         }
+
         if (needsCardinalympicsEventsData) {
-          tasks.push(
-            fetchSheetBatchGetWithRetry(
+          const shouldFetchEvents =
+            mode === "check" ||
+            !cachedEventsValues?.length ||
+            reserveSheetsRefreshWindow();
+          if (shouldFetchEvents) {
+            const batch = await fetchSheetBatchGetWithRetry(
               MAIN_SPREADSHEET_ID,
               [CARDINALYMPICS_EVENTS_SHEET],
               GOOGLE_API_KEY,
-              fetchOpts,
-            ).then((batch) => ({ kind: "events", batch })),
-          );
-        }
-        const results = await Promise.all(tasks);
-        for (const { kind, batch } of results) {
-          if (kind === "scores") {
-            const scoreVals = batch.valueRanges?.[0]?.values;
-            if (scoreVals?.length) {
-              applyCardinalympicsValues(scoreVals);
-              writeJsonCookie(cardinalympicsCookieKey, scoreVals);
-            } else {
-              console.warn(
-                "Cardinalympics scoreboard sheet:",
-                batch.error || "empty or missing",
-              );
-            }
-          } else {
+              { fetchOptions: { cache: "no-store" } },
+            );
             const eventVals = batch.valueRanges?.[0]?.values;
             if (eventVals?.length) {
               applyCardinalympicsEventsValues(eventVals);
-              writeJsonCookie(eventsCookieKey, eventVals);
-            } else {
-              console.warn(
-                "Cardinalympics Events sheet:",
-                batch.error || "empty or missing",
-              );
+              writeJsonCookie(CARDINALYMPICS_EVENTS_COOKIE, eventVals);
             }
           }
         }
       } catch (error) {
         console.log(error);
       }
-    }
 
-    const hasCachedCardinalympics = Boolean(
-      readJsonCookie("lsa_sheet_cardinalympics_v1")?.length,
-    );
-    const hasCachedEvents = Boolean(
-      readJsonCookie("lsa_sheet_cardinalympics_events_v1")?.length,
-    );
-    const shouldInitialFetch =
-      shouldCheckSheetsNow ||
-      (showScoresAndScoreboard && !hasCachedCardinalympics) ||
-      (needsCardinalympicsEventsData && !hasCachedEvents);
-
-    if (shouldInitialFetch) {
-      fetchCardinalympicsData();
-    } else {
-      const cachedValues = readJsonCookie("lsa_sheet_cardinalympics_v1");
-      const cachedEventsValues = readJsonCookie(
-        "lsa_sheet_cardinalympics_events_v1",
-      );
-      if (showScoresAndScoreboard && cachedValues?.length)
-        applyCardinalympicsValues(cachedValues);
-      if (needsCardinalympicsEventsData && cachedEventsValues?.length)
-        applyCardinalympicsEventsValues(cachedEventsValues);
+      return liveCountEnabled;
     }
 
     let pollId = null;
-    const armPolling = () => {
+    const stopPolling = () => {
       if (pollId != null) {
         clearInterval(pollId);
         pollId = null;
       }
-      pollId = window.setInterval(
-        fetchCardinalympicsData,
-        CARDINALYMPICS_POLL_MS,
-      );
+    };
+    const armPolling = () => {
+      stopPolling();
+      if (!liveCountEnabled) return;
+      pollId = window.setInterval(() => {
+        void fetchCardinalympicsData("poll").then((enabled) => {
+          liveCountEnabled = enabled;
+          if (!enabled) stopPolling();
+        });
+      }, CARDINALYMPICS_POLL_MS);
     };
 
     const onVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
-        if (pollId != null) {
-          clearInterval(pollId);
-          pollId = null;
+        stopPolling();
+        return;
+      }
+      void fetchCardinalympicsData("check").then((enabled) => {
+        liveCountEnabled = enabled;
+        if (enabled) armPolling();
+        else stopPolling();
+      });
+    };
+
+    const boot = async () => {
+      liveCountEnabled = await fetchCardinalympicsData("check");
+      if (typeof document !== "undefined") {
+        if (!document.hidden && liveCountEnabled) {
+          armPolling();
         }
-      } else {
-        void fetchCardinalympicsData();
-        armPolling();
+        document.addEventListener("visibilitychange", onVisibilityChange);
       }
     };
 
-    if (typeof document !== "undefined") {
-      if (!document.hidden) {
-        armPolling();
-      }
-      document.addEventListener("visibilitychange", onVisibilityChange);
-    }
+    void boot();
 
     return () => {
       if (typeof document !== "undefined") {
         document.removeEventListener("visibilitychange", onVisibilityChange);
       }
-      if (pollId != null) {
-        clearInterval(pollId);
-      }
+      stopPolling();
     };
   }, [
-    shouldCheckSheetsNow,
     showScoresAndScoreboard,
     showEvents,
     showHomeEventsSignupNow,

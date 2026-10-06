@@ -20,7 +20,7 @@ const FORM_LINKS = [
   },
   {
     title: "Club registration form",
-    description: "Submit your club’s details for recognition.",
+    description: "Submit your club's details for recognition.",
   },
   {
     title: "Club contract",
@@ -114,7 +114,7 @@ export default function NewClub({ officerData }) {
         <div className="new-club-page__steps">
           <Step number={1} title="Join the 2026-27 Activities Google Classroom">
             <p className="new-club-page__step-body">
-              You’ll find deadlines, forms, and school-wide club announcements
+              You'll find deadlines, forms, and school-wide club announcements
               here. Materials may be linked elsewhere, but submission and key
               updates happen in Classroom.
             </p>
@@ -160,7 +160,7 @@ export default function NewClub({ officerData }) {
           <Step number={3} title="Create your club bulletin board">
             <p className="new-club-page__step-body">
               After you receive an email confirming your club and approved
-              paperwork, you’ll get access to a spreadsheet with your bulletin
+              paperwork, you'll get access to a spreadsheet with your bulletin
               board assignment. Decorate your board per the instructions, then
               complete any follow-up form your coordinator shares (posted in
               Classroom or sent by email).
