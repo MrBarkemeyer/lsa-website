@@ -1043,8 +1043,10 @@ ElectionMediaModal.propTypes = {
 
 export default function ElectionBoard({
   electionsConfig: config = electionsConfig,
+  boardSlug: boardSlugProp = "",
 }) {
-  const { boardSlug } = useParams();
+  const { boardSlug: boardSlugParam } = useParams();
+  const boardSlug = boardSlugProp || boardSlugParam;
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeMedia, setActiveMedia] = useState(null);
   const votingLive = useElectionVotingLive(config);
@@ -1266,6 +1268,7 @@ export default function ElectionBoard({
 }
 
 ElectionBoard.propTypes = {
+  boardSlug: PropTypes.string,
   electionsConfig: PropTypes.shape({
     votingFormUrl: PropTypes.string,
     votingOpensAt: PropTypes.string,

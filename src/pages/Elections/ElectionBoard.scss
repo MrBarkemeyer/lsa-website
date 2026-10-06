@@ -365,6 +365,33 @@ iframe.election-candidate-card-youtube-preview {
   transform: translate(-50%, -50%);
 }
 
+.ig-backdrop:has(.ig-dialog--election) {
+  animation: election-open-fade 180ms ease-out;
+}
+
+.ig-dialog--election {
+  animation: election-open-pop 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes election-open-fade {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes election-open-pop {
+  from {
+    margin-top: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ig-backdrop:has(.ig-dialog--election),
+  .ig-dialog--election {
+    animation: none;
+  }
+}
+
 .ig-dialog--election .ig-media {
   background: #000;
 

@@ -1,6 +1,8 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { formatElectionVotingOpensAt } from "../../utils/electionVotingWindow.js";
+import { areElectionBoardsPublic } from "../../utils/electionAccess.js";
+import ElectionBoard from "./ElectionBoard.jsx";
 import "../Elections.scss";
 
 function ElectionBoardCard({ board, color, rows, interactive = false }) {
@@ -62,14 +64,14 @@ ElectionBoardCard.propTypes = {
  * Candidate board grid (same as polling). Optional `resultsEmbargo` shows a quiet notice above the cards
  * (e.g. “Results go live soon” + optional detail line).
  */
-function onlyBoardPath(config) {
+function onlyBoardSlug(config) {
   const listed = (config?.contenders ?? []).filter((b) => b?.slug);
   if (listed.length > 1) return null;
-  if (listed.length === 1) return `/Elections/${listed[0].slug}`;
+  if (listed.length === 1) return listed[0].slug;
   const enabled = config?.enabledElectionBoards;
   if (Array.isArray(enabled) && enabled.length === 1) {
     const slug = String(enabled[0] ?? "").trim();
-    if (slug) return `/Elections/${slug}`;
+    return slug || null;
   }
   return null;
 }
@@ -79,8 +81,11 @@ export default function ElectionsCandidateBoardsView({
   messagingLive,
   resultsEmbargo = null,
 }) {
-  const soloPath = onlyBoardPath(config);
-  if (soloPath) return <Navigate to={soloPath} replace />;
+  const soloSlug = onlyBoardSlug(config);
+  // Render in place. A <Navigate> paints blank, then the board route loads and the page flashes.
+  if (soloSlug && areElectionBoardsPublic(config)) {
+    return <ElectionBoard electionsConfig={config} boardSlug={soloSlug} />;
+  }
 
   const contenders = config?.contenders ?? [];
   const livePollingTitle = String(config?.votingLivePollingTitle ?? "").trim();

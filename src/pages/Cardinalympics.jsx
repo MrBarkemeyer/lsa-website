@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useMemo } from "react";
+import { createPortal } from "react-dom";
 import Counter from "../components/Counter";
 import CardinalympicLogo from "../components/CardinalympicLogo";
 import {
@@ -220,11 +221,63 @@ function getWinner(row) {
   return "";
 }
 
+function splitWinnerNames(winner) {
+  return String(winner || "")
+    .split(/\r?\n|[;|•]|,(?=\s|$)/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
 function isCancelledStatus(value) {
   const s = String(value ?? "")
     .trim()
     .toLowerCase();
   return s === "cancelled" || s === "canceled";
+}
+
+function normalizeEventMatchKey(value) {
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Map normalized scoreboard event labels → winner text (for graying event cards). */
+function buildScoreboardWinnerLookup(rows) {
+  const lookup = new Map();
+  for (const row of filterDisplayScoreboardRows(rows)) {
+    if (!row || isHeaderRow(row) || isSectionRow(row) || isTotalRow(row))
+      continue;
+    if (!isEventRow(row) && !getWinner(row)) continue;
+    const label = String(row[0] ?? "").trim();
+    const key = normalizeEventMatchKey(label);
+    if (!key) continue;
+    const winner = getWinner(row);
+    if (!winner) continue;
+    lookup.set(key, {
+      winner,
+      isCancelled: isCancelledStatus(winner),
+    });
+  }
+  return lookup;
+}
+
+function lookupEventWinner(ev, winnerLookup) {
+  if (!winnerLookup?.size) return null;
+  const candidates = [ev?.heading, ev?.name]
+    .map(normalizeEventMatchKey)
+    .filter(Boolean);
+  for (const key of candidates) {
+    if (winnerLookup.has(key)) return winnerLookup.get(key);
+  }
+  // Soft match: "Bead Game" ↔ "Bead Games"
+  for (const key of candidates) {
+    const alt = key.endsWith("s") ? key.slice(0, -1) : `${key}s`;
+    if (winnerLookup.has(alt)) return winnerLookup.get(alt);
+  }
+  return null;
 }
 
 function getRowViewModel(row) {
@@ -343,122 +396,143 @@ function ScoreboardTable({ rows }) {
     );
   };
 
+  const toggleShowAllRows = () => {
+    const y = window.scrollY;
+    setShowAllRows((prev) => !prev);
+    requestAnimationFrame(() => {
+      window.scrollTo(0, y);
+    });
+  };
+
   return (
     <>
-      <table className="cardinalympics-scoreboard-table">
-        <thead>
-          <tr>
-            <th>Event</th>
-            <th>Date</th>
-            <th>Pts poss.</th>
-            <th className="score-cell">Fr</th>
-            <th className="score-cell">So</th>
-            <th className="score-cell">Jr</th>
-            <th className="score-cell">Sr</th>
-            <th className="scoreboard-arrow-header"></th>
-          </tr>
-        </thead>
-        <tbody>{visibleRowModels.map(renderRow)}</tbody>
-      </table>
-      <div className="cardinalympics-scoreboard-mobile-list">
-        {visibleRowModels.map((view) => {
-          return (
-            <article
-              key={view.key}
-              className={`scoreboard-mobile-card ${view.totalClass} ${view.sectionClass}`.trim()}
-            >
-              <h4 className="scoreboard-mobile-card__title">
-                {view.label || "Event"}
-              </h4>
-              <div className="scoreboard-mobile-card__meta">
-                <span>
-                  <strong>Date:</strong> {view.date || "-"}
-                </span>
-                <span>
-                  <strong>Pts poss.:</strong> {view.ptsPoss || "-"}
-                </span>
-              </div>
-              <div className="scoreboard-mobile-card__scores">
-                <span className="scoreboard-mobile-card__score-pill">
-                  <strong>Fr</strong> {view.fr !== "" ? view.fr : "-"}
-                </span>
-                <span className="scoreboard-mobile-card__score-pill">
-                  <strong>So</strong> {view.so !== "" ? view.so : "-"}
-                </span>
-                <span className="scoreboard-mobile-card__score-pill">
-                  <strong>Jr</strong> {view.jr !== "" ? view.jr : "-"}
-                </span>
-                <span className="scoreboard-mobile-card__score-pill">
-                  <strong>Sr</strong> {view.sr !== "" ? view.sr : "-"}
-                </span>
-              </div>
-              <div className="scoreboard-mobile-card__winner">
-                {view.isCancelled ? (
-                  <strong>Cancelled</strong>
-                ) : view.isEvent && view.hasWinner ? (
-                  <button
-                    type="button"
-                    className="scoreboard-mobile-card__winner-btn"
-                    onClick={() =>
-                      setSidebar({ eventName: view.label, winner: view.winner })
-                    }
-                    aria-label={`View winner for ${view.label}`}
-                  >
-                    View winner(s)
-                  </button>
-                ) : (
+      <div className="cardinalympics-scoreboard-table-wrap">
+        <table className="cardinalympics-scoreboard-table">
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Date</th>
+              <th>Pts poss.</th>
+              <th className="score-cell">Fr</th>
+              <th className="score-cell">So</th>
+              <th className="score-cell">Jr</th>
+              <th className="score-cell">Sr</th>
+              <th className="scoreboard-arrow-header"></th>
+            </tr>
+          </thead>
+          <tbody>{visibleRowModels.map(renderRow)}</tbody>
+        </table>
+        <div className="cardinalympics-scoreboard-mobile-list">
+          {visibleRowModels.map((view) => {
+            return (
+              <article
+                key={view.key}
+                className={`scoreboard-mobile-card ${view.totalClass} ${view.sectionClass}`.trim()}
+              >
+                <h4 className="scoreboard-mobile-card__title">
+                  {view.label || "Event"}
+                </h4>
+                <div className="scoreboard-mobile-card__meta">
                   <span>
-                    <strong>Winner:</strong> -
+                    <strong>Date:</strong> {view.date || "-"}
                   </span>
-                )}
-              </div>
-            </article>
-          );
-        })}
+                  <span>
+                    <strong>Pts poss.:</strong> {view.ptsPoss || "-"}
+                  </span>
+                </div>
+                <div className="scoreboard-mobile-card__scores">
+                  <span className="scoreboard-mobile-card__score-pill">
+                    <strong>Fr</strong> {view.fr !== "" ? view.fr : "-"}
+                  </span>
+                  <span className="scoreboard-mobile-card__score-pill">
+                    <strong>So</strong> {view.so !== "" ? view.so : "-"}
+                  </span>
+                  <span className="scoreboard-mobile-card__score-pill">
+                    <strong>Jr</strong> {view.jr !== "" ? view.jr : "-"}
+                  </span>
+                  <span className="scoreboard-mobile-card__score-pill">
+                    <strong>Sr</strong> {view.sr !== "" ? view.sr : "-"}
+                  </span>
+                </div>
+                <div className="scoreboard-mobile-card__winner">
+                  {view.isCancelled ? (
+                    <strong>Cancelled</strong>
+                  ) : view.isEvent && view.hasWinner ? (
+                    <button
+                      type="button"
+                      className="scoreboard-mobile-card__winner-btn"
+                      onClick={() =>
+                        setSidebar({
+                          eventName: view.label,
+                          winner: view.winner,
+                        })
+                      }
+                      aria-label={`View winner for ${view.label}`}
+                    >
+                      View winner(s)
+                    </button>
+                  ) : (
+                    <span>
+                      <strong>Winner:</strong> -
+                    </span>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
       {hasMore && (
         <button
           type="button"
           className="cardinalympics-scoreboard-show-more"
-          onClick={() => setShowAllRows(!showAllRows)}
+          onClick={toggleShowAllRows}
         >
           {showAllRows ? "Show fewer" : `Show more (${hiddenRowCount} more)`}
         </button>
       )}
-      {sidebar && (
-        <>
-          <div
-            className="cardinalympics-sidebar-backdrop"
-            onClick={() => setSidebar(null)}
-            onKeyDown={(e) => e.key === "Escape" && setSidebar(null)}
-            role="button"
-            tabIndex={-1}
-            aria-label="Close sidebar"
-          />
-          <aside
-            className="cardinalympics-winner-sidebar"
-            aria-label="Winner details"
-          >
-            <div className="cardinalympics-winner-sidebar-header">
-              <h3>Winner(s)</h3>
+      {sidebar &&
+        createPortal(
+          <div className="cardinalympics-winner-modal" role="presentation">
+            <button
+              type="button"
+              className="cardinalympics-winner-modal__backdrop"
+              onClick={() => setSidebar(null)}
+              aria-label="Close winners"
+            />
+            <div
+              className="cardinalympics-winner-modal__dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="cardinalympics-winner-modal-title"
+            >
               <button
                 type="button"
-                className="cardinalympics-winner-sidebar-close"
+                className="cardinalympics-winner-modal__close"
                 onClick={() => setSidebar(null)}
                 aria-label="Close"
               >
-                x
+                ×
               </button>
+              <p className="cardinalympics-winner-modal__eyebrow">Winner(s)</p>
+              <h3
+                id="cardinalympics-winner-modal-title"
+                className="cardinalympics-winner-modal__event"
+              >
+                {sidebar.eventName}
+              </h3>
+              <ul className="cardinalympics-winner-modal__names">
+                {(() => {
+                  const names = splitWinnerNames(sidebar.winner);
+                  return (names.length ? names : ["-"]).map((name, i) => (
+                    <li key={`${name}-${i}`}>{name}</li>
+                  ));
+                })()}
+              </ul>
             </div>
-            <p className="cardinalympics-winner-sidebar-event">
-              {sidebar.eventName}
-            </p>
-            <p className="cardinalympics-winner-sidebar-winner">
-              {sidebar.winner || "-"}
-            </p>
-          </aside>
-        </>
-      )}
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
@@ -639,8 +713,9 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
 
 function WinningChancesBar({ chances }) {
   return (
-    <section
+    <div
       className="cardinalympics-winning-chances"
+      role="region"
       aria-labelledby="cardinalympics-winning-chances-heading"
     >
       <h3 id="cardinalympics-winning-chances-heading">
@@ -672,11 +747,11 @@ function WinningChancesBar({ chances }) {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
-function CardinalympicsEventsSchedule({ events }) {
+function CardinalympicsEventsSchedule({ events, winnerLookup }) {
   const weekGroups = useMemo(
     () => groupCardinalympicsEventsByWeekAndDay(events || []),
     [events],
@@ -694,7 +769,7 @@ function CardinalympicsEventsSchedule({ events }) {
   return (
     <>
       {weekGroups.map((weekGroup, weekIndex) => (
-        <section
+        <div
           className="cardinalympics-week"
           key={`${weekGroup.weekLabel}-${weekIndex}`}
         >
@@ -708,52 +783,78 @@ function CardinalympicsEventsSchedule({ events }) {
             >
               <h4 className="cardinalympics-day__title">{dayGroup.dayLabel}</h4>
               <div className="cardinalympics-day__events">
-                {dayGroup.events.map((ev) => (
-                  <div className="event cardinalympics-event" key={ev.id}>
-                    <div className="cardinalympics-event__head">
-                      <h3 className="event-description">{ev.heading}</h3>
-                      {ev.pointsPossible ? (
-                        <span className="cardinalympics-event__points-tag">
-                          {ev.pointsPossible} pts possible
-                        </span>
+                {dayGroup.events.map((ev) => {
+                  const result = lookupEventWinner(ev, winnerLookup);
+                  const pastOrClosed =
+                    ev.signUpClosed || isCardinalympicsSignupPastEventDay(ev);
+                  const hasResult = Boolean(result);
+                  // Date-range events stay open through the last day even if a
+                  // winner was entered early. Cancellation still closes them.
+                  const rangeStillOpen =
+                    ev.isDateRange && !pastOrClosed && !result?.isCancelled;
+                  const isGrayed = (hasResult && !rangeStillOpen) || pastOrClosed;
+                  const closedLabel = result?.isCancelled
+                    ? "Cancelled"
+                    : "Closed";
+
+                  return (
+                    <div
+                      className={`event cardinalympics-event${
+                        isGrayed ? " cardinalympics-event--resolved" : ""
+                      }`}
+                      key={ev.id}
+                    >
+                      <div className="cardinalympics-event__head">
+                        <h3 className="event-description">{ev.heading}</h3>
+                        {ev.pointsPossible ? (
+                          <span className="cardinalympics-event__points-tag">
+                            {ev.pointsPossible} pts possible
+                          </span>
+                        ) : null}
+                      </div>
+                      {ev.dateDisplay ? (
+                        <p className="event-description cardinalympics-event__meta">
+                          <strong>Date:</strong> {ev.dateDisplay}
+                        </p>
+                      ) : null}
+                      {isGrayed && result && !result.isCancelled ? (
+                        <p className="event-description cardinalympics-event__meta cardinalympics-event__winner">
+                          <strong>Winner:</strong> {result.winner}
+                        </p>
+                      ) : null}
+                      {ev.bodyText ? (
+                        <div className="event-description cardinalympics-event__body">
+                          {String(ev.bodyText)
+                            .replace(/\n{3,}/g, "\n\n")
+                            .trim()}
+                        </div>
+                      ) : null}
+                      {isGrayed ? (
+                        <button
+                          type="button"
+                          className="event-description cardinalympics-event-closed"
+                          disabled
+                          aria-label={`${ev.heading} is ${closedLabel.toLowerCase()}`}
+                        >
+                          {closedLabel}
+                        </button>
+                      ) : ev.signUpLink ? (
+                        <a
+                          className="event-description cardinalympics-event-signup"
+                          href={ev.signUpLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Sign up
+                        </a>
                       ) : null}
                     </div>
-                    {ev.dateDisplay ? (
-                      <p className="event-description">
-                        <strong>Date:</strong> {ev.dateDisplay}
-                      </p>
-                    ) : null}
-                    {ev.bodyText ? (
-                      <div className="event-description cardinalympics-event__body">
-                        {ev.bodyText}
-                      </div>
-                    ) : null}
-                    {ev.signUpClosed ||
-                    isCardinalympicsSignupPastEventDay(ev) ? (
-                      <button
-                        type="button"
-                        className="event-description cardinalympics-event-closed"
-                        disabled
-                        aria-label={`${ev.heading} sign up is closed`}
-                      >
-                        <strong>Closed</strong>
-                      </button>
-                    ) : ev.signUpLink ? (
-                      <a
-                        className="event-description"
-                        href={ev.signUpLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <strong>Sign up</strong>
-                      </a>
-                    ) : null}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ))}
-        </section>
+        </div>
       ))}
     </>
   );
@@ -814,79 +915,127 @@ export default function Cardinalympics({
     ],
   );
   const [showProjectedBars, setShowProjectedBars] = useState(false);
+  const eventWinnerLookup = useMemo(
+    () => buildScoreboardWinnerLookup(scoreboardRows),
+    [scoreboardRows],
+  );
 
   return (
-    <div className="cardinalympics-page">
+    <main className="cardinalympics-page">
       <header className="cardinalympics-page-header">
-        <div className="cardinalympics-page-header__logo" aria-hidden="true">
-          <CardinalympicLogo />
+        <div className="cardinalympics-page-header__rings" aria-hidden="true">
+          <CardinalympicLogo variant="homeBackdrop" />
         </div>
-        <h1 className="cardinalympics-page-header__title">Cardinalympics</h1>
+        <div className="cardinalympics-page-header__inner">
+          <p className="cardinalympics-page-header__eyebrow">Spirit Week</p>
+          <h1 className="cardinalympics-page-header__title">Cardinalympics</h1>
+        </div>
       </header>
+
       {showScoresAndScoreboard && (
         <section
-          className="home-cardinalympics cardinalympics-spirit-scores-only"
+          className="home-cardinalympics cardinalympics-spirit-scores"
           aria-labelledby="cardinalympics-points-cap"
         >
           <div className="home-cardinalympics__inner">
-            <div className="cardinalympics-spirit-card">
-              <div
-                className="cardinalympics-spirit-card__cap"
-                id="cardinalympics-points-cap"
-              >
-                <span className="cardinalympics-spirit-card__cap-number">
-                  {pointsPossible.toLocaleString()}
-                </span>
-                <span className="cardinalympics-spirit-card__cap-label">
-                  points possible
-                </span>
-              </div>
-              <div className="home-cardinalympics__grid" role="list">
-                {[0, 1, 2, 3].map((i) => (
+            <div className="home-cardinalympics__content-wrap">
+              <div className="home-cardinalympics__head-wrap">
+                <div className="home-cardinalympics__intro">
                   <div
-                    key={CLASS_SLUGS[i]}
-                    className={`home-cardinalympics__class home-cardinalympics__class--${CLASS_SLUGS[i]}${
-                      leaderIndex === i
-                        ? " home-cardinalympics__class--leader"
-                        : ""
-                    }`}
-                    role="listitem"
+                    className="cardinalympics-spirit-cap"
+                    id="cardinalympics-points-cap"
                   >
-                    {leaderIndex === i && (
-                      <span className="home-cardinalympics__leader-badge">
-                        {topClassBadge}
-                      </span>
-                    )}
-                    <span className="home-cardinalympics__class-name">
-                      {CLASS_NAMES[i]}
+                    <span className="cardinalympics-spirit-cap__number">
+                      {pointsPossible.toLocaleString()}
                     </span>
-                    <div className="home-cardinalympics__points">
-                      <Counter
-                        start={0}
-                        end={spiritTotals[i]}
-                        duration={2000}
-                        className="home-cardinalympics__counter"
-                        color={COUNTER_COLORS[i]}
-                      />
-                      <span className="home-cardinalympics__pts-label">
-                        pts
+                    <div className="cardinalympics-spirit-cap__label-row">
+                      <span className="cardinalympics-spirit-cap__label">
+                        points possible
                       </span>
+                      {!resultsMode && (
+                        <span
+                          className="home-cardinalympics__live"
+                          role="status"
+                          aria-label="Scores from the live scoreboard"
+                        >
+                          <span
+                            className="home-cardinalympics__live-dot"
+                            aria-hidden="true"
+                          />
+                          Live
+                        </span>
+                      )}
                     </div>
                   </div>
-                ))}
+                  <p className="home-cardinalympics__subtitle">
+                    Spirit Week class totals
+                  </p>
+                </div>
+              </div>
+              <div className="home-cardinalympics__scores-wrap">
+                <div
+                  className="home-cardinalympics__rings-bg"
+                  aria-hidden="true"
+                >
+                  <CardinalympicLogo variant="homeBackdrop" />
+                </div>
+                <div className="home-cardinalympics__grid" role="list">
+                  {[0, 1, 2, 3].map((i) => (
+                    <div
+                      key={CLASS_SLUGS[i]}
+                      className={`home-cardinalympics__class home-cardinalympics__class--${CLASS_SLUGS[i]}${
+                        leaderIndex === i
+                          ? " home-cardinalympics__class--leader"
+                          : ""
+                      }`}
+                      role="listitem"
+                    >
+                      {leaderIndex === i && (
+                        <span className="home-cardinalympics__leader-badge">
+                          {topClassBadge}
+                        </span>
+                      )}
+                      <span className="home-cardinalympics__class-name">
+                        {CLASS_NAMES[i]}
+                      </span>
+                      <div className="home-cardinalympics__points">
+                        <Counter
+                          start={0}
+                          end={spiritTotals[i]}
+                          duration={2000}
+                          className="home-cardinalympics__counter"
+                          color={COUNTER_COLORS[i]}
+                        />
+                        <span className="home-cardinalympics__pts-label">
+                          pts
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
       )}
+
       {showScoresAndScoreboard &&
         showScoreBreakdown &&
         scoreboardRows.length > 0 && (
-          <div className="cardinalympics-scoreboard" id="detailed-scoreboard">
-            <h2>Detailed scoreboard</h2>
-            <div className="cardinalympics-scoreboard-table-wrap">
-              <ScoreboardTable rows={scoreboardRows} />
+          <section
+            className="cardinalympics-scoreboard"
+            id="detailed-scoreboard"
+            aria-labelledby="cardinalympics-scoreboard-heading"
+          >
+            <div className="cardinalympics-section-heading">
+              <p className="cardinalympics-section-heading__eyebrow">
+                Standings
+              </p>
+              <h2 id="cardinalympics-scoreboard-heading">
+                Detailed scoreboard
+              </h2>
             </div>
+            <ScoreboardTable rows={scoreboardRows} />
             {showWinningChances && !resultsMode && (
               <div className="cardinalympics-winning-chances-toggle-wrap">
                 <button
@@ -907,13 +1056,24 @@ export default function Cardinalympics({
                 <WinningChancesBar chances={winningChances} />
               </div>
             )}
-          </div>
+          </section>
         )}
+
       {showEvents && (
-        <section className="cardinalympics-content info-page">
-          <CardinalympicsEventsSchedule events={cardinalympicsEvents} />
+        <section
+          className="cardinalympics-content"
+          aria-labelledby="cardinalympics-events-heading"
+        >
+          <div className="cardinalympics-section-heading">
+            <p className="cardinalympics-section-heading__eyebrow">Schedule</p>
+            <h2 id="cardinalympics-events-heading">Events</h2>
+          </div>
+          <CardinalympicsEventsSchedule
+            events={cardinalympicsEvents}
+            winnerLookup={eventWinnerLookup}
+          />
         </section>
       )}
-    </div>
+    </main>
   );
 }

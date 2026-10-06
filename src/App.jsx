@@ -59,6 +59,7 @@ const MAIN_SPREADSHEET_ID = "1Kk7Bs58DAWZ9pHvqD-RFvoV1ePeThQ1Yr9c5RsDeAq4";
 const WEBSITE_INFO_SHEET = "Website Info";
 const OFFICERS_SHEET = "Officers";
 const ELECTIONS_SHEET = site.elections.sheet || "Elections";
+const ELECTION_SHEET_COOKIE = `lsa_sheet_elections_${site.elections.mode || "normal"}`;
 const CARDINALYMPICS_SPREADSHEET_ID =
   "1Q4BWb9A2S9qRvn4HZhMpRnDseSmnlp36T4N7SGF-JF4";
 const CARDINALYMPICS_SCORE_SHEET = "Sp, 25";
@@ -122,6 +123,26 @@ function readJsonCookie(name) {
     return JSON.parse(decodeURIComponent(raw));
   } catch {
     return null;
+  }
+}
+
+// Election rows don't fit in a cookie, so a cookie read always misses and the page flashes empty.
+function readElectionSheetCache() {
+  if (typeof localStorage === "undefined") return null;
+  try {
+    const parsed = JSON.parse(localStorage.getItem(ELECTION_SHEET_COOKIE) || "null");
+    return Array.isArray(parsed) && parsed.length ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeElectionSheetCache(values) {
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(ELECTION_SHEET_COOKIE, JSON.stringify(values));
+  } catch {
+    // quota or private mode
   }
 }
 
@@ -307,7 +328,7 @@ function App() {
   const [scoreboardRows, setScoreboardRows] = useState([]);
   const [cardinalympicsEvents, setCardinalympicsEvents] = useState([]);
 
-  const [electionSheetValues, setElectionSheetValues] = useState(null);
+  const [electionSheetValues, setElectionSheetValues] = useState(readElectionSheetCache);
   const shouldCheckSheetsNow = SHOULD_CHECK_SHEETS_NOW;
 
   // Website Info + Officers + Elections: one batchGet per refresh.
@@ -316,10 +337,9 @@ function App() {
     async function fetchCoreSheets() {
       const clubCookieKey = "lsa_sheet_website_info_v2";
       const officerCookieKey = "lsa_sheet_officers_v1";
-      const electionCookieKey = `lsa_sheet_elections_${site.elections.mode || "normal"}`;
       const cachedClubValues = readJsonCookie(clubCookieKey);
       const cachedOfficerValues = readJsonCookie(officerCookieKey);
-      const cachedElectionValues = readJsonCookie(electionCookieKey);
+      const cachedElectionValues = readElectionSheetCache();
 
       if (cachedClubValues?.length) {
         setClubData(processSheetData(cachedClubValues));
@@ -327,10 +347,6 @@ function App() {
       if (cachedOfficerValues?.length) {
         setOfficerData(processSheetData(cachedOfficerValues));
       }
-      if (cachedElectionValues?.length) {
-        setElectionSheetValues(cachedElectionValues);
-      }
-
       const skipNetwork =
         !shouldCheckSheetsNow &&
         cachedClubValues?.length &&
@@ -372,7 +388,7 @@ function App() {
         }
         if (electionVals?.length) {
           setElectionSheetValues(electionVals);
-          writeJsonCookie(electionCookieKey, electionVals);
+          writeElectionSheetCache(electionVals);
         } else {
           console.warn("Elections sheet: empty or missing");
         }
