@@ -48,7 +48,7 @@ export default function SBC({ officerData: officerDataProp }) {
         <span className="board-nav__btn board-nav__btn--disabled">
           &larr; Previous board
         </span>
-        <Link to="/LSA-EXPLORE" className="board-nav__btn">
+        <Link to="/LSA" className="board-nav__btn">
           All boards
         </Link>
         <Link to="/LSA/Senior%20Board" className="board-nav__btn">
@@ -104,7 +104,7 @@ export default function SBC({ officerData: officerDataProp }) {
         <span className="board-nav__btn board-nav__btn--disabled">
           &larr; Previous board
         </span>
-        <Link to="/LSA-EXPLORE" className="board-nav__btn">
+        <Link to="/LSA" className="board-nav__btn">
           All boards
         </Link>
         <Link to="/LSA/Senior%20Board" className="board-nav__btn">

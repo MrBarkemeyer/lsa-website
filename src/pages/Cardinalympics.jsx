@@ -413,7 +413,7 @@ function ScoreboardTable({ rows }) {
               title="View winner(s)"
               aria-label={`View winner for ${view.label}`}
             >
-              ▶
+              View
             </button>
           ) : (
             "-"

@@ -31,7 +31,6 @@ const Events = lazy(() => import("./pages/More/Events"));
 const Committees = lazy(() => import("./pages/About/Committees"));
 const SpiritCommittee = lazy(() => import("./pages/About/SpiritCommittee"));
 const LsaTeamPage = lazy(() => import("./pages/About/LsaTeamPage"));
-const LSAExplore = lazy(() => import("./pages/About/LSAExplore"));
 const Registry = lazy(() => import("./pages/Registry/Registry"));
 const NewClub = lazy(() => import("./pages/Clubs/club_resources/NewClub"));
 const EventPlanning = lazy(
@@ -740,7 +739,10 @@ function App() {
             <Route path="Wellness" element={<Wellness />} />
             <Route path="TitleIX" element={<TitleIX />} />
           </Route>
-          <Route path="LSA-EXPLORE" element={<LSAExplore />} />
+          <Route
+            path="LSA-EXPLORE"
+            element={<Navigate to="/LSA" replace />}
+          />
           <Route
             path="Wellness"
             element={<Navigate to="/Resources/Wellness" replace />}

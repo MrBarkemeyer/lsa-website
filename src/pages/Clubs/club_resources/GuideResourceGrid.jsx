@@ -1,56 +1,42 @@
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUpRightFromSquare,
-  faFileLines,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 export default function GuideResourceGrid({ items }) {
   return (
-    <div className="club-guide-page__resource-grid">
-      {items.map((item) => {
-        const icon = item.icon || faFileLines;
-        const inner = (
-          <>
-            <span className="club-guide-page__resource-icon" aria-hidden>
-              <FontAwesomeIcon icon={icon} />
-            </span>
-            <h3 className="club-guide-page__resource-title">{item.title}</h3>
-            <p className="club-guide-page__resource-desc">{item.description}</p>
-          </>
-        );
-
-        if (item.href) {
-          return (
-            <a
-              key={item.title}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="club-guide-page__resource-card club-guide-page__resource-card--link"
-            >
-              {inner}
-              <span className="club-guide-page__resource-cta">
-                Open
-                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+    <ul className="detail-rows">
+      {items.map((item) => (
+        <li key={item.title} className="detail-row detail-row--stack">
+          <span className="detail-row__label">
+            {item.href ? "Document" : "In Classroom"}
+          </span>
+          <div className="detail-row__value">
+            {item.title}
+            <span className="detail-row__desc">{item.description}</span>
+            {item.href ? (
+              <div className="detail-links detail-links--after">
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="detail-btn detail-btn--ghost"
+                >
+                  Open
+                  <FontAwesomeIcon
+                    icon={faArrowUpRightFromSquare}
+                    aria-hidden="true"
+                  />
+                </a>
+              </div>
+            ) : (
+              <span className="detail-row__meta">
+                Available in Activities Google Classroom
               </span>
-            </a>
-          );
-        }
-
-        return (
-          <div
-            key={item.title}
-            className="club-guide-page__resource-card club-guide-page__resource-card--static"
-          >
-            {inner}
-            <span className="club-guide-page__resource-hint">
-              In Activities Google Classroom
-            </span>
+            )}
           </div>
-        );
-      })}
-    </div>
+        </li>
+      ))}
+    </ul>
   );
 }
 

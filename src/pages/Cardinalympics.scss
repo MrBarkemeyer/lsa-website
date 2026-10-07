@@ -492,10 +492,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  font-size: 0.75rem;
+  min-width: 2.75rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   color: var(--lowell-red);
   background: transparent;
   border: 1px solid var(--lowell-red);

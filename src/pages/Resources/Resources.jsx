@@ -1,52 +1,72 @@
 import { Link } from "react-router-dom";
-import "./Resources.scss";
+import "../../styles/DetailPage.scss";
 
 export default function Resources() {
   return (
-    <main className="resource-page resources-hub">
-      <header className="resource-hero">
-        <div className="title">
-          <h1>Student Resources</h1>
-          <p>Support, safety, and helpful links for Lowell students.</p>
+    <main className="detail-page">
+      <header className="detail-hero">
+        <div className="detail-hero__content">
+          <p className="detail-hero__eyebrow">Helpful links</p>
+          <h1 className="detail-hero__title">Student Resources</h1>
+          <p className="detail-hero__lead">
+            Support, safety, and helpful links for Lowell students.
+          </p>
         </div>
       </header>
 
-      <div className="resource-content">
-        <section className="resource-grid" aria-label="Primary resource links">
-          <article className="resource-tile">
-            <h2>Wellness Center</h2>
-            <p>
-              Mental health and emotional support resources from the Lowell
-              wellness team.
-            </p>
-            <Link to="/Resources/Wellness" className="resource-link-btn">
-              Open wellness resources
-            </Link>
-          </article>
+      <div className="detail-content detail-content--single">
+        <div className="detail-content__main">
+          <section className="detail-block">
+            <h2 className="detail-block__heading">Primary resources</h2>
+            <ul className="detail-rows">
+              <li className="detail-row detail-row--stack">
+                <span className="detail-row__label">Wellness</span>
+                <div className="detail-row__value">
+                  Wellness Center
+                  <span className="detail-row__desc">
+                    Mental health and emotional support resources from the
+                    Lowell wellness team.
+                  </span>
+                  <div className="detail-links detail-links--after">
+                    <Link
+                      to="/Resources/Wellness"
+                      className="detail-btn detail-btn--primary"
+                    >
+                      Open wellness resources
+                    </Link>
+                  </div>
+                </div>
+              </li>
+              <li className="detail-row detail-row--stack">
+                <span className="detail-row__label">Title IX</span>
+                <div className="detail-row__value">
+                  Title IX Support
+                  <span className="detail-row__desc">
+                    Learn your rights, reporting options, and contact
+                    information for help.
+                  </span>
+                  <div className="detail-links detail-links--after">
+                    <Link
+                      to="/Resources/TitleIX"
+                      className="detail-btn detail-btn--primary"
+                    >
+                      Open Title IX resources
+                    </Link>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </section>
 
-          <article className="resource-tile">
-            <h2>Title IX Support</h2>
-            <p>
-              Learn your rights, reporting options, and contact information for
-              help.
-            </p>
-            <Link to="/Resources/TitleIX" className="resource-link-btn">
-              Open Title IX resources
-            </Link>
-          </article>
-        </section>
-
-        <section className="resource-section">
-          <h2 className="resource-section__heading">More helpful pages</h2>
-          <div className="resource-links" aria-label="Other pages links">
-            <Link
-              to="/Clubs"
-              className="resource-link-btn resource-link-btn--ghost"
-            >
-              Browse clubs
-            </Link>
-          </div>
-        </section>
+          <section className="detail-block">
+            <h2 className="detail-block__heading">More helpful pages</h2>
+            <div className="detail-links">
+              <Link to="/Clubs" className="detail-btn detail-btn--ghost">
+                Browse clubs
+              </Link>
+            </div>
+          </section>
+        </div>
       </div>
     </main>
   );

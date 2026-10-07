@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRight,
-  faCalendarDays,
-  faFire,
-} from "@fortawesome/free-solid-svg-icons";
-import "./About.scss";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import "../../styles/DetailPage.scss";
 
 const EVENT_COMMITTEES = [
   { name: "Senior Boat Committee", to: "2027 Senior Boat Committee" },
@@ -16,100 +12,89 @@ const EVENT_COMMITTEES = [
 
 export default function Committees() {
   return (
-    <main className="committees-landing">
-      <header className="committees-landing__hero">
-        <h1>Lowell committees</h1>
-        <p>
-          Class boards organize committees for dances, spirit week, and
-          school-wide events. Explore each group below to learn who runs it and
-          how to get involved.
-        </p>
+    <main className="detail-page">
+      <header className="detail-hero">
+        <div className="detail-hero__content">
+          <Link to="/LSA" className="detail-hero__back">
+            <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" />
+            About LSA
+          </Link>
+          <p className="detail-hero__eyebrow">Get involved</p>
+          <h1 className="detail-hero__title">Lowell committees</h1>
+          <p className="detail-hero__lead">
+            Class boards organize committees for dances, spirit week, and
+            school-wide events. Explore each group below to learn who runs it
+            and how to get involved.
+          </p>
+        </div>
       </header>
 
-      <section
-        className="committees-landing__intro"
-        aria-label="About committees"
-      >
-        <div className="committees-landing__card">
-          <h2>
-            <FontAwesomeIcon icon={faCalendarDays} aria-hidden /> Event
-            committees
-          </h2>
-          <p>
-            Dance committees (prom, escape, boat) are chosen by class boards.
-            They plan themes, logistics, and fundraising usually for about a
-            year and a half.
-          </p>
-        </div>
-        <div className="committees-landing__card committees-landing__card--accent">
-          <h2>
-            <FontAwesomeIcon icon={faFire} aria-hidden /> Spirit week
-          </h2>
-          <p>
-            Spirit committees form once a year for Spirit Week: hall art, rally
-            games, and the spirit dance. They meet roughly six weeks, with a
-            busy weekend before the week kicks off.
-          </p>
-        </div>
-      </section>
+      <div className="detail-content detail-content--single">
+        <div className="detail-content__main">
+          <section className="detail-block">
+            <h2 className="detail-block__heading">About committees</h2>
+            <ul className="detail-topics">
+              <li className="detail-topic">
+                <h3 className="detail-topic__title">Event committees</h3>
+                <p className="detail-topic__text">
+                  Dance committees (prom, escape, boat) are chosen by class
+                  boards. They plan themes, logistics, and fundraising usually
+                  for about a year and a half.
+                </p>
+              </li>
+              <li className="detail-topic">
+                <h3 className="detail-topic__title">Spirit week</h3>
+                <p className="detail-topic__text">
+                  Spirit committees form once a year for Spirit Week: hall art,
+                  rally games, and the spirit dance. They meet roughly six
+                  weeks, with a busy weekend before the week kicks off.
+                </p>
+              </li>
+            </ul>
+          </section>
 
-      <section
-        className="committees-landing__section"
-        aria-labelledby="committees-heading"
-      >
-        <h2
-          id="committees-heading"
-          className="committees-landing__section-title"
-        >
-          Event committees
-        </h2>
-        <p className="committees-landing__section-lead">
-          Committees listed here are planning events for the current school
-          year. Open a card to see members and roles.
-        </p>
-        <ul className="committees-landing__grid">
-          {EVENT_COMMITTEES.map((c) => (
-            <li key={c.to}>
+          <section className="detail-block">
+            <h2 className="detail-block__heading">Event committees</h2>
+            <p className="detail-text">
+              Committees listed here are planning events for the current school
+              year. Open a row to see members and roles.
+            </p>
+            <ul className="detail-rows">
+              {EVENT_COMMITTEES.map((c) => (
+                <li key={c.to} className="detail-row">
+                  <span className="detail-row__label">Committee</span>
+                  <div className="detail-row__value">
+                    <Link to={`/LSA/${encodeURIComponent(c.to)}`}>
+                      {c.name}
+                    </Link>
+                    <span className="detail-row__meta">
+                      View committee members and roles
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="detail-block">
+            <h2 className="detail-block__heading">Spirit Committee</h2>
+            <p className="detail-text">
+              Hall art, rally games, and the spirit dance each class builds a
+              team for Spirit Week. Learn how each subcommittee works and how to
+              join.
+            </p>
+            <div className="detail-links">
               <Link
-                to={`/LSA/${encodeURIComponent(c.to)}`}
-                className="committees-landing__tile"
+                to="/LSA/Spirit Committee"
+                className="detail-btn detail-btn--primary"
               >
-                <span className="committees-landing__tile-title">{c.name}</span>
-                <span className="committees-landing__tile-cta">
-                  View committee{" "}
-                  <FontAwesomeIcon icon={faArrowRight} aria-hidden />
-                </span>
+                Spirit Committee overview
+                <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
               </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section
-        className="committees-landing__spirit"
-        aria-labelledby="spirit-heading"
-      >
-        <div className="committees-landing__spirit-inner">
-          <h2 id="spirit-heading">Spirit Committee</h2>
-          <p>
-            Hall art, rally games, and the spirit dance each class builds a team
-            for Spirit Week. Learn how each subcommittee works and how to join.
-          </p>
-          <Link
-            to="/LSA/Spirit Committee"
-            className="committees-landing__spirit-btn"
-          >
-            Spirit Committee overview
-            <FontAwesomeIcon icon={faArrowRight} aria-hidden />
-          </Link>
+            </div>
+          </section>
         </div>
-      </section>
-
-      <section className="committees-landing__footer">
-        <Link to="/LSA" className="committees-landing__back">
-          &larr; Back to About LSA
-        </Link>
-      </section>
+      </div>
     </main>
   );
 }

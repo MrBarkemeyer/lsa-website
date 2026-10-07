@@ -10,7 +10,6 @@ const PAGE_ROUTES = {
   "Charter.jsx": { to: "/LSA/Charter", title: "Charter of the LSA", section: "About LSA" },
   "Committees.jsx": { to: "/LSA/Commitees", title: "Committees", section: "About LSA" },
   "SpiritCommittee.jsx": { to: "/LSA/Spirit Committee", title: "Spirit Committees", section: "About LSA" },
-  "LSAExplore.jsx": { to: "/LSA-EXPLORE", title: "All boards", section: "About LSA" },
   "Organizations.jsx": { to: "/Organizations", title: "Organizations", section: "Organizations" },
   "MockTrial.jsx": { to: "/Organizations/MockTrial", title: "Mock Trial", section: "Organizations" },
   "ShieldAndScroll.jsx": { to: "/Organizations/ShieldAndScroll", title: "Shield and Scroll", section: "Organizations" },

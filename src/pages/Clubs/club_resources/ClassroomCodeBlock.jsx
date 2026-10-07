@@ -1,10 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-export default function ClassroomCodeBlock({
-  code,
-  classNamePrefix = "club-guide-page",
-}) {
+export default function ClassroomCodeBlock({ code }) {
   const [copied, setCopied] = useState(false);
 
   async function copyJoinCode() {
@@ -18,25 +15,30 @@ export default function ClassroomCodeBlock({
   }
 
   return (
-    <div className={`${classNamePrefix}__code-block`}>
-      <p className={`${classNamePrefix}__code-label`}>
+    <section className="detail-block">
+      <h2 className="detail-block__heading">
         2026-27 Activities Google Classroom
+      </h2>
+      <p className="detail-text">
+        Announcements, co-curricular sign-ups, and important forms. Join the
+        Classroom to submit documents and get updates.
       </p>
-      <div className={`${classNamePrefix}__code-row`}>
-        <span className={`${classNamePrefix}__code`}>{code}</span>
-        <button
-          type="button"
-          className={`${classNamePrefix}__copy${copied ? ` ${classNamePrefix}__copy--done` : ""}`}
-          onClick={copyJoinCode}
-        >
-          {copied ? "Copied" : "Copy code"}
-        </button>
+      <div className="detail-code">
+        <div className="detail-code__row">
+          <span className="detail-code__value">{code}</span>
+          <button
+            type="button"
+            className={`detail-code__copy${copied ? " detail-code__copy--done" : ""}`}
+            onClick={copyJoinCode}
+          >
+            {copied ? "Copied" : "Copy code"}
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
 ClassroomCodeBlock.propTypes = {
   code: PropTypes.string.isRequired,
-  classNamePrefix: PropTypes.string,
 };
