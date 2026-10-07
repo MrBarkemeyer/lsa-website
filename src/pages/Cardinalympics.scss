@@ -4,6 +4,15 @@
   --home-paper: #f5f1ea;
   --home-card: #fffdf9;
   --home-line: rgba(42, 32, 27, 0.15);
+  // Class colors from the Spirit Week scoreboard sheet.
+  --cy-fr: #93c47d;
+  --cy-fr-soft: #b6d7a8;
+  --cy-so: #8e7cc3;
+  --cy-so-soft: #b4a7d6;
+  --cy-jr: #6d9eeb;
+  --cy-jr-soft: #a4c2f4;
+  --cy-sr: #cc4125;
+  --cy-sr-soft: #dd7e6b;
   width: 100%;
   max-width: 100%;
   overflow-x: clip;
@@ -174,9 +183,40 @@
       transform: none;
     }
 
+    &--freshman {
+      background: var(--cy-fr);
+      border-color: #7eaf68;
+    }
+
+    &--sophomore {
+      background: var(--cy-so);
+      border-color: #7a68b0;
+    }
+
+    &--junior {
+      background: var(--cy-jr);
+      border-color: #5b8cd6;
+    }
+
+    &--senior {
+      background: var(--cy-sr);
+      border-color: #b3371d;
+
+      .home-cardinalympics__class-name,
+      .home-cardinalympics__pts-label {
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+
     &--leader {
       border-width: 3px;
+      border-color: #191716;
     }
+  }
+
+  .home-cardinalympics__leader-badge {
+    background: #191716;
+    color: #fff;
   }
 
   .home-cardinalympics__counter,
@@ -306,6 +346,43 @@
     font-variant-numeric: tabular-nums;
   }
 
+  th.score-cell--fr,
+  .score-tone-strong .score-cell--fr {
+    background: var(--cy-fr);
+  }
+
+  th.score-cell--so,
+  .score-tone-strong .score-cell--so {
+    background: var(--cy-so);
+  }
+
+  th.score-cell--jr,
+  .score-tone-strong .score-cell--jr {
+    background: var(--cy-jr);
+  }
+
+  th.score-cell--sr,
+  .score-tone-strong .score-cell--sr {
+    background: var(--cy-sr);
+    color: #fff;
+  }
+
+  .score-tone-light .score-cell--fr {
+    background: var(--cy-fr-soft);
+  }
+
+  .score-tone-light .score-cell--so {
+    background: var(--cy-so-soft);
+  }
+
+  .score-tone-light .score-cell--jr {
+    background: var(--cy-jr-soft);
+  }
+
+  .score-tone-light .score-cell--sr {
+    background: var(--cy-sr-soft);
+  }
+
   .scoreboard-arrow-header {
     width: 2.5rem;
     min-width: 2.5rem;
@@ -370,6 +447,43 @@
     font-size: 0.72rem;
     letter-spacing: 0.01em;
     color: var(--home-muted);
+  }
+}
+
+.score-tone-light .scoreboard-mobile-card__score-pill--fr {
+  background: var(--cy-fr-soft);
+}
+
+.score-tone-light .scoreboard-mobile-card__score-pill--so {
+  background: var(--cy-so-soft);
+}
+
+.score-tone-light .scoreboard-mobile-card__score-pill--jr {
+  background: var(--cy-jr-soft);
+}
+
+.score-tone-light .scoreboard-mobile-card__score-pill--sr {
+  background: var(--cy-sr-soft);
+}
+
+.score-tone-strong .scoreboard-mobile-card__score-pill--fr {
+  background: var(--cy-fr);
+}
+
+.score-tone-strong .scoreboard-mobile-card__score-pill--so {
+  background: var(--cy-so);
+}
+
+.score-tone-strong .scoreboard-mobile-card__score-pill--jr {
+  background: var(--cy-jr);
+}
+
+.score-tone-strong .scoreboard-mobile-card__score-pill--sr {
+  background: var(--cy-sr);
+  color: #fff;
+
+  strong {
+    color: rgba(255, 255, 255, 0.85);
   }
 }
 
@@ -489,16 +603,16 @@
 }
 
 .cardinalympics-winning-chances__dot--freshman {
-  background: #2e7d32;
+  background: var(--cy-fr);
 }
 .cardinalympics-winning-chances__dot--sophomore {
-  background: #6a1b9a;
+  background: var(--cy-so);
 }
 .cardinalympics-winning-chances__dot--junior {
-  background: #1565c0;
+  background: var(--cy-jr);
 }
 .cardinalympics-winning-chances__dot--senior {
-  background: #9c1919;
+  background: var(--cy-sr);
 }
 
 .cardinalympics-winning-chances__label {
@@ -525,16 +639,16 @@
 }
 
 .cardinalympics-winning-chances__fill--freshman {
-  background: #2e7d32;
+  background: var(--cy-fr);
 }
 .cardinalympics-winning-chances__fill--sophomore {
-  background: #6a1b9a;
+  background: var(--cy-so);
 }
 .cardinalympics-winning-chances__fill--junior {
-  background: #1565c0;
+  background: var(--cy-jr);
 }
 .cardinalympics-winning-chances__fill--senior {
-  background: #9c1919;
+  background: var(--cy-sr);
 }
 
 .cardinalympics-winning-chances-toggle-wrap {

@@ -15,7 +15,7 @@ import "./Cardinalympics.scss";
 
 const CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
 const CLASS_SLUGS = ["freshman", "sophomore", "junior", "senior"];
-const COUNTER_COLORS = ["#2e7d32", "#6a1b9a", "#1565c0", "#9c1919"];
+const COUNTER_COLORS = ["#191716", "#191716", "#191716", "#ffffff"];
 const POINTS_POSSIBLE_FALLBACK = 9750;
 const EMPTY_ROWS = [];
 
@@ -296,6 +296,12 @@ function getRowViewModel(row) {
   const totalClass = isTotalRow(row) ? "scoreboard-row-total" : "";
   const sectionClass =
     isSectionRow(row) && !totalClass ? "scoreboard-row-section" : "";
+  const grandClass = isSpiritWeekTotalsRow(row) ? "scoreboard-row-grand" : "";
+  const scoreTone = sectionClass
+    ? ""
+    : grandClass
+      ? "score-tone-strong"
+      : "score-tone-light";
   return {
     key: `${label}-${date}-${ptsPoss}`,
     label,
@@ -308,6 +314,8 @@ function getRowViewModel(row) {
     winner,
     totalClass,
     sectionClass,
+    grandClass,
+    scoreTone,
     isEvent: isEventRow(row),
     hasWinner: Boolean(winner),
     isCancelled: isCancelledStatus(winner),
@@ -315,6 +323,41 @@ function getRowViewModel(row) {
 }
 
 const INITIAL_VISIBLE_ROWS = 12;
+
+function startOfLocalDay(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+}
+
+function scoreboardDateRange(dateStr) {
+  const matches = [...String(dateStr || "").matchAll(/(\d{1,2})\/(\d{1,2})/g)];
+  if (!matches.length) return null;
+  const year = new Date().getFullYear();
+  const at = (month, day) =>
+    new Date(year, Number(month) - 1, Number(day)).getTime();
+  const start = at(matches[0][1], matches[0][2]);
+  const end = at(matches.at(-1)[1], matches.at(-1)[2]);
+  if (Number.isNaN(start)) return null;
+  return { start, end: Number.isNaN(end) ? start : end };
+}
+
+function isOpenScoreboardEvent(model) {
+  if (model.sectionClass || model.totalClass || model.grandClass) return false;
+  if (model.hasWinner || model.isCancelled) return false;
+  return model.fr === "" && model.so === "" && model.jr === "" && model.sr === "";
+}
+
+function compareOpenEvents(a, b) {
+  const today = startOfLocalDay(new Date());
+  const rank = (model) => {
+    const range = scoreboardDateRange(model.date);
+    if (!range) return [2, 0];
+    if (range.end < today) return [1, range.start];
+    return [0, range.start];
+  };
+  const ra = rank(a);
+  const rb = rank(b);
+  return ra[0] - rb[0] || ra[1] - rb[1];
+}
 const CHANCE_SIMULATION_RUNS = 5000;
 
 function hashStringSeed(input) {
@@ -344,17 +387,40 @@ function ScoreboardTable({ rows }) {
       return { visibleRowModels: [], hasMore: false, hiddenRowCount: 0 };
     }
     const effectiveRows = filterDisplayScoreboardRows(rows);
-    const visibleRows = showAllRows
-      ? effectiveRows
-      : effectiveRows.slice(0, INITIAL_VISIBLE_ROWS);
+    const models = effectiveRows.reduce((list, row) => {
+      const model = getRowViewModel(row);
+      if (model) list.push(model);
+      return list;
+    }, []);
+    const totalsIndex = models.findIndex((model) => model.grandClass);
+    const totals = totalsIndex >= 0 ? models[totalsIndex] : null;
+    const withoutTotals =
+      totalsIndex >= 0
+        ? models.filter((_, index) => index !== totalsIndex)
+        : models;
+    const openEvents = withoutTotals
+      .filter(isOpenScoreboardEvent)
+      .sort(compareOpenEvents);
+    const rest = withoutTotals.filter(
+      (model) => !isOpenScoreboardEvent(model),
+    );
+    const preview = openEvents.length
+      ? openEvents
+      : rest.slice(0, INITIAL_VISIBLE_ROWS);
+    const ordered = [...openEvents, ...rest];
+    const withTotals = totals ? [...ordered, totals] : ordered;
     return {
-      visibleRowModels: visibleRows.reduce((models, row) => {
-        const model = getRowViewModel(row);
-        if (model) models.push(model);
-        return models;
-      }, []),
-      hasMore: effectiveRows.length > INITIAL_VISIBLE_ROWS,
-      hiddenRowCount: Math.max(0, effectiveRows.length - INITIAL_VISIBLE_ROWS),
+      visibleRowModels: showAllRows
+        ? withTotals
+        : totals
+          ? [...preview, totals]
+          : preview,
+      hasMore: openEvents.length
+        ? rest.length > 0
+        : rest.length > INITIAL_VISIBLE_ROWS,
+      hiddenRowCount: openEvents.length
+        ? rest.length
+        : Math.max(0, rest.length - INITIAL_VISIBLE_ROWS),
     };
   }, [rows, showAllRows]);
 
@@ -364,15 +430,25 @@ function ScoreboardTable({ rows }) {
     return (
       <tr
         key={view.key}
-        className={`${view.totalClass} ${view.sectionClass}`.trim()}
+        className={
+          `${view.totalClass} ${view.sectionClass} ${view.grandClass} ${view.scoreTone}`.trim()
+        }
       >
         <td>{view.label}</td>
         <td>{view.date}</td>
         <td>{view.ptsPoss}</td>
-        <td className="score-cell">{view.fr !== "" ? view.fr : "-"}</td>
-        <td className="score-cell">{view.so !== "" ? view.so : "-"}</td>
-        <td className="score-cell">{view.jr !== "" ? view.jr : "-"}</td>
-        <td className="score-cell">{view.sr !== "" ? view.sr : "-"}</td>
+        <td className="score-cell score-cell--fr">
+          {view.fr !== "" ? view.fr : "-"}
+        </td>
+        <td className="score-cell score-cell--so">
+          {view.so !== "" ? view.so : "-"}
+        </td>
+        <td className="score-cell score-cell--jr">
+          {view.jr !== "" ? view.jr : "-"}
+        </td>
+        <td className="score-cell score-cell--sr">
+          {view.sr !== "" ? view.sr : "-"}
+        </td>
         <td className="scoreboard-arrow-cell">
           {view.isCancelled ? (
             "Cancelled"
@@ -413,10 +489,10 @@ function ScoreboardTable({ rows }) {
               <th>Event</th>
               <th>Date</th>
               <th>Pts poss.</th>
-              <th className="score-cell">Fr</th>
-              <th className="score-cell">So</th>
-              <th className="score-cell">Jr</th>
-              <th className="score-cell">Sr</th>
+              <th className="score-cell score-cell--fr">Fr</th>
+              <th className="score-cell score-cell--so">So</th>
+              <th className="score-cell score-cell--jr">Jr</th>
+              <th className="score-cell score-cell--sr">Sr</th>
               <th className="scoreboard-arrow-header"></th>
             </tr>
           </thead>
@@ -427,7 +503,7 @@ function ScoreboardTable({ rows }) {
             return (
               <article
                 key={view.key}
-                className={`scoreboard-mobile-card ${view.totalClass} ${view.sectionClass}`.trim()}
+                className={`scoreboard-mobile-card ${view.totalClass} ${view.sectionClass} ${view.grandClass} ${view.scoreTone}`.trim()}
               >
                 <h4 className="scoreboard-mobile-card__title">
                   {view.label || "Event"}
@@ -441,16 +517,16 @@ function ScoreboardTable({ rows }) {
                   </span>
                 </div>
                 <div className="scoreboard-mobile-card__scores">
-                  <span className="scoreboard-mobile-card__score-pill">
+                  <span className="scoreboard-mobile-card__score-pill scoreboard-mobile-card__score-pill--fr">
                     <strong>Fr</strong> {view.fr !== "" ? view.fr : "-"}
                   </span>
-                  <span className="scoreboard-mobile-card__score-pill">
+                  <span className="scoreboard-mobile-card__score-pill scoreboard-mobile-card__score-pill--so">
                     <strong>So</strong> {view.so !== "" ? view.so : "-"}
                   </span>
-                  <span className="scoreboard-mobile-card__score-pill">
+                  <span className="scoreboard-mobile-card__score-pill scoreboard-mobile-card__score-pill--jr">
                     <strong>Jr</strong> {view.jr !== "" ? view.jr : "-"}
                   </span>
-                  <span className="scoreboard-mobile-card__score-pill">
+                  <span className="scoreboard-mobile-card__score-pill scoreboard-mobile-card__score-pill--sr">
                     <strong>Sr</strong> {view.sr !== "" ? view.sr : "-"}
                   </span>
                 </div>
