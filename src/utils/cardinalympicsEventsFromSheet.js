@@ -251,12 +251,12 @@ function startOfDay(date) {
 }
 
 /**
- * True when the sheet has a sign-up URL but the event day has passed.
- * Single-day events close after that calendar day; date-range events stay open
+ * True after the event's last calendar day.
+ * Single-day events close after that day; date-range events stay open
  * through endDate (e.g. 10/5–10/8 stays open until after 10/8).
  */
 export function isCardinalympicsSignupPastEventDay(ev) {
-  if (!ev?.signUpLink || ev.signUpClosed) return false;
+  if (!ev || ev.isAllWeek || ev.signUpClosed) return false;
   const closeDate = ev.endDate || ev.sortDate;
   if (!closeDate) return false;
   const todayStart = startOfDay(new Date());

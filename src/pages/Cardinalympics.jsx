@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 import Counter from "../components/Counter";
 import CardinalympicLogo from "../components/CardinalympicLogo";
@@ -15,7 +15,7 @@ import "./Cardinalympics.scss";
 
 const CLASS_NAMES = ["Freshman", "Sophomore", "Junior", "Senior"];
 const CLASS_SLUGS = ["freshman", "sophomore", "junior", "senior"];
-const COUNTER_COLORS = ["#191716", "#191716", "#191716", "#ffffff"];
+const COUNTER_COLORS = ["#2e7d32", "#6a1b9a", "#1565c0", "#9c1919"];
 const POINTS_POSSIBLE_FALLBACK = 9750;
 const EMPTY_ROWS = [];
 
@@ -323,41 +323,6 @@ function getRowViewModel(row) {
 }
 
 const INITIAL_VISIBLE_ROWS = 12;
-
-function startOfLocalDay(date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-}
-
-function scoreboardDateRange(dateStr) {
-  const matches = [...String(dateStr || "").matchAll(/(\d{1,2})\/(\d{1,2})/g)];
-  if (!matches.length) return null;
-  const year = new Date().getFullYear();
-  const at = (month, day) =>
-    new Date(year, Number(month) - 1, Number(day)).getTime();
-  const start = at(matches[0][1], matches[0][2]);
-  const end = at(matches.at(-1)[1], matches.at(-1)[2]);
-  if (Number.isNaN(start)) return null;
-  return { start, end: Number.isNaN(end) ? start : end };
-}
-
-function isOpenScoreboardEvent(model) {
-  if (model.sectionClass || model.totalClass || model.grandClass) return false;
-  if (model.hasWinner || model.isCancelled) return false;
-  return model.fr === "" && model.so === "" && model.jr === "" && model.sr === "";
-}
-
-function compareOpenEvents(a, b) {
-  const today = startOfLocalDay(new Date());
-  const rank = (model) => {
-    const range = scoreboardDateRange(model.date);
-    if (!range) return [2, 0];
-    if (range.end < today) return [1, range.start];
-    return [0, range.start];
-  };
-  const ra = rank(a);
-  const rb = rank(b);
-  return ra[0] - rb[0] || ra[1] - rb[1];
-}
 const CHANCE_SIMULATION_RUNS = 5000;
 
 function hashStringSeed(input) {
@@ -398,29 +363,15 @@ function ScoreboardTable({ rows }) {
       totalsIndex >= 0
         ? models.filter((_, index) => index !== totalsIndex)
         : models;
-    const openEvents = withoutTotals
-      .filter(isOpenScoreboardEvent)
-      .sort(compareOpenEvents);
-    const rest = withoutTotals.filter(
-      (model) => !isOpenScoreboardEvent(model),
-    );
-    const preview = openEvents.length
-      ? openEvents
-      : rest.slice(0, INITIAL_VISIBLE_ROWS);
-    const ordered = [...openEvents, ...rest];
-    const withTotals = totals ? [...ordered, totals] : ordered;
+    const preview = withoutTotals.slice(0, INITIAL_VISIBLE_ROWS);
     return {
       visibleRowModels: showAllRows
-        ? withTotals
+        ? models
         : totals
           ? [...preview, totals]
           : preview,
-      hasMore: openEvents.length
-        ? rest.length > 0
-        : rest.length > INITIAL_VISIBLE_ROWS,
-      hiddenRowCount: openEvents.length
-        ? rest.length
-        : Math.max(0, rest.length - INITIAL_VISIBLE_ROWS),
+      hasMore: withoutTotals.length > INITIAL_VISIBLE_ROWS,
+      hiddenRowCount: Math.max(0, withoutTotals.length - INITIAL_VISIBLE_ROWS),
     };
   }, [rows, showAllRows]);
 
@@ -788,6 +739,25 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
 }
 
 function WinningChancesBar({ chances }) {
+  const [progress, setProgress] = useState(() =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 1 : 0,
+  );
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const start = performance.now();
+    const delay = 160;
+    const duration = 700;
+    let frame;
+    const tick = (now) => {
+      const t = Math.min(1, Math.max(0, (now - start - delay) / duration));
+      setProgress(1 - (1 - t) ** 3);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <div
       className="cardinalympics-winning-chances"
@@ -798,40 +768,78 @@ function WinningChancesBar({ chances }) {
         Projected winning chances
       </h3>
       <div className="cardinalympics-winning-chances__rows">
-        {CLASS_NAMES.map((name, i) => (
-          <div className="cardinalympics-winning-chances__row" key={name}>
-            <div className="cardinalympics-winning-chances__label-wrap">
-              <span
-                className={`cardinalympics-winning-chances__dot cardinalympics-winning-chances__dot--${CLASS_SLUGS[i]}`}
-              />
-              <span className="cardinalympics-winning-chances__label">
-                {name}
-              </span>
-              <span className="cardinalympics-winning-chances__value">
-                {chances[i].toFixed(1)}%
-              </span>
-            </div>
-            <div
-              className="cardinalympics-winning-chances__track"
-              aria-hidden="true"
-            >
+        {CLASS_NAMES.map((name, i) => {
+          const pct = progress >= 1 ? chances[i] : chances[i] * progress;
+          return (
+            <div className="cardinalympics-winning-chances__row" key={name}>
+              <div className="cardinalympics-winning-chances__label-wrap">
+                <span
+                  className={`cardinalympics-winning-chances__dot cardinalympics-winning-chances__dot--${CLASS_SLUGS[i]}`}
+                />
+                <span className="cardinalympics-winning-chances__label">
+                  {name}
+                </span>
+                <span className="cardinalympics-winning-chances__value">
+                  {pct.toFixed(1)}%
+                </span>
+              </div>
               <div
-                className={`cardinalympics-winning-chances__fill cardinalympics-winning-chances__fill--${CLASS_SLUGS[i]}`}
-                style={{ width: `${Math.max(0, Math.min(100, chances[i]))}%` }}
-              />
+                className="cardinalympics-winning-chances__track"
+                aria-hidden="true"
+              >
+                <div
+                  className={`cardinalympics-winning-chances__fill cardinalympics-winning-chances__fill--${CLASS_SLUGS[i]}`}
+                  style={{
+                    width: `${Math.max(0, Math.min(100, pct))}%`,
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
 }
 
+function scheduleEventView(ev, winnerLookup) {
+  const result = lookupEventWinner(ev, winnerLookup);
+  const completed = Boolean(result);
+  const expired =
+    ev.signUpClosed || isCardinalympicsSignupPastEventDay(ev);
+  return {
+    result,
+    formClosed: completed || expired,
+  };
+}
+
+function compareOpenScheduleEvents(a, b) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayMs = today.getTime();
+  const rank = (ev) => {
+    const start = ev.sortDate ? new Date(ev.sortDate).setHours(0, 0, 0, 0) : null;
+    if (start != null && start >= todayMs) return [0, start];
+    if (start != null) return [1, start];
+    return [2, 0];
+  };
+  const ra = rank(a);
+  const rb = rank(b);
+  return ra[0] - rb[0] || ra[1] - rb[1];
+}
+
 function CardinalympicsEventsSchedule({ events, winnerLookup }) {
-  const weekGroups = useMemo(
-    () => groupCardinalympicsEventsByWeekAndDay(events || []),
-    [events],
-  );
+  const { upcomingEvents, weekGroups } = useMemo(() => {
+    const list = events || [];
+    const upcoming = list.filter(
+      (ev) => !scheduleEventView(ev, winnerLookup).formClosed,
+    );
+    upcoming.sort(compareOpenScheduleEvents);
+    return {
+      upcomingEvents: upcoming,
+      weekGroups: groupCardinalympicsEventsByWeekAndDay(list),
+    };
+  }, [events, winnerLookup]);
 
   if (!events || events.length === 0) {
     return (
@@ -842,8 +850,64 @@ function CardinalympicsEventsSchedule({ events, winnerLookup }) {
     );
   }
 
+  const renderEvent = (ev, keyPrefix) => {
+    const { result, formClosed } = scheduleEventView(ev, winnerLookup);
+    return (
+      <div
+        className={`event cardinalympics-event${
+          formClosed ? " cardinalympics-event--resolved" : ""
+        }`}
+        key={`${keyPrefix}-${ev.id}`}
+      >
+        <div className="cardinalympics-event__head">
+          <h3 className="event-description">{ev.heading}</h3>
+          {ev.pointsPossible ? (
+            <span className="cardinalympics-event__points-tag">
+              {ev.pointsPossible} pts possible
+            </span>
+          ) : null}
+        </div>
+        {ev.dateDisplay ? (
+          <p className="event-description cardinalympics-event__meta">
+            <strong>Date:</strong> {ev.dateDisplay}
+          </p>
+        ) : null}
+        {formClosed && result && !result.isCancelled ? (
+          <p className="event-description cardinalympics-event__meta cardinalympics-event__winner">
+            <strong>Winner:</strong> {result.winner}
+          </p>
+        ) : null}
+        {ev.bodyText ? (
+          <div className="event-description cardinalympics-event__body">
+            {String(ev.bodyText)
+              .replace(/\n{3,}/g, "\n\n")
+              .trim()}
+          </div>
+        ) : null}
+        {!formClosed && ev.signUpLink ? (
+          <a
+            className="event-description cardinalympics-event-signup"
+            href={ev.signUpLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Sign up
+          </a>
+        ) : null}
+      </div>
+    );
+  };
+
   return (
     <>
+      {upcomingEvents.length > 0 && (
+        <div className="cardinalympics-day">
+          <h4 className="cardinalympics-day__title">Upcoming</h4>
+          <div className="cardinalympics-day__events">
+            {upcomingEvents.map((ev) => renderEvent(ev, "upcoming"))}
+          </div>
+        </div>
+      )}
       {weekGroups.map((weekGroup, weekIndex) => (
         <div
           className="cardinalympics-week"
@@ -859,74 +923,7 @@ function CardinalympicsEventsSchedule({ events, winnerLookup }) {
             >
               <h4 className="cardinalympics-day__title">{dayGroup.dayLabel}</h4>
               <div className="cardinalympics-day__events">
-                {dayGroup.events.map((ev) => {
-                  const result = lookupEventWinner(ev, winnerLookup);
-                  const pastOrClosed =
-                    ev.signUpClosed || isCardinalympicsSignupPastEventDay(ev);
-                  const hasResult = Boolean(result);
-                  // Date-range events stay open through the last day even if a
-                  // winner was entered early. Cancellation still closes them.
-                  const rangeStillOpen =
-                    ev.isDateRange && !pastOrClosed && !result?.isCancelled;
-                  const isGrayed = (hasResult && !rangeStillOpen) || pastOrClosed;
-                  const closedLabel = result?.isCancelled
-                    ? "Cancelled"
-                    : "Closed";
-
-                  return (
-                    <div
-                      className={`event cardinalympics-event${
-                        isGrayed ? " cardinalympics-event--resolved" : ""
-                      }`}
-                      key={ev.id}
-                    >
-                      <div className="cardinalympics-event__head">
-                        <h3 className="event-description">{ev.heading}</h3>
-                        {ev.pointsPossible ? (
-                          <span className="cardinalympics-event__points-tag">
-                            {ev.pointsPossible} pts possible
-                          </span>
-                        ) : null}
-                      </div>
-                      {ev.dateDisplay ? (
-                        <p className="event-description cardinalympics-event__meta">
-                          <strong>Date:</strong> {ev.dateDisplay}
-                        </p>
-                      ) : null}
-                      {isGrayed && result && !result.isCancelled ? (
-                        <p className="event-description cardinalympics-event__meta cardinalympics-event__winner">
-                          <strong>Winner:</strong> {result.winner}
-                        </p>
-                      ) : null}
-                      {ev.bodyText ? (
-                        <div className="event-description cardinalympics-event__body">
-                          {String(ev.bodyText)
-                            .replace(/\n{3,}/g, "\n\n")
-                            .trim()}
-                        </div>
-                      ) : null}
-                      {isGrayed ? (
-                        <button
-                          type="button"
-                          className="event-description cardinalympics-event-closed"
-                          disabled
-                          aria-label={`${ev.heading} is ${closedLabel.toLowerCase()}`}
-                        >
-                          {closedLabel}
-                        </button>
-                      ) : ev.signUpLink ? (
-                        <a
-                          className="event-description cardinalympics-event-signup"
-                          href={ev.signUpLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Sign up
-                        </a>
-                      ) : null}
-                    </div>
-                  );
-                })}
+                {dayGroup.events.map((ev) => renderEvent(ev, "all"))}
               </div>
             </div>
           ))}

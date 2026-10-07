@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import SafeImage from "../components/SafeImage";
 import { driveThumbnailCandidates } from "../utils/driveMedia.js";
 import { cardinalympicsLeaderBadgeLabel } from "../utils/cardinalympicsDisplayMode.js";
+import { isCardinalympicsSignupPastEventDay } from "../utils/cardinalympicsEventsFromSheet.js";
 
 const CARDINALYMPICS_CLASS_NAMES = [
   "Freshman",
@@ -183,7 +184,12 @@ export default function Home({
   const homeSignupEvents = useMemo(
     () =>
       cardinalympicsEvents
-        .filter((event) => event && (event.signUpLink || event.signUpClosed))
+        .filter(
+          (event) =>
+            event?.signUpLink &&
+            !event.signUpClosed &&
+            !isCardinalympicsSignupPastEventDay(event),
+        )
         .slice(0, 6),
     [cardinalympicsEvents],
   );

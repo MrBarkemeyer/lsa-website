@@ -183,40 +183,9 @@
       transform: none;
     }
 
-    &--freshman {
-      background: var(--cy-fr);
-      border-color: #7eaf68;
-    }
-
-    &--sophomore {
-      background: var(--cy-so);
-      border-color: #7a68b0;
-    }
-
-    &--junior {
-      background: var(--cy-jr);
-      border-color: #5b8cd6;
-    }
-
-    &--senior {
-      background: var(--cy-sr);
-      border-color: #b3371d;
-
-      .home-cardinalympics__class-name,
-      .home-cardinalympics__pts-label {
-        color: rgba(255, 255, 255, 0.9);
-      }
-    }
-
     &--leader {
       border-width: 3px;
-      border-color: #191716;
     }
-  }
-
-  .home-cardinalympics__leader-badge {
-    background: #191716;
-    color: #fff;
   }
 
   .home-cardinalympics__counter,
@@ -364,7 +333,6 @@
   th.score-cell--sr,
   .score-tone-strong .score-cell--sr {
     background: var(--cy-sr);
-    color: #fff;
   }
 
   .score-tone-light .score-cell--fr {
@@ -466,10 +434,6 @@
   background: var(--cy-sr-soft);
 }
 
-.score-tone-strong .scoreboard-mobile-card__score-pill--fr {
-  background: var(--cy-fr);
-}
-
 .score-tone-strong .scoreboard-mobile-card__score-pill--so {
   background: var(--cy-so);
 }
@@ -480,11 +444,10 @@
 
 .score-tone-strong .scoreboard-mobile-card__score-pill--sr {
   background: var(--cy-sr);
-  color: #fff;
+}
 
-  strong {
-    color: rgba(255, 255, 255, 0.85);
-  }
+.score-tone-strong .scoreboard-mobile-card__score-pill--fr {
+  background: var(--cy-fr);
 }
 
 .scoreboard-mobile-card__winner {
@@ -508,11 +471,19 @@
   font-weight: 800;
   box-shadow: none;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 
   &:hover {
     background: #681010;
-    transform: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(134, 18, 18, 0.28);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
     box-shadow: none;
   }
 }
@@ -532,11 +503,17 @@
   cursor: pointer;
   transition:
     background 0.2s ease,
-    color 0.2s ease;
+    color 0.2s ease,
+    transform 0.18s ease;
 
   &:hover {
     background: var(--lowell-red);
     color: #fff;
+    transform: translateX(3px);
+  }
+
+  &:active {
+    transform: translateX(1px) scale(0.96);
   }
 }
 
@@ -558,12 +535,18 @@
   text-underline-offset: 0.25em;
   transition:
     background 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    transform 0.18s ease;
 
   &:hover {
     background: #efe6d9;
     color: var(--lowell-red);
     border-color: var(--home-line);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.99);
   }
 }
 
@@ -574,6 +557,7 @@
   border: 1px solid var(--home-line);
   border-radius: 2px;
   box-shadow: none;
+  animation: cardinalympics-chances-in 0.32s ease;
 
   h3 {
     margin: 0 0 0.75rem;
@@ -651,6 +635,13 @@
   background: var(--cy-sr);
 }
 
+@keyframes cardinalympics-chances-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45rem);
+  }
+}
+
 .cardinalympics-winning-chances-toggle-wrap {
   margin-top: 0.65rem;
 }
@@ -671,12 +662,18 @@
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.25em;
-  transition: color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.18s ease;
 
   &:hover {
     color: #681010;
     background: transparent;
-    transform: none;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
@@ -746,9 +743,17 @@
   background: transparent;
   border: 0;
   cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.18s ease;
 
   &:hover {
     color: var(--home-ink);
+    transform: rotate(90deg);
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.92);
   }
 
   &:focus-visible {
@@ -1002,12 +1007,20 @@
     text-decoration: none;
     border-radius: 2px;
     box-shadow: none;
-    transition: background 0.2s ease;
+    transition:
+      background 0.2s ease,
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
 
     &:hover {
       color: #fff;
       background: #681010;
-      transform: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(134, 18, 18, 0.28);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
       box-shadow: none;
     }
   }
@@ -1086,11 +1099,26 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cardinalympics-winner-modal__dialog {
+  .cardinalympics-winner-modal__dialog,
+  .cardinalympics-winning-chances {
     animation: none;
   }
 
   .cardinalympics-page .home-cardinalympics__live-dot {
     animation: none;
+  }
+
+  .scoreboard-mobile-card__winner-btn,
+  .scoreboard-arrow-btn,
+  .cardinalympics-scoreboard-show-more,
+  .cardinalympics-winning-chances-toggle,
+  .cardinalympics-winner-modal__close,
+  a.cardinalympics-event-signup {
+    transition: none;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
   }
 }
