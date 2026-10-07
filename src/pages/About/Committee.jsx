@@ -73,8 +73,8 @@ export default function Committee({ officerData: allOfficers }) {
         <Link to="/LSA/Commitees" className="committee-page__nav-link">
           &larr; All committees
         </Link>
-        <Link to="/LSA-EXPLORE" className="committee-page__nav-link">
-          Explore LSA
+        <Link to="/LSA" className="committee-page__nav-link">
+          About LSA
         </Link>
       </nav>
 

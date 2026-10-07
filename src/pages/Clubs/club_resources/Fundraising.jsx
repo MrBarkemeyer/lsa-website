@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import "./ClubResourceGuidePage.scss";
+import { faArrowLeft, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ClassroomCodeBlock from "./ClassroomCodeBlock.jsx";
 import GuideResourceGrid from "./GuideResourceGrid.jsx";
 import { sbcOfficerName } from "../../../utils/sbcOfficer.js";
+import "../../../styles/DetailPage.scss";
 
 const CLASSROOM_CODE = "q4h5rk2j";
 const COORDINATOR_EMAIL = "lowellsbc.treasurer@gmail.com";
 
-/** Set `href` for public URLs; cards without `href` show a Classroom hint. */
+/** Set `href` for public URLs; items without `href` show a Classroom hint. */
 const FUNDRAISING_RESOURCES = [
   {
     title: "Fundraising handbook",
@@ -71,74 +71,88 @@ const PROMOTION = [
 
 export default function Fundraising({ officerData }) {
   const treasurer = sbcOfficerName(officerData, "Treasurer");
+
   return (
-    <section className="club-guide-page">
-      <header className="club-guide-page__hero">
-        <h1>Fundraising resources</h1>
-        <p className="club-guide-page__tagline">
-          Handbooks, approvals, and treasurer workflows for club fundraisers at
-          Lowell.
-        </p>
+    <main className="detail-page">
+      <header className="detail-hero">
+        <div className="detail-hero__content">
+          <Link to="/Clubs/ClubResources" className="detail-hero__back">
+            <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" />
+            Club resources
+          </Link>
+          <p className="detail-hero__eyebrow">Treasurer</p>
+          <h1 className="detail-hero__title">Fundraising resources</h1>
+          <p className="detail-hero__lead">
+            Handbooks, approvals, and treasurer workflows for club fundraisers
+            at Lowell.
+          </p>
+        </div>
       </header>
 
-      <div className="club-guide-page__main">
-        <Link className="club-guide-page__back" to="/Clubs/ClubResources">
-          <FontAwesomeIcon icon={faArrowLeft} aria-hidden />
-          Back to club resources
-        </Link>
+      <div className="detail-content">
+        <div className="detail-content__main">
+          <section className="detail-block">
+            <h2 className="detail-block__heading">About this guide</h2>
+            <p className="detail-text">
+              Club <strong>fundraisers</strong> are not the same as general{" "}
+              <strong>events</strong>. Use this page for sales, drives, and
+              donation-based activities. For non-fundraising events, use{" "}
+              <Link to="/Clubs/EventPlanning">Event planning resources</Link>.
+              New club setup lives under{" "}
+              <Link to="/Clubs/NewClub">How to start a club</Link>.
+            </p>
+          </section>
 
-        <p className="club-guide-page__lede">
-          Club <strong>fundraisers</strong> are not the same as general{" "}
-          <strong>events</strong>. Use this page for sales, drives, and
-          donation-based activities. For non-fundraising events, use{" "}
-          <Link to="/Clubs/EventPlanning">Event planning resources</Link>. New
-          club setup lives under{" "}
-          <Link to="/Clubs/NewClub">How to start a club</Link>.
-        </p>
+          <ClassroomCodeBlock code={CLASSROOM_CODE} />
 
-        <div className="club-guide-page__contact">
-          <span className="club-guide-page__contact-label">SBC treasurer</span>
-          {treasurer ? (
-            <>
-              <span>{treasurer} (SBC)</span>
-              <span aria-hidden>·</span>
-            </>
-          ) : null}
-          <a
-            className="club-guide-page__contact-mail"
-            href={`mailto:${COORDINATOR_EMAIL}`}
-          >
-            {COORDINATOR_EMAIL}
-          </a>
+          <section className="detail-block">
+            <h2 className="detail-block__heading">Documents and forms</h2>
+            <p className="detail-text">
+              Work with your advisor and the treasurer in the order your
+              handbook describes. If something is not linked here yet, check the
+              Activities Google Classroom first (join code above)-that is where
+              forms are usually posted.
+            </p>
+            <GuideResourceGrid items={FUNDRAISING_RESOURCES} />
+          </section>
+
+          <section className="detail-block">
+            <h2 className="detail-block__heading">
+              After your fundraiser is approved
+            </h2>
+            <p className="detail-text">
+              Promote according to the fundraising handbook some kinds of
+              advertising are restricted. For printed fliers at school, use the
+              flier request form.
+            </p>
+            <GuideResourceGrid items={PROMOTION} />
+          </section>
         </div>
 
-        <ClassroomCodeBlock code={CLASSROOM_CODE} />
-
-        <div className="club-guide-page__section">
-          <h2 className="club-guide-page__section-title">
-            Documents &amp; forms
-          </h2>
-          <p className="club-guide-page__section-intro">
-            Work with your advisor and the treasurer in the order your handbook
-            describes. If something is not linked here yet, check the Activities
-            Google Classroom first (join code above)-that is where forms are
-            usually posted.
-          </p>
-          <GuideResourceGrid items={FUNDRAISING_RESOURCES} />
-        </div>
-
-        <div className="club-guide-page__next">
-          <h2 className="club-guide-page__next-title">
-            After your fundraiser is approved
-          </h2>
-          <p className="club-guide-page__next-body">
-            Promote according to the fundraising handbook some kinds of
-            advertising are restricted. For printed fliers at school, use the
-            flier request form.
-          </p>
-          <GuideResourceGrid items={PROMOTION} />
-        </div>
+        <aside className="detail-content__aside" aria-label="Contact">
+          <section className="detail-block">
+            <h2 className="detail-block__heading">SBC treasurer</h2>
+            {treasurer ? (
+              <p className="detail-text">
+                <strong>{treasurer}</strong>
+                <br />
+                SBC Treasurer
+              </p>
+            ) : (
+              <p className="detail-text">SBC Treasurer</p>
+            )}
+            <div className="detail-links detail-links--column">
+              <a
+                className="detail-btn detail-btn--primary"
+                href={`mailto:${COORDINATOR_EMAIL}`}
+              >
+                <FontAwesomeIcon icon={faEnvelope} aria-hidden="true" />
+                {COORDINATOR_EMAIL}
+              </a>
+            </div>
+          </section>
+        </aside>
       </div>
-    </section>
+    </main>
   );
 }

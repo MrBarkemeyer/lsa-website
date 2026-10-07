@@ -61,7 +61,7 @@ export default function ClassBoard({ officerData: officerDataProp }) {
         <Link to={prevBoard.path} className="board-nav__btn">
           &larr; Previous board
         </Link>
-        <Link to="/LSA-EXPLORE" className="board-nav__btn">
+        <Link to="/LSA" className="board-nav__btn">
           All boards
         </Link>
         {nextBoard ? (
@@ -123,7 +123,7 @@ export default function ClassBoard({ officerData: officerDataProp }) {
         <Link to={prevBoard.path} className="board-nav__btn">
           &larr; Previous board
         </Link>
-        <Link to="/LSA-EXPLORE" className="board-nav__btn">
+        <Link to="/LSA" className="board-nav__btn">
           All boards
         </Link>
         {nextBoard ? (
