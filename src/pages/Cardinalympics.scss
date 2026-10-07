@@ -4,6 +4,15 @@
   --home-paper: #f5f1ea;
   --home-card: #fffdf9;
   --home-line: rgba(42, 32, 27, 0.15);
+  // Class colors from the Spirit Week scoreboard sheet.
+  --cy-fr: #93c47d;
+  --cy-fr-soft: #b6d7a8;
+  --cy-so: #8e7cc3;
+  --cy-so-soft: #b4a7d6;
+  --cy-jr: #6d9eeb;
+  --cy-jr-soft: #a4c2f4;
+  --cy-sr: #cc4125;
+  --cy-sr-soft: #dd7e6b;
   width: 100%;
   max-width: 100%;
   overflow-x: clip;
@@ -306,6 +315,42 @@
     font-variant-numeric: tabular-nums;
   }
 
+  th.score-cell--fr,
+  .score-tone-strong .score-cell--fr {
+    background: var(--cy-fr);
+  }
+
+  th.score-cell--so,
+  .score-tone-strong .score-cell--so {
+    background: var(--cy-so);
+  }
+
+  th.score-cell--jr,
+  .score-tone-strong .score-cell--jr {
+    background: var(--cy-jr);
+  }
+
+  th.score-cell--sr,
+  .score-tone-strong .score-cell--sr {
+    background: var(--cy-sr);
+  }
+
+  .score-tone-light .score-cell--fr {
+    background: var(--cy-fr-soft);
+  }
+
+  .score-tone-light .score-cell--so {
+    background: var(--cy-so-soft);
+  }
+
+  .score-tone-light .score-cell--jr {
+    background: var(--cy-jr-soft);
+  }
+
+  .score-tone-light .score-cell--sr {
+    background: var(--cy-sr-soft);
+  }
+
   .scoreboard-arrow-header {
     width: 2.5rem;
     min-width: 2.5rem;
@@ -373,6 +418,38 @@
   }
 }
 
+.score-tone-light .scoreboard-mobile-card__score-pill--fr {
+  background: var(--cy-fr-soft);
+}
+
+.score-tone-light .scoreboard-mobile-card__score-pill--so {
+  background: var(--cy-so-soft);
+}
+
+.score-tone-light .scoreboard-mobile-card__score-pill--jr {
+  background: var(--cy-jr-soft);
+}
+
+.score-tone-light .scoreboard-mobile-card__score-pill--sr {
+  background: var(--cy-sr-soft);
+}
+
+.score-tone-strong .scoreboard-mobile-card__score-pill--so {
+  background: var(--cy-so);
+}
+
+.score-tone-strong .scoreboard-mobile-card__score-pill--jr {
+  background: var(--cy-jr);
+}
+
+.score-tone-strong .scoreboard-mobile-card__score-pill--sr {
+  background: var(--cy-sr);
+}
+
+.score-tone-strong .scoreboard-mobile-card__score-pill--fr {
+  background: var(--cy-fr);
+}
+
 .scoreboard-mobile-card__winner {
   margin-top: 0.65rem;
   padding-top: 0.55rem;
@@ -394,11 +471,19 @@
   font-weight: 800;
   box-shadow: none;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 
   &:hover {
     background: #681010;
-    transform: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(134, 18, 18, 0.28);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
     box-shadow: none;
   }
 }
@@ -418,11 +503,17 @@
   cursor: pointer;
   transition:
     background 0.2s ease,
-    color 0.2s ease;
+    color 0.2s ease,
+    transform 0.18s ease;
 
   &:hover {
     background: var(--lowell-red);
     color: #fff;
+    transform: translateX(3px);
+  }
+
+  &:active {
+    transform: translateX(1px) scale(0.96);
   }
 }
 
@@ -444,12 +535,18 @@
   text-underline-offset: 0.25em;
   transition:
     background 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    transform 0.18s ease;
 
   &:hover {
     background: #efe6d9;
     color: var(--lowell-red);
     border-color: var(--home-line);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.99);
   }
 }
 
@@ -460,6 +557,7 @@
   border: 1px solid var(--home-line);
   border-radius: 2px;
   box-shadow: none;
+  animation: cardinalympics-chances-in 0.32s ease;
 
   h3 {
     margin: 0 0 0.75rem;
@@ -489,16 +587,16 @@
 }
 
 .cardinalympics-winning-chances__dot--freshman {
-  background: #2e7d32;
+  background: var(--cy-fr);
 }
 .cardinalympics-winning-chances__dot--sophomore {
-  background: #6a1b9a;
+  background: var(--cy-so);
 }
 .cardinalympics-winning-chances__dot--junior {
-  background: #1565c0;
+  background: var(--cy-jr);
 }
 .cardinalympics-winning-chances__dot--senior {
-  background: #9c1919;
+  background: var(--cy-sr);
 }
 
 .cardinalympics-winning-chances__label {
@@ -525,16 +623,23 @@
 }
 
 .cardinalympics-winning-chances__fill--freshman {
-  background: #2e7d32;
+  background: var(--cy-fr);
 }
 .cardinalympics-winning-chances__fill--sophomore {
-  background: #6a1b9a;
+  background: var(--cy-so);
 }
 .cardinalympics-winning-chances__fill--junior {
-  background: #1565c0;
+  background: var(--cy-jr);
 }
 .cardinalympics-winning-chances__fill--senior {
-  background: #9c1919;
+  background: var(--cy-sr);
+}
+
+@keyframes cardinalympics-chances-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45rem);
+  }
 }
 
 .cardinalympics-winning-chances-toggle-wrap {
@@ -557,12 +662,18 @@
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.25em;
-  transition: color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.18s ease;
 
   &:hover {
     color: #681010;
     background: transparent;
-    transform: none;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
@@ -632,9 +743,17 @@
   background: transparent;
   border: 0;
   cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.18s ease;
 
   &:hover {
     color: var(--home-ink);
+    transform: rotate(90deg);
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.92);
   }
 
   &:focus-visible {
@@ -888,12 +1007,20 @@
     text-decoration: none;
     border-radius: 2px;
     box-shadow: none;
-    transition: background 0.2s ease;
+    transition:
+      background 0.2s ease,
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
 
     &:hover {
       color: #fff;
       background: #681010;
-      transform: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(134, 18, 18, 0.28);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
       box-shadow: none;
     }
   }
@@ -972,11 +1099,26 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cardinalympics-winner-modal__dialog {
+  .cardinalympics-winner-modal__dialog,
+  .cardinalympics-winning-chances {
     animation: none;
   }
 
   .cardinalympics-page .home-cardinalympics__live-dot {
     animation: none;
+  }
+
+  .scoreboard-mobile-card__winner-btn,
+  .scoreboard-arrow-btn,
+  .cardinalympics-scoreboard-show-more,
+  .cardinalympics-winning-chances-toggle,
+  .cardinalympics-winner-modal__close,
+  a.cardinalympics-event-signup {
+    transition: none;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
   }
 }
