@@ -50,7 +50,7 @@ function parseEventDateField(dateRaw) {
   }
 
   const rangeMatch = raw.match(
-    /^(\d{1,2}\/\d{1,2}\/(?:\d{2}|\d{4}))\s*[-–—]\s*(\d{1,2}\/\d{1,2}\/(?:\d{2}|\d{4}))$/,
+    /^(\d{1,2}\/\d{1,2}\/(?:\d{2}|\d{4}))\s*[--—]\s*(\d{1,2}\/\d{1,2}\/(?:\d{2}|\d{4}))$/,
   );
   if (rangeMatch) {
     const start = parseMMDDYY(rangeMatch[1]);
@@ -61,7 +61,7 @@ function parseEventDateField(dateRaw) {
       return {
         sortDate: from,
         endDate: to,
-        dateDisplay: `${rangeMatch[1]} – ${rangeMatch[2]}`,
+        dateDisplay: `${rangeMatch[1]} - ${rangeMatch[2]}`,
         isAllWeek: false,
         isDateRange: true,
         dayRangeLabel: `${WEEKDAY_LONG.format(from)} - ${WEEKDAY_LONG.format(to)}`,
@@ -253,7 +253,7 @@ function startOfDay(date) {
 /**
  * True after the event's last calendar day.
  * Single-day events close after that day; date-range events stay open
- * through endDate (e.g. 10/5–10/8 stays open until after 10/8).
+ * through endDate (e.g. 10/5-10/8 stays open until after 10/8).
  */
 export function isCardinalympicsSignupPastEventDay(ev) {
   if (!ev || ev.isAllWeek || ev.signUpClosed) return false;
@@ -274,7 +274,7 @@ function sortEventsByDate(a, b) {
 
 /**
  * Group events by week number (relative to first dated event), then day of week.
- * Date-range events (e.g. 10/5/26 – 10/8/26) get a top section labeled
+ * Date-range events (e.g. 10/5/26 - 10/8/26) get a top section labeled
  * "Monday - Thursday" (weekday span), placed near the top after All Week.
  */
 export function groupCardinalympicsEventsByWeekAndDay(events) {

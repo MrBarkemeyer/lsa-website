@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import organizationsConfig from "../config/organizations.config.js";
 
 /** File name → the route that renders it. Unlisted files are shared components. */
 const PAGE_ROUTES = {
@@ -15,6 +16,13 @@ const PAGE_ROUTES = {
   "ShieldAndScroll.jsx": { to: "/Organizations/ShieldAndScroll", title: "Shield and Scroll", section: "Organizations" },
   "Forensic.jsx": { to: "/Organizations/Forensic", title: "Forensic Society", section: "Organizations" },
   "VideoLowell.jsx": { to: "/Organizations/VideoLowell", title: "Video Lowell", section: "Organizations" },
+  "Csf.jsx": { to: "/Organizations/Csf", title: "CSF Tutoring", section: "Organizations" },
+  "PeerResources.jsx": { to: "/Organizations/PeerResources", title: "Peer Resources", section: "Organizations" },
+  "Song.jsx": { to: "/Organizations/Song", title: "Lowell Song", section: "Organizations" },
+  "Lsrp.jsx": { to: "/Organizations/Lsrp", title: "Lowell Science Research Program", section: "Organizations" },
+  "Jrotc.jsx": { to: "/Organizations/Jrotc", title: "Lowell JROTC", section: "Organizations" },
+  "CardinalBotics.jsx": { to: "/Organizations/CardinalBotics", title: "CardinalBotics", section: "Organizations" },
+  "Sac.jsx": { to: "/Organizations/Sac", title: "Student Advisory Council", section: "Organizations" },
   "Clubs.jsx": { to: "/Clubs", title: "Clubs", section: "Clubs" },
   "ClubResources.jsx": { to: "/Clubs/ClubResources", title: "Club Resources", section: "Clubs" },
   "NewClub.jsx": { to: "/Clubs/NewClub", title: "How to start a club", section: "Clubs" },
@@ -138,6 +146,25 @@ function importsFile(source, base) {
   );
 }
 
+function rosterText(org) {
+  const people = [
+    ...(org.officers || []),
+    ...(org.officerGroups || []).flatMap((group) => group.people || []),
+  ];
+  return [
+    org.sponsor,
+    ...(org.partnerships || []),
+    org.email,
+    org.instagram,
+    org.officersHeading,
+    ...(org.officerGroups || []).map((group) => group.heading),
+    ...(org.links || []).flatMap((link) => [link.label, link.href]),
+    ...people.flatMap((person) => [person.role, person.name]),
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
 export function collectStaticPages(filePaths) {
   const files = filePaths
     .map((filePath) => ({
@@ -148,6 +175,9 @@ export function collectStaticPages(filePaths) {
 
   const ownText = new Map(
     files.map((file) => [file.base, extractReadableText(file.source)]),
+  );
+  const orgByLink = new Map(
+    organizationsConfig.map((item) => [item.link, item]),
   );
   const unrouted = files.filter((file) => !PAGE_ROUTES[file.base]);
   const byRoute = new Map();
@@ -175,6 +205,10 @@ export function collectStaticPages(filePaths) {
         }
       }
     }
+
+    const slug = route.to.split("/").pop();
+    const org = orgByLink.get(slug);
+    if (org) text += ` ${rosterText(org)}`;
 
     const existing = byRoute.get(route.to);
     if (existing) existing.text += ` ${text}`;

@@ -19,6 +19,7 @@ function pageTextPlugin() {
       if (id !== resolvedId) return null;
       const files = listJsxFiles(path.join(root, "src", "pages"));
       for (const file of files) this.addWatchFile(file);
+      this.addWatchFile(path.join(root, "src", "config", "organizations.config.js"));
       const pages = collectStaticPages(files);
       return `export const staticPageText = ${JSON.stringify(pages)};`;
     },

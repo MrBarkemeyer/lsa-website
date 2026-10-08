@@ -47,6 +47,15 @@ const Archives = lazy(() => import("./pages/More/Archives"));
 const More = lazy(() => import("./pages/More/More"));
 const Forensic = lazy(() => import("./pages/Organizations/Forensic"));
 const VideoLowell = lazy(() => import("./pages/Organizations/VideoLowell"));
+const Csf = lazy(() => import("./pages/Organizations/Csf"));
+const PeerResources = lazy(() => import("./pages/Organizations/PeerResources"));
+const Song = lazy(() => import("./pages/Organizations/Song"));
+const Lsrp = lazy(() => import("./pages/Organizations/Lsrp"));
+const Jrotc = lazy(() => import("./pages/Organizations/Jrotc"));
+const CardinalBotics = lazy(
+  () => import("./pages/Organizations/CardinalBotics"),
+);
+const Sac = lazy(() => import("./pages/Organizations/Sac"));
 const Cardinalympics = lazy(() => import("./pages/Cardinalympics"));
 const SHEETS_COOKIE_TTL_DAYS = 1;
 const SHEETS_CHECK_WINDOW_MS = 60 * 1000;
@@ -711,6 +720,13 @@ function App() {
             <Route path="ShieldAndScroll" element={<ShieldAndScroll />} />
             <Route path="Forensic" element={<Forensic />} />
             <Route path="VideoLowell" element={<VideoLowell />} />
+            <Route path="Csf" element={<Csf />} />
+            <Route path="PeerResources" element={<PeerResources />} />
+            <Route path="Song" element={<Song />} />
+            <Route path="Lsrp" element={<Lsrp />} />
+            <Route path="Jrotc" element={<Jrotc />} />
+            <Route path="CardinalBotics" element={<CardinalBotics />} />
+            <Route path="Sac" element={<Sac />} />
           </Route>
 
           <Route path="Clubs" element={<Outlet />}>

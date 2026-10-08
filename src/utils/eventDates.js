@@ -1,7 +1,7 @@
 /** First and last calendar day in strings like "8/11/2025" or "10/6/2025-10/10/2025". */
 export function eventRange(dateStr) {
   const dates = String(dateStr || "")
-    .split(/,|–|—|-/)
+    .split(/,|-|—|-/)
     .map((part) => {
       const match = part.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
       if (!match) return null;
