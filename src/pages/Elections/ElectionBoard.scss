@@ -83,7 +83,7 @@
   box-shadow: 0 8px 24px rgba(30, 35, 45, 0.06);
 }
 
-// Stick under the fixed nav. Nav is 120px, 92px from 1001–1350, and scrolls away below 1000.
+// Stick under the fixed nav. Nav is 120px, 92px from 1001-1350, and scrolls away below 1000.
 @media (max-width: 1350px) and (min-width: 1001px) {
   .election-board-tools {
     top: 92px;

@@ -207,3 +207,13 @@
     transform: none;
   }
 }
+.org-page .club-about__text + .club-about__text,
+.org-page .club-block > section + .club-about__text {
+  margin-top: 0.85rem;
+}
+
+.org-page .club-about__text a,
+.org-page .club-leadership__name a {
+  color: color-mix(in srgb, var(--club-accent) 75%, #111);
+  font-weight: 650;
+}

@@ -47,6 +47,15 @@ const Archives = lazy(() => import("./pages/More/Archives"));
 const More = lazy(() => import("./pages/More/More"));
 const Forensic = lazy(() => import("./pages/Organizations/Forensic"));
 const VideoLowell = lazy(() => import("./pages/Organizations/VideoLowell"));
+const Csf = lazy(() => import("./pages/Organizations/Csf"));
+const PeerResources = lazy(() => import("./pages/Organizations/PeerResources"));
+const Song = lazy(() => import("./pages/Organizations/Song"));
+const Lsrp = lazy(() => import("./pages/Organizations/Lsrp"));
+const Jrotc = lazy(() => import("./pages/Organizations/Jrotc"));
+const CardinalBotics = lazy(
+  () => import("./pages/Organizations/CardinalBotics"),
+);
+const Sac = lazy(() => import("./pages/Organizations/Sac"));
 const Cardinalympics = lazy(() => import("./pages/Cardinalympics"));
 const SHEETS_COOKIE_TTL_DAYS = 1;
 const SHEETS_CHECK_WINDOW_MS = 60 * 1000;
@@ -62,12 +71,16 @@ const ELECTION_SHEET_COOKIE = `lsa_sheet_elections_${site.elections.mode || "nor
 const CARDINALYMPICS_SPREADSHEET_ID =
   "1Q4BWb9A2S9qRvn4HZhMpRnDseSmnlp36T4N7SGF-JF4";
 const CARDINALYMPICS_SCORE_SHEET = "Sp, 25";
-const CARDINALYMPICS_SCOREBOARD_GID = 525997941;
 const CARDINALYMPICS_EVENTS_SHEET = "Cardinalympics Events";
 const CARDINALYMPICS_POLL_MS = 30_000;
-const CARDINALYMPICS_SCORES_COOKIE = "lsa_sheet_cardinalympics_v1";
-const CARDINALYMPICS_EVENTS_COOKIE = "lsa_sheet_cardinalympics_events_v1";
+// Scoreboards exceed cookie size (~4KB); use localStorage like elections. v2 invalidates stale v1 cookies.
+const CARDINALYMPICS_SCORES_CACHE = "lsa_sheet_cardinalympics_v2";
+const CARDINALYMPICS_EVENTS_CACHE = "lsa_sheet_cardinalympics_events_v2";
 const CARDINALYMPICS_LIVE_FLAG_COOKIE = "lsa_sheet_cardinalympics_live_v1";
+const CARDINALYMPICS_LEGACY_COOKIES = [
+  "lsa_sheet_cardinalympics_v1",
+  "lsa_sheet_cardinalympics_events_v1",
+];
 
 function parseCardinalympicsEnableLiveCount(values) {
   if (!Array.isArray(values)) return true;
@@ -140,6 +153,47 @@ function writeElectionSheetCache(values) {
   if (typeof localStorage === "undefined") return;
   try {
     localStorage.setItem(ELECTION_SHEET_COOKIE, JSON.stringify(values));
+  } catch {
+    // quota or private mode
+  }
+}
+
+function clearCookie(name) {
+  if (typeof document === "undefined") return;
+  document.cookie = `${name}=; path=/; max-age=0; SameSite=Lax`;
+}
+
+function clearCardinalympicsLegacyCookies() {
+  for (const name of CARDINALYMPICS_LEGACY_COOKIES) clearCookie(name);
+}
+
+function readCardinalympicsSheetCache(key, spreadsheetId) {
+  if (typeof localStorage === "undefined") return null;
+  try {
+    const parsed = JSON.parse(localStorage.getItem(key) || "null");
+    if (!parsed || typeof parsed !== "object") return null;
+    // Reject caches from a different spreadsheet (old vs new scorebook).
+    if (parsed.spreadsheetId && parsed.spreadsheetId !== spreadsheetId) {
+      return null;
+    }
+    return Array.isArray(parsed.values) && parsed.values.length
+      ? parsed.values
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCardinalympicsSheetCache(key, values, spreadsheetId) {
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(
+      key,
+      JSON.stringify({
+        spreadsheetId,
+        values,
+      }),
+    );
   } catch {
     // quota or private mode
   }
@@ -243,61 +297,6 @@ async function fetchSheetBatchGetWithRetry(
     valueRanges: null,
     error: lastError || "Failed to fetch sheet data",
   };
-}
-
-/** Read values directly from a gid/sheetId without relying on tab title. */
-async function fetchSheetByGidWithRetry(
-  spreadsheetId,
-  gid,
-  apiKey,
-  options = {},
-) {
-  const attempts = options.attempts ?? SHEETS_RETRY_ATTEMPTS;
-  const delayMs = options.delayMs ?? SHEETS_RETRY_DELAY_MS;
-  const targetGid = Number(gid);
-  if (!Number.isFinite(targetGid))
-    return { values: null, error: "Invalid gid" };
-  let lastError = null;
-
-  for (let i = 0; i < attempts; i++) {
-    try {
-      const params = new URLSearchParams();
-      params.set("key", apiKey);
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values:batchGetByDataFilter?${params.toString()}`;
-      const body = {
-        dataFilters: [{ gridRange: { sheetId: targetGid } }],
-        majorDimension: "ROWS",
-      };
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        ...options.fetchOptions,
-      });
-      const json = await res.json().catch(() => ({}));
-      const httpStatus = res.status;
-      const apiMessage = json?.error?.message;
-
-      if (!res.ok || json?.error) {
-        lastError = apiMessage || res.statusText || `HTTP ${httpStatus}`;
-        const retryable =
-          httpStatus === 429 || httpStatus >= 500 || httpStatus === 0;
-        if (!retryable) break;
-      } else {
-        const values = json?.valueRanges?.[0]?.valueRange?.values;
-        if (Array.isArray(values)) return { values, error: null };
-        return { values: null, error: `No values for gid ${targetGid}` };
-      }
-    } catch (error) {
-      lastError = error?.message || "Network error";
-    }
-
-    if (i < attempts - 1) {
-      await delay(delayMs);
-    }
-  }
-
-  return { values: null, error: lastError || "Failed to fetch sheet by gid" };
 }
 
 function arrayCleanUp(array) {
@@ -464,9 +463,17 @@ function App() {
       location.pathname,
     );
 
+    clearCardinalympicsLegacyCookies();
+
     if (!cardinalympicsRouteActive) {
-      const cachedValues = readJsonCookie(CARDINALYMPICS_SCORES_COOKIE);
-      const cachedEventsValues = readJsonCookie(CARDINALYMPICS_EVENTS_COOKIE);
+      const cachedValues = readCardinalympicsSheetCache(
+        CARDINALYMPICS_SCORES_CACHE,
+        CARDINALYMPICS_SPREADSHEET_ID,
+      );
+      const cachedEventsValues = readCardinalympicsSheetCache(
+        CARDINALYMPICS_EVENTS_CACHE,
+        MAIN_SPREADSHEET_ID,
+      );
       if (showScoresAndScoreboard && cachedValues?.length)
         applyCardinalympicsValues(cachedValues);
       if (needsCardinalympicsEventsData && cachedEventsValues?.length)
@@ -476,26 +483,21 @@ function App() {
 
     let liveCountEnabled = readCardinalympicsLiveFlag();
     if (liveCountEnabled == null) {
-      const cachedForFlag = readJsonCookie(CARDINALYMPICS_SCORES_COOKIE);
+      const cachedForFlag = readCardinalympicsSheetCache(
+        CARDINALYMPICS_SCORES_CACHE,
+        CARDINALYMPICS_SPREADSHEET_ID,
+      );
       liveCountEnabled = cachedForFlag?.length
         ? parseCardinalympicsEnableLiveCount(cachedForFlag)
         : true;
     }
 
     async function fetchScoreSheetValues() {
-      const fetchOpts = { fetchOptions: { cache: "no-store" } };
-      const gidResult = await fetchSheetByGidWithRetry(
-        CARDINALYMPICS_SPREADSHEET_ID,
-        CARDINALYMPICS_SCOREBOARD_GID,
-        GOOGLE_API_KEY,
-        fetchOpts,
-      );
-      if (gidResult.values?.length) return gidResult.values;
       const batch = await fetchSheetBatchGetWithRetry(
         CARDINALYMPICS_SPREADSHEET_ID,
         [CARDINALYMPICS_SCORE_SHEET],
         GOOGLE_API_KEY,
-        fetchOpts,
+        { fetchOptions: { cache: "no-store" } },
       );
       return batch.valueRanges?.[0]?.values || null;
     }
@@ -506,14 +508,24 @@ function App() {
      * poll = background refresh: only when live is already on
      */
     async function fetchCardinalympicsData(mode = "check") {
-      const cachedValues = readJsonCookie(CARDINALYMPICS_SCORES_COOKIE);
-      const cachedEventsValues = readJsonCookie(CARDINALYMPICS_EVENTS_COOKIE);
+      const cachedValues = readCardinalympicsSheetCache(
+        CARDINALYMPICS_SCORES_CACHE,
+        CARDINALYMPICS_SPREADSHEET_ID,
+      );
+      const cachedEventsValues = readCardinalympicsSheetCache(
+        CARDINALYMPICS_EVENTS_CACHE,
+        MAIN_SPREADSHEET_ID,
+      );
 
-      if (showScoresAndScoreboard && cachedValues?.length) {
-        applyCardinalympicsValues(cachedValues);
-      }
-      if (needsCardinalympicsEventsData && cachedEventsValues?.length) {
-        applyCardinalympicsEventsValues(cachedEventsValues);
+      // Hydrate from cache only on check — never on poll. Re-applying a stale
+      // snapshot before a throttled skip caused scores to flip between old/new.
+      if (mode === "check") {
+        if (showScoresAndScoreboard && cachedValues?.length) {
+          applyCardinalympicsValues(cachedValues);
+        }
+        if (needsCardinalympicsEventsData && cachedEventsValues?.length) {
+          applyCardinalympicsEventsValues(cachedEventsValues);
+        }
       }
 
       // Background polls never run while live count is off.
@@ -536,11 +548,19 @@ function App() {
             if (sheetLive) {
               // Live on: accept the latest scores.
               applyCardinalympicsValues(scoreVals);
-              writeJsonCookie(CARDINALYMPICS_SCORES_COOKIE, scoreVals);
+              writeCardinalympicsSheetCache(
+                CARDINALYMPICS_SCORES_CACHE,
+                scoreVals,
+                CARDINALYMPICS_SPREADSHEET_ID,
+              );
             } else if (!cachedValues?.length) {
               // Live off and no prior snapshot: seed one frozen copy.
               applyCardinalympicsValues(scoreVals);
-              writeJsonCookie(CARDINALYMPICS_SCORES_COOKIE, scoreVals);
+              writeCardinalympicsSheetCache(
+                CARDINALYMPICS_SCORES_CACHE,
+                scoreVals,
+                CARDINALYMPICS_SPREADSHEET_ID,
+              );
             }
             // Live off + existing cache: keep the frozen scores on screen.
           } else {
@@ -563,7 +583,11 @@ function App() {
             const eventVals = batch.valueRanges?.[0]?.values;
             if (eventVals?.length) {
               applyCardinalympicsEventsValues(eventVals);
-              writeJsonCookie(CARDINALYMPICS_EVENTS_COOKIE, eventVals);
+              writeCardinalympicsSheetCache(
+                CARDINALYMPICS_EVENTS_CACHE,
+                eventVals,
+                MAIN_SPREADSHEET_ID,
+              );
             }
           }
         }
@@ -711,6 +735,13 @@ function App() {
             <Route path="ShieldAndScroll" element={<ShieldAndScroll />} />
             <Route path="Forensic" element={<Forensic />} />
             <Route path="VideoLowell" element={<VideoLowell />} />
+            <Route path="Csf" element={<Csf />} />
+            <Route path="PeerResources" element={<PeerResources />} />
+            <Route path="Song" element={<Song />} />
+            <Route path="Lsrp" element={<Lsrp />} />
+            <Route path="Jrotc" element={<Jrotc />} />
+            <Route path="CardinalBotics" element={<CardinalBotics />} />
+            <Route path="Sac" element={<Sac />} />
           </Route>
 
           <Route path="Clubs" element={<Outlet />}>
