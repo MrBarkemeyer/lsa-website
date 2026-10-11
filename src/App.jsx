@@ -1,6 +1,13 @@
 import { lazy, useState, useEffect, useMemo } from "react";
 import "./App.scss";
-import { Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import ScrollToTop from "./components/ScrollToTop";
@@ -14,6 +21,15 @@ import NotFound from "./pages/NotFound";
 const Elections = lazy(() => import("./pages/Elections"));
 const ElectionBoard = lazy(() => import("./pages/Elections/ElectionBoard"));
 const ElectionResults = lazy(() => import("./pages/Elections/ElectionResults"));
+
+function RedirectLegacyElectionsDevBoard() {
+  const { boardSlug } = useParams();
+  const slug = String(boardSlug ?? "").trim();
+  if (!slug || slug.toLowerCase() === "all") {
+    return <Navigate to="/Elections/All" replace />;
+  }
+  return <Navigate to={`/Elections/${encodeURIComponent(slug)}`} replace />;
+}
 const Club = lazy(() => import("./pages/Clubs/Club"));
 const TitleIX = lazy(() => import("./pages/Resources/TitleIX"));
 const FreshMenCorner = lazy(() => import("./pages/More/FreshmenCorner"));
@@ -700,10 +716,18 @@ function App() {
               }
             />
             <Route
-              path=":boardSlug"
+              path="All"
               element={
-                <ElectionBoard electionsConfig={electionsConfigResolved} />
+                <Elections
+                  forceHub
+                  electionsEnabled={site.electionsEnabled}
+                  electionsConfig={electionsConfigResolved}
+                />
               }
+            />
+            <Route
+              path="all"
+              element={<Navigate to="/Elections/All" replace />}
             />
             <Route
               path="Results"
@@ -713,6 +737,29 @@ function App() {
                   electionsConfig={electionsConfigResolved}
                 />
               }
+            />
+            <Route
+              path=":boardSlug"
+              element={
+                <ElectionBoard electionsConfig={electionsConfigResolved} />
+              }
+            />
+            {/* Legacy redesign preview URLs */}
+            <Route
+              path="dev"
+              element={<Navigate to="/Elections" replace />}
+            />
+            <Route
+              path="dev/All"
+              element={<Navigate to="/Elections/All" replace />}
+            />
+            <Route
+              path="dev/all"
+              element={<Navigate to="/Elections/All" replace />}
+            />
+            <Route
+              path="dev/:boardSlug"
+              element={<RedirectLegacyElectionsDevBoard />}
             />
           </Route>
 

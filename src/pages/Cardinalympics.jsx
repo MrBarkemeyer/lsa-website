@@ -158,6 +158,8 @@ const IDX_WINNER = 8;
 // Historical strength: seniors have always won, then juniors, sophomores, freshmen.
 // Kept mild so a full week of remaining points can still reshuffle the race.
 const HISTORICAL_STRENGTH = [1, 1.2, 1.45, 1.75];
+// Mild year tilt only — current Spirit Week totals drive Friday Rally weights.
+const FRIDAY_RALLY_YEAR_TILT = [0.94, 0.98, 1.04, 1.16];
 const DEFAULT_DAILY_EVENT_PTS = 300;
 const DEFAULT_WEEKLONG_EVENT_PTS = 400;
 const DEFAULT_FRIDAY_RALLY_EVENT_PTS = 400;
@@ -167,6 +169,17 @@ const CHANCE_SMOOTHING_ALPHA = 12;
 function placePointsFromPossible(ptsPossible) {
   const pts = Math.max(0, Number(ptsPossible) || 0);
   return [pts, Math.round((pts * 2) / 3), Math.round(pts / 3), 0];
+}
+
+// Friday Rally percentile ranking: 1st 100%, 2nd 85%, 3rd 75%, 4th 50%.
+function placePointsFromPossibleFriday(ptsPossible) {
+  const pts = Math.max(0, Number(ptsPossible) || 0);
+  return [
+    pts,
+    Math.round(pts * 0.85),
+    Math.round(pts * 0.75),
+    Math.round(pts * 0.5),
+  ];
 }
 
 function isSectionHeaderLabel(label) {
@@ -580,6 +593,18 @@ function effectiveHistoricalStrength(baseTotals, pendingEvents) {
   );
 }
 
+/** Friday Rally finish weights: follow live totals, with only a light senior lean. */
+function fridayRallyStrengths(baseTotals) {
+  const scores = [0, 1, 2, 3].map((i) =>
+    Math.max(0, Number(baseTotals[i]) || 0),
+  );
+  const max = Math.max(...scores, 1);
+  return scores.map((score, i) => {
+    const form = 0.7 + 0.3 * (score / max);
+    return form * FRIDAY_RALLY_YEAR_TILT[i];
+  });
+}
+
 function weightedFinishOrder(classIndexes, rand, strengths) {
   const remaining = classIndexes.map((i) => ({
     i,
@@ -657,13 +682,23 @@ function collectPendingEvents(rows) {
       ptsPossible,
       scores,
       missingClassIndexes,
-      places: placePointsFromPossible(ptsPossible),
+      places:
+        sectionContext === "friday"
+          ? placePointsFromPossibleFriday(ptsPossible)
+          : placePointsFromPossible(ptsPossible),
+      sectionContext,
     });
   }
   return pending;
 }
 
-function simulatePendingOntoTotals(baseTotals, pendingEvents, rand, strengths) {
+function simulatePendingOntoTotals(
+  baseTotals,
+  pendingEvents,
+  rand,
+  strengths,
+  fridayStrengths,
+) {
   const simulated = [...baseTotals];
   for (const ev of pendingEvents) {
     const takenPlaces = new Set();
@@ -678,10 +713,12 @@ function simulatePendingOntoTotals(baseTotals, pendingEvents, rand, strengths) {
       .filter((item) => !takenPlaces.has(item.place))
       .map((item) => item.pts);
 
+    const eventStrengths =
+      ev.sectionContext === "friday" ? fridayStrengths : strengths;
     const order = weightedFinishOrder(
       ev.missingClassIndexes,
       rand,
-      strengths,
+      eventStrengths,
     );
     for (let rank = 0; rank < order.length; rank++) {
       simulated[order[rank]] += openPlaces[rank] ?? 0;
@@ -703,6 +740,7 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
 
   const pendingEvents = collectPendingEvents(rows);
   const strengths = effectiveHistoricalStrength(baseTotals, pendingEvents);
+  const fridayStrengths = fridayRallyStrengths(baseTotals);
   const rand = makeSeededRandom(hashStringSeed(seedInput));
   const wins = [0, 0, 0, 0];
 
@@ -725,6 +763,7 @@ function calculateWinningChances(spiritTotals, rows, seedInput = "") {
       pendingEvents,
       rand,
       strengths,
+      fridayStrengths,
     );
     const maxScore = Math.max(...simulated);
     const winners = simulated

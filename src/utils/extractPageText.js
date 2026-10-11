@@ -41,7 +41,7 @@ const PAGE_ROUTES = {
   "Elections.jsx": { to: "/Elections", title: "Elections", section: "Elections" },
   "ElectionResults.jsx": { to: "/Elections/Results", title: "Election results", section: "Elections" },
   "ElectionBoard.jsx": { to: "/Elections", title: "Election board", section: "Elections" },
-  "ElectionsCandidateBoards.jsx": { to: "/Elections", title: "Election candidates", section: "Elections" },
+  "ElectionsBoardsHub.jsx": { to: "/Elections/All", title: "Election boards", section: "Elections" },
 };
 
 const SKIP_FILES = new Set([

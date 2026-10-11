@@ -2,94 +2,113 @@ import { useSearchParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import electionsConfig from "../config/elections.config.js";
 import ElectionResultsPage from "./Elections/ElectionResults.jsx";
-import ElectionsCandidateBoardsView from "./Elections/ElectionsCandidateBoards.jsx";
+import ElectionBoard from "./Elections/ElectionBoard.jsx";
+import ElectionsBoardsHub from "./Elections/ElectionsBoardsHub.jsx";
+import { areElectionBoardsPublic } from "../utils/electionAccess.js";
 import {
-  useElectionVotingMessagingLive,
   getResultsEmbargoCopy,
   useElectionResultsReleased,
 } from "../utils/electionVotingWindow.js";
-import "./Elections.scss";
+import "./Elections/ElectionsBoard.scss";
+
+function onlyBoardSlug(config) {
+  const listed = (config?.contenders ?? []).filter((b) => b?.slug);
+  if (listed.length > 1) return null;
+  if (listed.length === 1) return listed[0].slug;
+  const enabled = config?.enabledElectionBoards;
+  if (Array.isArray(enabled) && enabled.length === 1) {
+    const slug = String(enabled[0] ?? "").trim();
+    return slug || null;
+  }
+  return null;
+}
+
+function ElectionsCandidateView({
+  config,
+  resultsEmbargo = null,
+  forceHub = false,
+}) {
+  const soloSlug = onlyBoardSlug(config);
+  // /Elections/All always shows the boards hub, even in single-board mode
+  if (!forceHub && soloSlug && areElectionBoardsPublic(config)) {
+    return <ElectionBoard electionsConfig={config} boardSlug={soloSlug} />;
+  }
+  return (
+    <ElectionsBoardsHub config={config} resultsEmbargo={resultsEmbargo} />
+  );
+}
+
+ElectionsCandidateView.propTypes = {
+  config: PropTypes.object,
+  forceHub: PropTypes.bool,
+  resultsEmbargo: PropTypes.shape({
+    subtitle: PropTypes.string.isRequired,
+    detail: PropTypes.string,
+  }),
+};
 
 export default function Elections({
   electionsEnabled = true,
   electionsConfig: config = electionsConfig,
+  forceHub = false,
 }) {
   const [searchParams] = useSearchParams();
   const wantsCandidatesView =
     searchParams.get("candidates") === "1" ||
     searchParams.get("view") === "candidates";
-  const messagingLive = useElectionVotingMessagingLive(config);
   const resultsReleased = useElectionResultsReleased(config);
   const state = config?.state ?? "results";
 
   if (!electionsEnabled) {
     return (
-      <div className="elections-page">
-        <header className="elections-hero">
-          <h1 className="elections-hero-title">LSA Board</h1>
-          <p className="elections-hero-subtitle">Elections</p>
-        </header>
-        <section className="election-section election-state-off">
-          <div className="elections-message-box">
-            <h2>No elections at this time</h2>
-            <p>
-              {config?.notHappeningMessage ??
-                "Elections are not currently happening. Check back later for updates."}
-            </p>
-          </div>
-        </section>
-      </div>
+      <section className="elections-dev">
+        <div className="elections-dev__hero">
+          <h1>Elections</h1>
+          <p className="elections-dev__tagline">
+            {config?.notHappeningMessage ??
+              "Elections are not currently happening. Check back later for updates."}
+          </p>
+        </div>
+      </section>
     );
   }
 
   if (state === "pending") {
     return (
-      <div className="elections-page">
-        <header className="elections-hero">
-          <h1 className="elections-hero-title">LSA Board</h1>
-          <p className="elections-hero-subtitle">Elections</p>
-          <span className="elections-hero-badge">Coming soon</span>
-        </header>
-        <section className="election-section election-state-off">
-          <div className="elections-message-box">
-            <h2>{config?.pendingTitle ?? "Elections are coming soon"}</h2>
-            <p>{config?.pendingSubtitle ?? "Please stay tuned for updates."}</p>
-            {String(config?.pendingDate ?? "").trim() ? (
-              <p className="elections-pending-date">{config.pendingDate}</p>
-            ) : null}
-          </div>
-        </section>
-      </div>
+      <section className="elections-dev">
+        <div className="elections-dev__hero">
+          <h1>{config?.pendingTitle ?? "Elections are coming soon"}</h1>
+          <p className="elections-dev__tagline">
+            {config?.pendingSubtitle ?? "Please stay tuned for updates."}
+          </p>
+          {String(config?.pendingDate ?? "").trim() ? (
+            <p className="elections-dev__hint">{config.pendingDate}</p>
+          ) : null}
+        </div>
+      </section>
     );
   }
 
   if (state === "polling") {
-    return (
-      <ElectionsCandidateBoardsView
-        config={config}
-        messagingLive={messagingLive}
-      />
-    );
+    return <ElectionsCandidateView config={config} forceHub={forceHub} />;
   }
 
   if (state === "results" && !resultsReleased) {
     const embargo = getResultsEmbargoCopy(config);
     return (
-      <ElectionsCandidateBoardsView
+      <ElectionsCandidateView
         config={config}
-        messagingLive={messagingLive}
-        resultsEmbargo={{ subtitle: embargo.subtitle, detail: embargo.detail }}
+        forceHub={forceHub}
+        resultsEmbargo={{
+          subtitle: embargo.subtitle,
+          detail: embargo.detail,
+        }}
       />
     );
   }
 
-  if (state === "results" && wantsCandidatesView) {
-    return (
-      <ElectionsCandidateBoardsView
-        config={config}
-        messagingLive={messagingLive}
-      />
-    );
+  if (state === "results" && (forceHub || wantsCandidatesView)) {
+    return <ElectionsCandidateView config={config} forceHub={forceHub} />;
   }
 
   if (state === "results") {
@@ -102,61 +121,19 @@ export default function Elections({
   }
 
   return (
-    <div className="elections-page">
-      <header className="elections-hero">
-        <h1 className="elections-hero-title">LSA Board</h1>
-        <p className="elections-hero-subtitle">Elections</p>
-        <span className="elections-hero-badge">Coming soon</span>
-      </header>
-      <section className="election-section election-state-off">
-        <div className="elections-message-box">
-          <h2>{config?.pendingTitle ?? "Elections are coming soon"}</h2>
-          <p>{config?.pendingSubtitle ?? "Please stay tuned for updates."}</p>
-          {String(config?.pendingDate ?? "").trim() ? (
-            <p className="elections-pending-date">{config.pendingDate}</p>
-          ) : null}
-        </div>
-      </section>
-    </div>
+    <section className="elections-dev">
+      <div className="elections-dev__hero">
+        <h1>{config?.pendingTitle ?? "Elections are coming soon"}</h1>
+        <p className="elections-dev__tagline">
+          {config?.pendingSubtitle ?? "Please stay tuned for updates."}
+        </p>
+      </div>
+    </section>
   );
 }
 
 Elections.propTypes = {
   electionsEnabled: PropTypes.bool,
-  electionsConfig: PropTypes.shape({
-    state: PropTypes.oneOf(["pending", "polling", "results"]),
-    notHappeningMessage: PropTypes.string,
-    pendingTitle: PropTypes.string,
-    pendingSubtitle: PropTypes.string,
-    pendingDate: PropTypes.string,
-    pollingTitle: PropTypes.string,
-    pollingSubtitle: PropTypes.string,
-    votingLivePollingTitle: PropTypes.string,
-    votingLivePollingSubtitle: PropTypes.string,
-    votingFormUrl: PropTypes.string,
-    votingOpensAt: PropTypes.string,
-    voteButtonText: PropTypes.string,
-    contenders: PropTypes.arrayOf(
-      PropTypes.shape({
-        board: PropTypes.string,
-        color: PropTypes.string,
-        roles: PropTypes.arrayOf(
-          PropTypes.shape({
-            role: PropTypes.string,
-            candidates: PropTypes.arrayOf(
-              PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.shape({
-                  name: PropTypes.string,
-                  description: PropTypes.string,
-                  pfp: PropTypes.string,
-                  video: PropTypes.string,
-                }),
-              ]),
-            ),
-          }),
-        ),
-      }),
-    ),
-  }),
+  electionsConfig: PropTypes.object,
+  forceHub: PropTypes.bool,
 };
