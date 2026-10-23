@@ -7,286 +7,1322 @@
       "winner": "Auston Kwong",
       "roundCount": 14,
       "rounds": [
-        { "round": 1, "activeBallots": 353, "exhaustedBallots": 4 },
-        { "round": 2, "activeBallots": 353, "exhaustedBallots": 4 },
-        { "round": 3, "activeBallots": 353, "exhaustedBallots": 4 },
-        { "round": 4, "activeBallots": 353, "exhaustedBallots": 4 },
-        { "round": 5, "activeBallots": 352, "exhaustedBallots": 5 },
-        { "round": 6, "activeBallots": 352, "exhaustedBallots": 5 },
-        { "round": 7, "activeBallots": 351, "exhaustedBallots": 6 },
-        { "round": 8, "activeBallots": 349, "exhaustedBallots": 8 },
-        { "round": 9, "activeBallots": 348, "exhaustedBallots": 9 },
-        { "round": 10, "activeBallots": 345, "exhaustedBallots": 12 },
-        { "round": 11, "activeBallots": 337, "exhaustedBallots": 20 },
-        { "round": 12, "activeBallots": 330, "exhaustedBallots": 27 },
-        { "round": 13, "activeBallots": 308, "exhaustedBallots": 49 },
-        { "round": 14, "activeBallots": 288, "exhaustedBallots": 69 }
+        {
+          "round": 1,
+          "activeBallots": 382,
+          "exhaustedBallots": 6
+        },
+        {
+          "round": 2,
+          "activeBallots": 382,
+          "exhaustedBallots": 6
+        },
+        {
+          "round": 3,
+          "activeBallots": 382,
+          "exhaustedBallots": 6
+        },
+        {
+          "round": 4,
+          "activeBallots": 382,
+          "exhaustedBallots": 6
+        },
+        {
+          "round": 5,
+          "activeBallots": 381,
+          "exhaustedBallots": 7
+        },
+        {
+          "round": 6,
+          "activeBallots": 380,
+          "exhaustedBallots": 8
+        },
+        {
+          "round": 7,
+          "activeBallots": 379,
+          "exhaustedBallots": 9
+        },
+        {
+          "round": 8,
+          "activeBallots": 377,
+          "exhaustedBallots": 11
+        },
+        {
+          "round": 9,
+          "activeBallots": 376,
+          "exhaustedBallots": 12
+        },
+        {
+          "round": 10,
+          "activeBallots": 372,
+          "exhaustedBallots": 16
+        },
+        {
+          "round": 11,
+          "activeBallots": 364,
+          "exhaustedBallots": 24
+        },
+        {
+          "round": 12,
+          "activeBallots": 357,
+          "exhaustedBallots": 31
+        },
+        {
+          "round": 13,
+          "activeBallots": 334,
+          "exhaustedBallots": 54
+        },
+        {
+          "round": 14,
+          "activeBallots": 311,
+          "exhaustedBallots": 77
+        }
       ],
       "candidates": [
         {
           "name": "Audriana Huynh",
           "rounds": [
-            { "round": 1, "votes": 22, "voteShare": 0.06232295, "transfer": 0 },
-            { "round": 2, "votes": 23, "voteShare": 0.06515581, "transfer": 1 },
-            { "round": 3, "votes": 25, "voteShare": 0.07082153, "transfer": 2 },
-            { "round": 4, "votes": 27, "voteShare": 0.07648725, "transfer": 2 },
-            { "round": 5, "votes": 28, "voteShare": 0.07954545, "transfer": 1 },
-            { "round": 6, "votes": 29, "voteShare": 0.08238636, "transfer": 1 },
-            { "round": 7, "votes": 32, "voteShare": 0.09116809, "transfer": 3 },
-            { "round": 8, "votes": 32, "voteShare": 0.09169054, "transfer": 0 },
-            { "round": 9, "votes": 0, "voteShare": 0.0, "transfer": -32 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 22,
+              "voteShare": 0.05759162,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 23,
+              "voteShare": 0.06020942,
+              "transfer": 1
+            },
+            {
+              "round": 3,
+              "votes": 25,
+              "voteShare": 0.06544503,
+              "transfer": 2
+            },
+            {
+              "round": 4,
+              "votes": 27,
+              "voteShare": 0.07068063,
+              "transfer": 2
+            },
+            {
+              "round": 5,
+              "votes": 28,
+              "voteShare": 0.07349081,
+              "transfer": 1
+            },
+            {
+              "round": 6,
+              "votes": 29,
+              "voteShare": 0.07631579,
+              "transfer": 1
+            },
+            {
+              "round": 7,
+              "votes": 33,
+              "voteShare": 0.08707124,
+              "transfer": 4
+            },
+            {
+              "round": 8,
+              "votes": 33,
+              "voteShare": 0.08753316,
+              "transfer": 0
+            },
+            {
+              "round": 9,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -33
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Auston Kwong",
           "rounds": [
-            { "round": 1, "votes": 55, "voteShare": 0.15580737, "transfer": 0 },
-            { "round": 2, "votes": 55, "voteShare": 0.15580737, "transfer": 0 },
-            { "round": 3, "votes": 57, "voteShare": 0.16147309, "transfer": 2 },
-            { "round": 4, "votes": 58, "voteShare": 0.16430595, "transfer": 1 },
-            { "round": 5, "votes": 61, "voteShare": 0.17329545, "transfer": 3 },
-            { "round": 6, "votes": 65, "voteShare": 0.18465909, "transfer": 4 },
-            { "round": 7, "votes": 69, "voteShare": 0.1965812, "transfer": 4 },
-            { "round": 8, "votes": 78, "voteShare": 0.2234957, "transfer": 9 },
-            { "round": 9, "votes": 93, "voteShare": 0.26724138, "transfer": 15 },
-            { "round": 10, "votes": 106, "voteShare": 0.30724638, "transfer": 13 },
-            { "round": 11, "votes": 127, "voteShare": 0.3768546, "transfer": 21 },
-            { "round": 12, "votes": 144, "voteShare": 0.43636364, "transfer": 17 },
-            { "round": 13, "votes": 178, "voteShare": 0.57792208, "transfer": 34 },
-            { "round": 14, "votes": 288, "voteShare": 1.0, "transfer": 110 }
+            {
+              "round": 1,
+              "votes": 57,
+              "voteShare": 0.14921466,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 57,
+              "voteShare": 0.14921466,
+              "transfer": 0
+            },
+            {
+              "round": 3,
+              "votes": 59,
+              "voteShare": 0.15445026,
+              "transfer": 2
+            },
+            {
+              "round": 4,
+              "votes": 60,
+              "voteShare": 0.15706806,
+              "transfer": 1
+            },
+            {
+              "round": 5,
+              "votes": 63,
+              "voteShare": 0.16535433,
+              "transfer": 3
+            },
+            {
+              "round": 6,
+              "votes": 67,
+              "voteShare": 0.17631579,
+              "transfer": 4
+            },
+            {
+              "round": 7,
+              "votes": 71,
+              "voteShare": 0.18733509,
+              "transfer": 4
+            },
+            {
+              "round": 8,
+              "votes": 82,
+              "voteShare": 0.21750663,
+              "transfer": 11
+            },
+            {
+              "round": 9,
+              "votes": 98,
+              "voteShare": 0.26063830,
+              "transfer": 16
+            },
+            {
+              "round": 10,
+              "votes": 112,
+              "voteShare": 0.30107527,
+              "transfer": 14
+            },
+            {
+              "round": 11,
+              "votes": 134,
+              "voteShare": 0.36813187,
+              "transfer": 22
+            },
+            {
+              "round": 12,
+              "votes": 154,
+              "voteShare": 0.43137255,
+              "transfer": 20
+            },
+            {
+              "round": 13,
+              "votes": 191,
+              "voteShare": 0.57185629,
+              "transfer": 37
+            },
+            {
+              "round": 14,
+              "votes": 311,
+              "voteShare": 1.00000000,
+              "transfer": 120
+            }
           ]
         },
         {
           "name": "Beckett Chan",
           "rounds": [
-            { "round": 1, "votes": 35, "voteShare": 0.09915014, "transfer": 0 },
-            { "round": 2, "votes": 36, "voteShare": 0.101983, "transfer": 1 },
-            { "round": 3, "votes": 36, "voteShare": 0.101983, "transfer": 0 },
-            { "round": 4, "votes": 36, "voteShare": 0.101983, "transfer": 0 },
-            { "round": 5, "votes": 40, "voteShare": 0.11363636, "transfer": 4 },
-            { "round": 6, "votes": 43, "voteShare": 0.12215909, "transfer": 3 },
-            { "round": 7, "votes": 46, "voteShare": 0.13105413, "transfer": 3 },
-            { "round": 8, "votes": 50, "voteShare": 0.14326648, "transfer": 4 },
-            { "round": 9, "votes": 53, "voteShare": 0.15229885, "transfer": 3 },
-            { "round": 10, "votes": 56, "voteShare": 0.16231884, "transfer": 3 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": -56 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 37,
+              "voteShare": 0.09685864,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 38,
+              "voteShare": 0.09947644,
+              "transfer": 1
+            },
+            {
+              "round": 3,
+              "votes": 38,
+              "voteShare": 0.09947644,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 38,
+              "voteShare": 0.09947644,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 42,
+              "voteShare": 0.11023622,
+              "transfer": 4
+            },
+            {
+              "round": 6,
+              "votes": 45,
+              "voteShare": 0.11842105,
+              "transfer": 3
+            },
+            {
+              "round": 7,
+              "votes": 48,
+              "voteShare": 0.12664908,
+              "transfer": 3
+            },
+            {
+              "round": 8,
+              "votes": 52,
+              "voteShare": 0.13793103,
+              "transfer": 4
+            },
+            {
+              "round": 9,
+              "votes": 55,
+              "voteShare": 0.14627660,
+              "transfer": 3
+            },
+            {
+              "round": 10,
+              "votes": 59,
+              "voteShare": 0.15860215,
+              "transfer": 4
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -59
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Dalena Legaspi-Martinez",
           "rounds": [
-            { "round": 1, "votes": 24, "voteShare": 0.06798867, "transfer": 0 },
-            { "round": 2, "votes": 24, "voteShare": 0.06798867, "transfer": 0 },
-            { "round": 3, "votes": 25, "voteShare": 0.07082153, "transfer": 1 },
-            { "round": 4, "votes": 25, "voteShare": 0.07082153, "transfer": 0 },
-            { "round": 5, "votes": 25, "voteShare": 0.07102273, "transfer": 0 },
-            { "round": 6, "votes": 25, "voteShare": 0.07102273, "transfer": 0 },
-            { "round": 7, "votes": 28, "voteShare": 0.07977208, "transfer": 3 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": -28 },
-            { "round": 9, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 27,
+              "voteShare": 0.07068063,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 27,
+              "voteShare": 0.07068063,
+              "transfer": 0
+            },
+            {
+              "round": 3,
+              "votes": 28,
+              "voteShare": 0.07329843,
+              "transfer": 1
+            },
+            {
+              "round": 4,
+              "votes": 28,
+              "voteShare": 0.07329843,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 28,
+              "voteShare": 0.07349081,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 28,
+              "voteShare": 0.07368421,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 31,
+              "voteShare": 0.08179420,
+              "transfer": 3
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -31
+            },
+            {
+              "round": 9,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Delfina Greene",
           "rounds": [
-            { "round": 1, "votes": 31, "voteShare": 0.0878187, "transfer": 0 },
-            { "round": 2, "votes": 34, "voteShare": 0.09631728, "transfer": 3 },
-            { "round": 3, "votes": 35, "voteShare": 0.09915014, "transfer": 1 },
-            { "round": 4, "votes": 38, "voteShare": 0.10764873, "transfer": 3 },
-            { "round": 5, "votes": 39, "voteShare": 0.11079545, "transfer": 1 },
-            { "round": 6, "votes": 41, "voteShare": 0.11647727, "transfer": 2 },
-            { "round": 7, "votes": 43, "voteShare": 0.12250712, "transfer": 2 },
-            { "round": 8, "votes": 49, "voteShare": 0.14040115, "transfer": 6 },
-            { "round": 9, "votes": 54, "voteShare": 0.15517241, "transfer": 5 },
-            { "round": 10, "votes": 60, "voteShare": 0.17391304, "transfer": 6 },
-            { "round": 11, "votes": 63, "voteShare": 0.18694362, "transfer": 3 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": -63 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 35,
+              "voteShare": 0.09162304,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 38,
+              "voteShare": 0.09947644,
+              "transfer": 3
+            },
+            {
+              "round": 3,
+              "votes": 39,
+              "voteShare": 0.10209424,
+              "transfer": 1
+            },
+            {
+              "round": 4,
+              "votes": 43,
+              "voteShare": 0.11256545,
+              "transfer": 4
+            },
+            {
+              "round": 5,
+              "votes": 44,
+              "voteShare": 0.11548556,
+              "transfer": 1
+            },
+            {
+              "round": 6,
+              "votes": 46,
+              "voteShare": 0.12105263,
+              "transfer": 2
+            },
+            {
+              "round": 7,
+              "votes": 48,
+              "voteShare": 0.12664908,
+              "transfer": 2
+            },
+            {
+              "round": 8,
+              "votes": 55,
+              "voteShare": 0.14588859,
+              "transfer": 7
+            },
+            {
+              "round": 9,
+              "votes": 60,
+              "voteShare": 0.15957447,
+              "transfer": 5
+            },
+            {
+              "round": 10,
+              "votes": 66,
+              "voteShare": 0.17741935,
+              "transfer": 6
+            },
+            {
+              "round": 11,
+              "votes": 70,
+              "voteShare": 0.19230769,
+              "transfer": 4
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -70
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Jason Wang",
           "rounds": [
-            { "round": 1, "votes": 19, "voteShare": 0.05382436, "transfer": 0 },
-            { "round": 2, "votes": 19, "voteShare": 0.05382436, "transfer": 0 },
-            { "round": 3, "votes": 20, "voteShare": 0.05665722, "transfer": 1 },
-            { "round": 4, "votes": 20, "voteShare": 0.05665722, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": -20 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 9, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 19,
+              "voteShare": 0.04973822,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 19,
+              "voteShare": 0.04973822,
+              "transfer": 0
+            },
+            {
+              "round": 3,
+              "votes": 20,
+              "voteShare": 0.05235602,
+              "transfer": 1
+            },
+            {
+              "round": 4,
+              "votes": 20,
+              "voteShare": 0.05235602,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -20
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 9,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Katy Fang",
           "rounds": [
-            { "round": 1, "votes": 14, "voteShare": 0.03966006, "transfer": 0 },
-            { "round": 2, "votes": 14, "voteShare": 0.03966006, "transfer": 0 },
-            { "round": 3, "votes": 14, "voteShare": 0.03966006, "transfer": 0 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": -14 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 9, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 15,
+              "voteShare": 0.03926702,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 15,
+              "voteShare": 0.03926702,
+              "transfer": 0
+            },
+            {
+              "round": 3,
+              "votes": 15,
+              "voteShare": 0.03926702,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -15
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 9,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Lexie Li",
           "rounds": [
-            { "round": 1, "votes": 33, "voteShare": 0.09348442, "transfer": 0 },
-            { "round": 2, "votes": 33, "voteShare": 0.09348442, "transfer": 0 },
-            { "round": 3, "votes": 33, "voteShare": 0.09348442, "transfer": 0 },
-            { "round": 4, "votes": 38, "voteShare": 0.10764873, "transfer": 5 },
-            { "round": 5, "votes": 41, "voteShare": 0.11647727, "transfer": 3 },
-            { "round": 6, "votes": 48, "voteShare": 0.13636364, "transfer": 7 },
-            { "round": 7, "votes": 53, "voteShare": 0.15099715, "transfer": 5 },
-            { "round": 8, "votes": 56, "voteShare": 0.16045845, "transfer": 3 },
-            { "round": 9, "votes": 60, "voteShare": 0.17241379, "transfer": 4 },
-            { "round": 10, "votes": 66, "voteShare": 0.19130435, "transfer": 6 },
-            { "round": 11, "votes": 77, "voteShare": 0.22848665, "transfer": 11 },
-            { "round": 12, "votes": 104, "voteShare": 0.31515152, "transfer": 27 },
-            { "round": 13, "votes": 130, "voteShare": 0.42207792, "transfer": 26 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": -130 }
+            {
+              "round": 1,
+              "votes": 38,
+              "voteShare": 0.09947644,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 38,
+              "voteShare": 0.09947644,
+              "transfer": 0
+            },
+            {
+              "round": 3,
+              "votes": 38,
+              "voteShare": 0.09947644,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 43,
+              "voteShare": 0.11256545,
+              "transfer": 5
+            },
+            {
+              "round": 5,
+              "votes": 46,
+              "voteShare": 0.12073491,
+              "transfer": 3
+            },
+            {
+              "round": 6,
+              "votes": 53,
+              "voteShare": 0.13947368,
+              "transfer": 7
+            },
+            {
+              "round": 7,
+              "votes": 58,
+              "voteShare": 0.15303430,
+              "transfer": 5
+            },
+            {
+              "round": 8,
+              "votes": 61,
+              "voteShare": 0.16180371,
+              "transfer": 3
+            },
+            {
+              "round": 9,
+              "votes": 65,
+              "voteShare": 0.17287234,
+              "transfer": 4
+            },
+            {
+              "round": 10,
+              "votes": 71,
+              "voteShare": 0.19086022,
+              "transfer": 6
+            },
+            {
+              "round": 11,
+              "votes": 83,
+              "voteShare": 0.22802198,
+              "transfer": 12
+            },
+            {
+              "round": 12,
+              "votes": 111,
+              "voteShare": 0.31092437,
+              "transfer": 28
+            },
+            {
+              "round": 13,
+              "votes": 143,
+              "voteShare": 0.42814371,
+              "transfer": 32
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -143
+            }
           ]
         },
         {
           "name": "Margo Lane",
           "rounds": [
-            { "round": 1, "votes": 18, "voteShare": 0.0509915, "transfer": 0 },
-            { "round": 2, "votes": 20, "voteShare": 0.05665722, "transfer": 2 },
-            { "round": 3, "votes": 20, "voteShare": 0.05665722, "transfer": 0 },
-            { "round": 4, "votes": 22, "voteShare": 0.06232295, "transfer": 2 },
-            { "round": 5, "votes": 22, "voteShare": 0.0625, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": -22 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 9, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 19,
+              "voteShare": 0.04973822,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 21,
+              "voteShare": 0.05497382,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 21,
+              "voteShare": 0.05497382,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 23,
+              "voteShare": 0.06020942,
+              "transfer": 2
+            },
+            {
+              "round": 5,
+              "votes": 23,
+              "voteShare": 0.06036745,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -23
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 9,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Maya Chih-Wang",
           "rounds": [
-            { "round": 1, "votes": 21, "voteShare": 0.05949008, "transfer": 0 },
-            { "round": 2, "votes": 21, "voteShare": 0.05949008, "transfer": 0 },
-            { "round": 3, "votes": 21, "voteShare": 0.05949008, "transfer": 0 },
-            { "round": 4, "votes": 22, "voteShare": 0.06232295, "transfer": 1 },
-            { "round": 5, "votes": 22, "voteShare": 0.0625, "transfer": 0 },
-            { "round": 6, "votes": 23, "voteShare": 0.06534091, "transfer": 1 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": -23 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 9, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 23,
+              "voteShare": 0.06020942,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 23,
+              "voteShare": 0.06020942,
+              "transfer": 0
+            },
+            {
+              "round": 3,
+              "votes": 23,
+              "voteShare": 0.06020942,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 24,
+              "voteShare": 0.06282723,
+              "transfer": 1
+            },
+            {
+              "round": 5,
+              "votes": 24,
+              "voteShare": 0.06299213,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 25,
+              "voteShare": 0.06578947,
+              "transfer": 1
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -25
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 9,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Nozima Kaharova",
           "rounds": [
-            { "round": 1, "votes": 9, "voteShare": 0.02549575, "transfer": 0 },
-            { "round": 2, "votes": 0, "voteShare": 0.0, "transfer": -9 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 9, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 9,
+              "voteShare": 0.02356021,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -9
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 9,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Tyler Chen",
           "rounds": [
-            { "round": 1, "votes": 28, "voteShare": 0.07932011, "transfer": 0 },
-            { "round": 2, "votes": 29, "voteShare": 0.08215297, "transfer": 1 },
-            { "round": 3, "votes": 32, "voteShare": 0.09065156, "transfer": 3 },
-            { "round": 4, "votes": 32, "voteShare": 0.09065156, "transfer": 0 },
-            { "round": 5, "votes": 34, "voteShare": 0.09659091, "transfer": 2 },
-            { "round": 6, "votes": 38, "voteShare": 0.10795455, "transfer": 4 },
-            { "round": 7, "votes": 38, "voteShare": 0.10826211, "transfer": 0 },
-            { "round": 8, "votes": 40, "voteShare": 0.11461318, "transfer": 2 },
-            { "round": 9, "votes": 42, "voteShare": 0.12068966, "transfer": 2 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": -42 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 32,
+              "voteShare": 0.08376963,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 33,
+              "voteShare": 0.08638743,
+              "transfer": 1
+            },
+            {
+              "round": 3,
+              "votes": 36,
+              "voteShare": 0.09424084,
+              "transfer": 3
+            },
+            {
+              "round": 4,
+              "votes": 36,
+              "voteShare": 0.09424084,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 38,
+              "voteShare": 0.09973753,
+              "transfer": 2
+            },
+            {
+              "round": 6,
+              "votes": 42,
+              "voteShare": 0.11052632,
+              "transfer": 4
+            },
+            {
+              "round": 7,
+              "votes": 42,
+              "voteShare": 0.11081794,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 44,
+              "voteShare": 0.11671088,
+              "transfer": 2
+            },
+            {
+              "round": 9,
+              "votes": 46,
+              "voteShare": 0.12234043,
+              "transfer": 2
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -46
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Tyler Dang",
           "rounds": [
-            { "round": 1, "votes": 31, "voteShare": 0.0878187, "transfer": 0 },
-            { "round": 2, "votes": 32, "voteShare": 0.09065156, "transfer": 1 },
-            { "round": 3, "votes": 35, "voteShare": 0.09915014, "transfer": 3 },
-            { "round": 4, "votes": 35, "voteShare": 0.09915014, "transfer": 0 },
-            { "round": 5, "votes": 40, "voteShare": 0.11363636, "transfer": 5 },
-            { "round": 6, "votes": 40, "voteShare": 0.11363636, "transfer": 0 },
-            { "round": 7, "votes": 42, "voteShare": 0.11965812, "transfer": 2 },
-            { "round": 8, "votes": 44, "voteShare": 0.1260745, "transfer": 2 },
-            { "round": 9, "votes": 46, "voteShare": 0.13218391, "transfer": 2 },
-            { "round": 10, "votes": 57, "voteShare": 0.16521739, "transfer": 11 },
-            { "round": 11, "votes": 70, "voteShare": 0.20771513, "transfer": 13 },
-            { "round": 12, "votes": 82, "voteShare": 0.24848485, "transfer": 12 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": -82 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 35,
+              "voteShare": 0.09162304,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 36,
+              "voteShare": 0.09424084,
+              "transfer": 1
+            },
+            {
+              "round": 3,
+              "votes": 40,
+              "voteShare": 0.10471204,
+              "transfer": 4
+            },
+            {
+              "round": 4,
+              "votes": 40,
+              "voteShare": 0.10471204,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 45,
+              "voteShare": 0.11811024,
+              "transfer": 5
+            },
+            {
+              "round": 6,
+              "votes": 45,
+              "voteShare": 0.11842105,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 48,
+              "voteShare": 0.12664908,
+              "transfer": 3
+            },
+            {
+              "round": 8,
+              "votes": 50,
+              "voteShare": 0.13262599,
+              "transfer": 2
+            },
+            {
+              "round": 9,
+              "votes": 52,
+              "voteShare": 0.13829787,
+              "transfer": 2
+            },
+            {
+              "round": 10,
+              "votes": 64,
+              "voteShare": 0.17204301,
+              "transfer": 12
+            },
+            {
+              "round": 11,
+              "votes": 77,
+              "voteShare": 0.21153846,
+              "transfer": 13
+            },
+            {
+              "round": 12,
+              "votes": 92,
+              "voteShare": 0.25770308,
+              "transfer": 15
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -92
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Edwin Zhu",
           "rounds": [
-            { "round": 1, "votes": 13, "voteShare": 0.0368272, "transfer": 0 },
-            { "round": 2, "votes": 13, "voteShare": 0.0368272, "transfer": 0 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": -13 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 9, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 10, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 11, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 12, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 13, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 14, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 14,
+              "voteShare": 0.03664921,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 14,
+              "voteShare": 0.03664921,
+              "transfer": 0
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -14
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 9,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 10,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 11,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 12,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 13,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 14,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         }
       ]
@@ -296,118 +1332,470 @@
       "winner": "Natan Gimelfarb",
       "roundCount": 8,
       "rounds": [
-        { "round": 1, "activeBallots": 351, "exhaustedBallots": 6 },
-        { "round": 2, "activeBallots": 349, "exhaustedBallots": 8 },
-        { "round": 3, "activeBallots": 349, "exhaustedBallots": 8 },
-        { "round": 4, "activeBallots": 345, "exhaustedBallots": 12 },
-        { "round": 5, "activeBallots": 344, "exhaustedBallots": 13 },
-        { "round": 6, "activeBallots": 338, "exhaustedBallots": 19 },
-        { "round": 7, "activeBallots": 332, "exhaustedBallots": 25 },
-        { "round": 8, "activeBallots": 302, "exhaustedBallots": 55 }
+        {
+          "round": 1,
+          "activeBallots": 380,
+          "exhaustedBallots": 8
+        },
+        {
+          "round": 2,
+          "activeBallots": 378,
+          "exhaustedBallots": 10
+        },
+        {
+          "round": 3,
+          "activeBallots": 377,
+          "exhaustedBallots": 11
+        },
+        {
+          "round": 4,
+          "activeBallots": 372,
+          "exhaustedBallots": 16
+        },
+        {
+          "round": 5,
+          "activeBallots": 371,
+          "exhaustedBallots": 17
+        },
+        {
+          "round": 6,
+          "activeBallots": 364,
+          "exhaustedBallots": 24
+        },
+        {
+          "round": 7,
+          "activeBallots": 358,
+          "exhaustedBallots": 30
+        },
+        {
+          "round": 8,
+          "activeBallots": 328,
+          "exhaustedBallots": 60
+        }
       ],
       "candidates": [
         {
           "name": "Adele Makaranka",
           "rounds": [
-            { "round": 1, "votes": 55, "voteShare": 0.15669516, "transfer": 0 },
-            { "round": 2, "votes": 56, "voteShare": 0.16045845, "transfer": 1 },
-            { "round": 3, "votes": 63, "voteShare": 0.18051576, "transfer": 7 },
-            { "round": 4, "votes": 67, "voteShare": 0.1942029, "transfer": 4 },
-            { "round": 5, "votes": 75, "voteShare": 0.21802326, "transfer": 8 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": -75 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 57,
+              "voteShare": 0.15000000,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 59,
+              "voteShare": 0.15608466,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 66,
+              "voteShare": 0.17506631,
+              "transfer": 7
+            },
+            {
+              "round": 4,
+              "votes": 70,
+              "voteShare": 0.18817204,
+              "transfer": 4
+            },
+            {
+              "round": 5,
+              "votes": 78,
+              "voteShare": 0.21024259,
+              "transfer": 8
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -78
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Agnes Lau",
           "rounds": [
-            { "round": 1, "votes": 28, "voteShare": 0.07977208, "transfer": 0 },
-            { "round": 2, "votes": 29, "voteShare": 0.08309456, "transfer": 1 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": -29 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 32,
+              "voteShare": 0.08421053,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 34,
+              "voteShare": 0.08994709,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -34
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Charles A. Hinkle Jr",
           "rounds": [
-            { "round": 1, "votes": 15, "voteShare": 0.04273504, "transfer": 0 },
-            { "round": 2, "votes": 0, "voteShare": 0.0, "transfer": -15 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 17,
+              "voteShare": 0.04473684,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -17
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Christy Chen",
           "rounds": [
-            { "round": 1, "votes": 34, "voteShare": 0.0968661, "transfer": 0 },
-            { "round": 2, "votes": 36, "voteShare": 0.10315186, "transfer": 2 },
-            { "round": 3, "votes": 40, "voteShare": 0.11461318, "transfer": 4 },
-            { "round": 4, "votes": 42, "voteShare": 0.12173913, "transfer": 2 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": -42 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 34,
+              "voteShare": 0.08947368,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 36,
+              "voteShare": 0.09523810,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 40,
+              "voteShare": 0.10610080,
+              "transfer": 4
+            },
+            {
+              "round": 4,
+              "votes": 42,
+              "voteShare": 0.11290323,
+              "transfer": 2
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -42
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Kayla Lau",
           "rounds": [
-            { "round": 1, "votes": 42, "voteShare": 0.11965812, "transfer": 0 },
-            { "round": 2, "votes": 43, "voteShare": 0.12320917, "transfer": 1 },
-            { "round": 3, "votes": 47, "voteShare": 0.13467049, "transfer": 4 },
-            { "round": 4, "votes": 56, "voteShare": 0.16231884, "transfer": 9 },
-            { "round": 5, "votes": 75, "voteShare": 0.21802326, "transfer": 19 },
-            { "round": 6, "votes": 115, "voteShare": 0.34023669, "transfer": 40 },
-            { "round": 7, "votes": 152, "voteShare": 0.45783133, "transfer": 37 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": -152 }
+            {
+              "round": 1,
+              "votes": 45,
+              "voteShare": 0.11842105,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 46,
+              "voteShare": 0.12169312,
+              "transfer": 1
+            },
+            {
+              "round": 3,
+              "votes": 53,
+              "voteShare": 0.14058355,
+              "transfer": 7
+            },
+            {
+              "round": 4,
+              "votes": 63,
+              "voteShare": 0.16935484,
+              "transfer": 10
+            },
+            {
+              "round": 5,
+              "votes": 82,
+              "voteShare": 0.22102426,
+              "transfer": 19
+            },
+            {
+              "round": 6,
+              "votes": 122,
+              "voteShare": 0.33516484,
+              "transfer": 40
+            },
+            {
+              "round": 7,
+              "votes": 162,
+              "voteShare": 0.45251397,
+              "transfer": 40
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -162
+            }
           ]
         },
         {
           "name": "Matthew Miller",
           "rounds": [
-            { "round": 1, "votes": 30, "voteShare": 0.08547009, "transfer": 0 },
-            { "round": 2, "votes": 34, "voteShare": 0.0974212, "transfer": 4 },
-            { "round": 3, "votes": 36, "voteShare": 0.10315186, "transfer": 2 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": -36 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 33,
+              "voteShare": 0.08684211,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 37,
+              "voteShare": 0.09788360,
+              "transfer": 4
+            },
+            {
+              "round": 3,
+              "votes": 39,
+              "voteShare": 0.10344828,
+              "transfer": 2
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -39
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Natan Gimelfarb",
           "rounds": [
-            { "round": 1, "votes": 88, "voteShare": 0.25071225, "transfer": 0 },
-            { "round": 2, "votes": 90, "voteShare": 0.25787966, "transfer": 2 },
-            { "round": 3, "votes": 95, "voteShare": 0.2722063, "transfer": 5 },
-            { "round": 4, "votes": 107, "voteShare": 0.31014493, "transfer": 12 },
-            { "round": 5, "votes": 116, "voteShare": 0.3372093, "transfer": 9 },
-            { "round": 6, "votes": 132, "voteShare": 0.39053254, "transfer": 16 },
-            { "round": 7, "votes": 180, "voteShare": 0.54216867, "transfer": 48 },
-            { "round": 8, "votes": 302, "voteShare": 1.0, "transfer": 122 }
+            {
+              "round": 1,
+              "votes": 97,
+              "voteShare": 0.25526316,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 99,
+              "voteShare": 0.26190476,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 104,
+              "voteShare": 0.27586207,
+              "transfer": 5
+            },
+            {
+              "round": 4,
+              "votes": 116,
+              "voteShare": 0.31182796,
+              "transfer": 12
+            },
+            {
+              "round": 5,
+              "votes": 125,
+              "voteShare": 0.33692722,
+              "transfer": 9
+            },
+            {
+              "round": 6,
+              "votes": 142,
+              "voteShare": 0.39010989,
+              "transfer": 17
+            },
+            {
+              "round": 7,
+              "votes": 196,
+              "voteShare": 0.54748603,
+              "transfer": 54
+            },
+            {
+              "round": 8,
+              "votes": 328,
+              "voteShare": 1.00000000,
+              "transfer": 132
+            }
           ]
         },
         {
           "name": "Russell Chiu",
           "rounds": [
-            { "round": 1, "votes": 59, "voteShare": 0.16809117, "transfer": 0 },
-            { "round": 2, "votes": 61, "voteShare": 0.1747851, "transfer": 2 },
-            { "round": 3, "votes": 68, "voteShare": 0.19484241, "transfer": 7 },
-            { "round": 4, "votes": 73, "voteShare": 0.2115942, "transfer": 5 },
-            { "round": 5, "votes": 78, "voteShare": 0.22674419, "transfer": 5 },
-            { "round": 6, "votes": 91, "voteShare": 0.26923077, "transfer": 13 },
-            { "round": 7, "votes": 0, "voteShare": 0.0, "transfer": -91 },
-            { "round": 8, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 65,
+              "voteShare": 0.17105263,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 67,
+              "voteShare": 0.17724868,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 75,
+              "voteShare": 0.19893899,
+              "transfer": 8
+            },
+            {
+              "round": 4,
+              "votes": 81,
+              "voteShare": 0.21774194,
+              "transfer": 6
+            },
+            {
+              "round": 5,
+              "votes": 86,
+              "voteShare": 0.23180593,
+              "transfer": 5
+            },
+            {
+              "round": 6,
+              "votes": 100,
+              "voteShare": 0.27472527,
+              "transfer": 14
+            },
+            {
+              "round": 7,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -100
+            },
+            {
+              "round": 8,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         }
       ]
@@ -417,78 +1805,282 @@
       "winner": "Kiki Hu",
       "roundCount": 6,
       "rounds": [
-        { "round": 1, "activeBallots": 348, "exhaustedBallots": 9 },
-        { "round": 2, "activeBallots": 347, "exhaustedBallots": 10 },
-        { "round": 3, "activeBallots": 345, "exhaustedBallots": 12 },
-        { "round": 4, "activeBallots": 338, "exhaustedBallots": 19 },
-        { "round": 5, "activeBallots": 333, "exhaustedBallots": 24 },
-        { "round": 6, "activeBallots": 326, "exhaustedBallots": 31 }
+        {
+          "round": 1,
+          "activeBallots": 377,
+          "exhaustedBallots": 11
+        },
+        {
+          "round": 2,
+          "activeBallots": 374,
+          "exhaustedBallots": 14
+        },
+        {
+          "round": 3,
+          "activeBallots": 372,
+          "exhaustedBallots": 16
+        },
+        {
+          "round": 4,
+          "activeBallots": 365,
+          "exhaustedBallots": 23
+        },
+        {
+          "round": 5,
+          "activeBallots": 359,
+          "exhaustedBallots": 29
+        },
+        {
+          "round": 6,
+          "activeBallots": 351,
+          "exhaustedBallots": 37
+        }
       ],
       "candidates": [
         {
           "name": "Kiki Hu",
           "rounds": [
-            { "round": 1, "votes": 120, "voteShare": 0.34482759, "transfer": 0 },
-            { "round": 2, "votes": 121, "voteShare": 0.34870317, "transfer": 1 },
-            { "round": 3, "votes": 137, "voteShare": 0.39710145, "transfer": 16 },
-            { "round": 4, "votes": 155, "voteShare": 0.45857988, "transfer": 18 },
-            { "round": 5, "votes": 212, "voteShare": 0.63663664, "transfer": 57 },
-            { "round": 6, "votes": 326, "voteShare": 1.0, "transfer": 114 }
+            {
+              "round": 1,
+              "votes": 128,
+              "voteShare": 0.33952255,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 129,
+              "voteShare": 0.34491979,
+              "transfer": 1
+            },
+            {
+              "round": 3,
+              "votes": 145,
+              "voteShare": 0.38978495,
+              "transfer": 16
+            },
+            {
+              "round": 4,
+              "votes": 163,
+              "voteShare": 0.44657534,
+              "transfer": 18
+            },
+            {
+              "round": 5,
+              "votes": 219,
+              "voteShare": 0.61002786,
+              "transfer": 56
+            },
+            {
+              "round": 6,
+              "votes": 351,
+              "voteShare": 1.00000000,
+              "transfer": 132
+            }
           ]
         },
         {
           "name": "Collins Kavanagh",
           "rounds": [
-            { "round": 1, "votes": 64, "voteShare": 0.18390805, "transfer": 0 },
-            { "round": 2, "votes": 65, "voteShare": 0.18731988, "transfer": 1 },
-            { "round": 3, "votes": 69, "voteShare": 0.2, "transfer": 4 },
-            { "round": 4, "votes": 91, "voteShare": 0.26923077, "transfer": 22 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": -91 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 71,
+              "voteShare": 0.18832891,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 72,
+              "voteShare": 0.19251337,
+              "transfer": 1
+            },
+            {
+              "round": 3,
+              "votes": 76,
+              "voteShare": 0.20430108,
+              "transfer": 4
+            },
+            {
+              "round": 4,
+              "votes": 103,
+              "voteShare": 0.28219178,
+              "transfer": 27
+            },
+            {
+              "round": 5,
+              "votes": 140,
+              "voteShare": 0.38997214,
+              "transfer": 37
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -140
+            }
           ]
         },
         {
           "name": "Leo Weber",
           "rounds": [
-            { "round": 1, "votes": 57, "voteShare": 0.1637931, "transfer": 0 },
-            { "round": 2, "votes": 59, "voteShare": 0.17002882, "transfer": 2 },
-            { "round": 3, "votes": 62, "voteShare": 0.17971014, "transfer": 3 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": -62 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 64,
+              "voteShare": 0.16976127,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 66,
+              "voteShare": 0.17647059,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 69,
+              "voteShare": 0.18548387,
+              "transfer": 3
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -69
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Marcus Poffenbarger",
           "rounds": [
-            { "round": 1, "votes": 9, "voteShare": 0.02586207, "transfer": 0 },
-            { "round": 2, "votes": 0, "voteShare": 0.0, "transfer": -9 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 11,
+              "voteShare": 0.02917772,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -11
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Sabrina Gee",
           "rounds": [
-            { "round": 1, "votes": 36, "voteShare": 0.10344828, "transfer": 0 },
-            { "round": 2, "votes": 38, "voteShare": 0.10951009, "transfer": 2 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": -38 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 37,
+              "voteShare": 0.09814324,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 39,
+              "voteShare": 0.10427807,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -39
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Ziyan Zhang",
           "rounds": [
-            { "round": 1, "votes": 62, "voteShare": 0.17816092, "transfer": 0 },
-            { "round": 2, "votes": 64, "voteShare": 0.18443804, "transfer": 2 },
-            { "round": 3, "votes": 77, "voteShare": 0.22318841, "transfer": 13 },
-            { "round": 4, "votes": 92, "voteShare": 0.27218935, "transfer": 15 },
-            { "round": 5, "votes": 121, "voteShare": 0.36336336, "transfer": 29 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": -121 }
+            {
+              "round": 1,
+              "votes": 66,
+              "voteShare": 0.17506631,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 68,
+              "voteShare": 0.18181818,
+              "transfer": 2
+            },
+            {
+              "round": 3,
+              "votes": 82,
+              "voteShare": 0.22043011,
+              "transfer": 14
+            },
+            {
+              "round": 4,
+              "votes": 99,
+              "voteShare": 0.27123288,
+              "transfer": 17
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -99
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         }
       ]
@@ -498,33 +2090,90 @@
       "winner": "Mia Chang",
       "roundCount": 3,
       "rounds": [
-        { "round": 1, "activeBallots": 347, "exhaustedBallots": 10 },
-        { "round": 2, "activeBallots": 340, "exhaustedBallots": 17 },
-        { "round": 3, "activeBallots": 334, "exhaustedBallots": 23 }
+        {
+          "round": 1,
+          "activeBallots": 373,
+          "exhaustedBallots": 15
+        },
+        {
+          "round": 2,
+          "activeBallots": 365,
+          "exhaustedBallots": 23
+        },
+        {
+          "round": 3,
+          "activeBallots": 359,
+          "exhaustedBallots": 29
+        }
       ],
       "candidates": [
         {
           "name": "Ava Karah",
           "rounds": [
-            { "round": 1, "votes": 116, "voteShare": 0.33429395, "transfer": 0 },
-            { "round": 2, "votes": 161, "voteShare": 0.47352941, "transfer": 45 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": -161 }
+            {
+              "round": 1,
+              "votes": 123,
+              "voteShare": 0.32975871,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 173,
+              "voteShare": 0.47397260,
+              "transfer": 50
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -173
+            }
           ]
         },
         {
           "name": "Eleni Karas",
           "rounds": [
-            { "round": 1, "votes": 105, "voteShare": 0.30259366, "transfer": 0 },
-            { "round": 2, "votes": 0, "voteShare": 0.0, "transfer": -105 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 114,
+              "voteShare": 0.30563003,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -114
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Mia Chang",
           "rounds": [
-            { "round": 1, "votes": 126, "voteShare": 0.36311239, "transfer": 0 },
-            { "round": 2, "votes": 179, "voteShare": 0.52647059, "transfer": 53 },
-            { "round": 3, "votes": 334, "voteShare": 1.0, "transfer": 155 }
+            {
+              "round": 1,
+              "votes": 136,
+              "voteShare": 0.36461126,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 192,
+              "voteShare": 0.52602740,
+              "transfer": 56
+            },
+            {
+              "round": 3,
+              "votes": 359,
+              "voteShare": 1.00000000,
+              "transfer": 167
+            }
           ]
         }
       ]
@@ -534,78 +2183,282 @@
       "winner": "Bella Kim",
       "roundCount": 6,
       "rounds": [
-        { "round": 1, "activeBallots": 352, "exhaustedBallots": 5 },
-        { "round": 2, "activeBallots": 351, "exhaustedBallots": 6 },
-        { "round": 3, "activeBallots": 348, "exhaustedBallots": 9 },
-        { "round": 4, "activeBallots": 343, "exhaustedBallots": 14 },
-        { "round": 5, "activeBallots": 332, "exhaustedBallots": 25 },
-        { "round": 6, "activeBallots": 317, "exhaustedBallots": 40 }
+        {
+          "round": 1,
+          "activeBallots": 383,
+          "exhaustedBallots": 5
+        },
+        {
+          "round": 2,
+          "activeBallots": 382,
+          "exhaustedBallots": 6
+        },
+        {
+          "round": 3,
+          "activeBallots": 379,
+          "exhaustedBallots": 9
+        },
+        {
+          "round": 4,
+          "activeBallots": 374,
+          "exhaustedBallots": 14
+        },
+        {
+          "round": 5,
+          "activeBallots": 358,
+          "exhaustedBallots": 30
+        },
+        {
+          "round": 6,
+          "activeBallots": 342,
+          "exhaustedBallots": 46
+        }
       ],
       "candidates": [
         {
           "name": "Celine Kha",
           "rounds": [
-            { "round": 1, "votes": 56, "voteShare": 0.15909091, "transfer": 0 },
-            { "round": 2, "votes": 61, "voteShare": 0.17378917, "transfer": 5 },
-            { "round": 3, "votes": 75, "voteShare": 0.21551724, "transfer": 14 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": -75 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 59,
+              "voteShare": 0.15404700,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 65,
+              "voteShare": 0.17015707,
+              "transfer": 6
+            },
+            {
+              "round": 3,
+              "votes": 79,
+              "voteShare": 0.20844327,
+              "transfer": 14
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -79
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Chloe Lee",
           "rounds": [
-            { "round": 1, "votes": 52, "voteShare": 0.14772727, "transfer": 0 },
-            { "round": 2, "votes": 57, "voteShare": 0.16239316, "transfer": 5 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": -57 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 54,
+              "voteShare": 0.14099217,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 59,
+              "voteShare": 0.15445026,
+              "transfer": 5
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -59
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Leona Somers",
           "rounds": [
-            { "round": 1, "votes": 60, "voteShare": 0.17045455, "transfer": 0 },
-            { "round": 2, "votes": 69, "voteShare": 0.1965812, "transfer": 9 },
-            { "round": 3, "votes": 82, "voteShare": 0.23563218, "transfer": 13 },
-            { "round": 4, "votes": 118, "voteShare": 0.34402332, "transfer": 36 },
-            { "round": 5, "votes": 164, "voteShare": 0.4939759, "transfer": 46 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": -164 }
+            {
+              "round": 1,
+              "votes": 65,
+              "voteShare": 0.16971279,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 74,
+              "voteShare": 0.19371728,
+              "transfer": 9
+            },
+            {
+              "round": 3,
+              "votes": 87,
+              "voteShare": 0.22955145,
+              "transfer": 13
+            },
+            {
+              "round": 4,
+              "votes": 124,
+              "voteShare": 0.33155080,
+              "transfer": 37
+            },
+            {
+              "round": 5,
+              "votes": 174,
+              "voteShare": 0.48603352,
+              "transfer": 50
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -174
+            }
           ]
         },
         {
           "name": "Miles Cheung",
           "rounds": [
-            { "round": 1, "votes": 68, "voteShare": 0.19318182, "transfer": 0 },
-            { "round": 2, "votes": 76, "voteShare": 0.21652422, "transfer": 8 },
-            { "round": 3, "votes": 83, "voteShare": 0.23850575, "transfer": 7 },
-            { "round": 4, "votes": 97, "voteShare": 0.28279883, "transfer": 14 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": -97 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 80,
+              "voteShare": 0.20887728,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 88,
+              "voteShare": 0.23036649,
+              "transfer": 8
+            },
+            {
+              "round": 3,
+              "votes": 97,
+              "voteShare": 0.25593668,
+              "transfer": 9
+            },
+            {
+              "round": 4,
+              "votes": 111,
+              "voteShare": 0.29679144,
+              "transfer": 14
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -111
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Bella Kim",
           "rounds": [
-            { "round": 1, "votes": 67, "voteShare": 0.19034091, "transfer": 0 },
-            { "round": 2, "votes": 88, "voteShare": 0.25071225, "transfer": 21 },
-            { "round": 3, "votes": 108, "voteShare": 0.31034483, "transfer": 20 },
-            { "round": 4, "votes": 128, "voteShare": 0.37317784, "transfer": 20 },
-            { "round": 5, "votes": 168, "voteShare": 0.5060241, "transfer": 40 },
-            { "round": 6, "votes": 317, "voteShare": 1.0, "transfer": 149 }
+            {
+              "round": 1,
+              "votes": 74,
+              "voteShare": 0.19321149,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 96,
+              "voteShare": 0.25130890,
+              "transfer": 22
+            },
+            {
+              "round": 3,
+              "votes": 116,
+              "voteShare": 0.30606860,
+              "transfer": 20
+            },
+            {
+              "round": 4,
+              "votes": 139,
+              "voteShare": 0.37165775,
+              "transfer": 23
+            },
+            {
+              "round": 5,
+              "votes": 184,
+              "voteShare": 0.51396648,
+              "transfer": 45
+            },
+            {
+              "round": 6,
+              "votes": 342,
+              "voteShare": 1.00000000,
+              "transfer": 158
+            }
           ]
         },
         {
           "name": "Selah Cabansagan",
           "rounds": [
-            { "round": 1, "votes": 49, "voteShare": 0.13920455, "transfer": 0 },
-            { "round": 2, "votes": 0, "voteShare": 0.0, "transfer": -49 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 6, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 51,
+              "voteShare": 0.13315927,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -51
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 6,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         }
       ]
@@ -615,61 +2468,206 @@
       "winner": "Khloe Chan",
       "roundCount": 5,
       "rounds": [
-        { "round": 1, "activeBallots": 348, "exhaustedBallots": 9 },
-        { "round": 2, "activeBallots": 344, "exhaustedBallots": 13 },
-        { "round": 3, "activeBallots": 342, "exhaustedBallots": 15 },
-        { "round": 4, "activeBallots": 327, "exhaustedBallots": 30 },
-        { "round": 5, "activeBallots": 315, "exhaustedBallots": 42 }
+        {
+          "round": 1,
+          "activeBallots": 377,
+          "exhaustedBallots": 11
+        },
+        {
+          "round": 2,
+          "activeBallots": 373,
+          "exhaustedBallots": 15
+        },
+        {
+          "round": 3,
+          "activeBallots": 369,
+          "exhaustedBallots": 19
+        },
+        {
+          "round": 4,
+          "activeBallots": 350,
+          "exhaustedBallots": 38
+        },
+        {
+          "round": 5,
+          "activeBallots": 337,
+          "exhaustedBallots": 51
+        }
       ],
       "candidates": [
         {
           "name": "Annabella Valerio",
           "rounds": [
-            { "round": 1, "votes": 93, "voteShare": 0.26724138, "transfer": 0 },
-            { "round": 2, "votes": 99, "voteShare": 0.2877907, "transfer": 6 },
-            { "round": 3, "votes": 112, "voteShare": 0.32748538, "transfer": 13 },
-            { "round": 4, "votes": 135, "voteShare": 0.41284404, "transfer": 23 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": -135 }
+            {
+              "round": 1,
+              "votes": 102,
+              "voteShare": 0.27055703,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 108,
+              "voteShare": 0.28954424,
+              "transfer": 6
+            },
+            {
+              "round": 3,
+              "votes": 121,
+              "voteShare": 0.32791328,
+              "transfer": 13
+            },
+            {
+              "round": 4,
+              "votes": 147,
+              "voteShare": 0.42000000,
+              "transfer": 26
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -147
+            }
           ]
         },
         {
           "name": "Khloe Chan",
           "rounds": [
-            { "round": 1, "votes": 88, "voteShare": 0.25287356, "transfer": 0 },
-            { "round": 2, "votes": 97, "voteShare": 0.28197674, "transfer": 9 },
-            { "round": 3, "votes": 132, "voteShare": 0.38596491, "transfer": 35 },
-            { "round": 4, "votes": 192, "voteShare": 0.58715596, "transfer": 60 },
-            { "round": 5, "votes": 315, "voteShare": 1.0, "transfer": 123 }
+            {
+              "round": 1,
+              "votes": 89,
+              "voteShare": 0.23607427,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 98,
+              "voteShare": 0.26273458,
+              "transfer": 9
+            },
+            {
+              "round": 3,
+              "votes": 136,
+              "voteShare": 0.36856369,
+              "transfer": 38
+            },
+            {
+              "round": 4,
+              "votes": 203,
+              "voteShare": 0.58000000,
+              "transfer": 67
+            },
+            {
+              "round": 5,
+              "votes": 337,
+              "voteShare": 1.00000000,
+              "transfer": 134
+            }
           ]
         },
         {
           "name": "Maddie Dai",
           "rounds": [
-            { "round": 1, "votes": 46, "voteShare": 0.13218391, "transfer": 0 },
-            { "round": 2, "votes": 57, "voteShare": 0.16569767, "transfer": 11 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": -57 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 52,
+              "voteShare": 0.13793103,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 65,
+              "voteShare": 0.17426273,
+              "transfer": 13
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -65
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Erica Liao",
           "rounds": [
-            { "round": 1, "votes": 36, "voteShare": 0.10344828, "transfer": 0 },
-            { "round": 2, "votes": 0, "voteShare": 0.0, "transfer": -36 },
-            { "round": 3, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": 0 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 38,
+              "voteShare": 0.10079576,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -38
+            },
+            {
+              "round": 3,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         },
         {
           "name": "Wilson Cai",
           "rounds": [
-            { "round": 1, "votes": 85, "voteShare": 0.24425287, "transfer": 0 },
-            { "round": 2, "votes": 91, "voteShare": 0.26453488, "transfer": 6 },
-            { "round": 3, "votes": 98, "voteShare": 0.28654971, "transfer": 7 },
-            { "round": 4, "votes": 0, "voteShare": 0.0, "transfer": -98 },
-            { "round": 5, "votes": 0, "voteShare": 0.0, "transfer": 0 }
+            {
+              "round": 1,
+              "votes": 96,
+              "voteShare": 0.25464191,
+              "transfer": 0
+            },
+            {
+              "round": 2,
+              "votes": 102,
+              "voteShare": 0.27345845,
+              "transfer": 6
+            },
+            {
+              "round": 3,
+              "votes": 112,
+              "voteShare": 0.30352304,
+              "transfer": 10
+            },
+            {
+              "round": 4,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": -112
+            },
+            {
+              "round": 5,
+              "votes": 0,
+              "voteShare": 0.00000000,
+              "transfer": 0
+            }
           ]
         }
       ]
