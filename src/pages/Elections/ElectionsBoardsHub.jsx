@@ -7,6 +7,7 @@ import {
   formatElectionVotingOpensAt,
 } from "../../utils/electionVotingWindow.js";
 import { ELECTIONS_BASE } from "./electionsPaths.js";
+import ElectionViewSelect from "./ElectionViewSelect.jsx";
 import "./ElectionsBoard.scss";
 
 let boardChunkPrefetch = null;
@@ -65,6 +66,7 @@ export default function ElectionsBoardsHub({ config, resultsEmbargo = null }) {
             {resultsEmbargo.detail ? ` ${resultsEmbargo.detail}` : ""}
           </p>
         ) : null}
+        <ElectionViewSelect config={config} view="candidates" />
       </div>
 
       <div className="elections-dev__hub-main">

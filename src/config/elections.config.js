@@ -23,7 +23,7 @@ export default {
   sheet: activeMode.sheet,
 
   // "pending" | "polling" | "results" — see src/utils/electionAccess.js for URL rules
-  state: "polling",
+  state: "results",
 
   // Board values to show for the active mode. Order = card order on /Elections.
   enabledElectionBoards: activeMode.enabledElectionBoards,
@@ -73,14 +73,14 @@ export default {
 
   // When state is "results" and results are live: same red banner as voting-live (see ElectionBanner).
   // `pollingBar.message` is used as fallback body if `resultsBannerMessage` is empty (e.g. sheet merge).
-  resultsBannerTitle: "Election results — LSA elections",
+  resultsBannerTitle: "2030 Freshman Elections",
   resultsBannerMessage:
-    "Full counts are posted. Open the Elections page to see results for each board and position.",
+    "Ranked-choice results are posted. Open the Elections page to see each office.",
 
   // Enables the results banner + optional CTA when state is "results" (Layout, Home, under hero on results page).
   pollingBar: {
     enabled: true,
-    message: "Election results are now available.",
+    message: "Ranked-choice results are posted.",
     resultsLabel: "View results",
     resultsPath: "/Elections/Results",
   },
@@ -109,13 +109,12 @@ export default {
   voteButtonText: "Open voting form",
 
   // When `state` is "results", tables stay hidden until this instant (visitor's browser clock vs ISO time).
-  // Empty = show results as soon as state is "results". Use timezone offset so "today 3:45 PM" is unambiguous.
-  // Example same-day 3:45 PM Pacific: "2026-05-01T15:45:00-07:00"
-  resultsReleaseAt: "2026-05-01T15:42:00-07:00",
+  // Empty = show results as soon as state is "results". Use timezone offset so "today 4:05 PM" is unambiguous.
+  resultsReleaseAt: "2026-10-23T16:05:00-07:00",
 
-  // Copy on /Elections/Results before `resultsReleaseAt` (when state is already "results").
-  resultsPendingTitle: "Results go live soon",
-  resultsPendingSubtitle: "", // empty = default line with formatted date/time below
+  // Copy on the candidate view before `resultsReleaseAt` (when state is already "results").
+  resultsPendingTitle: "Results post at 4:05 PM",
+  resultsPendingSubtitle: "Pacific time.",
 
   // When set (ISO 8601), vote links stay disabled until this local instant. Empty = active whenever votingFormUrl is set.
   // Example: "2026-04-27T10:20:00-07:00"

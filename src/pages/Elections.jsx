@@ -31,7 +31,13 @@ function ElectionsCandidateView({
   const soloSlug = onlyBoardSlug(config);
   // /Elections/All always shows the boards hub, even in single-board mode
   if (!forceHub && soloSlug && areElectionBoardsPublic(config)) {
-    return <ElectionBoard electionsConfig={config} boardSlug={soloSlug} />;
+    return (
+      <ElectionBoard
+        electionsConfig={config}
+        boardSlug={soloSlug}
+        resultsEmbargo={resultsEmbargo}
+      />
+    );
   }
   return (
     <ElectionsBoardsHub config={config} resultsEmbargo={resultsEmbargo} />

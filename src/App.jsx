@@ -15,7 +15,12 @@ import { site } from "./config/site.config.js";
 import { mergeElectionConfigWithSheet } from "./utils/electionCandidatesFromSheet.js";
 import { parseCardinalympicsEventsSheet } from "./utils/cardinalympicsEventsFromSheet.js";
 import { ElectionTimingProvider } from "./utils/electionVotingWindow.js";
+import {
+  isDevElectionResultsPath,
+  withDevElectionResultsPreview,
+} from "./pages/Elections/electionsPaths.js";
 import cardinalympicsConfig from "./config/cardinalympics.config.js";
+import { resolveCardinalympicsDisplayMode } from "./utils/cardinalympicsDisplayMode.js";
 import NotFound from "./pages/NotFound";
 
 const Elections = lazy(() => import("./pages/Elections"));
@@ -29,6 +34,16 @@ function RedirectLegacyElectionsDevBoard() {
     return <Navigate to="/Elections/All" replace />;
   }
   return <Navigate to={`/Elections/${encodeURIComponent(slug)}`} replace />;
+}
+
+function RedirectToDevElectionPreview() {
+  const location = useLocation();
+  return (
+    <Navigate
+      to={{ pathname: "/dev", search: location.search, hash: location.hash }}
+      replace
+    />
+  );
 }
 const Club = lazy(() => import("./pages/Clubs/Club"));
 const TitleIX = lazy(() => import("./pages/Resources/TitleIX"));
@@ -417,6 +432,14 @@ function App() {
     () => mergeElectionConfigWithSheet(site.elections, electionSheetValues),
     [electionSheetValues],
   );
+  const onDevElectionPreview = isDevElectionResultsPath(location.pathname);
+  const electionsConfigForShell = useMemo(
+    () =>
+      onDevElectionPreview
+        ? withDevElectionResultsPreview(electionsConfigResolved)
+        : electionsConfigResolved,
+    [onDevElectionPreview, electionsConfigResolved],
+  );
 
   const {
     showScoresAndScoreboard,
@@ -424,8 +447,15 @@ function App() {
     showWinningChances,
     showEvents,
     showHomeEventsSignupNow,
-    displayMode: cardinalympicsDisplayMode,
   } = cardinalympicsConfig;
+  const cardinalympicsDisplayMode = useMemo(
+    () =>
+      resolveCardinalympicsDisplayMode(
+        cardinalympicsConfig.displayMode,
+        scoreboardRows,
+      ),
+    [scoreboardRows],
+  );
   const needsCardinalympicsEventsData = showEvents || showHomeEventsSignupNow;
 
   useEffect(() => {
@@ -676,13 +706,13 @@ function App() {
       <Routes>
         <Route
           element={
-            <ElectionTimingProvider config={electionsConfigResolved}>
+            <ElectionTimingProvider config={electionsConfigForShell}>
               <Layout
                 clubData={clubData}
                 officerData={officerData}
                 cardinalympicsEvents={cardinalympicsEvents}
                 electionsEnabled={site.electionsEnabled}
-                electionsConfig={electionsConfigResolved}
+                electionsConfig={electionsConfigForShell}
               />
             </ElectionTimingProvider>
           }
@@ -705,6 +735,31 @@ function App() {
               />
             }
           />
+          {import.meta.env.DEV ? (
+            <Route
+              path="dev"
+              element={
+                <Elections
+                  electionsEnabled={site.electionsEnabled}
+                  electionsConfig={withDevElectionResultsPreview(
+                    electionsConfigResolved,
+                  )}
+                />
+              }
+            />
+          ) : null}
+          {import.meta.env.DEV ? (
+            <Route
+              path="dev/elections"
+              element={<RedirectToDevElectionPreview />}
+            />
+          ) : null}
+          {import.meta.env.DEV ? (
+            <Route
+              path="dev/Elections"
+              element={<RedirectToDevElectionPreview />}
+            />
+          ) : null}
           <Route path="Elections" element={<Outlet />}>
             <Route
               index

@@ -17,13 +17,12 @@ export function areElectionResultsReleased(config, now = Date.now()) {
 }
 
 /**
- * Candidate board pages (/Elections/:slug) — open while polling, or during results embargo
- * (before `resultsReleaseAt`) so people can still open candidate bios from /Elections?candidates=1.
+ * Candidate board pages stay open while polling and for the whole results period,
+ * including after `resultsReleaseAt`, so bios remain available from the view dropdown.
  */
 export function areElectionBoardsPublic(config) {
   if (config?.state === "polling") return true;
-  if (config?.state === "results" && !areElectionResultsReleased(config))
-    return true;
+  if (config?.state === "results") return true;
   return false;
 }
 

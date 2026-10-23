@@ -8,6 +8,8 @@ import {
   useElectionResultsReleased,
 } from "../../utils/electionVotingWindow.js";
 import electionResultsStatic from "../../data/electionResults.json";
+import freshman2030Results from "../../data/freshman2030ElectionResults.json";
+import FreshmanElectionResults from "./FreshmanElectionResults.jsx";
 import ElectionBanner from "../../components/ElectionBanner.jsx";
 import "../Elections.scss";
 import "./ElectionsBoard.scss";
@@ -326,6 +328,12 @@ export default function ElectionResults({
           <Link to="/Elections">Back to elections</Link>
         </div>
       </div>
+    );
+  }
+
+  if (config?.mode === "freshman") {
+    return (
+      <FreshmanElectionResults config={config} election={freshman2030Results} />
     );
   }
 

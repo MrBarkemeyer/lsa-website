@@ -12,7 +12,10 @@ import CardinalympicLogo from "../components/CardinalympicLogo";
 import PropTypes from "prop-types";
 import SafeImage from "../components/SafeImage";
 import { driveThumbnailCandidates } from "../utils/driveMedia.js";
-import { cardinalympicsLeaderBadgeLabel } from "../utils/cardinalympicsDisplayMode.js";
+import {
+  cardinalympicsIsResultsMode,
+  cardinalympicsLeaderBadgeLabel,
+} from "../utils/cardinalympicsDisplayMode.js";
 import { isCardinalympicsSignupPastEventDay } from "../utils/cardinalympicsEventsFromSheet.js";
 
 const CARDINALYMPICS_CLASS_NAMES = [
@@ -147,7 +150,8 @@ export default function Home({
     site.electionsEnabled &&
     electionsConfig?.banner?.enabled &&
     (electionsConfig?.state === "polling" ||
-      electionsConfig?.state === "pending");
+      electionsConfig?.state === "pending" ||
+      (electionsConfig?.state === "results" && !resultsReleased));
   const showElectionResultsBanner =
     site.electionsEnabled &&
     electionsConfig?.state === "results" &&
@@ -179,6 +183,9 @@ export default function Home({
       ? cardinalympicsScores.indexOf(Math.max(...cardinalympicsScores))
       : -1;
   const cardinalympicsTopClassBadge = cardinalympicsLeaderBadgeLabel(
+    cardinalympicsDisplayMode,
+  );
+  const cardinalympicsResultsMode = cardinalympicsIsResultsMode(
     cardinalympicsDisplayMode,
   );
   const homeSignupEvents = useMemo(
@@ -411,17 +418,19 @@ export default function Home({
                     >
                       Cardinalympics
                     </h2>
-                    <span
-                      className="home-cardinalympics__live"
-                      role="status"
-                      aria-label="Scores from the live scoreboard"
-                    >
+                    {!cardinalympicsResultsMode && (
                       <span
-                        className="home-cardinalympics__live-dot"
-                        aria-hidden="true"
-                      />
-                      Live
-                    </span>
+                        className="home-cardinalympics__live"
+                        role="status"
+                        aria-label="Scores from the live scoreboard"
+                      >
+                        <span
+                          className="home-cardinalympics__live-dot"
+                          aria-hidden="true"
+                        />
+                        Live
+                      </span>
+                    )}
                   </div>
                   <p className="home-cardinalympics__subtitle">
                     Spirit Week class totals!

@@ -34,6 +34,7 @@ import {
   ELECTIONS_HUB,
   isElectionsHubSlug,
 } from "./electionsPaths.js";
+import ElectionViewSelect from "./ElectionViewSelect.jsx";
 import "./ElectionsBoard.scss";
 
 const DESKTOP_CARDS_PER_ROW_MIN = 2;
@@ -478,6 +479,7 @@ ClassicDevCandidateCard.propTypes = {
 export default function ElectionBoard({
   electionsConfig: config = electionsConfig,
   boardSlug: boardSlugProp = "",
+  resultsEmbargo = null,
 }) {
   const { boardSlug: boardSlugParam } = useParams();
   const boardSlug = boardSlugProp || boardSlugParam;
@@ -778,6 +780,13 @@ export default function ElectionBoard({
         ) : votingOpensHint ? (
           <p className="elections-dev__hint">Voting opens {votingOpensHint}.</p>
         ) : null}
+        {resultsEmbargo ? (
+          <p className="elections-dev__hint">
+            {resultsEmbargo.subtitle}
+            {resultsEmbargo.detail ? ` ${resultsEmbargo.detail}` : ""}
+          </p>
+        ) : null}
+        <ElectionViewSelect config={config} view="candidates" />
       </div>
 
       <div className="elections-dev__filters">
@@ -948,6 +957,10 @@ export default function ElectionBoard({
 
 ElectionBoard.propTypes = {
   boardSlug: PropTypes.string,
+  resultsEmbargo: PropTypes.shape({
+    subtitle: PropTypes.string.isRequired,
+    detail: PropTypes.string,
+  }),
   electionsConfig: PropTypes.shape({
     votingFormUrl: PropTypes.string,
     votingOpensAt: PropTypes.string,

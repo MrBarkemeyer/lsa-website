@@ -7,9 +7,26 @@ import "./Events.scss";
 
 const PREVIEW_COUNT = 4;
 
-const PROFILE = "https://www.instagram.com/lowellhs/";
-const HANDLE = "lowellhs";
+const DEFAULT_HANDLE = "lowellhs";
 const CAPTION_TOKEN = /(https?:\/\/[^\s]+)|(@[\w.]+)|(#[\w]+)/g;
+
+function postHandle(post) {
+  return post.handle || DEFAULT_HANDLE;
+}
+
+function profileUrl(handle) {
+  return `https://www.instagram.com/${handle}/`;
+}
+
+function accountHandles(list) {
+  const handles = [...new Set(list.map(postHandle))];
+  handles.sort((a, b) => {
+    if (a === DEFAULT_HANDLE) return -1;
+    if (b === DEFAULT_HANDLE) return 1;
+    return a.localeCompare(b);
+  });
+  return handles;
+}
 
 export default function Events({ preview = false }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,11 +36,13 @@ export default function Events({ preview = false }) {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return posts;
     return posts.filter((post) =>
-      [post.caption, post.date].join(" ").toLowerCase().includes(query),
+      [post.caption, post.date, postHandle(post)].join(" ").toLowerCase().includes(query),
     );
   }, [searchQuery]);
 
   const openPost = posts.find((post) => post.id === openId) ?? null;
+  const handles = accountHandles(posts);
+  const showHandle = handles.length > 1;
   const visible = preview ? posts.slice(0, PREVIEW_COUNT) : matched;
   const dialog = openPost && (
     <PostDialog post={openPost} onClose={() => setOpenId(null)} />
@@ -31,7 +50,7 @@ export default function Events({ preview = false }) {
   const grid = (
     <div className="events-grid">
       {visible.map((post) => (
-        <PostCard key={post.id} post={post} onOpen={setOpenId} />
+        <PostCard key={post.id} post={post} showHandle={showHandle} onOpen={setOpenId} />
       ))}
     </div>
   );
@@ -64,11 +83,7 @@ export default function Events({ preview = false }) {
       <header className="events-hero">
         <h1>Events</h1>
         <p>
-          Posts from{" "}
-          <a href={PROFILE} target="_blank" rel="noopener noreferrer">
-            @lowellhs
-          </a>{" "}
-          on Instagram.
+          Posts from <AccountList handles={handles} /> on Instagram.
         </p>
       </header>
 
@@ -82,7 +97,7 @@ export default function Events({ preview = false }) {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search captions"
+                placeholder="Search posts"
               />
             </label>
           </div>
@@ -91,8 +106,8 @@ export default function Events({ preview = false }) {
         {posts.length === 0 ? (
           <p className="events-empty" role="status">
             No posts yet.{" "}
-            <a href={PROFILE} target="_blank" rel="noopener noreferrer">
-              See @lowellhs on Instagram
+            <a href={profileUrl(DEFAULT_HANDLE)} target="_blank" rel="noopener noreferrer">
+              See @{DEFAULT_HANDLE} on Instagram
             </a>
             .
           </p>
@@ -110,7 +125,26 @@ export default function Events({ preview = false }) {
   );
 }
 
-function PostCard({ post, onOpen }) {
+function AccountList({ handles }) {
+  const list = handles.length ? handles : [DEFAULT_HANDLE];
+  return list.map((handle, index) => {
+    const link = (
+      <a key={handle} href={profileUrl(handle)} target="_blank" rel="noopener noreferrer">
+        @{handle}
+      </a>
+    );
+    if (index === 0) return link;
+    const separator = index === list.length - 1 ? " and " : ", ";
+    return (
+      <span key={handle}>
+        {separator}
+        {link}
+      </span>
+    );
+  });
+}
+
+function PostCard({ post, showHandle, onOpen }) {
   return (
     <button
       type="button"
@@ -120,7 +154,12 @@ function PostCard({ post, onOpen }) {
     >
       <img src={post.cover} alt="" />
       <div className="events-card__body">
-        <p className="events-card__date">{post.date}</p>
+        <p className="events-card__date">
+          {post.date}
+          {showHandle ? (
+            <span className="events-card__handle"> @{postHandle(post)}</span>
+          ) : null}
+        </p>
         <p className="events-card__caption">{post.caption}</p>
       </div>
     </button>
@@ -203,10 +242,35 @@ function PostDialog({ post, onClose }) {
     [post.video, post.slides, post.cover],
   );
   const [slide, setSlide] = useState(0);
+  const [dragX, setDragX] = useState(0);
+  const [suspendMotion, setSuspendMotion] = useState(false);
+  const [motionMs, setMotionMs] = useState(380);
   const closeRef = useRef(null);
+  const stageRef = useRef(null);
   const onCloseRef = useRef(onClose);
+  const slideRef = useRef(0);
+  const dragRef = useRef(null);
+  const motionGen = useRef(0);
+  const goToRef = useRef(null);
   onCloseRef.current = onClose;
+  slideRef.current = slide;
   const many = slides.length > 1;
+  const count = slides.length;
+
+  const goTo = (nextIndex) => {
+    const next = Math.max(0, Math.min(count - 1, nextIndex));
+    const delta = next - slideRef.current;
+    if (delta === 0) return;
+    motionGen.current += 1;
+    dragRef.current = null;
+    const distance = Math.abs(delta);
+    slideRef.current = next;
+    setDragX(0);
+    setSuspendMotion(false);
+    setMotionMs(Math.min(560, 340 + Math.max(0, distance - 1) * 70));
+    setSlide(next);
+  };
+  goToRef.current = goTo;
 
   useEffect(() => {
     // Warm every slide up front so Next/Prev never waits on a cold CDN fetch.
@@ -227,11 +291,11 @@ function PostDialog({ post, onClose }) {
       if (event.key === "Escape") onCloseRef.current();
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        setSlide((index) => Math.max(0, index - 1));
+        goToRef.current?.(slideRef.current - 1);
       }
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        setSlide((index) => Math.min(slides.length - 1, index + 1));
+        goToRef.current?.(slideRef.current + 1);
       }
     }
 
@@ -242,13 +306,73 @@ function PostDialog({ post, onClose }) {
     };
   }, [slides.length]);
 
+  function onPointerDown(event) {
+    if (!many || event.button !== 0) return;
+    dragRef.current = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      locked: false,
+    };
+  }
+
+  function onPointerMove(event) {
+    const drag = dragRef.current;
+    if (!drag || drag.id !== event.pointerId) return;
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
+    if (!drag.locked) {
+      if (Math.hypot(dx, dy) < 8) return;
+      if (Math.abs(dy) > Math.abs(dx)) {
+        dragRef.current = null;
+        return;
+      }
+      drag.locked = true;
+      motionGen.current += 1;
+      setSuspendMotion(true);
+      try {
+        event.currentTarget.setPointerCapture(event.pointerId);
+      } catch {
+        // Pointer can vanish before capture; the move still tracks.
+      }
+    }
+    const atStart = slideRef.current <= 0 && dx > 0;
+    const atEnd = slideRef.current >= count - 1 && dx < 0;
+    setDragX(atStart || atEnd ? dx * 0.32 : dx);
+  }
+
+  function onPointerUp(event) {
+    const drag = dragRef.current;
+    if (!drag || drag.id !== event.pointerId) return;
+    dragRef.current = null;
+    if (!drag.locked) return;
+    const dx = event.clientX - drag.x;
+    const width = stageRef.current?.clientWidth || 1;
+    const threshold = Math.min(72, width * 0.16);
+    let next = slideRef.current;
+    if (dx <= -threshold) next += 1;
+    else if (dx >= threshold) next -= 1;
+    next = Math.max(0, Math.min(count - 1, next));
+    const gen = ++motionGen.current;
+    setSuspendMotion(false);
+    // Let the eased transition apply on the dragged frame before the snap target.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (motionGen.current !== gen) return;
+        slideRef.current = next;
+        setDragX(0);
+        setSlide(next);
+      });
+    });
+  }
+
   const dialog = (
     <div className="ig-backdrop" role="presentation" onClick={onClose}>
       <div
         className="ig-dialog"
         role="dialog"
         aria-modal="true"
-        aria-label={`${HANDLE}, ${post.date}`}
+        aria-label={`${postHandle(post)}, ${post.date}`}
         onClick={(event) => event.stopPropagation()}
       >
         <button
@@ -272,66 +396,72 @@ function PostDialog({ post, onClose }) {
         <div className="ig-media">
           {post.video ? (
             <video controls playsInline poster={post.cover} src={post.video} />
-          ) : (
+          ) : count > 0 ? (
             <>
-              {/* Active slide stays in-flow so the dialog sizes to the flyer. */}
-              {slides[slide] && (
-                <img
-                  key={slides[slide]}
-                  src={slides[slide]}
-                  alt=""
-                  draggable={false}
-                  decoding="sync"
-                  fetchPriority="high"
-                />
-              )}
-              {/* Keep neighbors decoded/cached without affecting layout. */}
-              {slides.map((src, index) =>
-                index === slide || !src ? null : (
-                  <img
-                    key={`preload-${src}-${index}`}
-                    className="ig-slide-preload"
-                    src={src}
-                    alt=""
-                    aria-hidden="true"
-                    draggable={false}
-                    decoding="async"
-                    fetchPriority="low"
-                  />
-                ),
-              )}
+              {/* In-flow image sizes the dialog; the track slides on top of it. */}
+              <img className="ig-sizer" src={slides[0]} alt="" aria-hidden="true" />
+              <div
+                ref={stageRef}
+                className={`ig-stage${many ? " is-slidable" : ""}${suspendMotion ? " is-dragging" : ""}`}
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerCancel={onPointerUp}
+                onDragStart={(event) => event.preventDefault()}
+              >
+                <div
+                  className={`ig-track${suspendMotion ? " is-instant" : ""}`}
+                  style={{
+                    "--ig-count": count,
+                    "--ig-index": slide,
+                    "--ig-drag": `${dragX}px`,
+                    "--ig-ms": `${motionMs}ms`,
+                  }}
+                >
+                  {slides.map((src, index) => (
+                    <img
+                      key={`${src}-${index}`}
+                      src={src}
+                      alt=""
+                      draggable={false}
+                      decoding={index === slide ? "sync" : "async"}
+                      fetchPriority={Math.abs(index - slide) <= 1 ? "high" : "low"}
+                    />
+                  ))}
+                </div>
+              </div>
             </>
-          )}
+          ) : null}
           {many && slide > 0 && (
             <button
               type="button"
               className="ig-arrow ig-arrow--prev"
               aria-label="Previous"
-              onClick={() => setSlide((index) => index - 1)}
+              onClick={() => goTo(slideRef.current - 1)}
             >
               <Chevron dir="left" />
             </button>
           )}
-          {many && slide < slides.length - 1 && (
+          {many && slide < count - 1 && (
             <button
               type="button"
               className="ig-arrow ig-arrow--next"
               aria-label="Next"
-              onClick={() => setSlide((index) => index + 1)}
+              onClick={() => goTo(slideRef.current + 1)}
             >
               <Chevron dir="right" />
             </button>
           )}
           {many && (
             <div className="ig-dots">
-              {dotStates(slides.length, slide).map(({ index, edge }) => (
+              {dotStates(count, slide).map(({ index, edge }) => (
                 <button
                   key={index}
                   type="button"
                   className={`ig-dot${index === slide ? " is-active" : ""}${edge ? " is-edge" : ""}`}
-                  aria-label={`Slide ${index + 1} of ${slides.length}`}
+                  aria-label={`Slide ${index + 1} of ${count}`}
                   aria-current={index === slide ? "true" : undefined}
-                  onClick={() => setSlide(index)}
+                  onClick={() => goTo(index)}
                 />
               ))}
             </div>
@@ -340,11 +470,11 @@ function PostDialog({ post, onClose }) {
 
         <aside className="ig-side">
           <header className="ig-head">
-            <a href={PROFILE} target="_blank" rel="noopener noreferrer">
+            <a href={profileUrl(postHandle(post))} target="_blank" rel="noopener noreferrer">
               <img className="ig-avatar" src={Logo} alt="" />
             </a>
-            <a className="ig-user" href={PROFILE} target="_blank" rel="noopener noreferrer">
-              {HANDLE}
+            <a className="ig-user" href={profileUrl(postHandle(post))} target="_blank" rel="noopener noreferrer">
+              {postHandle(post)}
             </a>
           </header>
           <div className="ig-scroll">
@@ -352,8 +482,8 @@ function PostDialog({ post, onClose }) {
               <img className="ig-avatar" src={Logo} alt="" />
               <div>
                 <div className="ig-copy">
-                  <a className="ig-user" href={PROFILE} target="_blank" rel="noopener noreferrer">
-                    {HANDLE}
+                  <a className="ig-user" href={profileUrl(postHandle(post))} target="_blank" rel="noopener noreferrer">
+                    {postHandle(post)}
                   </a>{" "}
                   {captionNodes(post.caption || "")}
                 </div>

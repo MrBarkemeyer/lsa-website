@@ -18,6 +18,23 @@ export default function ElectionBanner({ config }) {
   const messagingLive = useElectionVotingMessagingLive(config);
   const resultsReleased = useElectionResultsReleased(config ?? {});
 
+  if (state === "results" && !resultsReleased && config?.banner?.enabled) {
+    const { title, message, ctaText, ctaPath } = config.banner;
+    return (
+      <div className="election-banner">
+        <div className="election-banner-inner">
+          <h3 className="election-banner-title">{title}</h3>
+          {message ? <p className="election-banner-message">{message}</p> : null}
+          {ctaText && ctaPath ? (
+            <Link to={ctaPath} className="election-banner-cta">
+              {ctaText}
+            </Link>
+          ) : null}
+        </div>
+      </div>
+    );
+  }
+
   if (state === "results" && resultsReleased && config?.pollingBar?.enabled) {
     const title =
       String(config?.resultsBannerTitle ?? "").trim() ||

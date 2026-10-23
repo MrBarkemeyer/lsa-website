@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import ElectionBanner from "../components/ElectionBanner";
 import PageTransition from "../components/PageTransition";
 import { useElectionResultsReleased } from "../utils/electionVotingWindow.js";
+import { isDevElectionResultsPath } from "./Elections/electionsPaths.js";
 
 export default function Layout(props) {
   const clubData = props.clubData;
@@ -18,14 +19,18 @@ export default function Layout(props) {
   const wantsElectionsCandidatesView =
     searchParams.get("candidates") === "1" ||
     searchParams.get("view") === "candidates";
+  const onDevElectionPreview = isDevElectionResultsPath(location.pathname);
   const electionsMessageUnderHero =
     location.pathname === "/Elections/Results" ||
-    (location.pathname === "/Elections" && !wantsElectionsCandidatesView);
+    ((location.pathname === "/Elections" || onDevElectionPreview) &&
+      !wantsElectionsCandidatesView);
 
   const showElectionBanner =
     electionsEnabled &&
     electionsConfig?.banner?.enabled &&
-    (state === "polling" || state === "pending");
+    (state === "polling" ||
+      state === "pending" ||
+      (state === "results" && !resultsReleased));
   const showElectionResultsBanner =
     electionsEnabled &&
     state === "results" &&
