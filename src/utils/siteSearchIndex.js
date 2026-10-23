@@ -165,7 +165,7 @@ export function buildSearchDocuments({
       title: eventTitle(caption, post.date),
       to: "/Events",
       section: post.date ? `Events · ${post.date}` : "Events",
-      text: `${post.date || ""} ${caption}`,
+      text: `${post.handle || "lowellhs"} ${post.date || ""} ${caption}`,
       external: false,
     });
   }

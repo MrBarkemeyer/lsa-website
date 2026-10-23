@@ -6,6 +6,7 @@
  *
  * {
  *   id: "welcome-back",
+ *   handle: "lsaboard2030", // omit for @lowellhs
  *   date: "Oct 1, 2026",
  *   caption: "Full post text.",
  *   cover: "/instagram/welcome-back/cover.jpg",
@@ -16,6 +17,94 @@
  * Omit slides for a single photo. Omit video unless it is a reel.
  */
 const posts = [
+    {
+        "id": "DetQJ6em1A9",
+        "date": "Oct 20, 2026",
+        "caption": "Freshmen, you showed up! 💚📣 Thank you, Class of 2030, for bringing THE ENERGY AND SPIRIT to Fall Rally and a huge shoutout to everyone who performed! 🔥\n\nThank you all for participating in cardinalympics! It was a close one, but we'll get 'em next time! 💪💚\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n#LowellHS #LSA2030 #Lowell2030 #ClassOf2030 #LowellHighSchool #FallRally #LowellCardinals #FreshmanYear",
+        "cover": "/instagram/DetQJ6em1A9/cover.jpg",
+        "slides": [
+            "/instagram/DetQJ6em1A9/cover.jpg",
+            "/instagram/DetQJ6em1A9/2.jpg"
+        ],
+        "url": "https://www.instagram.com/lsaboard2030/p/DetQJ6em1A9/",
+        "handle": "lsaboard2030"
+    },
+    {
+        "id": "DeuxbvzEtPI",
+        "date": "Oct 20, 2026",
+        "caption": "Homecoming Recap 26-27: Fly Me to the Moon 🌙 \n\nphotography by Jordan Chin\n\n#graphicdesign #canva #studentcouncil #evangelion #graphics",
+        "cover": "/instagram/DeuxbvzEtPI/cover.jpg",
+        "slides": [
+            "/instagram/DeuxbvzEtPI/cover.jpg",
+            "/instagram/DeuxbvzEtPI/2.jpg",
+            "/instagram/DeuxbvzEtPI/3.jpg",
+            "/instagram/DeuxbvzEtPI/4.jpg",
+            "/instagram/DeuxbvzEtPI/5.jpg",
+            "/instagram/DeuxbvzEtPI/6.jpg",
+            "/instagram/DeuxbvzEtPI/7.jpg",
+            "/instagram/DeuxbvzEtPI/8.jpg",
+            "/instagram/DeuxbvzEtPI/9.jpg"
+        ],
+        "url": "https://www.instagram.com/lowellhs/p/DeuxbvzEtPI/"
+    },
+    {
+        "id": "DerrGEiGrhc",
+        "date": "Oct 19, 2026",
+        "caption": "CLASS OF 2030!!! 🗳️\n\nIt’s time to vote! From TODAY 10/19 @ 10:20 AM during registry to 3:40 PM on Friday voting for the CLASS OF 2030 FRESHMAN BOARD will commence. \n\nWe highly encourage you all to place a vote! If you want to learn more about the candidates, check out the Lowell Student Association elections page.\n\nCheck google classroom for the voting form!\n\nHappy voting! 🍀\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n#lowellhs #clasof2030 #lsa2030 #freshmanelections",
+        "cover": "/instagram/DerrGEiGrhc/cover.jpg",
+        "slides": [
+            "/instagram/DerrGEiGrhc/cover.jpg"
+        ],
+        "url": "https://www.instagram.com/lsaboard2030/p/DerrGEiGrhc/",
+        "handle": "lsaboard2030"
+    },
+    {
+        "id": "DeieAWvmw44",
+        "date": "Oct 15, 2026",
+        "caption": "We’ve found a place… Dare to enter the Haunted House at Carol Channing Theater from 3:50-5:00 PM and hang out at our Spooktacular Carnival in the courtyard on October 30th! Test your skills with ring toss, basketball, axe throwing, and more—plus, tons of trick-or-treat candy! 👀\n\n#backrooms #a24 #horror #graphicdesign #canva",
+        "cover": "/instagram/DeieAWvmw44/cover.jpg",
+        "slides": [
+            "/instagram/DeieAWvmw44/cover.jpg",
+            "/instagram/DeieAWvmw44/2.jpg"
+        ],
+        "url": "https://www.instagram.com/lowellhs/p/DeieAWvmw44/"
+    },
+    {
+        "id": "DeQhXkllDwc",
+        "date": "Oct 8, 2026",
+        "caption": "📆 HEY CARDINALS!!!\n\nReminder that Friday (10/9) has a special RALLY SCHEDULE 📚⏰\n\nDON’T FORGET TO WEAR YOUR CLASS COLORS FOR A CHANCE TO WIN MERCH 😆💚💜💙❤️📣📣",
+        "cover": "/instagram/DeQhXkllDwc/cover.jpg",
+        "slides": [
+            "/instagram/DeQhXkllDwc/cover.jpg",
+            "/instagram/DeQhXkllDwc/2.jpg"
+        ],
+        "url": "https://www.instagram.com/lowellhs/p/DeQhXkllDwc/"
+    },
+    {
+        "id": "DeLRd-YFCyj",
+        "date": "Oct 6, 2026",
+        "caption": "Thank you to everyone who attended 2026 Fall Late Night and helped decorate our hallway! We hope you all had an amazing time! 🍯🌈💚\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n#lsaboard2030 #latenight #recap #wizardofoz",
+        "cover": "/instagram/DeLRd-YFCyj/cover.jpg",
+        "slides": [
+            "/instagram/DeLRd-YFCyj/cover.jpg",
+            "/instagram/DeLRd-YFCyj/2.jpg"
+        ],
+        "url": "https://www.instagram.com/lsaboard2030/p/DeLRd-YFCyj/",
+        "handle": "lsaboard2030"
+    },
+    {
+        "id": "DeGhmhMFOH2",
+        "date": "Oct 5, 2026",
+        "caption": "Join the school-wide Bead Game during Cardinalympics! Students will start with one bead and play ro-sham-bo (rock-paper-scissors) against other participants to collect more beads and earn Cardinalympics points for their grade.\n\nParticipation is optional, but highly encouraged. The game will run from Monday, October 5 through Thursday, October 8. All beads must be returned on Thursday to be counted toward your grade’s final total. Good luck!\n\n#canva #graphics #oliviarodrigo #oliviarodrigoedit #design",
+        "cover": "/instagram/DeGhmhMFOH2/cover.jpg",
+        "slides": [
+            "/instagram/DeGhmhMFOH2/cover.jpg",
+            "/instagram/DeGhmhMFOH2/2.jpg",
+            "/instagram/DeGhmhMFOH2/3.jpg",
+            "/instagram/DeGhmhMFOH2/4.jpg"
+        ],
+        "url": "https://www.instagram.com/lowellhs/p/DeGhmhMFOH2/"
+    },
     {
         "id": "Dd6CA1Gm_dk",
         "date": "Sep 30, 2026",
@@ -166,6 +255,19 @@ const posts = [
         "url": "https://www.instagram.com/lowellhs/p/Dc83uBiG6i6/"
     },
     {
+        "id": "Dc4OyxkAe_T",
+        "date": "Sep 4, 2026",
+        "caption": "Freshman Mixer Recap! We hope you all had fun 💚",
+        "cover": "/instagram/Dc4OyxkAe_T/cover.jpg",
+        "slides": [
+            "/instagram/Dc4OyxkAe_T/cover.jpg",
+            "/instagram/Dc4OyxkAe_T/2.jpg",
+            "/instagram/Dc4OyxkAe_T/3.jpg"
+        ],
+        "url": "https://www.instagram.com/lsaboard2030/p/Dc4OyxkAe_T/",
+        "handle": "lsaboard2030"
+    },
+    {
         "id": "Dc30L-Em_7I",
         "date": "Sep 4, 2026",
         "caption": "💚 CLASS OF 2030!!! 🍀‼️\n\nIt's almost time for Fall Rally!! Interested in dancing, choreographing, painting or drawing? Join one of our Freshman committees and help make Fall Rally amazing!!\n\n💃 Dance Committee: Learn to perform and dance with other Freshmen at Rally!!\n🎨 Late Night Committee: Help, design, leard, and paint the Freshman banner displayed at Fall Rally and create the Freshman hallway!!!\n\nBoth are perfect opportunities to meet other Freshmen, get involved, and have a fun time with school activities!!!\n\nPlease fill out these forms by:\nDance Committee — September 13th @ 11:59 PM\nLate Night Committee — September 9th @ 11:59 PM",
@@ -176,6 +278,53 @@ const posts = [
             "/instagram/Dc30L-Em_7I/3.jpg"
         ],
         "url": "https://www.instagram.com/lowellhs/p/Dc30L-Em_7I/"
+    },
+    {
+        "id": "Dcnmz32J394",
+        "date": "Aug 29, 2026",
+        "caption": "🗳️💚CLASS OF 2030!!! Your very first class election is coming up, which means that it’s time for an elections info meeting! If you’re interested in running attend ONE of these MANDATORY info meetings in the 📍Steve Silver: \n\nThursday, September 10th\nFriday, September 11th\n\nAfter school at 3:50pm! Remember YOU MUST ATTEND to run in the elections, if you cannot make one of these dates email lowellelections@gmail.com!\n\nFILL OUT IF INTERESTED: https://forms.gle/hkQ2c1MMSjQcw9qq7\n\nWe hope to see you there!!🍀‼️",
+        "cover": "/instagram/Dcnmz32J394/cover.jpg",
+        "slides": [
+            "/instagram/Dcnmz32J394/cover.jpg"
+        ],
+        "url": "https://www.instagram.com/lsaboard2030/p/Dcnmz32J394/",
+        "handle": "lsaboard2030"
+    },
+    {
+        "id": "Dchrn1ZlIX_",
+        "date": "Aug 26, 2026",
+        "caption": "🍀Hey Class of 2030!! 💚\n\nFreshmen Mixer 😛will be held on Wednesday, September 2nd from 2:45-4PM in the courtyard. Come enjoy games, a scavenger hunt🧺, free snacks, 🍕and bond with other Freshmen. This is a great opportunity to get involved with Lowell activities and get to know your class. RSVP here!\n\nhttps://forms.gle/Ly5sQRHHAzHPHuKm8\n\n🌱\n\nReach out to SBC Elections Commissioner  lowellelections@gmail.com for any questions or concerns! See you there!!",
+        "cover": "/instagram/Dchrn1ZlIX_/cover.jpg",
+        "slides": [
+            "/instagram/Dchrn1ZlIX_/cover.jpg",
+            "/instagram/Dchrn1ZlIX_/2.jpg"
+        ],
+        "url": "https://www.instagram.com/lsaboard2030/p/Dchrn1ZlIX_/",
+        "handle": "lsaboard2030"
+    },
+    {
+        "id": "Db1dhrXAQ9O",
+        "date": "Aug 9, 2026",
+        "caption": "‼️ FRESHMEN AND TRANSFER STUDENTS ‼️\nBe prepared for your Lowell orientation! You should have already received information about your orientation, but here is a post reiterating it for you! Transfer students — check your email for more information.\nWe hope to see you Monday, August 10th! Feel free to leave a comment/DM if you have any questions!",
+        "cover": "/instagram/Db1dhrXAQ9O/cover.jpg",
+        "slides": [
+            "/instagram/Db1dhrXAQ9O/cover.jpg",
+            "/instagram/Db1dhrXAQ9O/2.jpg",
+            "/instagram/Db1dhrXAQ9O/3.jpg"
+        ],
+        "url": "https://www.instagram.com/lsaboard2030/p/Db1dhrXAQ9O/",
+        "handle": "lsaboard2030"
+    },
+    {
+        "id": "DbcgRdVJs-C",
+        "date": "Jul 30, 2026",
+        "caption": "We would like to give a warm welcome to @lsaboard2030 ! This is a new time for you all and we encourage you to explore your interests, form lasting connections and to embrace personal growth. Please check out the important updates and information listed down below. \n\n** FRESHMEN BOARD ACCOUNT:\nPlease make sure you have already followed your freshman board account— @lsaboard2030 This account will be where you receive updates and information regarding your class! \n\n** SCHEDULES:\nThey will be handed out during freshman orientation. Please do not email your counselors before that time, as they are busy trying to finalize schedules.\n\n** BACK TO SCHOOL UPDATES:\nSchool officially starts on Monday, August 17th! Freshman orientation will be on August 10th! We will be making a back to school post so stay tuned! \n\nAnd again, welcome class of 2030! We hope you will have an unforgettable experience here at Lowell! If you have any further questions, don’t be afraid to reach out to us through dms!",
+        "cover": "/instagram/DbcgRdVJs-C/cover.jpg",
+        "slides": [
+            "/instagram/DbcgRdVJs-C/cover.jpg"
+        ],
+        "url": "https://www.instagram.com/lsaboard2030/p/DbcgRdVJs-C/",
+        "handle": "lsaboard2030"
     }
 ];
 

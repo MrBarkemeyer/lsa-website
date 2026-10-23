@@ -1,6 +1,13 @@
 import { lazy, useState, useEffect, useMemo } from "react";
 import "./App.scss";
-import { Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import ScrollToTop from "./components/ScrollToTop";
@@ -8,12 +15,36 @@ import { site } from "./config/site.config.js";
 import { mergeElectionConfigWithSheet } from "./utils/electionCandidatesFromSheet.js";
 import { parseCardinalympicsEventsSheet } from "./utils/cardinalympicsEventsFromSheet.js";
 import { ElectionTimingProvider } from "./utils/electionVotingWindow.js";
+import {
+  isDevElectionResultsPath,
+  withDevElectionResultsPreview,
+} from "./pages/Elections/electionsPaths.js";
 import cardinalympicsConfig from "./config/cardinalympics.config.js";
+import { resolveCardinalympicsDisplayMode } from "./utils/cardinalympicsDisplayMode.js";
 import NotFound from "./pages/NotFound";
 
 const Elections = lazy(() => import("./pages/Elections"));
 const ElectionBoard = lazy(() => import("./pages/Elections/ElectionBoard"));
 const ElectionResults = lazy(() => import("./pages/Elections/ElectionResults"));
+
+function RedirectLegacyElectionsDevBoard() {
+  const { boardSlug } = useParams();
+  const slug = String(boardSlug ?? "").trim();
+  if (!slug || slug.toLowerCase() === "all") {
+    return <Navigate to="/Elections/All" replace />;
+  }
+  return <Navigate to={`/Elections/${encodeURIComponent(slug)}`} replace />;
+}
+
+function RedirectToDevElectionPreview() {
+  const location = useLocation();
+  return (
+    <Navigate
+      to={{ pathname: "/dev", search: location.search, hash: location.hash }}
+      replace
+    />
+  );
+}
 const Club = lazy(() => import("./pages/Clubs/Club"));
 const TitleIX = lazy(() => import("./pages/Resources/TitleIX"));
 const FreshMenCorner = lazy(() => import("./pages/More/FreshmenCorner"));
@@ -401,6 +432,14 @@ function App() {
     () => mergeElectionConfigWithSheet(site.elections, electionSheetValues),
     [electionSheetValues],
   );
+  const onDevElectionPreview = isDevElectionResultsPath(location.pathname);
+  const electionsConfigForShell = useMemo(
+    () =>
+      onDevElectionPreview
+        ? withDevElectionResultsPreview(electionsConfigResolved)
+        : electionsConfigResolved,
+    [onDevElectionPreview, electionsConfigResolved],
+  );
 
   const {
     showScoresAndScoreboard,
@@ -408,8 +447,15 @@ function App() {
     showWinningChances,
     showEvents,
     showHomeEventsSignupNow,
-    displayMode: cardinalympicsDisplayMode,
   } = cardinalympicsConfig;
+  const cardinalympicsDisplayMode = useMemo(
+    () =>
+      resolveCardinalympicsDisplayMode(
+        cardinalympicsConfig.displayMode,
+        scoreboardRows,
+      ),
+    [scoreboardRows],
+  );
   const needsCardinalympicsEventsData = showEvents || showHomeEventsSignupNow;
 
   useEffect(() => {
@@ -660,13 +706,13 @@ function App() {
       <Routes>
         <Route
           element={
-            <ElectionTimingProvider config={electionsConfigResolved}>
+            <ElectionTimingProvider config={electionsConfigForShell}>
               <Layout
                 clubData={clubData}
                 officerData={officerData}
                 cardinalympicsEvents={cardinalympicsEvents}
                 electionsEnabled={site.electionsEnabled}
-                electionsConfig={electionsConfigResolved}
+                electionsConfig={electionsConfigForShell}
               />
             </ElectionTimingProvider>
           }
@@ -689,6 +735,31 @@ function App() {
               />
             }
           />
+          {import.meta.env.DEV ? (
+            <Route
+              path="dev"
+              element={
+                <Elections
+                  electionsEnabled={site.electionsEnabled}
+                  electionsConfig={withDevElectionResultsPreview(
+                    electionsConfigResolved,
+                  )}
+                />
+              }
+            />
+          ) : null}
+          {import.meta.env.DEV ? (
+            <Route
+              path="dev/elections"
+              element={<RedirectToDevElectionPreview />}
+            />
+          ) : null}
+          {import.meta.env.DEV ? (
+            <Route
+              path="dev/Elections"
+              element={<RedirectToDevElectionPreview />}
+            />
+          ) : null}
           <Route path="Elections" element={<Outlet />}>
             <Route
               index
@@ -700,10 +771,18 @@ function App() {
               }
             />
             <Route
-              path=":boardSlug"
+              path="All"
               element={
-                <ElectionBoard electionsConfig={electionsConfigResolved} />
+                <Elections
+                  forceHub
+                  electionsEnabled={site.electionsEnabled}
+                  electionsConfig={electionsConfigResolved}
+                />
               }
+            />
+            <Route
+              path="all"
+              element={<Navigate to="/Elections/All" replace />}
             />
             <Route
               path="Results"
@@ -713,6 +792,29 @@ function App() {
                   electionsConfig={electionsConfigResolved}
                 />
               }
+            />
+            <Route
+              path=":boardSlug"
+              element={
+                <ElectionBoard electionsConfig={electionsConfigResolved} />
+              }
+            />
+            {/* Legacy redesign preview URLs */}
+            <Route
+              path="dev"
+              element={<Navigate to="/Elections" replace />}
+            />
+            <Route
+              path="dev/All"
+              element={<Navigate to="/Elections/All" replace />}
+            />
+            <Route
+              path="dev/all"
+              element={<Navigate to="/Elections/All" replace />}
+            />
+            <Route
+              path="dev/:boardSlug"
+              element={<RedirectLegacyElectionsDevBoard />}
             />
           </Route>
 

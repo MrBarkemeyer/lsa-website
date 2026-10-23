@@ -122,6 +122,12 @@
   color: var(--lowell-red);
 }
 
+.events-card__handle {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
 .events-card__caption {
   margin: 0;
   font-size: 0.92rem;
@@ -205,17 +211,51 @@
   }
 }
 
-.ig-slide-preload {
+.ig-sizer {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ig-stage {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
+  inset: 0;
   overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  opacity: 0;
+  touch-action: pan-y;
+
+  &.is-slidable {
+    cursor: grab;
+  }
+
+  &.is-dragging {
+    cursor: grabbing;
+  }
+}
+
+.ig-track {
+  display: flex;
+  height: 100%;
+  width: calc(var(--ig-count, 1) * 100%);
+  transform: translate3d(
+    calc(var(--ig-index, 0) / var(--ig-count, 1) * -100% + var(--ig-drag, 0px)),
+    0,
+    0
+  );
+  transition: transform var(--ig-ms, 380ms) cubic-bezier(0.22, 0.8, 0.24, 1);
+
+  &.is-instant {
+    transition: none;
+  }
+}
+
+.ig-media .ig-track img {
+  flex: none;
+  width: calc(100% / var(--ig-count, 1));
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
   pointer-events: none;
 }
 
@@ -273,6 +313,10 @@
     height: 6px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.45);
+    transition:
+      background-color 0.25s ease,
+      width 0.25s ease,
+      height 0.25s ease;
   }
 
   &.is-active::before {
@@ -379,12 +423,6 @@
       max-width: calc(100vw - 2.5rem - var(--side));
       object-fit: cover;
     }
-
-    img.ig-slide-preload {
-      width: 1px;
-      height: 1px;
-      max-width: none;
-    }
   }
 
   .ig-side {
@@ -405,5 +443,12 @@
 @media (max-width: 640px) {
   .events-hero {
     padding: 2.5rem 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ig-track,
+  .ig-dot::before {
+    transition: none;
   }
 }

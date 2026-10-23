@@ -7,6 +7,8 @@
  * - showHomeEventsSignupNow: Home page "Cardinalympics events sign up now" section.
  * - displayMode: "activeGame" shows "Leading" on the top class and projected winning chances; "results"
  *   (or "result") shows "Winner" and hides projected winning chances (toggle + bars).
+ *   A complete scoreboard also switches to winner mode: every dated event on the Google
+ *   Sheet has all four class scores filled in (0 counts; cancelled events count as done).
  */
 export default {
   showScoresAndScoreboard: true,
@@ -14,5 +16,5 @@ export default {
   showWinningChances: true,
   showEvents: true,
   showHomeEventsSignupNow: true,
-  displayMode: "activeGame",
+  displayMode: "results",
 };

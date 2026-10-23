@@ -2,15 +2,17 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import electionsConfig from "../../config/elections.config.js";
-import ElectionsCandidateBoardsView from "./ElectionsCandidateBoards.jsx";
+import ElectionsBoardsHub from "./ElectionsBoardsHub.jsx";
 import {
   getResultsEmbargoCopy,
   useElectionResultsReleased,
-  useElectionVotingMessagingLive,
 } from "../../utils/electionVotingWindow.js";
 import electionResultsStatic from "../../data/electionResults.json";
+import freshman2030Results from "../../data/freshman2030ElectionResults.json";
+import FreshmanElectionResults from "./FreshmanElectionResults.jsx";
 import ElectionBanner from "../../components/ElectionBanner.jsx";
 import "../Elections.scss";
+import "./ElectionsBoard.scss";
 
 function isBlank(value) {
   return String(value ?? "").trim() === "";
@@ -216,7 +218,6 @@ export default function ElectionResults({
 }) {
   const state = config?.state ?? "results";
   const resultsReleased = useElectionResultsReleased(config);
-  const messagingLive = useElectionVotingMessagingLive(config);
   const boardsModel = boardsFromStaticJson(electionResultsStatic);
 
   if (!electionsEnabled) {
@@ -302,9 +303,8 @@ export default function ElectionResults({
   if (state === "results" && !resultsReleased) {
     const embargo = getResultsEmbargoCopy(config);
     return (
-      <ElectionsCandidateBoardsView
+      <ElectionsBoardsHub
         config={config}
-        messagingLive={messagingLive}
         resultsEmbargo={{ subtitle: embargo.subtitle, detail: embargo.detail }}
       />
     );
@@ -328,6 +328,12 @@ export default function ElectionResults({
           <Link to="/Elections">Back to elections</Link>
         </div>
       </div>
+    );
+  }
+
+  if (config?.mode === "freshman") {
+    return (
+      <FreshmanElectionResults config={config} election={freshman2030Results} />
     );
   }
 
